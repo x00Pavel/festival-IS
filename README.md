@@ -5,8 +5,8 @@ This is an implementation of the {FUTURE_PROJECT}, {SHORT_DESCRIPTION}
 This project is consisted of three parts:
 
 - PostgreSQL database
-- Golang backend
-- Angular frontend
+- ??? backend
+- ??? frontend
 
 ---
 
@@ -35,13 +35,13 @@ address: **http://localhost:4200/**
 To see generated images:
 
 ```
-docker ps
+$ docker ps
 ```
 
 If you want to stop it use following command:
 
 ```
-$ docker-compose down
+$ docker-compose down --rmi all
 ```
 
 ---
