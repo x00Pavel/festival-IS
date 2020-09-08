@@ -1,38 +1,36 @@
 version: "3.7"
 services:
 
-  gallery-is-db:
-    image: "postgres:9.6-alpine"
+  festival-is-db:
+    build: festival-is-db
     restart: always
-    container_name: gallery-is-db
-    volumes:
-      - gallery-data:/var/lib/postgresql/data
+    container_name: festival-is-db
+    # TODO: long-time memory storage or init file
+    #volumes:
+    #  - festival-data:/var/lib/postgresql/data  
     networks:
       - backend-network
-    environment:
-      - POSTGRES_DB=gallery
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
-  
-  gallery-is-app:
-    build: gallery-is-app
+      
+  festival-is-app:
+    build: festival-is-app
     restart: always
-    container_name: gallery-is-app
+    container_name: festival-is-app
     networks:
       - backend-network
       - frontend-network
 
-  gallery-is-web:
-    build: gallery-is-web
+  festival-is-web:
+    build: festival-is-web
     restart: always
-    container_name: gallery-is-web
+    container_name: festival-is-web
     ports:
       - 80:80
     networks:
       - frontend-network
 
-volumes:
-  gallery-data:
+# TODO: long-time memory storage or init file
+#volumes:
+#  festival-data:
 networks:
   backend-network:
   frontend-network:

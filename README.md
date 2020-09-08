@@ -30,7 +30,7 @@ $ docker-compose up -d
 ```
 
 The entry point for a user is a website which is available under the
-address: **http://localhost:4200/**
+address: **http://localhost:80/**
 
 To see generated images:
 
@@ -43,5 +43,9 @@ If you want to stop it use following command:
 ```
 $ docker-compose down --rmi all
 ```
+To start only server part use following command:
 
+```
+$ python festival-is-app/src/main.py
+```
 ---

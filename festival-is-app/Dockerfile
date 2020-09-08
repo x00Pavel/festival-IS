@@ -5,5 +5,5 @@ RUN pip install flask
 RUN pip install psycopg2
 COPY ./src /src
 EXPOSE 5000
-CMD python server.py
+CMD python main.py
  
