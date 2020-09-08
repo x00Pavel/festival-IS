@@ -5,8 +5,8 @@ This is an implementation of the {FUTURE_PROJECT}, {SHORT_DESCRIPTION}
 This project is consisted of three parts:
 
 - PostgreSQL database
-- ??? backend
-- ??? frontend
+- Python? backend
+- Python? frontend
 
 ---
 

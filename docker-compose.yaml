@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+
+  gallery-is-db:
+    image: "postgres:9.6-alpine"
+    restart: always
+    container_name: gallery-is-db
+    volumes:
+      - gallery-data:/var/lib/postgresql/data
+    networks:
+      - backend-network
+    environment:
+      - POSTGRES_DB=gallery
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+  
+  gallery-is-app:
+    build: gallery-is-app
+    restart: always
+    container_name: gallery-is-app
+    networks:
+      - backend-network
+      - frontend-network
+
+  gallery-is-web:
+    build: gallery-is-web
+    restart: always
+    container_name: gallery-is-web
+    ports:
+      - 80:80
+    networks:
+      - frontend-network
+
+volumes:
+  gallery-data:
+networks:
+  backend-network:
+  frontend-network:
