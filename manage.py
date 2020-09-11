@@ -1,15 +1,18 @@
-from flask_script import Manager,commands
-from myapp import app
+from flask_script import Manager, commands
+from festival_is import app
 
 manager = Manager(app)
+
 
 @manager.command
 def init_db():
     with app.test_request_context():
-        from models import db
+        from create_db import db
+
         db.engine.echo = True
         db.metadata.bind = db.engine
         db.metadata.create_all(checkfirst=True)
+
 
 if __name__ == "__main__":
     manager.run()
