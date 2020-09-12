@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, flash, url_for
-from src.create_db import db
-from src.festival_is import app
+from create_db import db
+from festival_is import app
 
 
 @app.route("/")
