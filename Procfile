@@ -1,1 +1,1 @@
-web: gunicorn src.festival_is:app
+web: env PYTHONPATH=$PYTHONPATH:$PWD/src gunicorn festival_is:app
