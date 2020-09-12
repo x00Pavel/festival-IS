@@ -1,16 +1,16 @@
 from flask import render_template, request, redirect, flash, url_for
-from create_db import db
+
+# from models import Category, Todo, Priority, db
 from festival_is import app
 
 
-@app.route("/")
-def list_all():
-    return render_template("test.html")
-    # return render_template(
-    #     "list.html",
-    #     categories=Category.query.all(),
-    #     todos=Todo.query.all(),  # join(Priority).order_by(Priority.value.desc())
-    # )
+# @app.route("/")
+# def list_all():
+#     return render_template(
+#         "list.html",
+#         categories=Category.query.all(),
+#         todos=Todo.query.all(),  # join(Priority).order_by(Priority.value.desc())
+#     )
 
 
 # @app.route("/<name>")
@@ -116,4 +116,35 @@ def list_all():
 #         todo.is_done = True
 #         db.session.commit()
 #         return redirect("/")
+
+
+@app.route("/home", methods=["GET", "POST"])
+def home():
+    return render_template("home.html")
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html", title="About")
+
+
+# @app.route("/register", methods=["GET", "POST"])
+# def register():
+# form = RegistrationForm()
+# if form.validate_on_submit():
+#     flash(f'Account created for {form.username.data}!', 'success')
+#     return redirect(url_for('home'))
+# return render_template("register.html", title="Registration", form=form)
+
+
+# @app.route("/login", methods=["GET", "POST"])
+# def login():
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         if form.email.data == 'admin@blog.com' and form.password.data == '1111':
+#             flash('You have been logged in!', 'success')
+#             return redirect(url_for('home'))
+#         else:
+#             flash('Log in failed! Check email and password', 'danger')
+#      return render_template("login.html", title="Login", form=form)
 
