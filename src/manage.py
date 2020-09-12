@@ -1,5 +1,5 @@
 from flask_script import Manager, commands
-from festival_is import app
+from src.festival_is import app
 
 manager = Manager(app)
 
