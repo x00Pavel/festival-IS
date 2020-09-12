@@ -8,11 +8,17 @@ manager = Manager(app)
 def init_db():
     with app.test_request_context():
         from src.festival_is_db.create_db import db
-
         db.engine.echo = True
         db.metadata.bind = db.engine
         db.metadata.create_all(checkfirst=True)
 
+@manager.command
+def drop_db():
+    with app.test_request_context():
+        from src.festival_is_db.create_db import db
+        db.engine.echo = True
+        db.metadata.bind = db.engine
+        db.metadata.drop_all(checkfirst=True)
 
 if __name__ == "__main__":
     manager.run()
