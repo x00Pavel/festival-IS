@@ -1,0 +1,11 @@
+festival-is-db:
+    image: "postgres:latest"
+    container_name: festival-is-db
+    volumes:
+      - gallery-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=festival
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
