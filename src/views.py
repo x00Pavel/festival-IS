@@ -5,7 +5,7 @@ from festival_is import app
 
 @app.route("/")
 def list_all():
-    return "Hello world"
+    return render_template("test.html")
     # return render_template(
     #     "list.html",
     #     categories=Category.query.all(),
