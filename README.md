@@ -1,3 +1,12 @@
+To create database tables: `python src/manage.py init_db`
+
+To fill database tables with information: `python src/manage.py import_db` (From src/data folder !fileName=tableName! without priority number and .csv)
+
+To backup information from databes: `python src/manage.py export_db` (To src/data/backup/{datetime>}/ folder)
+
+To drop all database tables: `python src/manage.py drop_db`
+
+
 FOR LOCAL TEST PLEASE ADD TO YOURS .ENV FILES
 
 ```
