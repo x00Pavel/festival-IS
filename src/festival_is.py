@@ -5,6 +5,7 @@ from flask import Flask
 load_dotenv()
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'sendnudes'
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 
 from views import *
