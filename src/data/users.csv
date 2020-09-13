@@ -1,4 +1,7 @@
 user_id name surname permissions
+0,admin,admin,0
 1,Alex,Petrov,1
 2,Raul,Agh,2
 3,Micke,Ok,3
+4,Pavel,Slon,2
+5,Oliver,Mock,4
