@@ -49,12 +49,14 @@ class Performance(db.Model):
     fk_fest_id = db.Column(
         "fk_fest_id", db.Integer, db.ForeignKey("Festival.fest_id"), nullable=False
     )
-    fk_band_id = db.Column(
-        "fk_band_id", db.Integer, db.ForeignKey("Band.band_id"), nullable=False
-    )
     fk_stage_id = db.Column(
         "fk_stage_id", db.Integer, db.ForeignKey("Stage.stage_id"), nullable=False
     )
+    fk_band_id = db.Column(
+        "fk_band_id", db.Integer, db.ForeignKey("Band.band_id"), nullable=False
+    )
+    # time_from = db.Column("time_from", db.Date, nullable=False) TODO also edit CSV for performances
+    # time_to = db.Column("time_to", db.Date, nullable=False)
 
     fest = db.relationship("Festival", foreign_keys=fk_fest_id)  # backref ?
     band = db.relationship("Band", foreign_keys=fk_band_id)  # backref ?
