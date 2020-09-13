@@ -1,16 +1,18 @@
 from flask import render_template, request, redirect, flash, url_for
-from create_db import db
+from create_db import User, db
 from festival_is import app
 
 
 @app.route("/")
 def list_all():
-    return render_template("test.html")
-    # return render_template(
-    #     "list.html",
-    #     categories=Category.query.all(),
-    #     todos=Todo.query.all(),  # join(Priority).order_by(Priority.value.desc())
-    # )
+    data = User.query.all()
+    print(type(data), data)
+    # return render_template("test.html")
+    # answer = " ".join([str(type(entry)) for entry in data])
+    # print(answer)
+    for user in data:
+        print(user.user_id, user.name, user.surname)
+    return f"{type(data)} {data}"
 
 
 # @app.route("/<name>")
