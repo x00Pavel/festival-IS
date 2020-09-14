@@ -15,8 +15,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .site-header .navbar-nav .nav-link {
   color: #ffffff;
-  padding: 10px;
+  padding: 15px;
   font-size: 25px;
+
+
+
 }
 
 .site-header .navbar-nav .nav-link:hover {
@@ -39,21 +42,8 @@ h1, h2, h3, h4, h5, h6 {
 .links2 {
 display: inline-block;
 }
-.navbar-brand img  {
-  white-space: nowrap;
-  width: 25px;
-  overflow: hidden;
-  height: 34px;
 
-}
-@media (max-width: 600px){
-  .navbar-brand img {
-    width: 250px;
-    overflow: hidden;
-    height: 340px;
-  }
 
-}
 .content-section {
   background: #ffffff;
   padding: 10px 20px;
@@ -69,7 +59,7 @@ display: inline-block;
   padding: 10px 20px;
   border: 10px solid #dddddd;
   border-radius: 1px;
-  margin-top: 50px;
+  margin-top: 90px;
 
   
 }
@@ -78,11 +68,12 @@ display: inline-block;
   color: #ffffff;
   
 }
+
 .p1 {
   padding-bottom: 400px;
   font-size: 20px;
   color: #ffffff;
-}
+} 
 .upcevents {
   font-size: 50px;
   display: flex;
@@ -95,7 +86,7 @@ display: inline-block;
   position: fixed;
   top: 0;
   width: 100%; 
-  height: 75px;
+  /*height: 75px;*/
 }
 
 .carousel-inner {
@@ -106,35 +97,21 @@ display: inline-block;
 
 }
 
-@media  screen and  (max-width: 500px){
-  
-  .site-header .navbar-nav .nav-link{
-    float: none;
-    width: 100%;
-  }
-}
 
 
-.navbar:hover {
-  overflow: hidden;
-  position: fixed;
-  top: 0; 
-  width: 100%; 
-  height: 125px;
-}
 
-.img1 {
-  width: 250px;
-  height: 250px;
-  margin-left: 380px;
-  margin-top: -120px;
+.nav-item {
+    list-style: none;
+    float: right;
+    text-align: center;
+
 
 }
-
-.img1:hover {
-  width: 350px;
-  height: 350px;
-  margin-left: 320px;
-  margin-top: -120px;
-
+.form-group {
+          position: fixed; 
+            background-color: blue; 
+            top: 50%; 
+            left: 50%; 
+            margin-top: -100px; 
+            margin-left: -100px; 
 }
