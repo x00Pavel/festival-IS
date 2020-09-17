@@ -17,11 +17,18 @@ class Festival(db.Model):
     capacity = db.Column("capacity", db.Integer, nullable=False, default=1000)
     age_restriction = db.Column("age_restriction", db.Integer, nullable=False)
 
+    # TODO: tmp representation.
+    def __repr__(self):
+        return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.capacity}, {self.age_restriction}"
+
 
 class Stage(db.Model):
     __tablename__ = "Stage"
     stage_id = db.Column("stage_id", db.Integer, primary_key=True)
     size = db.Column("size", db.Integer)
+
+    def __repr__(self):
+        return f"Stager {self.stage_id}: size: {self.size}"
 
 
 class Band(db.Model):
@@ -43,16 +50,21 @@ class Performance(db.Model):
     fk_fest_id = db.Column(
         "fk_fest_id", db.Integer, db.ForeignKey("Festival.fest_id"), nullable=False
     )
-    fk_band_id = db.Column(
-        "fk_band_id", db.Integer, db.ForeignKey("Band.band_id"), nullable=False
-    )
     fk_stage_id = db.Column(
         "fk_stage_id", db.Integer, db.ForeignKey("Stage.stage_id"), nullable=False
     )
+    fk_band_id = db.Column(
+        "fk_band_id", db.Integer, db.ForeignKey("Band.band_id"), nullable=False
+    )
+    # time_from = db.Column("time_from", db.Date, nullable=False) TODO also edit CSV for performances
+    # time_to = db.Column("time_to", db.Date, nullable=False)
 
     fest = db.relationship("Festival", foreign_keys=fk_fest_id)  # backref ?
     band = db.relationship("Band", foreign_keys=fk_band_id)  # backref ?
     stage = db.relationship("Stage", foreign_keys=fk_stage_id)  # backref ?
+
+    def __repr__(self):
+        return f"Performance {self.perf_id}: festival_id: {self.fk_fest_id}; stage_id: {self.fk_stage_id}; band_id: {self.fk_band_id}"
 
 
 class User(db.Model):
@@ -61,6 +73,9 @@ class User(db.Model):
     name = db.Column("name", db.Text, nullable=False)
     surname = db.Column("surname", db.Text, nullable=False)
     permissions = db.Column("permissions", db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"User {self.user_id}: {self.name} {self.surname}; {self.permissions}"
 
 
 class Ticket(db.Model):
@@ -76,3 +91,5 @@ class Ticket(db.Model):
     user = db.relationship("User", foreign_keys=fk_user_id)
     t_fest = db.relationship("Festival", foreign_keys=fk_t_fest_id)
 
+    def __repr__(self):
+        return f"Ticket {self.ticket_id}: user_id: {self.fk_user_id}; festival_id: {self.fk_t_fest_id}"
