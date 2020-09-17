@@ -1,17 +1,28 @@
 from flask import render_template, request, redirect, flash, url_for
-from create_db import User, db
+from create_db import Festival, db
 from festival_is import app
 
 
 @app.route("/")
 def list_all():
-    data = User.query.all()
-    print(type(data), data)
+    data = Festival.query.all()
+    print("DEBUG: ", type(data), data)
     # return render_template("test.html")
     # answer = " ".join([str(type(entry)) for entry in data])
     # print(answer)
-    for user in data:
-        print(user.user_id, user.name, user.surname)
+    for row in data:
+        print(
+            "DEBUG: ",
+            row.fest_id,
+            row.description,
+            row.style,
+            row.address,
+            row.cost,
+            row.time_from,
+            row.time_to,
+            row.capacity,
+            row.age_restriction,
+        )
     return f"{type(data)} {data}"
 
 
@@ -118,4 +129,3 @@ def list_all():
 #         todo.is_done = True
 #         db.session.commit()
 #         return redirect("/")
-

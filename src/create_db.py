@@ -17,8 +17,9 @@ class Festival(db.Model):
     capacity = db.Column("capacity", db.Integer, nullable=False, default=1000)
     age_restriction = db.Column("age_restriction", db.Integer, nullable=False)
 
+    # TODO: tmp representation.
     def __repr__(self):
-        return f"Festival {self.fest_id}: cost: {self.cost}; address: {self.address}"
+        return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.capacity}, {self.age_restriction}"
 
 
 class Stage(db.Model):
