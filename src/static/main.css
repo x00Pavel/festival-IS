@@ -13,21 +13,19 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 5px solid red;
 }
 
-.site-header .navbar-nav .nav-link {
+.site-header .navbar-nav .nav-link  {
   color: #ffffff;
   padding: 15px;
   font-size: 25px;
-
-
-
+  margin-top: 3%;
+  height: 75px;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #FF0000;
-  font-size: 25px;
+  color: #ff0000;
 }
 
-.site-header .navbar-nav .nav-link.active {
+.site-header .navbar-nav  .nav-link.active {
   font-weight: 500;
 }
 
@@ -57,9 +55,12 @@ display: inline-block;
 .content-section_for_reg {
   background: #ffffff;
   padding: 10px 20px;
+  width: 480px;
+  margin: auto;
   border: 10px solid #dddddd;
   border-radius: 1px;
-  margin-top: 90px;
+  margin-top: 120px;
+  margin-bottom: 10px;
 
   
 }
@@ -69,8 +70,13 @@ display: inline-block;
   
 }
 
+.d-block{
+  height: 800px;
+  width: 100%;
+}
+
 .p1 {
-  padding-bottom: 400px;
+  padding-bottom: 20%;
   font-size: 20px;
   color: #ffffff;
 } 
@@ -86,17 +92,21 @@ display: inline-block;
   position: fixed;
   top: 0;
   width: 100%; 
-  /*height: 75px;*/
+  height: 80px;
 }
 
 .carousel-inner {
 
-  height: relative;
-  width: auto;
+  height: 800px;
+  width: 100%;
 
 
 }
 
+.displayline{
+  margin-right: 55%;
+  font-size: 20px;
+}
 
 
 
@@ -108,10 +118,87 @@ display: inline-block;
 
 }
 .form-group {
-          position: fixed; 
-            background-color: blue; 
-            top: 50%; 
-            left: 50%; 
-            margin-top: -100px; 
-            margin-left: -100px; 
+
+  width: 100%;
+
+}
+
+
+
+.site-header .navbar-nav .ticketsbuy {
+  font-size: 50px;
+  margin-left: -40%;
+  margin-right: -90%;
+  /*padding: 15px;*/
+  margin-top: -2%;
+  /*font-size: 35px;*/
+}
+
+.site-header .navbar-nav {
+  margin-left: 13%;
+  /*margin-right: : 10%;*/
+}
+
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+  /*border: 3px solid red;*/
+
+  
+
+}
+
+.roundimage
+{
+   border-radius: 10px;
+}
+
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.toprow {
+  display: block;
+  margin-top: 100px;
+  margin-left: 10%;
+  margin-right: 10%;
+
+}
+
+.description{
+  padding-top: 7px;
+  text-align: center;
+  color: #ff0000;
+
+  font-family:georgia,garamond,serif;font-size:24px;font-style:vendana;
+}
+.description2
+{
+  text-align: center;
+  color: #ff0000;
+  font-size: 12px;
+  font-family:georgia,garamond,serif;font-size:16px;font-style:vendana;
+}
+
+
+
+.lmforsecondbut{
+  margin-left: : 50%;
+}
+
+
+.rmforsecondbut{
+  margin-right: 50%;
+   
+}
+
+.togglebutton{
+padding-top: 5px;
+/*padding: 30px;*/
 }

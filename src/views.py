@@ -78,7 +78,7 @@ from forms import *
 
 # @app.route("/edit_category/<int:category_id>", methods=["GET", "POST"])
 # def edit_category(category_id):
-#     category = Category.query.get(category_id)
+#     category = Category.query.get(categoryid)
 #     if request.method == "GET":
 #         return render_template("new-category.html", category=category)
 #     else:
@@ -118,7 +118,7 @@ from forms import *
 #         return redirect("/")
 
 
-@app.route("/home", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def home():
     return render_template("home.html")
 
@@ -128,15 +128,18 @@ def about():
     return render_template("about.html", title="About")
 
 
+@app.route("/festivals")
+def festivals():
+    return render_template("festivals.html", title="Festivals")
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
-	form = RegistrationForm()
-	if form.validate_on_submit():
-	    flash(f'Account created for {form.username.data}!', 'success')
-	    return redirect(url_for('home'))
-	return render_template("register.html", title="Registration", form=form)
-
-
+    option = request.form.getlist('options')
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home'))
+    return render_template("register.html", title="Registration", form=form)
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
