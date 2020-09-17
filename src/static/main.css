@@ -1,0 +1,204 @@
+body {
+  background: #fafafa;
+  color: #333333;
+  margin-top: 5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+
+.bg-red {
+  background-color: #000000;
+  border-bottom: 5px solid red;
+}
+
+.site-header .navbar-nav .nav-link  {
+  color: #ffffff;
+  padding: 15px;
+  font-size: 25px;
+  margin-top: 3%;
+  height: 75px;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ff0000;
+}
+
+.site-header .navbar-nav  .nav-link.active {
+  font-weight: 500;
+}
+
+.navbar-brand img:hover  {
+    transform: scale(1.5); 
+
+}
+.links {
+    width:100%;
+    text-align: center;
+}
+.links2 {
+display: inline-block;
+}
+
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 10px solid #dddddd;
+  border-radius: 3px;
+  margin-top: 50px;
+  margin-bottom: -40px;
+  
+}
+
+.content-section_for_reg {
+  background: #ffffff;
+  padding: 10px 20px;
+  width: 480px;
+  margin: auto;
+  border: 10px solid #dddddd;
+  border-radius: 1px;
+  margin-top: 120px;
+  margin-bottom: 10px;
+
+  
+}
+.defoffests {
+
+  color: #ffffff;
+  
+}
+
+.d-block{
+  height: 800px;
+  width: 100%;
+}
+
+.p1 {
+  padding-bottom: 20%;
+  font-size: 20px;
+  color: #ffffff;
+} 
+.upcevents {
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  color: #ff0000;
+
+}
+.navbar {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%; 
+  height: 80px;
+}
+
+.carousel-inner {
+
+  height: 800px;
+  width: 100%;
+
+
+}
+
+.displayline{
+  margin-right: 55%;
+  font-size: 20px;
+}
+
+
+
+.nav-item {
+    list-style: none;
+    float: right;
+    text-align: center;
+
+
+}
+.form-group {
+
+  width: 100%;
+
+}
+
+
+
+.site-header .navbar-nav .ticketsbuy {
+  font-size: 50px;
+  margin-left: -40%;
+  margin-right: -90%;
+  /*padding: 15px;*/
+  margin-top: -2%;
+  /*font-size: 35px;*/
+}
+
+.site-header .navbar-nav {
+  margin-left: 13%;
+  /*margin-right: : 10%;*/
+}
+
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+  /*border: 3px solid red;*/
+
+  
+
+}
+
+.roundimage
+{
+   border-radius: 10px;
+}
+
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.toprow {
+  display: block;
+  margin-top: 100px;
+  margin-left: 10%;
+  margin-right: 10%;
+
+}
+
+.description{
+  padding-top: 7px;
+  text-align: center;
+  color: #ff0000;
+
+  font-family:georgia,garamond,serif;font-size:24px;font-style:vendana;
+}
+.description2
+{
+  text-align: center;
+  color: #ff0000;
+  font-size: 12px;
+  font-family:georgia,garamond,serif;font-size:16px;font-style:vendana;
+}
+
+
+
+.lmforsecondbut{
+  margin-left: : 50%;
+}
+
+
+.rmforsecondbut{
+  margin-right: 50%;
+   
+}
+
+.togglebutton{
+padding-top: 5px;
+/*padding: 30px;*/
+}
