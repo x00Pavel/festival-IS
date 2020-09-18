@@ -61,5 +61,6 @@ def import_db():
             conn.commit()
     cur.close()
 
+
 if __name__ == "__main__":
     manager.run()
