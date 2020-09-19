@@ -81,7 +81,14 @@ class Festival:
         self.style = style
         self.logo = logo
 
-    # Function for downloading logo to client side or to cache ?
+    # TODO: Function for downloading logo to client side or to cache ?
+
+    # def edit_value(self, attr: str, value):
+    #     # For checking if given attribute exists.
+    #     # If not, AttributeError will be through
+    #     # TODO: how to deal with errors? Error codes or raising exceptions?
+    #     getattr(self, attr)
+    #     setattr(self, attr, value)
 
 
 class User:
@@ -124,9 +131,18 @@ class AuthUser(User):
 
     perms = 4
 
+    def get_ticket_status(self):
+        pass
+
+    def change_profile(self):
+        pass
+
 
 class Seller(AuthUser):
     perms = 3
+
+    def confirm_reservation(self):
+        pass
 
 
 class Organizer(Seller):
