@@ -193,8 +193,8 @@ class Band:
 
         Args:
             band_name (str): unique name of band
-            perf_id (int, optional): performance ID, where band will be play. Can be empty
-                           just for adding band to databse
+            perf_id (int, optional): performance ID, where band will be play. 
+                                     Can be empty just for adding band to databse
             scores (int, optional): [description]. Defaults to 0.
             logo (str, optional): [description]. Defaults to "No logo".
             style (str, optional): [description]. Defaults to "No style".

@@ -6,12 +6,12 @@
         "pylint-flask"
     ],
     "python.formatting.provider": "black",
-    "python.dataScience.sendSelectionToInteractiveWindow": false,
-    "python.formatting.autopep8Args": [
+    "python.formatting.blackArgs": [
         "--max-line-length",
         "80",
     ],
     "editor.rulers": [
         80
     ],
+    "editor.formatOnSave": true
 }
