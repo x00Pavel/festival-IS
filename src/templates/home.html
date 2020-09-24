@@ -8,14 +8,16 @@
 			{% if post.description != None %}
 			<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
 				<img class="d-block" src="{{ url_for('static', filename='f1.jpg') }}">
-				<div class="carousel-caption d-md-block">
-					<h5 class="defoffests"> {{post.description }}</h5>
-					<a class="navbar-brand mr-4" href="https://vk.com/id152618548">
-						<p class="p1">Malahes festival, 12.06.2022-15.06.2022</p>
-					</a>
+
+
+				<div class="container12">
+					<img src="nature.jpg" alt="Norway" style="width:100%;">
+					<div class="text-block12">
+						<h4>{{ post.description}}</h4>
+						<p>{{ post.address}}</p>
+					</div>
 				</div>
 			</div>
-
 			{% endif %}
 			{% endfor %}
 		</div>
@@ -29,9 +31,50 @@
 		</a>
 	</div>
 
+	<div class="toprow">
+		<div class="row">
+			<div class="column">
+				<a href="https://vk.com/id152618548">
+					<img class="roundimage" src="static/f3.jpg" height="350" alt="Snow" style="width:100%">
+				</a>
+				<h1 class="description">FESTIVAL SUNSHINE</h1>
+				<p class="description2">Malaga, Portugal | 21.07-22.08</p>
+
+			</div>
+			<div class="column">
+				<img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
+				<!-- <p class="description">FESTIVAL SUSHI</p> -->
+			</div>
+			<div class="column">
+				<img class="roundimage" src="static/f3.jpg" height="350" alt="Mountains" style="width:100%">
+				<p class="description">FESTIVAL LOVE</p>
+			</div>
+			<div class="column">
+				<img class="roundimage" src="static/f3.jpg" height="350" alt="Mountains" style="width:100%">
+				<p class="description">FESTIVAL HAPPINES</p>
+			</div>
+		</div>
+		<br />
+		</fieldset>
+
+		<div class="row">
+			<div class="column">
+				<img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
+				<p class="description">FESTIVAL CLOUD</p>
+			</div>
+			<div class="column">
+				<img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
+				<p class="description">FESTIVAL NATUSVINCERE</p>
+			</div>
+			<div class="column">
+				<img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
+				<p class="description">FESTIVAL LIQUID</p>
+			</div>
+		</div>
+	</div>
 	<style>
 		body {
-			background-image: url('static/background.jpg');
+			background-image: url('static/blackbg.jpg');
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
