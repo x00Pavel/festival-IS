@@ -52,7 +52,8 @@ def export_db():
 def import_db():
     conn = psycopg2.connect(os.getenv("DATABASE_URL"))
     cur = conn.cursor()
-    for i in os.listdir("src/data"):
+    for i in sorted(os.listdir("src/data")):
+        print(i)
         if i.endswith(".csv"):
             print("From src/data/" + i + " - To table " + i[2:-4])
             f = open("src/data/" + i, "r")
@@ -60,6 +61,7 @@ def import_db():
             f.close()
             conn.commit()
     cur.close()
+
 
 if __name__ == "__main__":
     manager.run()
