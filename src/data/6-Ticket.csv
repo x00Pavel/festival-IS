@@ -1,4 +1,4 @@
-ticket_id,fk_user_id,fk_t_fest_id
-10,1,100
-11,2,100
-12,3,100
+ticket_id,fk_user_email,fk_t_fest_id
+10,email1@mail.com,100
+11,email2@mail.com,100
+12,email3@mail.com,100

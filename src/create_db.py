@@ -69,7 +69,7 @@ class Performance(db.Model):
 
 class User(db.Model):
     __tablename__ = "User"
-    user_id = db.Column("user_id", db.Integer, primary_key=True)
+    user_email = db.Column("user_email", db.Text, primary_key=True)
     name = db.Column("name", db.Text, nullable=False)
     surname = db.Column("surname", db.Text, nullable=False)
     permissions = db.Column("permissions", db.Integer, nullable=False)
@@ -81,14 +81,14 @@ class User(db.Model):
 class Ticket(db.Model):
     __tablename__ = "Ticket"
     ticket_id = db.Column("ticket_id", db.Integer, primary_key=True)
-    fk_user_id = db.Column(
-        "fk_user_id", db.Integer, db.ForeignKey("User.user_id"), nullable=False
+    fk_user_email = db.Column(
+        "fk_user_id", db.Text, db.ForeignKey("User.user_email"), nullable=False
     )
     fk_t_fest_id = db.Column(
         "fk_t_stage_id", db.Integer, db.ForeignKey("Festival.fest_id"), nullable=False
     )
 
-    user = db.relationship("User", foreign_keys=fk_user_id)
+    user = db.relationship("User", foreign_keys=fk_user_email)
     t_fest = db.relationship("Festival", foreign_keys=fk_t_fest_id)
 
     def __repr__(self):

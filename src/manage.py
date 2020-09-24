@@ -53,12 +53,11 @@ def import_db():
     conn = psycopg2.connect(os.getenv("DATABASE_URL"))
     cur = conn.cursor()
     for i in sorted(os.listdir("src/data")):
-        print(i)
         if i.endswith(".csv"):
-            print("From src/data/" + i + " - To table " + i[2:-4])
-            f = open("src/data/" + i, "r")
-            cur.copy_expert('COPY "' + i[2:-4] + '" FROM STDIN WITH CSV HEADER', f)
-            f.close()
+            table = i[2:-4]
+            print(f"From src/data/{i} - To table {table}")
+            with open(f"src/data/{i}", "r") as f:
+                cur.copy_expert('COPY "' + i[2:-4] + '" FROM STDIN WITH CSV HEADER', f)
             conn.commit()
     cur.close()
 

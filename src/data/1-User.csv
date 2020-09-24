@@ -1,7 +1,7 @@
-user_id name surname permissions
-0,admin,admin,0
-1,Alex,Petrov,1
-2,Raul,Agh,2
-3,Micke,Ok,3
-4,Pavel,Slon,2
-5,Oliver,Mock,4
+user_mail name surname permissions
+email1@mail.com,admin,admin,0
+email2@mail.com,Alex,Petrov,1
+email3@mail.com,Raul,Agh,2
+email4@mail.com,Micke,Ok,3
+email5@mail.com,Pavel,Slon,2
+email6@mail.com,Oliver,Mock,4
