@@ -1,15 +1,41 @@
 {% extends "ralaot.html" %}
 {% block content %}
-{% for post in posts %}
-<article class="media content-section">
-	<div class="mediaa-body">
-		<div class="araticle-metadata">
-			<a class="mr-s2" href="#">{{ post.fest_id }}</a>
-			<small class="texat-muted">{{ post.description }}</small>
+
+<body>
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner">
+			{% for post in posts %}
+			{% if post.description != None %}
+			<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
+				<img class="d-block" src="{{ url_for('static', filename='f1.jpg') }}">
+				<div class="carousel-caption d-md-block">
+					<h5 class="defoffests"> {{post.description }}</h5>
+					<a class="navbar-brand mr-4" href="https://vk.com/id152618548">
+						<p class="p1">Malahes festival, 12.06.2022-15.06.2022</p>
+					</a>
+				</div>
+			</div>
+
+			{% endif %}
+			{% endfor %}
 		</div>
-		<h2><a class="artaicle-title" href="#">{{ post.address }}</a></h2>
-		<p class="articlea-content">{{ post.cost }}</p>
+		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
 	</div>
-</article>
-{% endfor %}
+
+	<style>
+		body {
+			background-image: url('static/background.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
+		}
+	</style>
+</body>
 {% endblock content %}

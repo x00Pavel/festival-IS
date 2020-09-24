@@ -65,19 +65,21 @@ display: inline-block;
   
 }
 .defoffests {
-
+  font-size: 40px;
+  -webkit-text-stroke: 1px black; 
   color: #ffffff;
   
 }
 
 .d-block{
-  height: 800px;
+  height: 900px;
   width: 100%;
 }
 
 .p1 {
-  padding-bottom: 20%;
-  font-size: 20px;
+  padding-bottom: 10%;
+  font-size: 40px;
+  -webkit-text-stroke: 1px black; 
   color: #ffffff;
 } 
 .upcevents {
@@ -97,7 +99,7 @@ display: inline-block;
 
 .carousel-inner {
 
-  height: 800px;
+  height: 900px; 
   width: 100%;
 
 
