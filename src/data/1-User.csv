@@ -1,7 +1,7 @@
-user_mail name surname permissions
-email1@mail.com,admin,admin,0
-email2@mail.com,Alex,Petrov,1
-email3@mail.com,Raul,Agh,2
-email4@mail.com,Micke,Ok,3
-email5@mail.com,Pavel,Slon,2
-email6@mail.com,Oliver,Mock,4
+user_mail name surname permissions passwd avatar
+email1@mail.com,admin,admin,0,dsfatardffa,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png
+email2@mail.com,Alex,Petrov,1,fasdfas,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png
+email3@mail.com,Raul,Agh,2,dfdf,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png
+email4@mail.com,Micke,Ok,3,dfafsfdsfrs,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png
+email5@mail.com,Pavel,Slon,2,ffadsfearwa,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png
+email6@mail.com,Oliver,Mock,4,bfjdsfdsjfi,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png

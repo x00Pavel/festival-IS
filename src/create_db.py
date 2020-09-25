@@ -1,9 +1,10 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from festival_is import app
+from flask_login import UserMixin
 
 db = SQLAlchemy(app)
-
+    
 
 class Festival(db.Model):
     __tablename__ = "Festival"
@@ -67,16 +68,38 @@ class Performance(db.Model):
         return f"Performance {self.perf_id}: festival_id: {self.fk_fest_id}; stage_id: {self.fk_stage_id}; band_id: {self.fk_band_id}"
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "User"
     user_email = db.Column("user_email", db.Text, primary_key=True)
     name = db.Column("name", db.Text, nullable=False)
     surname = db.Column("surname", db.Text, nullable=False)
     permissions = db.Column("permissions", db.Integer, nullable=False)
+    passwd = db.Column("passwd", db.Text, nullable=False)
+    avatr = db.Column("avatar", db.Text, nullable=False, default="https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png")
+    address = db.Column("addreess", db.Text, nullable=False)
 
+    def __init__(self,user_email,name, surname, perms, passwd, address, avatr=None):
+        self.user_email = user_email
+        self.name = name
+        self.surname = surname
+        self.permissions = perms
+        self.passwd = passwd
+        self.avatr = avatr
+        self.address = address
+    
     def __repr__(self):
         return f"User {self.user_id}: {self.name} {self.surname}; {self.permissions}"
 
+    @classmethod
+    def find_by_email(cls, email):
+        return User.query.filter_by(user_email=email).first()
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password, method='sha256')
+
+    def check_password(self, password):
+        """Check hashed password."""
+        return check_password_hash(self.password, password)
 
 class Ticket(db.Model):
     __tablename__ = "Ticket"

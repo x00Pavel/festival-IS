@@ -1,4 +1,8 @@
 {
     "python.formatting.provider": "black",
-    "editor.formatOnPaste": true
+    "editor.formatOnPaste": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint-flask"
+    ]
 }
