@@ -14,7 +14,7 @@ def home():
         for column in row.__table__.columns:
             res[column.name] = str(getattr(row, column.name))
         listofdicts.append(res)
-    return render_template("home.html", posts=listofdicts)
+    return render_template("festivals.html", posts=listofdicts)
 
 
 @app.route("/about")
@@ -22,9 +22,9 @@ def about():
     return render_template("about.html", title="About")
 
 
-@app.route("/festivals")
-def festivals():
-    return render_template("festivals.html", title="Festivals")
+# @app.route("/festivals")
+# def festivals():
+#     return render_template("festivals.html", title="Festivals")
 
 
 @app.route("/register", methods=["GET", "POST"])
