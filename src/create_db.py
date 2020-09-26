@@ -99,6 +99,9 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f"User {self.user_id}: {self.name} {self.surname}; {self.permissions}"
 
+    def get_id(self):
+           return (self.user_email)
+
     @classmethod
     def find_by_email(cls, email):
         return User.query.filter_by(user_email=email).first()

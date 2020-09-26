@@ -4,21 +4,17 @@ from festival_is import app, login_manager
 from forms import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, logout_user, current_user, login_user
+import json, boto3
+import os
 
 
 @login_manager.user_loader
-def user_loader(user_id):
-    """Given *user_id*, return the associated User object.
-
-    :param unicode user_id: user_id (email) user to retrieve
-
-    """
-    return User.query.get(user_id)
+def load_user(user_email):
+    return User.query.get(user_email)
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-
     data = Festival.query.all()
     list_of_dicts = []
     for row in data:
@@ -68,11 +64,75 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.find_by_email(form.email.data)
+        remember = True if request.form.get("remember") else False
         if user.check_passwd(form.password.data):
-            login_user(user)  # TODO: add @login_manager.user_loader to
-            next_page = request.args.get("next")  # Get next page after login
+            print(user.user_email, flush=True)
+            login_user(user, remember=remember)
+            print(current_user.user_email, flush=True)
             flash("You have been logged in!", "success")
-            return redirect(next_page or url_for("home"))
+            return redirect(url_for("protected"))
+            # return redirect(url_for('home'))
         else:
             flash("Log in failed! Check email and password", "danger")
     return render_template("login.html", title="Login", form=form)
+
+
+# Listen for GET requests to yourdomain.com/account/
+@app.route("/account/")
+def account():
+    # Show the account-edit HTML page:
+    return render_template("account.html")
+
+
+# Listen for POST requests to yourdomain.com/submit_form/
+@app.route("/submit-form/", methods=["POST"])
+def submit_form():
+    # Collect the data posted from the HTML form in account.html:
+    username = request.form["username"]
+    full_name = request.form["full-name"]
+    avatar_url = request.form["avatar-url"]
+
+    # Provide some procedure for storing the new details
+    # update_account(username, full_name, avatar_url)
+
+    # Redirect to the user's profile page, if appropriate
+    return redirect(url_for("home"))
+
+
+# Listen for GET requests to yourdomain.com/sign_s3/
+@app.route("/sign-s3/")
+def sign_s3():
+    # Load necessary information into the application
+    S3_BUCKET = os.environ.get("S3_BUCKET")
+
+    # Load required data from the request
+    file_name = request.args.get("file-name")
+    file_type = request.args.get("file-type")
+
+    # Initialise the S3 client
+    s3 = boto3.client("s3")
+
+    # Generate and return the presigned URL
+    presigned_post = s3.generate_presigned_post(
+        Bucket=S3_BUCKET,
+        Key=file_name,
+        Fields={"acl": "public-read", "Content-Type": file_type},
+        Conditions=[{"acl": "public-read"}, {"Content-Type": file_type}],
+        ExpiresIn=3600,
+    )
+
+    # Return the data to the client
+    return json.dumps(
+        {
+            "data": presigned_post,
+            "url": "https://%s.s3.amazonaws.com/%s" % (S3_BUCKET, file_name),
+        }
+    )
+
+
+@app.route("/protected")
+@login_required #TODO: NEED TO DO SMTHING WITH IT...
+def protected():
+    print("TEST", flush=True)
+    print(current_user.user_email, flush=True)
+    return "Logged in as: " + current_user.user_email
