@@ -2,9 +2,10 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from festival_is import app
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy(app)
-    
+
 
 class Festival(db.Model):
     __tablename__ = "Festival"
@@ -75,18 +76,26 @@ class User(UserMixin, db.Model):
     surname = db.Column("surname", db.Text, nullable=False)
     permissions = db.Column("permissions", db.Integer, nullable=False)
     passwd = db.Column("passwd", db.Text, nullable=False)
-    avatr = db.Column("avatar", db.Text, nullable=False, default="https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png")
+    avatar = db.Column(
+        "avatar",
+        db.Text,
+        nullable=False,
+        default="https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png",
+    )
     address = db.Column("addreess", db.Text, nullable=False)
+    _is_authenticated = False
+    _is_active = True
+    _is_anonymous = False
 
-    def __init__(self,user_email,name, surname, perms, passwd, address, avatr=None):
+    def __init__(self, user_email, name, surname, perms, passwd, address, avatar=None):
         self.user_email = user_email
         self.name = name
         self.surname = surname
         self.permissions = perms
         self.passwd = passwd
-        self.avatr = avatr
+        self.avatar = avatar
         self.address = address
-    
+
     def __repr__(self):
         return f"User {self.user_id}: {self.name} {self.surname}; {self.permissions}"
 
@@ -95,11 +104,42 @@ class User(UserMixin, db.Model):
         return User.query.filter_by(user_email=email).first()
 
     def set_password(self, password):
-        self.password = generate_password_hash(password, method='sha256')
+        self.passwd = generate_password_hash(password, method="sha256")
 
-    def check_password(self, password):
+    def check_passwd(self, password):
         """Check hashed password."""
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.passwd, password)
+
+    @property
+    def is_authenticated(self):
+        return self._is_authenticated
+
+    @is_authenticated.setter
+    def is_authenticated(self, val):
+        self._is_authenticated = val
+
+    @property
+    def is_active(self):
+        return self._is_active
+
+    @is_active.setter
+    def is_active(self, val):
+        self._is_active = val
+
+    @property
+    def is_anonymous(self):
+        return self._is_anonymous
+
+    @is_anonymous.setter
+    def is_anonymous(self, val):
+        self._is_anonymous = val
+
+    def buy_ticket(self):
+        pass
+
+    def register_fest(self):
+        pass
+
 
 class Ticket(db.Model):
     __tablename__ = "Ticket"
