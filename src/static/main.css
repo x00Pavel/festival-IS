@@ -277,7 +277,7 @@ padding-top: 5px;
 .dropdown-content a {
   color: white;
   padding: 12px;
-  display: block;
+  /* display: block; */
 }
 
 /* Change color of dropdown links on hover */
