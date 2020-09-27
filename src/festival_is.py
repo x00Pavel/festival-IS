@@ -17,7 +17,7 @@ S3_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
 S3_SECRET = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
 login_manager.init_app(app)
-    
+
 from views import *
 
 if __name__ == "__main__":

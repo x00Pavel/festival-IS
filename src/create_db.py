@@ -1,5 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, Text, Date, ForeignKey, String
+from sqlalchemy.orm import relationship
 from festival_is import app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -71,10 +73,10 @@ class Performance(db.Model):
 
 class User(UserMixin, db.Model):
     __tablename__ = "User"
+
     user_email = db.Column("user_email", db.Text, primary_key=True)
     name = db.Column("name", db.Text, nullable=False)
     surname = db.Column("surname", db.Text, nullable=False)
-    permissions = db.Column("permissions", db.Integer, nullable=False)
     passwd = db.Column("passwd", db.Text, nullable=False)
     avatar = db.Column(
         "avatar",
@@ -82,8 +84,14 @@ class User(UserMixin, db.Model):
         nullable=False,
         default="https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png",
     )
-    address = db.Column("addreess", db.Text, nullable=False)
+    perms = Column("perms", String(20), nullable=False)
+    address = Column("address", String(50), nullable=False)
     _is_authenticated = False
+    _is_active = False
+    _is_anonymous = False
+
+    __mapper_args__ = {"polymorphic_identity": "User", "polymorphic_on": perms}
+    _is_authenticated = True
     _is_active = True
     _is_anonymous = False
 
@@ -91,7 +99,7 @@ class User(UserMixin, db.Model):
         self.user_email = user_email
         self.name = name
         self.surname = surname
-        self.permissions = perms
+        self.perms = perms
         self.passwd = passwd
         self.avatar = avatar
         self.address = address
@@ -100,7 +108,7 @@ class User(UserMixin, db.Model):
         return f"User {self.user_id}: {self.name} {self.surname}; {self.permissions}"
 
     def get_id(self):
-           return (self.user_email)
+        return self.user_email
 
     @classmethod
     def find_by_email(cls, email):
@@ -144,18 +152,113 @@ class User(UserMixin, db.Model):
         pass
 
 
+class Seller(User):
+    __tablename__ = "Seller"
+    __mapper_args__ = {
+        "polymorphic_identity": "Seller",
+    }
+
+    seller_email = Column(
+        "seller_email", Text, ForeignKey("User.user_email"), primary_key=True
+    )
+    fest_id = Column("fest_id", Integer, ForeignKey("Festival.fest_id"), nullable=False)
+    fest = relationship("Festival", foreign_keys=fest_id)
+
+    def __init__(self, **kwargas):
+        super(User, self).__init__(**kwargas)
+
+
+class Organizer(Seller):
+    __tablename__ = "Organizer"
+    __mapper_args__ = {
+        "polymorphic_identity": "Organizer",
+    }
+
+    org_email = Column(
+        "org_email", Text, ForeignKey("Seller.seller_email"), primary_key=True
+    )
+
+    def __init__(self, **kwargas):
+        super(User, self).__init__(**kwargas)
+
+
+class Admin(Organizer):
+    __tablename__ = "Admin"
+    __mapper_args__ = {
+        "polymorphic_identity": "Admin",
+    }
+
+    admin_email = Column(
+        "admin_email", Text, ForeignKey("Organizer.org_email"), primary_key=True
+    )
+
+    def __init__(self, **kwargas):
+        super(User, self).__init__(**kwargas)
+
+
+class RootAdmin(Admin):
+    """Reperesentation of root admin. Only this role can add new admins 
+    WARNING: Not need __inti__ method, because this user is hardcoded 
+    """
+
+    __tablename__ = "RootAdmin"
+    __mapper_args__ = {
+        "polymorphic_identity": "RootAdmin",
+    }
+
+    root_admin_email = Column(
+        "root_admin_email", Text, ForeignKey("Admin.admin_email"), primary_key=True
+    )
+
+
 class Ticket(db.Model):
+    """Representation of ticket on festival
+
+    Attributes:
+        ticket_id (int): unique ID of ticket
+        fk_user_email (string): email of user, that bought this ticket
+        fk_fest_id (int): festival ID ticket corresponds to        
+    """
+
     __tablename__ = "Ticket"
     ticket_id = db.Column("ticket_id", db.Integer, primary_key=True)
     fk_user_email = db.Column(
-        "fk_user_id", db.Text, db.ForeignKey("User.user_email"), nullable=False
+        "fk_user_email", db.Text, db.ForeignKey("User.user_email"), nullable=False
     )
-    fk_t_fest_id = db.Column(
-        "fk_t_stage_id", db.Integer, db.ForeignKey("Festival.fest_id"), nullable=False
+    fk_fest_id = db.Column(
+        "fk_fest_id", db.Integer, db.ForeignKey("Festival.fest_id"), nullable=False
     )
 
     user = db.relationship("User", foreign_keys=fk_user_email)
-    t_fest = db.relationship("Festival", foreign_keys=fk_t_fest_id)
+    fest = db.relationship("Festival", foreign_keys=fk_fest_id)
 
     def __repr__(self):
-        return f"Ticket {self.ticket_id}: user_id: {self.fk_user_id}; festival_id: {self.fk_t_fest_id}"
+        return f"Ticket {self.ticket_id}: user_id: {self.fk_user_email}; festival_id: {self.fk_fest_id}"
+
+
+# TODO
+class SellersList:
+    pass
+
+
+# TODO
+class BandMember:
+    """Representaton of music band member 
+    One member can be a member only for one band
+    """
+
+    __tablename__ = "BandMember"
+
+    def __init__(self, person_id: int, band_id: int, name: str, surname: str):
+        """[summary]
+
+        Args:
+            person_id (int):
+            band_id (int):
+            name (str):
+            surname (str):
+        """
+        self.person_id = person_id
+        self.band_id = band_id
+        self.name = name
+        self.surname = surname
