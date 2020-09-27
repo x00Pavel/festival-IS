@@ -60,8 +60,8 @@ def organizer():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
-    if form.validate_on_submit() and int(request.form["options"]) == 4:
-        permissions = int(request.form["options"])
+    if form.validate_on_submit():
+        permissions = ROLES[int(request.form["options"])]
         existing_user = User.find_by_email(form.email.data)
         email = form.email.data
         if existing_user is None:
@@ -75,50 +75,25 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             flash(f"Account created for {form.username.data}!", "success")
-            return redirect(url_for("home", users_name=name))
+            return login(user=new_user)
         else:
             flash(f"Email {email} is alredy registered!", "danger")
             return render_template("register.html", title="Registration", form=form)
-    elif form.validate_on_submit() and int(request.form["options"]) == 2:
-        existing_user = User.find_by_email(form.email.data)
-        if existing_user is None:
-            permissions = ROLES[int(request.form["options"])]
-            email = form.email.data
-            name = form.firstname.data
-            surname = form.lastname.data
-            passwd_hash = generate_password_hash(form.password.data)
-            address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
-            new_user = User(
-                email, name, surname, permissions, passwd_hash, address, None
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            print(f"In register {new_user.is_authenticated}")
-            flash(f"Account created for {form.username.data}!", "success")
-            return redirect(url_for("organizer"))
-        flash(f"Account created for {form.username.data}!", "success")
-        return render_template(
-            "festivals_logged_in1.html", title="Registration", form=form
-        )
-
     return render_template("register.html", title="Registration", form=form)
 
 
 @app.route("/login", methods=["GET", "POST"])
-def login():
+def login(user=None):
     form = LoginForm()
     if form.validate_on_submit():
         user = User.find_by_email(form.email.data)
         if user is not None:
+
             remember = True if request.form.get("remember") else False
             if user.check_passwd(form.password.data):
-                # print(user.user_email, flush=True)
                 user.is_authenticated = True
                 if login_user(user, remember=remember):
                     user.is_active = True
-
-                print(user.is_authenticated, flush=True)
-                print(f"Current user: {current_user.user_email}", flush=True)
                 flash("You have been logged in!", "success")
                 return redirect(url_for("protected"))
                 # return redirect(url_for('home'))
@@ -186,6 +161,16 @@ def sign_s3():
 @app.route("/protected")
 @login_required  # TODO: NEED TO DO SMTHING WITH IT...
 def protected():
-    print("TEST", flush=True)
-    print(current_user.user_email, flush=True)
-    return "Logged in as: " + current_user.user_email
+    user_image = (
+        User.query.with_entities(User.avatar)
+        .filter_by(user_email=current_user.user_email)
+        .first()
+    )
+    return render_template("festivals.html", user_image=user_image)
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")

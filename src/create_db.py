@@ -197,8 +197,8 @@ class Admin(Organizer):
 
 
 class RootAdmin(Admin):
-    """Reperesentation of root admin. Only this role can add new admins 
-    WARNING: Not need __inti__ method, because this user is hardcoded 
+    """Reperesentation of root admin. Only this role can add new admins
+    WARNING: Not need __inti__ method, because this user is hardcoded
     """
 
     __tablename__ = "RootAdmin"
@@ -217,7 +217,7 @@ class Ticket(db.Model):
     Attributes:
         ticket_id (int): unique ID of ticket
         fk_user_email (string): email of user, that bought this ticket
-        fk_fest_id (int): festival ID ticket corresponds to        
+        fk_fest_id (int): festival ID ticket corresponds to
     """
 
     __tablename__ = "Ticket"
@@ -243,7 +243,7 @@ class SellersList:
 
 # TODO
 class BandMember:
-    """Representaton of music band member 
+    """Representaton of music band member
     One member can be a member only for one band
     """
 

@@ -3,19 +3,7 @@
 
 <body>
 
-	<div class="row">
-		<div class="col-md-8">
-			{% with messages = get_flashed_messages(with_categories=true) %}
-			{% if messages %}
-			{% for category, message in messages %}
-			<div class="alert alert-{{ category }} " style="top:120px; left:20%;">
-				{{ message }}
-			</div>
-			{% endfor %}
-			{% endif %}
-			{% endwith %}
-		</div>
-	</div>
+
 
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
