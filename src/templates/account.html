@@ -9,21 +9,29 @@
 
     <input type="file" id="file-input">
     <p id="status">Please select a file</p>
-    <img style="border:1px solid gray;width:300px;" id="preview" src="https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png">
+    <img style="border:1px solid gray;width:300px;" id="preview" src="{{ user_columns.avatar }}">
 
     <h2>Your information</h2>
 
     <form method="POST" action="/submit-form/">
-      <input type="hidden" id="avatar-url" name="avatar-url" value="https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png">
-      <input type="text" name="username" placeholder="Username"><br>
-      <input type="text" name="full-name" placeholder="Full name"><br><br>
-
+      <input type="hidden" id="avatar_url" name="avatar_url" value="{{ user_columns.avatar }}">
+      <h3>Your e-mail:<br></h3>
+      <input type="text" name="user_email" value="{{ user_columns.user_email }}"><br>
+      <h3>Your name:<br></h3>
+      <input type="text" name="name" value="{{ user_columns.name }}"><br><br>
+      <h3>Your name:<br></h3>
+      <input type="text" name="surname" value="{{ user_columns.surname }}"><br><br>
+      <h3>Your name:<br></h3>
+      <input type="text" name="address" value="{{ user_columns.address }}"><br><br>
       <hr>
+
+      <h2>New Password</h2>
+      <input type="text" name="new_psswd1" placeholder="Enter new password"><br><br>
+      <input type="text" name="new_psswd2" placeholder="Repeat new password"><br><br>
       <h2>Save changes</h2>
 
       <input type="submit" value="Update profile">
     </form>
-
 
     <script type="text/javascript">
 
@@ -45,7 +53,7 @@
         if(xhr.readyState === 4){
           if(xhr.status === 200 || xhr.status === 204){
             document.getElementById('preview').src = url;
-            document.getElementById('avatar-url').value = url;
+            document.getElementById('avatar_url').value = url;
           }
           else{
             alert('Could not upload file.');

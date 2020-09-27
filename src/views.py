@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, logout_user, current_user, login_user
 import json, boto3
 import os
-
+import urllib.parse
 
 ROLES = {
     4: ("User", User),
@@ -121,29 +121,44 @@ def login(user=None):
 
 
 # Listen for GET requests to yourdomain.com/account/
-@app.route("/account/")
+@app.route("/account")
+@login_required
 def account():
     # Show the account-edit HTML page:
-    return render_template("account.html")
+    user = User.query.filter_by(user_email=current_user.user_email).first()
+    user_columns = {}
+    for column in user.__table__.columns:
+        if column.name not in ["passwd", "perms"]:
+            user_columns[column.name] = str(getattr(user, column.name))
+    return render_template("account.html", user_columns=user_columns)
 
 
 # Listen for POST requests to yourdomain.com/submit_form/
 @app.route("/submit-form/", methods=["POST"])
+@login_required
 def submit_form():
-    # Collect the data posted from the HTML form in account.html:
-    username = request.form["username"]
-    full_name = request.form["full-name"]
-    avatar_url = request.form["avatar-url"]
 
-    # Provide some procedure for storing the new details
-    # update_account(username, full_name, avatar_url)
+    new_psswd1 = request.form["new_psswd1"]
+    new_psswd2 = request.form["new_psswd2"]
+
+    print(request.form["avatar_url"], flush = True)
+    #setattr(current_user, 'user_email', request.form["user_email"]) TODO: solve problem with foreign keys need to talk with xyadlo00
+    setattr(current_user, 'name', request.form["name"])
+    setattr(current_user, 'surname', request.form["surname"])
+    setattr(current_user, 'address', request.form["address"])
+    setattr(current_user, 'avatar', request.form["avatar_url"])
+
+    #if new_psswd1 == new_psswd2:
+    #   TODO: solve psswd change - xaghay00 mb add validation into the form? 
+    db.session.commit()
 
     # Redirect to the user's profile page, if appropriate
-    return redirect(url_for("home"))
+    return redirect("/account")
 
 
 # Listen for GET requests to yourdomain.com/sign_s3/
 @app.route("/sign-s3/")
+@login_required
 def sign_s3():
     # Load necessary information into the application
     S3_BUCKET = os.environ.get("S3_BUCKET")
@@ -174,7 +189,7 @@ def sign_s3():
 
 
 @app.route("/protected")
-@login_required  # TODO: NEED TO DO SMTHING WITH IT...
+@login_required
 def protected():
     return redirect("/")
 
