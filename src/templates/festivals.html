@@ -2,12 +2,27 @@
 {% block content %}
 
 <body>
+
+	<div class="row">
+		<div class="col-md-8">
+			{% with messages = get_flashed_messages(with_categories=true) %}
+			{% if messages %}
+			{% for category, message in messages %}
+			<div class="alert alert-{{ category }} " style="top:120px; left:20%;">
+				{{ message }}
+			</div>
+			{% endfor %}
+			{% endif %}
+			{% endwith %}
+		</div>
+	</div>
+
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			{% for post in posts %}
 			{% if post.description != None %}
 			<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
-				<img class="d-block" src="{{ url_for('static', filename='f1.jpg') }}">
+				<img class="d-block" src="https://festival-static.s3-eu-west-1.amazonaws.com/f1.jpg">
 
 
 				<div class="container12">
@@ -35,22 +50,25 @@
 		<div class="row">
 			<div class="column">
 				<a href="https://vk.com/id152618548">
-					<img class="roundimage" src="static/f3.jpg" height="350" alt="Snow" style="width:100%">
+					<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
+						alt="Snow" style="width:100%">
 				</a>
 				<h1 class="description">FESTIVAL SUNSHINE</h1>
 				<p class="description2">Malaga, Portugal | 21.07-22.08</p>
 
 			</div>
 			<div class="column">
-				<img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
-				<!-- <p class="description">FESTIVAL SUSHI</p> -->
+				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
+					alt="Forest" style="width:100%">
 			</div>
 			<div class="column">
-				<img class="roundimage" src="static/f3.jpg" height="350" alt="Mountains" style="width:100%">
+				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
+					alt="Mountains" style="width:100%">
 				<p class="description">FESTIVAL LOVE</p>
 			</div>
 			<div class="column">
-				<img class="roundimage" src="static/f3.jpg" height="350" alt="Mountains" style="width:100%">
+				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
+					alt="Mountains" style="width:100%">
 				<p class="description">FESTIVAL HAPPINES</p>
 			</div>
 		</div>
@@ -59,15 +77,18 @@
 
 		<div class="row">
 			<div class="column">
-				<img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
+				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
+					alt="Forest" style="width:100%">
 				<p class="description">FESTIVAL CLOUD</p>
 			</div>
 			<div class="column">
-				<img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
+				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
+					alt="Forest" style="width:100%">
 				<p class="description">FESTIVAL NATUSVINCERE</p>
 			</div>
 			<div class="column">
-				<img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
+				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
+					alt="Forest" style="width:100%">
 				<p class="description">FESTIVAL LIQUID</p>
 			</div>
 		</div>

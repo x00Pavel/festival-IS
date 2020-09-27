@@ -9,9 +9,7 @@ from flask_login import login_required, logout_user, current_user, login_user
 @login_manager.user_loader
 def user_loader(user_id):
     """Given *user_id*, return the associated User object.
-
     :param unicode user_id: user_id (email) user to retrieve
-
     """
     return User.query.get(user_id)
 
@@ -34,15 +32,39 @@ def about():
     return render_template("about.html", title="About")
 
 
-# @app.route("/festivals")
-# def festivals():
-#     return render_template("festivals.html", title="Festivals")
+@app.route("/user")
+def user():
+    return render_template("festivals.html", title="User")
+
+
+@app.route("/organizer")
+def organizer():
+    return render_template("festivals.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit() and int(request.form["options"]) == 4:
+        permissions = int(request.form["options"])
+        existing_user = User.find_by_email(form.email.data)
+        email = form.email.data
+        if existing_user is None:
+            name = form.firstname.data
+            surname = form.lastname.data
+            passwd_hash = generate_password_hash(form.password.data)
+            address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
+            new_user = User(
+                email, name, surname, permissions, passwd_hash, address, None
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            flash(f"Account created for {form.username.data}!", "success")
+            return redirect(url_for("home", users_name=name))
+        else:
+            flash(f"Email {email} is alredy registered!", "danger")
+            return render_template("register.html", title="Registration", form=form)
+    elif form.validate_on_submit() and int(request.form["options"]) == 2:
         existing_user = User.find_by_email(form.email.data)
         if existing_user is None:
             permissions = int(request.form["options"])
@@ -58,8 +80,12 @@ def register():
             db.session.commit()
 
             flash(f"Account created for {form.username.data}!", "success")
-            return redirect(url_for("home"))
-        flash("A user already exists with that email address.")
+            return redirect(url_for("organizer"))
+        flash(f"Account created for {form.username.data}!", "success")
+        return render_template(
+            "festivals_logged_in1.html", title="Registration", form=form
+        )
+
     return render_template("register.html", title="Registration", form=form)
 
 
