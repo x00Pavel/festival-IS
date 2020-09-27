@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, flash, url_for
-from create_db import Festival, db, User
+from create_db import *
 from festival_is import app, login_manager
 from forms import *
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,7 +8,13 @@ import json, boto3
 import os
 
 
-ROLES = {4: "User", 3: "Seller", 2: "Organizer", 1: "Admin", 0: "RootAdmin"}
+ROLES = {
+    4: ("User", User),
+    3: ("Seller", Seller),
+    2: ("Organizer", Organizer),
+    1: ("Admin", Admin),
+    0: ("RootAdmin", RootAdmin),
+}
 
 
 @login_manager.user_loader
@@ -61,17 +67,16 @@ def organizer():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        permissions = ROLES[int(request.form["options"])]
-        existing_user = User.find_by_email(form.email.data)
+        role, table = ROLES[int(request.form["options"])]
+        print(role, table)
         email = form.email.data
+        existing_user = User.find_by_email(email)
         if existing_user is None:
             name = form.firstname.data
             surname = form.lastname.data
             passwd_hash = generate_password_hash(form.password.data)
             address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
-            new_user = User(
-                email, name, surname, permissions, passwd_hash, address, None
-            )
+            new_user = table(email, name, surname, role, passwd_hash, address, None)
             db.session.add(new_user)
             db.session.commit()
             flash(f"Account created for {form.username.data}!", "success")
@@ -153,7 +158,7 @@ def sign_s3():
     return json.dumps(
         {
             "data": presigned_post,
-            "url": "https://%s.s3.amazonaws.com/%s" % (S3_BUCKET, file_name),
+            "url": f"https://{S3_BUCKET}.s3.amazonaws.com/{file_name}",
         }
     )
 

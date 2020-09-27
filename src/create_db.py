@@ -86,9 +86,6 @@ class User(UserMixin, db.Model):
     )
     perms = Column("perms", String(20), nullable=False)
     address = Column("address", String(50), nullable=False)
-    _is_authenticated = False
-    _is_active = False
-    _is_anonymous = False
 
     __mapper_args__ = {"polymorphic_identity": "User", "polymorphic_on": perms}
     _is_authenticated = True
@@ -164,8 +161,8 @@ class Seller(User):
     fest_id = Column("fest_id", Integer, ForeignKey("Festival.fest_id"), nullable=False)
     fest = relationship("Festival", foreign_keys=fest_id)
 
-    def __init__(self, **kwargas):
-        super(User, self).__init__(**kwargas)
+    def __init__(self, *argas):
+        super(User, self).__init__(*argas)
 
 
 class Organizer(Seller):
@@ -178,8 +175,8 @@ class Organizer(Seller):
         "org_email", Text, ForeignKey("Seller.seller_email"), primary_key=True
     )
 
-    def __init__(self, **kwargas):
-        super(User, self).__init__(**kwargas)
+    def __init__(self, *argas):
+        super(User, self).__init__(*argas)
 
 
 class Admin(Organizer):
@@ -192,8 +189,8 @@ class Admin(Organizer):
         "admin_email", Text, ForeignKey("Organizer.org_email"), primary_key=True
     )
 
-    def __init__(self, **kwargas):
-        super(User, self).__init__(**kwargas)
+    def __init__(self, *argas):
+        super(User, self).__init__(*argas)
 
 
 class RootAdmin(Admin):
