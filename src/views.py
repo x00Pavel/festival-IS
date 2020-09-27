@@ -45,6 +45,16 @@ def home():
         for column in row.__table__.columns:
             res[column.name] = str(getattr(row, column.name))
         list_of_dicts.append(res)
+    if current_user.is_authenticated:
+        user_image = (
+            User.query.with_entities(User.avatar)
+            .filter_by(user_email=current_user.user_email)
+            .first()
+        )
+        return render_template(
+            "festivals.html", user_image=user_image, posts=list_of_dicts
+        )
+    print(data, flush=True)
     return render_template("festivals.html", posts=list_of_dicts)
 
 
@@ -166,12 +176,7 @@ def sign_s3():
 @app.route("/protected")
 @login_required  # TODO: NEED TO DO SMTHING WITH IT...
 def protected():
-    user_image = (
-        User.query.with_entities(User.avatar)
-        .filter_by(user_email=current_user.user_email)
-        .first()
-    )
-    return render_template("festivals.html", user_image=user_image)
+    return redirect("/")
 
 
 @app.route("/logout")
