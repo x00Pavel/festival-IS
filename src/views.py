@@ -8,12 +8,26 @@ import json, boto3
 import os
 
 
+ROLES = {4: "User", 3: "Seller", 2: "Organizer", 1: "Admin", 0: "RootAdmin"}
+
+
 @login_manager.user_loader
 def user_loader(user_id):
     """Given *user_id*, return the associated User object.
     :param unicode user_id: user_id (email) user to retrieve
     """
     return User.query.get(user_id)
+
+
+# @login_manager.request_loader
+# def request_loader(request):
+#     email = request.form.get("email")
+#     user = User.query.get(email)
+
+#     # DO NOT ever store passwords in plaintext and always compare password
+#     # hashes using constant-time comparison!
+#     user.is_authenticated = user.check_passwd(request.form.get("password"))
+#     return user
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -68,7 +82,7 @@ def register():
     elif form.validate_on_submit() and int(request.form["options"]) == 2:
         existing_user = User.find_by_email(form.email.data)
         if existing_user is None:
-            permissions = int(request.form["options"])
+            permissions = ROLES[int(request.form["options"])]
             email = form.email.data
             name = form.firstname.data
             surname = form.lastname.data
@@ -79,7 +93,7 @@ def register():
             )
             db.session.add(new_user)
             db.session.commit()
-
+            print(f"In register {new_user.is_authenticated}")
             flash(f"Account created for {form.username.data}!", "success")
             return redirect(url_for("organizer"))
         flash(f"Account created for {form.username.data}!", "success")
@@ -95,16 +109,24 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.find_by_email(form.email.data)
-        remember = True if request.form.get("remember") else False
-        if user.check_passwd(form.password.data):
-            print(user.user_email, flush=True)
-            login_user(user, remember=remember)
-            print(current_user.user_email, flush=True)
-            flash("You have been logged in!", "success")
-            return redirect(url_for("protected"))
-            # return redirect(url_for('home'))
+        if user is not None:
+            remember = True if request.form.get("remember") else False
+            if user.check_passwd(form.password.data):
+                # print(user.user_email, flush=True)
+                user.is_authenticated = True
+                if login_user(user, remember=remember):
+                    user.is_active = True
+
+                print(user.is_authenticated, flush=True)
+                print(f"Current user: {current_user.user_email}", flush=True)
+                flash("You have been logged in!", "success")
+                return redirect(url_for("protected"))
+                # return redirect(url_for('home'))
+            else:
+                flash("Log in failed! Check email and password", "danger")
         else:
-            flash("Log in failed! Check email and password", "danger")
+            flash("Account for this email doesn't exist", "warning")
+
     return render_template("login.html", title="Login", form=form)
 
 
