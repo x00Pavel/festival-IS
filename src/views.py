@@ -121,7 +121,7 @@ def login(user=None):
 
 
 # Listen for GET requests to yourdomain.com/account/
-@app.route("/account")
+@app.route("/account/")
 @login_required
 def account():
     # Show the account-edit HTML page:
@@ -141,15 +141,15 @@ def submit_form():
     new_psswd1 = request.form["new_psswd1"]
     new_psswd2 = request.form["new_psswd2"]
 
-    print(request.form["avatar_url"], flush = True)
-    #setattr(current_user, 'user_email', request.form["user_email"]) TODO: solve problem with foreign keys need to talk with xyadlo00
-    setattr(current_user, 'name', request.form["name"])
-    setattr(current_user, 'surname', request.form["surname"])
-    setattr(current_user, 'address', request.form["address"])
-    setattr(current_user, 'avatar', request.form["avatar_url"])
+    print(request.form["avatar_url"], flush=True)
+    # setattr(current_user, 'user_email', request.form["user_email"]) TODO: solve problem with foreign keys need to talk with xyadlo00
+    setattr(current_user, "name", request.form["name"])
+    setattr(current_user, "surname", request.form["surname"])
+    setattr(current_user, "address", request.form["address"])
+    setattr(current_user, "avatar", request.form["avatar_url"])
 
-    #if new_psswd1 == new_psswd2:
-    #   TODO: solve psswd change - xaghay00 mb add validation into the form? 
+    # if new_psswd1 == new_psswd2:
+    #   TODO: solve psswd change - xaghay00 mb add validation into the form?
     db.session.commit()
 
     # Redirect to the user's profile page, if appropriate

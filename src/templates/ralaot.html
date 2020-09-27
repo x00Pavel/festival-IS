@@ -11,7 +11,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
 <body>
@@ -47,10 +48,29 @@
             <a class="nav-item nav-link" href="{{ url_for('home') }}">Festivals</a>
             <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
             {% if current_user.is_authenticated %}
-            <a class="nav-item nav-link" href="{{ url_for('logout') }}">Log out</a>
-            <a href="https://festival-is.herokuapp.com/">
-              <img src="{{ user_image[0] }}" class="user_logo" alt=""></a>
 
+            <div class="dropdown">
+              <button onclick="myFunction()" class="dropbtn"><img src="{{ user_image[0] }}" class="user_logo"
+                  alt=""></a></button>
+              <div id="Demo" class="dropdown-content">
+                <a class="site-header" href="{{ url_for('about') }}">My ticekts</a>
+                <a class="site-header" href="{{ url_for('account') }}">My account</a>
+                <a class="site-header" href="{{ url_for('logout') }}">Log out</a>
+
+              </div>
+            </div>
+
+            <!-- Dropdown menu script -->
+            <script>
+              function myFunction() {
+                var x = document.getElementById("Demo");
+                if (x.className.indexOf("w3-show") == -1) {
+                  x.className += " w3-show";
+                } else {
+                  x.className = x.className.replace(" w3-show", "");
+                }
+              }
+            </script>
             {% else %}
             <a class=" nav-item nav-link" href="{{ url_for('login') }}">Login</a>
             <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
