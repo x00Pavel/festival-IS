@@ -52,9 +52,8 @@ def home():
             .first()
         )
         return render_template(
-            "festivals.html", user_image=user_image, posts=list_of_dicts
+            "festivals.html", user_image=user_image[0], posts=list_of_dicts
         )
-    print(data, flush=True)
     return render_template("festivals.html", posts=list_of_dicts)
 
 
@@ -130,7 +129,9 @@ def account():
     for column in user.__table__.columns:
         if column.name not in ["passwd", "perms"]:
             user_columns[column.name] = str(getattr(user, column.name))
-    return render_template("account.html", user_columns=user_columns)
+    return render_template(
+        "account.html", user_columns=user_columns, user_image=user_columns["avatar"]
+    )
 
 
 # Listen for POST requests to yourdomain.com/submit_form/
