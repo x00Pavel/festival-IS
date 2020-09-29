@@ -1,6 +1,14 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, Text, Date, ForeignKey, String
+from sqlalchemy import (
+    Column,
+    Integer,
+    Text,
+    Date,
+    ForeignKey,
+    String,
+    ForeignKeyConstraint,
+)
 from sqlalchemy.orm import relationship
 from festival_is import app
 from flask_login import UserMixin
@@ -74,7 +82,8 @@ class Performance(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "User"
 
-    user_email = db.Column("user_email", db.Text, primary_key=True)
+    user_id = Column("user_id", Integer, primary_key=True)
+    user_email = db.Column("user_email", db.Text, nullable=False)
     name = db.Column("name", db.Text, nullable=False)
     surname = db.Column("surname", db.Text, nullable=False)
     passwd = db.Column("passwd", db.Text, nullable=False)
@@ -105,7 +114,7 @@ class User(UserMixin, db.Model):
         return f"User {self.user_id}: {self.name} {self.surname}; {self.permissions}"
 
     def get_id(self):
-        return self.user_email
+        return self.user_id
 
     @classmethod
     def find_by_email(cls, email):
@@ -155,14 +164,18 @@ class Seller(User):
         "polymorphic_identity": "Seller",
     }
 
-    seller_email = Column(
-        "seller_email", Text, ForeignKey("User.user_email"), primary_key=True
+    seller_id = Column(
+        "seller_id", Integer, ForeignKey("User.user_id"), primary_key=True
     )
-    fest_id = Column("fest_id", Integer, ForeignKey("Festival.fest_id"), nullable=False)
-    fest = relationship("Festival", foreign_keys=fest_id)
+    # ForeignKeyConstraint(
+    #     ["seller_id"], ["invoice.invoice_id", "invoice.ref_num"]
+    # )
+    # fest_id = Column("fest_id", Integer, ForeignKey("Festival.fest_id"), nullable=False)
+    # fest = relationship("Festival", foreign_keys=fest_id)
 
-    def __init__(self, *argas):
-        super(User, self).__init__(*argas)
+    def __init__(self, *args):
+        super(User, self).__init__(*args)
+        self.seller_id = self.get_id()
 
 
 class Organizer(Seller):
@@ -171,12 +184,12 @@ class Organizer(Seller):
         "polymorphic_identity": "Organizer",
     }
 
-    org_email = Column(
-        "org_email", Text, ForeignKey("Seller.seller_email"), primary_key=True
-    )
+    # ForeignKeyConstraint(["org_id"], ["Seller.seller_id"])
+    org_id = Column("org_id", Integer, ForeignKey("Seller.seller_id"), primary_key=True)
 
     def __init__(self, *argas):
-        super(User, self).__init__(*argas)
+        super(Seller, self).__init__(*argas)
+        self.org_id = self.get_id()
 
 
 class Admin(Organizer):
@@ -185,12 +198,13 @@ class Admin(Organizer):
         "polymorphic_identity": "Admin",
     }
 
-    admin_email = Column(
-        "admin_email", Text, ForeignKey("Organizer.org_email"), primary_key=True
+    admin_id = Column(
+        "admin_id", Integer, ForeignKey("Organizer.org_id"), primary_key=True
     )
 
     def __init__(self, *argas):
-        super(User, self).__init__(*argas)
+        super(Organizer, self).__init__(*argas)
+        self.admin_id = self.get_id()
 
 
 class RootAdmin(Admin):
@@ -203,8 +217,8 @@ class RootAdmin(Admin):
         "polymorphic_identity": "RootAdmin",
     }
 
-    root_admin_email = Column(
-        "root_admin_email", Text, ForeignKey("Admin.admin_email"), primary_key=True
+    root_admin_id = Column(
+        "root_admin_id", Integer, ForeignKey("Admin.admin_id"), primary_key=True
     )
 
 
@@ -219,18 +233,18 @@ class Ticket(db.Model):
 
     __tablename__ = "Ticket"
     ticket_id = db.Column("ticket_id", db.Integer, primary_key=True)
-    fk_user_email = db.Column(
-        "fk_user_email", db.Text, db.ForeignKey("User.user_email"), nullable=False
+    user_id = db.Column(
+        "user_id", Integer, db.ForeignKey("User.user_id"), nullable=False
     )
-    fk_fest_id = db.Column(
-        "fk_fest_id", db.Integer, db.ForeignKey("Festival.fest_id"), nullable=False
+    fest_id = db.Column(
+        "fest_id", Integer, db.ForeignKey("Festival.fest_id"), nullable=False
     )
 
-    user = db.relationship("User", foreign_keys=fk_user_email)
-    fest = db.relationship("Festival", foreign_keys=fk_fest_id)
+    user = db.relationship("User", foreign_keys=user_id)
+    fest = db.relationship("Festival", foreign_keys=fest_id)
 
     def __repr__(self):
-        return f"Ticket {self.ticket_id}: user_id: {self.fk_user_email}; festival_id: {self.fk_fest_id}"
+        return f"Ticket {self.ticket_id}: user_id: {self.user_id}; festival_id: {self.fest_id}"
 
 
 # TODO

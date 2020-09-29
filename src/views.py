@@ -25,17 +25,6 @@ def user_loader(user_id):
     return User.query.get(user_id)
 
 
-# @login_manager.request_loader
-# def request_loader(request):
-#     email = request.form.get("email")
-#     user = User.query.get(email)
-
-#     # DO NOT ever store passwords in plaintext and always compare password
-#     # hashes using constant-time comparison!
-#     user.is_authenticated = user.check_passwd(request.form.get("password"))
-#     return user
-
-
 @app.route("/", methods=["GET", "POST"])
 def home():
     data = Festival.query.all()
@@ -91,7 +80,7 @@ def register():
             flash(f"Account created for {form.username.data}!", "success")
             return login(user=new_user)
         else:
-            flash(f"Email {email} is alredy registered!", "danger")
+            flash(f"Email {email} is already registered!", "danger")
             return render_template("register.html", title="Registration", form=form)
     return render_template("register.html", title="Registration", form=form)
 
