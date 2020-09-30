@@ -1,4 +1,4 @@
 ticket_id,fk_user_email,fk_t_fest_id
-10,test1@ok.com,100
-11,test2@ok.com,100
-12,test3@ok.com,100
+10,1,100
+11,2,100
+12,3,100
