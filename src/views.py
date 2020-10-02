@@ -37,7 +37,7 @@ def home():
     if current_user.is_authenticated:
         user_image = (
             User.query.with_entities(User.avatar)
-            .filter_by(user_email=current_user.user_email)
+            .filter_by(user_id=current_user.user_id)
             .first()
         )
         return render_template(
@@ -91,7 +91,6 @@ def login(user=None):
     if form.validate_on_submit():
         user = User.find_by_email(form.email.data)
         if user is not None:
-
             remember = True if request.form.get("remember") else False
             if user.check_passwd(form.password.data):
                 user.is_authenticated = True
@@ -113,7 +112,7 @@ def login(user=None):
 @login_required
 def account():
     # Show the account-edit HTML page:
-    user = User.query.filter_by(user_email=current_user.user_email).first()
+    user = User.query.filter_by(user_id=current_user.user_id).first()
     user_columns = {}
     for column in user.__table__.columns:
         if column.name not in ["passwd", "perms"]:
