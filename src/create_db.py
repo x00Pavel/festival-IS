@@ -103,10 +103,6 @@ class User(UserMixin, db.Model):
     _is_anonymous = False
 
     def __init__(self, user_email, name, surname, perms, passwd, address, avatar=None):
-        # # sql_query = Text("SELECT * FROM airports WHERE country = 'United States'")
-        # result = db.connection.execute(sql_query)
-        # result_as_list = result.fetchall()
-        # print(result_as_list)
         self.user_email = user_email
         self.name = name
         self.surname = surname
@@ -156,11 +152,10 @@ class User(UserMixin, db.Model):
     def is_anonymous(self, val):
         self._is_anonymous = val
 
-    def buy_ticket(self):
-        pass
-
-    def register_fest(self):
-        pass
+    def reserve_ticket(self, fest_id):
+        ticket = Ticket(self.user_id, fest_id)
+        db.session.add(ticket)
+        db.session.commit()
 
 
 class Seller(User):
@@ -247,6 +242,10 @@ class Ticket(db.Model):
 
     user = db.relationship("User", foreign_keys=user_id)
     fest = db.relationship("Festival", foreign_keys=fest_id)
+
+    def __inti__(self, user_id, fest_id):
+        self.user_id = user_id
+        self.fest_id = fest_id
 
     def __repr__(self):
         return f"Ticket {self.ticket_id}: user_id: {self.user_id}; festival_id: {self.fest_id}"
