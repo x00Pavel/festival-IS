@@ -10,6 +10,7 @@ login_manager = LoginManager()
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "SECRET_KEY"
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 
 S3_BUCKET = os.environ.get("S3_BUCKET")

@@ -57,9 +57,19 @@ def import_db():
             table = i[2:-4]
             print(f"From src/data/{i} - To table {table}")
             with open(f"src/data/{i}", "r") as f:
-                cur.copy_expert('COPY "' + i[2:-4] + '" FROM STDIN WITH CSV HEADER', f)
+                header = f.readline()
+                cur.copy_expert(
+                    f'COPY "{i[2:-4]}" ({header}) FROM STDIN WITH CSV HEADER', f,
+                )
             conn.commit()
     cur.close()
+
+
+@manager.command
+def full_reset():
+    drop_db()
+    init_db()
+    import_db()
 
 
 if __name__ == "__main__":

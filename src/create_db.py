@@ -19,6 +19,7 @@ db = SQLAlchemy(app)
 
 class Festival(db.Model):
     __tablename__ = "Festival"
+
     fest_id = db.Column("fest_id", db.Integer, primary_key=True)
     description = db.Column("description", db.Text)
     style = db.Column("style", db.String(10))
@@ -59,21 +60,21 @@ class Band(db.Model):
 class Performance(db.Model):
     __tablename__ = "Performance"
     perf_id = db.Column("perf_id", db.Integer, primary_key=True)
-    fk_fest_id = db.Column(
-        "fk_fest_id", db.Integer, db.ForeignKey("Festival.fest_id"), nullable=False
+    fest_id = db.Column(
+        "fest_id", db.Integer, db.ForeignKey("Festival.fest_id"), nullable=False
     )
-    fk_stage_id = db.Column(
-        "fk_stage_id", db.Integer, db.ForeignKey("Stage.stage_id"), nullable=False
+    stage_id = db.Column(
+        "stage_id", db.Integer, db.ForeignKey("Stage.stage_id"), nullable=False
     )
-    fk_band_id = db.Column(
-        "fk_band_id", db.Integer, db.ForeignKey("Band.band_id"), nullable=False
+    band_id = db.Column(
+        "band_id", db.Integer, db.ForeignKey("Band.band_id"), nullable=False
     )
     # time_from = db.Column("time_from", db.Date, nullable=False) TODO also edit CSV for performances
     # time_to = db.Column("time_to", db.Date, nullable=False)
 
-    fest = db.relationship("Festival", foreign_keys=fk_fest_id)  # backref ?
-    band = db.relationship("Band", foreign_keys=fk_band_id)  # backref ?
-    stage = db.relationship("Stage", foreign_keys=fk_stage_id)  # backref ?
+    fest = db.relationship("Festival", foreign_keys=fest_id)  # backref ?
+    band = db.relationship("Band", foreign_keys=band_id)  # backref ?
+    stage = db.relationship("Stage", foreign_keys=stage_id)  # backref ?
 
     def __repr__(self):
         return f"Performance {self.perf_id}: festival_id: {self.fk_fest_id}; stage_id: {self.fk_stage_id}; band_id: {self.fk_band_id}"
@@ -102,6 +103,10 @@ class User(UserMixin, db.Model):
     _is_anonymous = False
 
     def __init__(self, user_email, name, surname, perms, passwd, address, avatar=None):
+        # # sql_query = Text("SELECT * FROM airports WHERE country = 'United States'")
+        # result = db.connection.execute(sql_query)
+        # result_as_list = result.fetchall()
+        # print(result_as_list)
         self.user_email = user_email
         self.name = name
         self.surname = surname
@@ -111,7 +116,7 @@ class User(UserMixin, db.Model):
         self.address = address
 
     def __repr__(self):
-        return f"User {self.user_id}: {self.name} {self.surname}; {self.permissions}"
+        return f"{self.perms} {self.user_id}: {self.name} {self.surname}"
 
     def get_id(self):
         return self.user_id
