@@ -1,7 +1,8 @@
 from flask_script import Manager, commands
 from datetime import datetime
 from festival_is import app
-from create_db import db
+from create_db import db, RootAdmin
+from werkzeug.security import generate_password_hash
 import psycopg2
 import os
 import sys
@@ -17,13 +18,22 @@ def init_db():
         db.engine.echo = True
         db.metadata.bind = db.engine
         db.metadata.create_all(checkfirst=True)
+        root = RootAdmin(
+            "root@ok.com",
+            "root",
+            "root",
+            "RootAdmin",
+            generate_password_hash(app.config["SECRET_KEY"], method="sha256"),
+            "Root root root",
+        )
+        db.session.add(root)
+        db.session.commit()
         # load_test_data()
 
 
 @manager.command
 def drop_db():
     with app.test_request_context():
-
         db.engine.echo = True
         db.metadata.bind = db.engine
         db.metadata.drop_all(checkfirst=True)

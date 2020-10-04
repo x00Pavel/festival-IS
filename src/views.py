@@ -72,7 +72,7 @@ def register():
         if existing_user is None:
             name = form.firstname.data
             surname = form.lastname.data
-            passwd_hash = generate_password_hash(form.password.data)
+            passwd_hash = generate_password_hash(form.password.data, method="sha256")
             address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
             new_user = table(email, name, surname, role, passwd_hash, address, None)
             db.session.add(new_user)
