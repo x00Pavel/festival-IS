@@ -29,20 +29,11 @@ def user_loader(user_id):
 @app.route("/", methods=["GET", "POST"])
 def home():
     data = Festival.query.all()
-    list_of_dicts = []
-    for row in data:
-        res = {}
-        for column in row.__table__.columns:
-            res[column.name] = str(getattr(row, column.name))
-        list_of_dicts.append(res)
+    list_of_dicts = [row for row in data]
+
     if current_user.is_authenticated:
-        user_image = (
-            User.query.with_entities(User.avatar)
-            .filter_by(user_id=current_user.user_id)
-            .first()
-        )
         return render_template(
-            "festivals.html", user_image=user_image[0], posts=list_of_dicts
+            "festivals.html", user_image=current_user.avatar, posts=list_of_dicts
         )
     return render_template("festivals.html", posts=list_of_dicts)
 
@@ -113,18 +104,13 @@ def login(user=None):
 def account():
     # Show the account-edit HTML page:
     user = User.query.filter_by(user_id=current_user.user_id).first()
-    user_columns = {}
-    for column in user.__table__.columns:
-        if column.name not in ["passwd", "perms"]:
-            user_columns[column.name] = str(getattr(user, column.name))
-    return render_template(
-        "account.html", user_columns=user_columns, user_image=user_columns["avatar"]
-    )
+    print(f"Type of -------------------> {type(user)}")
+    return render_template("account.html", user_columns=user)
 
 
 # Listen for POST requests to yourdomain.com/submit_form/
-@app.route("/submit-form/", methods=["POST"])
 @login_required
+@app.route("/submit-form/", methods=["POST"])
 def submit_form():
 
     new_psswd1 = request.form["new_psswd1"]

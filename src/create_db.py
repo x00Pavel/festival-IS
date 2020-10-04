@@ -80,6 +80,11 @@ class Performance(db.Model):
     band = db.relationship("Band", foreign_keys=band_id)  # backref ?
     stage = db.relationship("Stage", foreign_keys=stage_id)  # backref ?
 
+    def __init__(self, stage_id, band_id):
+        # TODO check if given numbers exist in corresponding tables
+        self.stage_id = stage_id
+        self.band_id = band_id
+
     def __repr__(self):
         return f"Performance {self.perf_id}: festival_id: {self.fk_fest_id}; stage_id: {self.fk_stage_id}; band_id: {self.fk_band_id}"
 
