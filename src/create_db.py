@@ -95,10 +95,10 @@ class User(UserMixin, db.Model):
         nullable=False,
         default="https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png",
     )
-    perms = Column("perms", String(20), nullable=False)
+    perms = Column("perms", Integer, nullable=False)
     address = Column("address", String(50), nullable=False)
 
-    __mapper_args__ = {"polymorphic_identity": "User", "polymorphic_on": perms}
+    __mapper_args__ = {"polymorphic_identity": 4, "polymorphic_on": perms}
     _is_authenticated = True
     _is_active = True
     _is_anonymous = False
@@ -162,7 +162,7 @@ class User(UserMixin, db.Model):
 class Seller(User):
     __tablename__ = "Seller"
     __mapper_args__ = {
-        "polymorphic_identity": "Seller",
+        "polymorphic_identity": 3,
     }
 
     seller_id = Column(
@@ -182,7 +182,7 @@ class Seller(User):
 class Organizer(Seller):
     __tablename__ = "Organizer"
     __mapper_args__ = {
-        "polymorphic_identity": "Organizer",
+        "polymorphic_identity": 2,
     }
 
     # ForeignKeyConstraint(["org_id"], ["Seller.seller_id"])
@@ -196,7 +196,7 @@ class Organizer(Seller):
 class Admin(Organizer):
     __tablename__ = "Admin"
     __mapper_args__ = {
-        "polymorphic_identity": "Admin",
+        "polymorphic_identity": 1,
     }
 
     admin_id = Column(
@@ -215,7 +215,7 @@ class RootAdmin(Admin):
 
     __tablename__ = "RootAdmin"
     __mapper_args__ = {
-        "polymorphic_identity": "RootAdmin",
+        "polymorphic_identity": 0,
     }
 
     root_admin_id = Column(
