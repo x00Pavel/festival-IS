@@ -1,0 +1,13 @@
+<div>
+    <h2>{{fest.fest_name}}</h2>
+    Festival info
+    <p>
+    <h3>Description</h3> {{fest.description}}</p>
+    <h3>Cost</h3> {{ fest.cost }}
+    <h3>Age restriciton</h3> {{ fest.age_restriction }}
+    <br>
+    <br>
+    <a href="/festival/{{ fest.fest_id }}/ticket">
+        <button type="button">Reserve ticket</button>
+    </a>
+</div>

@@ -1,0 +1,26 @@
+<div>
+    Reserve ticket for festival {{ fest.fest_name }}
+
+    <form method="POST" action="/festival/{{ fest.fest_id }}/ticket">
+        <legend class="border-bottom mb-4">Name</legend>
+        <div class="form-group">
+            {{ form.user_name }}
+        </div>
+        <legend class="border-bottom mb-4">Surname</legend>
+        <div class="form-group">
+            {{ form.user_surname }}
+        </div>
+
+
+        <a href="/festival/{{ fest.fest_id }}/ticket"><button type="submit" formmethod="POST">Reserve</button></a>
+        <a href="/"><button type="reset">Cancel</button></a>
+    </form>
+
+    {% if anonym %}
+    <div>Do you want to register?</div>
+    <a href="/register"><button>Register</button></a>
+    {% endif %}
+
+
+    <!-- TODO: How to send inserted name and surname to the register page -->
+</div>

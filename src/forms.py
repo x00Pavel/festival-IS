@@ -52,3 +52,9 @@ class LoginForm(FlaskForm):
     )
     remember = BooleanField("Remember me")
     submit = SubmitField("Log in up")
+
+
+class TicketForm(FlaskForm):
+    submit = SubmitField("Reserve")
+    user_name = StringField("Name", validators=[DataRequired()])
+    user_surname = StringField("Surname", validators=[DataRequired()])

@@ -7,6 +7,7 @@ from flask_login import login_required, logout_user, current_user, login_user
 import json, boto3
 import os
 import urllib.parse
+from werkzeug.datastructures import MultiDict
 
 ROLES = {
     4: ("User", User),
@@ -188,3 +189,43 @@ def protected():
 def logout():
     logout_user()
     return redirect("/")
+
+
+@app.route("/festival/<fest_id>")
+def festival_page(fest_id):
+    fest = Festival.query.filter_by(fest_id=fest_id).first()
+    return render_template("festival_page.html", fest=fest)
+
+
+@app.route("/festival/<fest_id>/ticket", methods=["GET", "POST"])
+def ticket(fest_id):
+    fest = Festival.query.filter_by(fest_id=fest_id).first()
+    form = (
+        TicketForm()
+        if current_user.is_anonymous
+        else TicketForm(
+            formdata=MultiDict(
+                {
+                    "user_name": current_user.name,
+                    "user_surname": current_user.surname,
+                }  # For autofill if user is logged in
+            )
+        )
+    )
+
+    if form.is_submitted():
+        if current_user.is_anonymous:
+            # TODO: reserve ticket is is an unauthorised user
+            pass
+        ticket = Ticket(current_user.user_id, fest_id)
+        db.session.add(ticket)
+        db.session.commit()
+        flash("Ticket is successfully reserved", category="message")
+        return redirect("/")
+
+    return render_template(
+        "reserve_ticket.html", form=form, fest=fest, anonym=current_user.is_anonymous,
+    )
+
+
+# @app.route("/festiva/<fest_id>/reserve")

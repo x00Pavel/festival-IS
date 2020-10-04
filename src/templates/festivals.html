@@ -6,15 +6,12 @@
 </head>
 
 <body>
-
-
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			{% for post in posts %}
 			{% if post.description != None %}
 			<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
 				<img class="d-block" src="https://festival-static.s3-eu-west-1.amazonaws.com/f1.jpg">
-
 
 				<div class="container12">
 					<img src="https://festival-static.s3-eu-west-1.amazonaws.com/f2.jpg" alt="Norway"
@@ -38,19 +35,15 @@
 		</a>
 	</div>
 
-
-
-
-
-
-
-
 	<div class="our-member">
 		<div class="grid-container">
 			{% for post in posts %}
 			{% if post.description != None %}
 			<figure class="team-member">
-				<img src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350" width="100%" alt="">
+				<a href="/festival/{{ post.fest_id }}">
+					<img src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350" width="100%"
+						alt="">
+				</a>
 			</figure>
 			{% endif %}
 			{% endfor %}

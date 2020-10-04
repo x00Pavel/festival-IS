@@ -21,6 +21,7 @@ class Festival(db.Model):
     __tablename__ = "Festival"
 
     fest_id = db.Column("fest_id", db.Integer, primary_key=True)
+    fest_name = Column("fest_name", Text, nullable=False)
     description = db.Column("description", db.Text)
     style = db.Column("style", db.String(10))
     address = db.Column("address", db.Text, nullable=False)
@@ -247,7 +248,7 @@ class Ticket(db.Model):
     user = db.relationship("User", foreign_keys=user_id)
     fest = db.relationship("Festival", foreign_keys=fest_id)
 
-    def __inti__(self, user_id, fest_id):
+    def __init__(self, user_id, fest_id):
         self.user_id = user_id
         self.fest_id = fest_id
 
