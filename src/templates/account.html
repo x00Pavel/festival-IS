@@ -2,21 +2,15 @@
 {% block content %}
 
 
-<head>
-  <link rel="shortcut icon" href="#">
-</head>
 
 <body>
 
-  <h1>Edit your account</h1>
-
-  <hr>
-
-  <h2>Your avatar</h2>
-
-  <input type="file" id="file-input">
-  <p id="status">Please select a file</p>
-  <img style="border:1px solid gray;width:300px;" id="preview" src="{{ user_columns.avatar }}">
+  <div class="image_in_my_account">
+    <h2>Your avatar</h2>
+    <input type="file" id="file-input">
+    <p id="status">Please select a file</p>
+    <img style="border:1px solid gray;width:300px;" id="preview" src="{{ user_columns.avatar }}">
+  </div>
 
   <h2>Your information</h2>
 

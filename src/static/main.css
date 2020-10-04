@@ -144,12 +144,6 @@ display: inline-block;
 
 
 
-.column {
-  float: left;
-  width: 25%;
-  padding: 10px;  
-
-}
 
 .roundimage
 {
@@ -157,26 +151,15 @@ display: inline-block;
 } */
 
 
-/* Clear floats after image containers */
- .row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-.toprow {
-  display: block;
-  margin-top: 100px;
-  margin-left: 10%;
-  margin-right: 10%;
 
-}
+
 
 .description{
   padding-top: 7px;
   text-align: center;
   color: #ff0000;
 
-  font-family:georgia,garamond,serif;font-size:24px;font-style:vendana; */
+  font-family:georgia,garamond,serif;font-size:24px;font-style:vendana; 
 } 
  .description2
 {
@@ -289,3 +272,37 @@ padding-top: 5px;
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;} 
 /* .not {} */
+
+
+/* Image in my account page */
+.image_in_my_account
+{
+  margin-left: 30%;
+}
+
+
+
+.grid-container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1em;
+  margin-top: 30px;  
+  float: left;
+  grid-column-gap: 1em;
+
+
+}
+@media screen and (max-width: 50em) 
+{
+  grid-container
+  {
+     grid-template-columns : repeat(auto-fit, minmax(15em, 1fr));
+  }
+}
+
+
+
+
