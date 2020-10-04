@@ -1,0 +1,10 @@
+<div>
+    <h2>Your tickets</h2>
+    {% for ticket  in tickets %}
+    Ticket id: {{ ticket.ticket_id }}
+    <br>
+    Festival id: {{ ticket.fest_id }}
+    <br>
+    <br>
+    {% endfor %}
+</div>

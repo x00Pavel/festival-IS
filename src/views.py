@@ -223,31 +223,44 @@ def ticket(fest_id):
     )
 
 
+@login_required
+@app.route("/my_tickets")
+def my_tickets():
+    tickets = current_user.get_tickets()
+    return render_template("ticket_page.html", tickets=tickets)
+
+
+@login_required
 @app.route("/manage_tickets")
 def manage_tickets():
     pass
 
 
+@login_required
 @app.route("/manage_sellers")
 def manage_sellers():
     return "<h2>TODO</h2> function manage_sellers"
 
 
+@login_required
 @app.route("/manage_festivals")
 def manage_festivals():
     return "<h2>TODO</h2> function manage_festivals"
 
 
+@login_required
 @app.route("/manage_organizers")
 def manage_organizers():
     return "<h2>TODO</h2> function manage_organizers"
 
 
+@login_required
 @app.route("/manage_users")
 def manage_users():
     return "<h2>TODO</h2> function manage_users"
 
 
+@login_required
 @app.route("/manage_admins")
 def manage_admins():
-    return "<h2>TODO</h2> function manage_admins    "
+    return "<h2>TODO</h2> function manage_admins"
