@@ -19,12 +19,13 @@ def init_db():
         db.metadata.bind = db.engine
         db.metadata.create_all(checkfirst=True)
         root = RootAdmin(
-            "root@ok.com",
-            "root",
-            "root",
-            "RootAdmin",
-            generate_password_hash(app.config["SECRET_KEY"], method="sha256"),
-            "Root root root",
+            user_email="root@ok.com",
+            name="root",
+            surname="root",
+            avatar=None,
+            passwd=generate_password_hash(app.config["SECRET_KEY"], method="sha256"),
+            perms="RootAdmin",
+            address="Root root root",
         )
         db.session.add(root)
         db.session.commit()
@@ -69,7 +70,7 @@ def import_db():
             with open(f"src/data/{i}", "r") as f:
                 header = f.readline()
                 cur.copy_expert(
-                    f'COPY "{i[2:-4]}" ({header}) FROM STDIN WITH CSV HEADER', f,
+                    f'COPY "{i[2:-4]}" ({header}) FROM STDIN CSV', f,
                 )
             conn.commit()
     cur.close()

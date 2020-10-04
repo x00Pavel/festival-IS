@@ -174,8 +174,8 @@ class Seller(User):
     # fest_id = Column("fest_id", Integer, ForeignKey("Festival.fest_id"), nullable=False)
     # fest = relationship("Festival", foreign_keys=fest_id)
 
-    def __init__(self, *args):
-        super(User, self).__init__(*args)
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
         self.seller_id = self.get_id()
 
 
@@ -188,8 +188,8 @@ class Organizer(Seller):
     # ForeignKeyConstraint(["org_id"], ["Seller.seller_id"])
     org_id = Column("org_id", Integer, ForeignKey("Seller.seller_id"), primary_key=True)
 
-    def __init__(self, *args):
-        super(Seller, self).__init__(*args)
+    def __init__(self, **args):
+        super(Seller, self).__init__(**args)
         self.org_id = self.get_id()
 
 
@@ -203,8 +203,8 @@ class Admin(Organizer):
         "admin_id", Integer, ForeignKey("Organizer.org_id"), primary_key=True
     )
 
-    def __init__(self, *args):
-        super(Organizer, self).__init__(*args)
+    def __init__(self, **kwargs):
+        super(Organizer, self).__init__(**kwargs)
         self.admin_id = self.get_id()
 
 
@@ -222,8 +222,8 @@ class RootAdmin(Admin):
         "root_admin_id", Integer, ForeignKey("Admin.admin_id"), primary_key=True
     )
 
-    def __init__(self, *args):
-        super(Admin, self).__init__(*args)
+    def __init__(self, **kwargs):
+        super(Admin, self).__init__(**kwargs)
         root_admin_id = self.get_id()
 
 
