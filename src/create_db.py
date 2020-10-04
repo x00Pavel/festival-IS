@@ -28,12 +28,15 @@ class Festival(db.Model):
     cost = db.Column("cost", db.Integer, nullable=False, default=0)
     time_from = db.Column("time_from", db.Date, nullable=False)
     time_to = db.Column("time_to", db.Date, nullable=False)
-    capacity = db.Column("capacity", db.Integer, nullable=False, default=1000)
+    max_capacity = db.Column("max_capacity", db.Integer, nullable=False, default=1000)
+    current_ticket_count = db.Column(
+        "current_ticket_count", db.Integer, nullable=False, default=0
+    )
     age_restriction = db.Column("age_restriction", db.Integer, nullable=False)
 
     # TODO: tmp representation.
     def __repr__(self):
-        return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.capacity}, {self.age_restriction}"
+        return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}"
 
 
 class Stage(db.Model):
@@ -156,7 +159,24 @@ class User(UserMixin, db.Model):
     def reserve_ticket(self, fest_id):
         ticket = Ticket(self.user_id, fest_id)
         db.session.add(ticket)
+        fest = Festival.query.filter_by(fest_id=fest_id).first()
+        if fest.current_ticket_count != fest.max_capacity:
+            fest.current_ticket_count += 1
+        else:
+            raise ValueError("Festival is already out of tickets")
         db.session.commit()
+
+    def get_tickets(self):
+        tickets = Ticket.query.filter_by(user_id=self.user_id)
+        list_of_tickets = [
+            {
+                "ticket_id": ticket.ticket_id,
+                "user_id": ticket.user_id,
+                "fest_id": ticket.fest_id,
+            }
+            for ticket in tickets
+        ]
+        return list_of_tickets
 
 
 class Seller(User):
@@ -168,11 +188,6 @@ class Seller(User):
     seller_id = Column(
         "seller_id", Integer, ForeignKey("User.user_id"), primary_key=True
     )
-    # ForeignKeyConstraint(
-    #     ["seller_id"], ["invoice.invoice_id", "invoice.ref_num"]
-    # )
-    # fest_id = Column("fest_id", Integer, ForeignKey("Festival.fest_id"), nullable=False)
-    # fest = relationship("Festival", foreign_keys=fest_id)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

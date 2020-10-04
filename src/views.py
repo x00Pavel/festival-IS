@@ -213,7 +213,11 @@ def ticket(fest_id):
     )
 
     if form.is_submitted():
-        current_user.reserve_ticket(fest_id)
+        try:
+            current_user.reserve_ticket(fest_id)
+        except ValueError as e:
+            flash(e, type="error")
+
         # if current_user.is_anonymous:>?
         flash("Ticket is successfully reserved", category="message")
         return redirect("/")
