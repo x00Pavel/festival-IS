@@ -46,7 +46,7 @@
         </div>
         <div class="collapse collapse-toggleable-xs navbar-collapse" id="collapseElements">
           <div class="navbar-nav mr-auto"></div>
-          <div class="navbar-nav">
+          <div class="navbar-nav ">
             <a class="nav-item nav-link" href="{{ url_for('home') }}">Festivals</a>
             <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
             {% if current_user.is_authenticated %}
@@ -55,8 +55,26 @@
               <button onclick="myFunction()" class="dropbtn"><img src="{{ user_image }}" class="user_logo"
                   alt=""></a></button>
               <div id="Demo" class="dropdown-content">
-                <a class="site-header" href="{{ url_for('about') }}">My ticekts</a>
+                <a class="site-header" href="{{ url_for('about') }}">My tickets</a>
                 <a class="site-header" href="{{ url_for('account') }}">My account</a>
+                {% if current_user.perms < 4 %}
+                <a class="site-header" href="{{ url_for('manage_tickets') }}">Manage tickets</a>
+                {% if current_user.perms < 3 %}
+                <a class="site-header" href="{{ url_for('manage_sellers') }}">Manage seller</a>
+                <a class="site-header" href="{{ url_for('manage_festivals') }}">Manage festivals</a>
+                {% endif %}
+                {% if current_user.perms < 2 %}
+                <a class="site-header" href="{{ url_for('manage_organizers') }}">Manage organizers</a>
+                <a class="site-header" href="{{ url_for('manage_users') }}">Manage users</a>
+                {% endif %}
+                {% if current_user.perms < 1 %}
+                <a class="site-header" href="{{ url_for('manage_admins') }}">Manage admins</a>
+                {% endif %}
+
+                {% endif %}
+
+
+
                 <a class="site-header" href="{{ url_for('logout') }}">Log out</a>
 
               </div>

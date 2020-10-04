@@ -3,6 +3,7 @@ from datetime import datetime
 from festival_is import app
 from create_db import db, RootAdmin
 from werkzeug.security import generate_password_hash
+from views import ROLES
 import psycopg2
 import os
 import sys
@@ -24,7 +25,7 @@ def init_db():
             surname="root",
             avatar=None,
             passwd=generate_password_hash(app.config["SECRET_KEY"], method="sha256"),
-            perms="RootAdmin",
+            perms=0,
             address="Root root root",
         )
         db.session.add(root)

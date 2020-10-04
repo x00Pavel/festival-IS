@@ -67,7 +67,6 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         role, table = ROLES[int(request.form["options"])]
-        print(role, table)
         email = form.email.data
         existing_user = User.find_by_email(email)
         if existing_user is None:
@@ -214,12 +213,8 @@ def ticket(fest_id):
     )
 
     if form.is_submitted():
-        if current_user.is_anonymous:
-            # TODO: reserve ticket is is an unauthorised user
-            pass
-        ticket = Ticket(current_user.user_id, fest_id)
-        db.session.add(ticket)
-        db.session.commit()
+        current_user.reserve_ticket(fest_id)
+        # if current_user.is_anonymous:>?
         flash("Ticket is successfully reserved", category="message")
         return redirect("/")
 
@@ -228,4 +223,31 @@ def ticket(fest_id):
     )
 
 
-# @app.route("/festiva/<fest_id>/reserve")
+@app.route("/manage_tickets")
+def manage_tickets():
+    pass
+
+
+@app.route("/manage_sellers")
+def manage_sellers():
+    return "<h2>TODO</h2> function manage_sellers"
+
+
+@app.route("/manage_festivals")
+def manage_festivals():
+    return "<h2>TODO</h2> function manage_festivals"
+
+
+@app.route("/manage_organizers")
+def manage_organizers():
+    return "<h2>TODO</h2> function manage_organizers"
+
+
+@app.route("/manage_users")
+def manage_users():
+    return "<h2>TODO</h2> function manage_users"
+
+
+@app.route("/manage_admins")
+def manage_admins():
+    return "<h2>TODO</h2> function manage_admins    "
