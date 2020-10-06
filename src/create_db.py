@@ -208,8 +208,8 @@ class Organizer(Seller):
     # ForeignKeyConstraint(["org_id"], ["Seller.seller_id"])
     org_id = Column("org_id", Integer, ForeignKey("Seller.seller_id"), primary_key=True)
 
-    def __init__(self, **args):
-        super(Seller, self).__init__(**args)
+    def __init__(self, **kwargs):
+        super(Seller, self).__init__(**kwargs)
         self.org_id = self.get_id()
 
 

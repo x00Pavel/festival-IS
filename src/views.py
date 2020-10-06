@@ -59,7 +59,8 @@ def organizer():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        role, table = ROLES[int(request.form["options"])]
+        perms = int(request.form["options"])
+        _, table = ROLES[perms]
         email = form.email.data
         existing_user = User.find_by_email(email)
         if existing_user is None:
@@ -67,7 +68,15 @@ def register():
             surname = form.lastname.data
             passwd_hash = generate_password_hash(form.password.data, method="sha256")
             address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
-            new_user = table(email, name, surname, role, passwd_hash, address, None)
+            new_user = table(
+                user_email=email,
+                name=name,
+                surname=surname,
+                perms=perms,
+                passwd=passwd_hash,
+                address=address,
+                avatar=None,
+            )
             db.session.add(new_user)
             db.session.commit()
             flash(f"Account created for {form.username.data}!", "success")
@@ -106,7 +115,6 @@ def login(user=None):
 def account():
     # Show the account-edit HTML page:
     user = User.query.filter_by(user_id=current_user.user_id).first()
-    print(f"Type of -------------------> {type(user)}")
     return render_template("account.html", user_columns=user)
 
 
@@ -211,10 +219,7 @@ def ticket(fest_id):
         return redirect("/")
 
     return render_template(
-        "reserve_ticket.html",
-        form=form,
-        fest=fest,
-        anonym=current_user.is_anonymous,
+        "reserve_ticket.html", form=form, fest=fest, anonym=current_user.is_anonymous,
     )
 
 
