@@ -125,7 +125,7 @@ display: inline-block;
 }
 .form-group {
 
-  width: 100%;
+  /* width: 100%; */
 
 }
 
@@ -277,7 +277,11 @@ padding-top: 5px;
 /* Image in my account page */
 .image_in_my_account
 {
-  margin-left: 30%;
+  font-size: 12px;
+  text-align: center;
+  width: 100%;
+  
+ 
 }
 
 

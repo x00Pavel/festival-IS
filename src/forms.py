@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from wtforms.fields import *
 from wtforms import ValidationError
+import re
 import phonenumbers
 from flask import request
 
@@ -27,6 +28,12 @@ class RegistrationForm(FlaskForm):
     street = StringField("Street", validators=[Length(max=80)])
     streeta = StringField("Street (additional)", validators=[Length(max=80)])
     homenum = StringField("Home/Flat number", validators=[Length(max=80)])
+
+    if not re.search(r"^[0-9]+:[0-9]+$", str(password)):
+        # raise ValidationError("Invalid phone number.")
+        print(
+            "Asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasd"
+        )
 
     # phone = StringField("Phone", validators=[DataRequired()])
 

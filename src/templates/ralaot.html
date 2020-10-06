@@ -52,7 +52,7 @@
             {% if current_user.is_authenticated %}
 
             <div class="dropdown">
-              <button onclick="myFunction()" class="dropbtn"><img src="{{ user_image }}" class="user_logo"
+              <button onclick="myFunction()" class="dropbtn"><img src="{{ user_columns.avatar }}" class="user_logo"
                   alt=""></a></button>
               <div id="Demo" class="dropdown-content">
                 <a class="site-header" href="{{ url_for('my_tickets') }}">My tickets</a>

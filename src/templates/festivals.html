@@ -35,15 +35,19 @@
 		</a>
 	</div>
 
+
+
+
+
+
+
+
 	<div class="our-member">
 		<div class="grid-container">
 			{% for post in posts %}
 			{% if post.description != None %}
 			<figure class="team-member">
-				<a href="/festival/{{ post.fest_id }}">
-					<img src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350" width="100%"
-						alt="">
-				</a>
+				<img src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350" width="100%" alt="">
 			</figure>
 			{% endif %}
 			{% endfor %}

@@ -33,13 +33,15 @@ def home():
 
     if current_user.is_authenticated:
         return render_template(
-            "festivals.html", user_image=current_user.avatar, posts=list_of_dicts
+            "festivals.html", user_columns=current_user, posts=list_of_dicts
         )
     return render_template("festivals.html", posts=list_of_dicts)
 
 
 @app.route("/about")
 def about():
+    if current_user.is_authenticated:
+        return render_template("about.html", user_columns=current_user, title="About")
     return render_template("about.html", title="About")
 
 
@@ -209,7 +211,10 @@ def ticket(fest_id):
         return redirect("/")
 
     return render_template(
-        "reserve_ticket.html", form=form, fest=fest, anonym=current_user.is_anonymous,
+        "reserve_ticket.html",
+        form=form,
+        fest=fest,
+        anonym=current_user.is_anonymous,
     )
 
 
