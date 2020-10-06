@@ -8,6 +8,16 @@ import phonenumbers
 from flask import request
 
 
+class AcountForm(FlaskForm):
+    password = PasswordField(
+        "Password", validators=[DataRequired(), Length(min=2, max=20)]
+    )
+    passwordC = PasswordField(
+        "Password Confirmation",
+        validators=[DataRequired(), Length(min=2, max=20), EqualTo("password")],
+    )
+
+
 class RegistrationForm(FlaskForm):
     username = StringField(
         "Username", validators=[DataRequired(), Length(min=2, max=20)]

@@ -33,7 +33,7 @@ def home():
 
     if current_user.is_authenticated:
         return render_template(
-            "festivals.html", user_columns=current_user, posts=list_of_dicts
+            "festivals.html", user_columns=current_user.avatar, posts=list_of_dicts
         )
     return render_template("festivals.html", posts=list_of_dicts)
 
@@ -149,6 +149,7 @@ def sign_s3():
     S3_BUCKET = os.environ.get("S3_BUCKET")
 
     # Load required data from the request
+    folder_name = current_user.user_id
     file_name = request.args.get("file-name")
     file_type = request.args.get("file-type")
 
@@ -158,7 +159,7 @@ def sign_s3():
     # Generate and return the presigned URL
     presigned_post = s3.generate_presigned_post(
         Bucket=S3_BUCKET,
-        Key=file_name,
+        Key=f"{folder_name}/{file_name}",
         Fields={"acl": "public-read", "Content-Type": file_type},
         Conditions=[{"acl": "public-read"}, {"Content-Type": file_type}],
         ExpiresIn=3600,
@@ -168,7 +169,7 @@ def sign_s3():
     return json.dumps(
         {
             "data": presigned_post,
-            "url": f"https://{S3_BUCKET}.s3.amazonaws.com/{file_name}",
+            "url": f"https://{S3_BUCKET}.s3.amazonaws.com/{folder_name}/{file_name}",
         }
     )
 

@@ -1,44 +1,33 @@
 {% extends "ralaot.html" %}
 {% block content %}
-
 <style>
   body {
-    background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/background.jpg');
+    background-image: url('{{ user_columns.avatar }}');
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    /* background-attachment: fixed; */
     background-size: cover;
   }
 </style>
 
-<head>
-  <title>Google Recaptcha, How to use the “I'm not a Robot”</title>
-  <style>
-    .fb9 {
-      border: 1px solid #3366FF;
-      background-color: #B3C6FF;
-      width: 150px;
-      height: 30px;
-    }
-  </style>
-  <script src='https://www.google.com/recaptcha/api.js'></script>
-</head>
-
 <body>
-  </style>
+
+
+
   <div class="content-section_for_reg">
     <div class="image_in_my_account">
       <img
-        style="border:1px solid gray;width:300px; height: 300px; margin-top: 20px; border-radius: 70%; text-align: left;"
-        id="preview" style="text-align: left; " src="{{ user_columns.avatar }}">
-      <hr><input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center; " file-input></br>
-      <!-- <h4 id=" status">Please
-      select a file</h4> -->
+        style="border:1px solid gray;width:300px; height: 300px; margin-top: 20px; border-radius: 70%; text-align: center;"
+        id="preview" src=" {{ user_columns.avatar }}">
+      <hr>
+      <input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center; " id="file-input">
+      <!-- <p id="status">Please select a file</p>
+      <h2>Your information</h2> -->
       <hr>
     </div>
     <div>
 
       <form method="POST" action="/submit-form/">
-        <!-- <input type=" hidden" id="avatar_url" name="avatar_url" value="{{ user_columns.avatar }}"> -->
+        <input type="hidden" id="avatar_url" name="avatar_url" value="{{ user_columns.avatar }}">
         <h2>Your e-mail:</h2>
         <input style="width: 100%; height: 45px" type="text" name="user_email" value="{{ user_columns.user_email }}">
         <br><br>
@@ -61,15 +50,11 @@
         <input style="width: 100%; height: 45px" type="text" name="new_psswd2" placeholder="Repeat new password">
         <br><br>
         <br><br>
-        <form action="" method="post">
-          <div class="g-recaptcha" data-sitekey="6Ldbdg0TAAAAAI7KAf72Q6uagbWzWecTeBWmrCpJ"></div>
-          <input type="submit" value="Submit" class="fb9" />
-          <br><br>
-        </form>
         <input style="width: 100%; height: 45px" type="submit" value="Update profile">
       </form>
     </div>
   </div>
+
   <script type="text/javascript">
 
     /*
@@ -144,5 +129,4 @@
 
   </script>
 </body>
-
 {% endblock content %}
