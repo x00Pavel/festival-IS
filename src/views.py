@@ -110,21 +110,35 @@ def login(user=None):
 
 
 # Listen for GET requests to yourdomain.com/account/
-@app.route("/account/")
+@app.route("/account/", methods=["GET", "POST"])
 @login_required
 def account():
-    # Show the account-edit HTML page:
+    form = AcountForm()
     user = User.query.filter_by(user_id=current_user.user_id).first()
-    return render_template("account.html", user_columns=user)
+    # print("asdasd" + str(user.name), flush=True)
+    # existing_user = User.find_by_email(email)
+    # form.firstname = user.name
+    # form.lastname = user.surname
+    # form.email = user.user_email
+    # print("Asdasd" + str(form.firstname), flush=True)
+    # form.Password = user.Password
+    # form.Password2 = user.Password2
+    if form.validate_on_submit():
+        flash("Changes have been saved", "success")
+    print(form.errors)
+    # return render_template("account.html", user_columns=user, form=form)
+    # Show the account-edit HTML page:
+
+    return render_template("account.html", user_columns=user, form=form)
 
 
 # Listen for POST requests to yourdomain.com/submit_form/
 @login_required
-@app.route("/submit-form/", methods=["POST"])
+@app.route("/submit-form/", methods=["GET", "POST"])
 def submit_form():
 
-    new_psswd1 = request.form["new_psswd1"]
-    new_psswd2 = request.form["new_psswd2"]
+    Password = request.form["Password"]
+    Password2 = request.form["Password2"]
 
     print(request.form["avatar_url"], flush=True)
     # setattr(current_user, 'user_email', request.form["user_email"]) TODO: solve problem with foreign keys need to talk with xyadlo00
@@ -133,7 +147,7 @@ def submit_form():
     setattr(current_user, "address", request.form["address"])
     setattr(current_user, "avatar", request.form["avatar_url"])
 
-    # if new_psswd1 == new_psswd2:
+    # if Password == Password2:
     #   TODO: solve psswd change - xaghay00 mb add validation into the form?
     db.session.commit()
 
@@ -220,7 +234,10 @@ def ticket(fest_id):
         return redirect("/")
 
     return render_template(
-        "reserve_ticket.html", form=form, fest=fest, anonym=current_user.is_anonymous,
+        "reserve_ticket.html",
+        form=form,
+        fest=fest,
+        anonym=current_user.is_anonymous,
     )
 
 

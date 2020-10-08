@@ -9,13 +9,17 @@ from flask import request
 
 
 class AcountForm(FlaskForm):
-    password = PasswordField(
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    firstname = StringField("First name", validators=[DataRequired(), Length(max=50)])
+    lastname = StringField("Last name", validators=[DataRequired(), Length(max=50)])
+    Password = PasswordField(
         "Password", validators=[DataRequired(), Length(min=2, max=20)]
     )
-    passwordC = PasswordField(
+    Password2 = PasswordField(
         "Password Confirmation",
-        validators=[DataRequired(), Length(min=2, max=20), EqualTo("password")],
+        validators=[DataRequired(), Length(min=2, max=20), EqualTo("Password")],
     )
+    submit = SubmitField("Update profile")
 
 
 class RegistrationForm(FlaskForm):

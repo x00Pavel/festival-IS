@@ -1,13 +1,15 @@
 {% extends "ralaot.html" %}
 {% block content %}
-<style>
+<!-- <style>
   body {
     background-image: url('{{ user_columns.avatar }}');
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; 
     /* background-attachment: fixed; */
     background-size: cover;
   }
-</style>
+</style> -->
+
+
 
 <body>
 
@@ -20,13 +22,11 @@
         id="preview" src=" {{ user_columns.avatar }}">
       <hr>
       <input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center; " id="file-input">
-      <!-- <p id="status">Please select a file</p>
-      <h2>Your information</h2> -->
       <hr>
     </div>
     <div>
 
-      <form method="POST" action="/submit-form/">
+      <form method="POST" action="">
         <input type="hidden" id="avatar_url" name="avatar_url" value="{{ user_columns.avatar }}">
         <h2>Your e-mail:</h2>
         <input style="width: 100%; height: 45px" type="text" name="user_email" value="{{ user_columns.user_email }}">
@@ -42,15 +42,54 @@
         <hr>
 
         <h2>New Password</h2>
-        <input style="width: 100%; height: 45px" type="text" name="new_psswd1" placeholder="Enter new password">
-        <br><br>
+        <!-- <input style="width: 100%; height: 45px" type="text" name="Password" placeholder="Enter new password"> -->
+        <!-- <br><br> -->
 
 
 
-        <input style="width: 100%; height: 45px" type="text" name="new_psswd2" placeholder="Repeat new password">
-        <br><br>
-        <br><br>
-        <input style="width: 100%; height: 45px" type="submit" value="Update profile">
+
+        <div class="form-group">
+          {{ form.Password.label(class="form-control-label") }}
+          {% if form.Password.errors %}
+          {{ form.Password(class="form-control form-control form-control-lg is-invalid")}}
+          <div class="invalid-feedback">
+            {% for error in form.Password.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+          {% else %}
+          {{ form.Password(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.Password2.label(class="form-control-label") }}
+          {% if form.Password2.errors %}
+          {{ form.Password2(class="form-control form-control form-control-lg is-invalid")}}
+          <div class="invalid-feedback">
+            {% for error in form.Password2.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+          {% else %}
+          {{ form.Password2(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+
+
+
+        <br>
+        <div style="text-align: center; color: #000000;">
+          {{ form.submit(style="height: 50px; width:200px; color: #000000")}}
+        </div>
+
+
+
+
+
+        <!-- <input style=" width: 100%; height: 45px" type="text" name="Password2" placeholder="Repeat new password">
+          -->
+
+        <!-- <input style="width: 100%; height: 45px" type="submit" value="Update profile"> -->
       </form>
     </div>
   </div>
