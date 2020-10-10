@@ -276,29 +276,44 @@ class Ticket(db.Model):
         return f"Ticket {self.ticket_id}: user_id: {self.user_id}; festival_id: {self.fest_id}"
 
 
-# TODO
-class SellersList:
-    pass
+class SellersList(db.Model):
+    __tablename__ = "SellerList"
+    entry_id = Column("entry_id", Integer, primary_key=True)
+    fest_id = Column("fest_id", Integer, ForeignKey("Festival.fest_id"), nullable=False)
+    seller_id = Column(
+        "seller_id", Integer, ForeignKey("Seller.seller_id"), nullable=False
+    )
+
+    fest = relationship("Festival", foreign_keys=fest_id)
+    seller = relationship("Seller", foreign_keys=seller_id)
+
+    def __init__(self, fest_id: int, seller_id: int):
+        self.fest_id = fest_id
+        self.seller_id = seller_id
+
+    def __repr__(self):
+        return f"Entry ID: {self.entry_id} - Seller id: {self.seller_id} -> Festival ID: {self.fest_id}"
 
 
-# TODO
-class BandMember:
+class BandMember(db.Model):
     """Representaton of music band member
     One member can be a member only for one band
     """
 
     __tablename__ = "BandMember"
+    person_id = Column("person_id", Integer, primary_key=True)
+    band_id = Column("band_id", Integer, ForeignKey("Band.band_id"), nullable=False)
+    name = Column("name", String(10), nullable=False)
+    surname = Column("surname", String(10), nullable=False)
+
+    band = relationship("Band", foreign_keys=band_id)
 
     def __init__(self, person_id: int, band_id: int, name: str, surname: str):
-        """[summary]
-
-        Args:
-            person_id (int):
-            band_id (int):
-            name (str):
-            surname (str):
-        """
-        self.person_id = person_id
         self.band_id = band_id
         self.name = name
         self.surname = surname
+
+    def __repr__(self):
+        return (
+            f"Band member {self.person_id}: {self.name}, {self.surname}, {self.band_id}"
+        )
