@@ -33,7 +33,7 @@ def home():
 
     if current_user.is_authenticated:
         return render_template(
-            "festivals.html", user_columns=current_user.avatar, posts=list_of_dicts
+            "festivals.html", user_columns=current_user, posts=list_of_dicts
         )
     return render_template("festivals.html", posts=list_of_dicts)
 
@@ -113,23 +113,8 @@ def login(user=None):
 @login_required
 @app.route("/account/", methods=["GET", "POST"])
 def account():
-    form = AccountForm()
     user = User.query.filter_by(user_id=current_user.user_id).first()
-    # print("asdasd" + str(user.name), flush=True)
-    # existing_user = User.find_by_email(email)
-    # form.firstname = user.name
-    # form.lastname = user.surname
-    # form.email = user.user_email
-    # print("Asdasd" + str(form.firstname), flush=True)
-    # form.Password = user.Password
-    # form.Password2 = user.Password2
-    if form.validate_on_submit():
-        flash("Changes have been saved", "success")
-    print(form.errors)
-    # return render_template("account.html", user_columns=user, form=form)
-    # Show the account-edit HTML page:
-
-    return render_template("account.html", user_columns=user, form=form)
+    return render_template("account.html", user_columns=user)
 
 
 # Listen for POST requests to yourdomain.com/submit_form/
@@ -137,18 +122,34 @@ def account():
 @app.route("/submit-form/", methods=["GET", "POST"])
 def submit_form():
 
-    Password = request.form["Password"]
-    Password2 = request.form["Password2"]
+    new_psswd1 = request.form["new_psswd1"]
+    new_psswd2 = request.form["new_psswd2"]
+    new_user_email = request.form["user_email"]
 
-    print(request.form["avatar_url"], flush=True)
-    # setattr(current_user, 'user_email', request.form["user_email"]) TODO: solve problem with foreign keys need to talk with xyadlo00
+    users_email = (
+        db.session.query(User.user_email)
+        .filter(current_user.user_email != User.user_email)
+        .all()
+    )
+
+    for i in users_email:
+        if i[0] == new_user_email:
+            flash("Email already exists", "warning")
+            return redirect("/account")
+
+    setattr(current_user, "user_email", request.form["user_email"])
     setattr(current_user, "name", request.form["name"])
     setattr(current_user, "surname", request.form["surname"])
     setattr(current_user, "address", request.form["address"])
     setattr(current_user, "avatar", request.form["avatar_url"])
 
-    # if Password == Password2:
-    #   TODO: solve psswd change - xaghay00 mb add validation into the form?
+    if new_psswd1 is not None and new_psswd2 is not None:
+        if new_psswd1 == new_psswd2:
+            current_user.set_password(new_psswd1)
+        else:
+            flash("Wrong password", "warning")
+            return redirect("/account")
+
     db.session.commit()
 
     # Redirect to the user's profile page, if appropriate
@@ -256,7 +257,6 @@ def my_tickets():
 @app.route("/manage_tickets")
 def manage_tickets():
     tickets = current_user.get_tickets()
-    st = 
     return "TODO"
 
 

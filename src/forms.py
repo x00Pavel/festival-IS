@@ -8,18 +8,18 @@ import phonenumbers
 from flask import request
 
 
-class AccountForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
-    firstname = StringField("First name", validators=[DataRequired(), Length(max=50)])
-    lastname = StringField("Last name", validators=[DataRequired(), Length(max=50)])
-    Password = PasswordField(
-        "Password", validators=[DataRequired(), Length(min=2, max=20)]
-    )
-    Password2 = PasswordField(
-        "Password Confirmation",
-        validators=[DataRequired(), Length(min=2, max=20), EqualTo("Password")],
-    )
-    submit = SubmitField("Update profile")
+# class AcountForm(FlaskForm):
+#    email = StringField("Email", validators=[DataRequired(), Email()])
+#    firstname = StringField("First name", validators=[DataRequired(), Length(max=50)])
+#    lastname = StringField("Last name", validators=[DataRequired(), Length(max=50)])
+#    Password = PasswordField(
+#        "Password", validators=[DataRequired(), Length(min=2, max=20)]
+#    )
+#    Password2 = PasswordField(
+#        "Password Confirmation",
+#        validators=[DataRequired(), Length(min=2, max=20), EqualTo("Password")],
+#    )
+#    submit = SubmitField("Update profile")
 
 
 class RegistrationForm(FlaskForm):
@@ -45,9 +45,7 @@ class RegistrationForm(FlaskForm):
 
     if not re.search(r"^[0-9]+:[0-9]+$", str(password)):
         # raise ValidationError("Invalid phone number.")
-        print(
-            "Asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasd"
-        )
+        print("BLYAT, RAUL!")
 
     # phone = StringField("Phone", validators=[DataRequired()])
 

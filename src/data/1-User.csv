@@ -1,6 +1,5 @@
 user_email,name,surname,passwd,avatar,perms,address
 test1@ok.com,test1,test1,pbkdf2:sha256:150000$sRRg5gov$c22e41829059b30058e040880a93452cdcfc39ba13ddfd84ba4fe939e38a219e,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png,4,"Brno, Veveri (), 2"
-test1@ok.com,test1,test1,pbkdf2:sha256:150000$sRRg5gov$c22e41829059b30058e040880a93452cdcfc39ba13ddfd84ba4fe939e38a219e,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png,4,"Brno, Veveri (), 2"
 test2@ok.com,test2,test2,pbkdf2:sha256:150000$c5qDZBA4$4bf4cd1334e51cc1e2cc7d1931c361279912e3457524d09bdd022032d034ac60,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png,4,"Brno, Bozetechova (Medlanki), 12"
 test3@ok.com,test3,test3,pbkdf2:sha256:150000$eWHdLjmc$4c34be9604e628ca7224834ec3e9894dade9588e2bc049929a4b5ab878cd797f,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png,4,"Brno, Medlanki (Veveri), 13"
 seller1@ok.com,seller1,seller1,pbkdf2:sha256:150000$eWHdLjmc$4c34be9604e628ca7224834ec3e9894dade9588e2bc049929a4b5ab878cd797f,https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png,3,"Brno, Medlanki (Veveri), 13"

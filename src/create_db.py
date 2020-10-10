@@ -134,7 +134,7 @@ class User(UserMixin, db.Model):
     __tablename__ = "User"
 
     user_id = Column("user_id", Integer, primary_key=True)
-    user_email = db.Column("user_email", db.Text, nullable=False)
+    user_email = db.Column("user_email", db.Text, nullable=False, unique=True)
     name = db.Column("name", db.Text, nullable=False)
     surname = db.Column("surname", db.Text, nullable=False)
     passwd = db.Column("passwd", db.Text, nullable=False)
@@ -215,19 +215,24 @@ class User(UserMixin, db.Model):
 
     def get_tickets(self):
         today = date.today()
-        actual_tickets = db.session.query(Ticket, User, Festival)\
-                                    .join(User)\
-                                    .filter_by(user_id=self.user_id)\
-                                    .join(Festival)\
-                                    .filter(Festival.time_from >= today)\
-                                    .all()
-        outdated_tickets = db.session.query(Ticket, User, Festival)\
-                                    .join(User)\
-                                    .filter_by(user_id=self.user_id)\
-                                    .join(Festival)\
-                                    .filter(Festival.time_from < today)\
-                                    .all()
+        actual_tickets = (
+            db.session.query(Ticket, User, Festival)
+            .join(User)
+            .filter_by(user_id=self.user_id)
+            .join(Festival)
+            .filter(Festival.time_from >= today)
+            .all()
+        )
+        outdated_tickets = (
+            db.session.query(Ticket, User, Festival)
+            .join(User)
+            .filter_by(user_id=self.user_id)
+            .join(Festival)
+            .filter(Festival.time_from < today)
+            .all()
+        )
         return actual_tickets, outdated_tickets
+
 
 class Seller(User):
     __tablename__ = "Seller"
