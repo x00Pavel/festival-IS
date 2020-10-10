@@ -61,7 +61,7 @@ class Festival(db.Model):
         return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}"
 
     @classmethod
-    def get_festival(fest_id):
+    def get_festival(self, fest_id):
         return Festival.query.filter_by(fest_id=fest_id).first()
 
 
