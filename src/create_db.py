@@ -194,6 +194,7 @@ class User(UserMixin, db.Model):
         self._is_anonymous = val
 
     def reserve_ticket(self, fest_id):
+        # TODO Send request for reservation to seller
         ticket = Ticket(self.user_id, fest_id)
         db.session.add(ticket)
         fest = Festival.query.filter_by(fest_id=fest_id).first()
@@ -244,6 +245,18 @@ class Organizer(Seller):
         super(Seller, self).__init__(**kwargs)
         self.org_id = self.get_id()
 
+    def add_seller(self):
+        pass
+
+    def add_fes(self):
+        pass
+
+    def add_stage(self):
+        pass
+
+    def add_band(self):
+
+
 
 class Admin(Organizer):
     __tablename__ = "Admin"
@@ -259,11 +272,18 @@ class Admin(Organizer):
         super(Organizer, self).__init__(**kwargs)
         self.admin_id = self.get_id()
 
+    def add_organizer(self):
+        pass
+
+    def delete_user(self):
+        pass
+
+    def list_users(self):
+        pass
+
 
 class RootAdmin(Admin):
-    """Reperesentation of root admin. Only this role can add new admins
-    WARNING: Not need __inti__ method, because this user is hardcoded
-    """
+    """Reperesentation of root admin. Only this role can add new admins"""
 
     __tablename__ = "RootAdmin"
     __mapper_args__ = {
@@ -277,6 +297,9 @@ class RootAdmin(Admin):
     def __init__(self, **kwargs):
         super(Admin, self).__init__(**kwargs)
         root_admin_id = self.get_id()
+
+    def add_admin(self):
+        pass
 
 
 class Ticket(db.Model):
