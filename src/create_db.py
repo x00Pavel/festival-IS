@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
     Column,
@@ -214,17 +214,20 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     def get_tickets(self):
-        tickets = Ticket.query.filter_by(user_id=self.user_id)
-        list_of_tickets = [
-            {
-                "ticket_id": ticket.ticket_id,
-                "user_id": ticket.user_id,
-                "fest_id": ticket.fest_id,
-            }
-            for ticket in tickets
-        ]
-        return list_of_tickets
-
+        today = date.today()
+        actual_tickets = db.session.query(Ticket, User, Festival)\
+                                    .join(User)\
+                                    .filter_by(user_id=self.user_id)\
+                                    .join(Festival)\
+                                    .filter(Festival.time_from >= today)\
+                                    .all()
+        outdated_tickets = db.session.query(Ticket, User, Festival)\
+                                    .join(User)\
+                                    .filter_by(user_id=self.user_id)\
+                                    .join(Festival)\
+                                    .filter(Festival.time_from < today)\
+                                    .all()
+        return actual_tickets, outdated_tickets
 
 class Seller(User):
     __tablename__ = "Seller"

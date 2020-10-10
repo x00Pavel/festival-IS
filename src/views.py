@@ -245,7 +245,11 @@ def ticket(fest_id):
 @app.route("/my_tickets")
 def my_tickets():
     tickets = current_user.get_tickets()
-    return render_template("ticket_page.html", tickets=tickets)
+    return render_template(
+        "ticket_page.html",
+        actual_tickets=tickets[0],
+        outdated_tickets=tickets[1],
+    )
 
 
 @login_required
