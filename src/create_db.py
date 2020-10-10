@@ -60,6 +60,10 @@ class Festival(db.Model):
     def __repr__(self):
         return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}"
 
+    @classmethod
+    def get_festival(fest_id):
+        return Festival.query.filter_by(fest_id=fest_id).first()
+
 
 class Stage(db.Model):
     __tablename__ = "Stage"
@@ -91,6 +95,10 @@ class Band(db.Model):
 
     def __repr__(self):
         return f"Band {self.band_id}: {self.name}"
+
+    # @classmethod
+    # def get_band(band_id):
+    #     pass
 
 
 class Performance(db.Model):
@@ -232,11 +240,19 @@ class Seller(User):
         super(User, self).__init__(**kwargs)
         self.seller_id = self.get_id()
 
-    def get_tickets(self, fest_id = None, user_id = None):
-        pass
+    def get_tickets(self, fest_id=None, user_id=None):
+        if fest_id is not None and user_id is not None:
+            return Ticket.query.filter(fest_id == fest_id, user_id == user_id)
+        elif fest_id is not None:
+            return Ticket.query.filter_by(fest_id=fest_id)
+        elif user_id is not None:
+            return Ticket.query.filter_by(user_id=user_id)
+        else:
+            return Ticket.query.all()
 
     def approve_ticket(self):
         pass
+
 
 class Organizer(Seller):
     __tablename__ = "Organizer"
@@ -262,6 +278,7 @@ class Organizer(Seller):
 
     def add_band(self):
         pass
+
 
 class Admin(Organizer):
     __tablename__ = "Admin"

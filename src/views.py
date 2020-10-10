@@ -110,10 +110,10 @@ def login(user=None):
 
 
 # Listen for GET requests to yourdomain.com/account/
-@app.route("/account/", methods=["GET", "POST"])
 @login_required
+@app.route("/account/", methods=["GET", "POST"])
 def account():
-    form = AcountForm()
+    form = AccountForm()
     user = User.query.filter_by(user_id=current_user.user_id).first()
     # print("asdasd" + str(user.name), flush=True)
     # existing_user = User.find_by_email(email)
@@ -194,8 +194,8 @@ def protected():
     return redirect("/")
 
 
-@app.route("/logout")
 @login_required
+@app.route("/logout")
 def logout():
     logout_user()
     return redirect("/")
@@ -203,13 +203,13 @@ def logout():
 
 @app.route("/festival/<fest_id>")
 def festival_page(fest_id):
-    fest = Festival.query.filter_by(fest_id=fest_id).first()
+    fest = Festival.get_festival(fest_id)
     return render_template("festival_page.html", fest=fest)
 
 
 @app.route("/festival/<fest_id>/ticket", methods=["GET", "POST"])
 def ticket(fest_id):
-    fest = Festival.query.filter_by(fest_id=fest_id).first()
+    fest = Festival.get_festival(fest_id)
     form = (
         TicketForm()
         if current_user.is_anonymous
@@ -251,7 +251,9 @@ def my_tickets():
 @login_required
 @app.route("/manage_tickets")
 def manage_tickets():
-    pass
+    tickets = current_user.get_tickets()
+    st = 
+    return "TODO"
 
 
 @login_required

@@ -8,7 +8,7 @@ import phonenumbers
 from flask import request
 
 
-class AcountForm(FlaskForm):
+class AccountForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     firstname = StringField("First name", validators=[DataRequired(), Length(max=50)])
     lastname = StringField("Last name", validators=[DataRequired(), Length(max=50)])
