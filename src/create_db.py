@@ -261,8 +261,7 @@ class Organizer(Seller):
         pass
 
     def add_band(self):
-
-
+        pass
 
 class Admin(Organizer):
     __tablename__ = "Admin"

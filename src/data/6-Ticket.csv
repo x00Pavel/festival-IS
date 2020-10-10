@@ -1,4 +1,4 @@
-user_id,fest_id
-1,1
-2,2
-3,2
+user_id,fest_id,approved
+1,1,False
+2,2,False
+3,2,False
