@@ -34,7 +34,28 @@ class Festival(db.Model):
     )
     age_restriction = db.Column("age_restriction", db.Integer, nullable=False)
 
-    # TODO: tmp representation.
+    def __init__(
+        self,
+        fest_name,
+        description,
+        style,
+        address,
+        cost,
+        time_from,
+        time_to,
+        max_capacity=1000,
+        current_ticket_count=0,
+    ):
+        self.fest_name = fest_name
+        self.description = description
+        self.style = style
+        self.address = address
+        self.cost = cost
+        self.time_from = time_from
+        self.time_to = time_to
+        self.max_capacity = max_capacity
+        self.current_ticket_count = current_ticket_count
+
     def __repr__(self):
         return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}"
 
@@ -43,6 +64,9 @@ class Stage(db.Model):
     __tablename__ = "Stage"
     stage_id = db.Column("stage_id", db.Integer, primary_key=True)
     size = db.Column("size", db.Integer)
+
+    def __init__(self, size):
+        self.size = size
 
     def __repr__(self):
         return f"Stager {self.stage_id}: size: {self.size}"
@@ -57,8 +81,15 @@ class Band(db.Model):
     genre = db.Column("genre", db.Text, nullable=False)
     tags = db.Column("tags", db.Text)
 
+    def __init__(self, name, logo, scores, genre, tags):
+        self.name = name
+        self.logo = logo
+        self.scores = scores
+        self.genre = genre
+        self.tags = tags
+
     def __repr__(self):
-        return f"<Band {self.band_id}: {self.name}>"
+        return f"Band {self.band_id}: {self.name}"
 
 
 class Performance(db.Model):
@@ -80,8 +111,9 @@ class Performance(db.Model):
     band = db.relationship("Band", foreign_keys=band_id)  # backref ?
     stage = db.relationship("Stage", foreign_keys=stage_id)  # backref ?
 
-    def __init__(self, stage_id, band_id):
+    def __init__(self, fest_id, stage_id, band_id):
         # TODO check if given numbers exist in corresponding tables
+        self.fest_id = fest_id
         self.stage_id = stage_id
         self.band_id = band_id
 
