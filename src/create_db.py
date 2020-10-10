@@ -7,6 +7,7 @@ from sqlalchemy import (
     Date,
     ForeignKey,
     String,
+    Boolean,
     ForeignKeyConstraint,
 )
 from sqlalchemy.orm import relationship
@@ -231,6 +232,11 @@ class Seller(User):
         super(User, self).__init__(**kwargs)
         self.seller_id = self.get_id()
 
+    def get_tickets(self, fest_id = None, user_id = None):
+        pass
+
+    def approve_ticket(self):
+        pass
 
 class Organizer(Seller):
     __tablename__ = "Organizer"
@@ -313,6 +319,7 @@ class Ticket(db.Model):
 
     __tablename__ = "Ticket"
     ticket_id = db.Column("ticket_id", db.Integer, primary_key=True)
+    approved = Column("approved", Boolean, nullable=False, default=False)
     user_id = db.Column(
         "user_id", Integer, db.ForeignKey("User.user_id"), nullable=False
     )
