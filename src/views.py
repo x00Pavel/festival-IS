@@ -203,13 +203,13 @@ def ticket(fest_id):
     )
 
     if form.is_submitted():
-        if anonim:
-            BaseUser.reserve_ticket(form, fest_id)
-        else:
-            try:
+        try:
+            if anonim:
+                BaseUser.reserve_ticket(form, fest_id)
+            else:
                 current_user.reserve_ticket(fest_id)
-            except ValueError as e:
-                flash(e, type="error")
+        except ValueError as e:
+            flash(f'{e}', "warning")
 
         # if current_user.is_anonymous:>?
         flash("Ticket is successfully reserved", category="message")
