@@ -275,7 +275,7 @@ class Seller(User):
         super(User, self).__init__(**kwargs)
         self.seller_id = self.get_id()
 
-    def get_tickets(self, fest_id=None, user_id=None):
+    def get_all_tickets(self, fest_id=None, user_id=None):
         if fest_id is not None and user_id is not None:
             return Ticket.query.filter(fest_id == fest_id, user_id == user_id)
         elif fest_id is not None:

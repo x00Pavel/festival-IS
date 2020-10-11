@@ -237,7 +237,7 @@ def my_tickets():
 @login_required
 @app.route("/manage_tickets")
 def manage_tickets():
-    tickets = current_user.get_tickets()
+    tickets = current_user.get_all_tickets()
     return "TODO"
 
 
