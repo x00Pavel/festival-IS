@@ -52,11 +52,10 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         perms = int(request.form["options"])
-        _, role = ROLES[perms]
         email = form.email.data
         existing_user = User.find_by_email(email)
         if existing_user is None:
-            new_user = User.register(form, perms)
+            new_user = BaseUser.register(form, perms)
             flash(f"Account created for {form.username.data}!", "success")
             return login(user=new_user)
         else:
