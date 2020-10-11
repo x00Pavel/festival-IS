@@ -189,9 +189,10 @@ def festival_page(fest_id):
 @app.route("/festival/<fest_id>/ticket", methods=["GET", "POST"])
 def ticket(fest_id):
     fest = Festival.get_festival(fest_id)
+    anonim = current_user.is_anonymous
     form = (
         TicketForm()
-        if current_user.is_anonymous
+        if anonim
         else TicketForm(
             formdata=MultiDict(
                 {
@@ -203,10 +204,13 @@ def ticket(fest_id):
     )
 
     if form.is_submitted():
-        try:
-            current_user.reserve_ticket(fest_id)
-        except ValueError as e:
-            flash(e, type="error")
+        if anonim:
+            BaseUser.reserve_ticket(form, fest_id)
+        else:
+            try:
+                current_user.reserve_ticket(fest_id)
+            except ValueError as e:
+                flash(e, type="error")
 
         # if current_user.is_anonymous:>?
         flash("Ticket is successfully reserved", category="message")

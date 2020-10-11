@@ -35,29 +35,6 @@ class Festival(db.Model):
     )
     age_restriction = db.Column("age_restriction", db.Integer, nullable=False)
     sale = db.Column("sale", db.Integer, nullable=False, default=0)
-    def __init__(
-        self,
-        fest_name,
-        description,
-        style,
-        address,
-        cost,
-        time_from,
-        time_to,
-        max_capacity=1000,
-        current_ticket_count=0,
-        sale=0,
-    ):
-        self.fest_name = fest_name
-        self.description = description
-        self.style = style
-        self.address = address
-        self.cost = cost
-        self.time_from = time_from
-        self.time_to = time_to
-        self.max_capacity = max_capacity
-        self.current_ticket_count = current_ticket_count
-        self.sale = sale
 
     def __repr__(self):
         return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}, {self.sale}"
@@ -132,6 +109,51 @@ class Performance(db.Model):
         return f"Performance {self.perf_id}: festival_id: {self.fk_fest_id}; stage_id: {self.fk_stage_id}; band_id: {self.fk_band_id}"
 
 
+class BaseUser:
+    @classmethod
+    def reserve_ticket(cls, form, fest_id):
+        ticket = Ticket(
+            user_email=form.user_email.data,
+            name=form.user_name.data,
+            surname=form.user_surname.data,
+            fest_id=fest_id,
+        )
+        db.session.add(ticket)
+        fest = Festival.query.filter_by(fest_id=fest_id).first()
+        if fest.current_ticket_count != fest.max_capacity:
+            fest.current_ticket_count += 1
+        else:
+            # TODO: do it better
+            db.session.commit()
+            raise ValueError("Festival is already out of tickets")
+        db.session.commit()
+
+    @classmethod
+    def register(cls, form, perms):
+        email = form.email.data
+        name = form.firstname.data
+        surname = form.lastname.data
+        passwd_hash = generate_password_hash(form.password.data, method="sha256")
+        address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
+        table = None
+        if perms == 4:
+            table = User
+        elif perms == 2:
+            table = Organizer
+        new_user = table(
+            user_email=email,
+            name=name,
+            surname=surname,
+            perms=perms,
+            passwd=passwd_hash,
+            address=address,
+            avatar=None,
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return new_user
+
+
 class User(UserMixin, db.Model):
     __tablename__ = "User"
 
@@ -204,35 +226,8 @@ class User(UserMixin, db.Model):
     def is_anonymous(self, val):
         self._is_anonymous = val
 
-    @classmethod
-    def register(cls, form, perms):
-        email = form.email.data
-        name = form.firstname.data
-        surname = form.lastname.data
-        passwd_hash = generate_password_hash(form.password.data, method="sha256")
-        address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
-        table = None
-        if perms == 4:
-            table = User
-        elif perms == 2:
-            table = Organizer
-        new_user = table(
-            user_email=email,
-            name=name,
-            surname=surname,
-            perms=perms,
-            passwd=passwd_hash,
-            address=address,
-            avatar=None,
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        return new_user
-
-
     def reserve_ticket(self, fest_id):
-        # TODO Send request for reservation to seller
-        ticket = Ticket(self.user_id, fest_id)
+        ticket = Ticket(user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname)
         db.session.add(ticket)
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         if fest.current_ticket_count != fest.max_capacity:
@@ -247,13 +242,13 @@ class User(UserMixin, db.Model):
         outdated_tickets = []
         tickets = Ticket.query.filter_by(user_id=self.user_id).all()
         for ticket in tickets:
-            if (ticket.fest.time_from >= today):
+            if ticket.fest.time_from >= today:
                 actual_tickets.append(ticket)
             else:
                 outdated_tickets.append(ticket)
         return actual_tickets, outdated_tickets
 
-        
+
 class Seller(User):
     __tablename__ = "Seller"
     __mapper_args__ = {
@@ -305,13 +300,15 @@ class Organizer(Seller):
         passwd_hash = generate_password_hash(form.password.data, method="sha256")
         address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
 
-        seller = Seller(user_email=email,
+        seller = Seller(
+            user_email=email,
             name=name,
             surname=surname,
             perms=3,
             passwd=passwd_hash,
             address=address,
-            avatar=None,)
+            avatar=None,
+        )
         db.session.add(seller)
         db.session.commit()
 
@@ -384,8 +381,8 @@ class Ticket(db.Model):
         ticket_id (int): unique ID of ticket
         approved (bool): represents if given ticket is aproved or not
         user_email (string): used for ticket reservation for an unothorized user
-        name (string): name of person 
-        surname (string): surname of person 
+        name (string): name of person
+        surname (string): surname of person
         user_id (int): ID of user, that bought this ticket
         fest_id (int): festival ID ticket corresponds to
     """
@@ -395,7 +392,7 @@ class Ticket(db.Model):
     user_email = Column("user_email", Text, nullable=True)
     name = Column("name", String(20), nullable=False)
     surname = Column("surname", String(20), nullable=False)
-    
+
     user_id = db.Column(
         "user_id", Integer, db.ForeignKey("User.user_id"), nullable=True
     )
@@ -407,9 +404,6 @@ class Ticket(db.Model):
     user = db.relationship("User", foreign_keys=user_id)
     fest = db.relationship("Festival", foreign_keys=fest_id)
 
-    def __init__(self, user_id, fest_id):
-        self.user_id = user_id
-        self.fest_id = fest_id
 
     def __repr__(self):
         return f"Ticket {self.ticket_id}: user_id: {self.user_id}; festival_id: {self.fest_id}"

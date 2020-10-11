@@ -77,3 +77,4 @@ class TicketForm(FlaskForm):
     submit = SubmitField("Reserve")
     user_name = StringField("Name", validators=[DataRequired()])
     user_surname = StringField("Surname", validators=[DataRequired()])
+    user_email = StringField("Email", validators=[DataRequired()])
