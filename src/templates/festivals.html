@@ -1,9 +1,7 @@
 {% extends "ralaot.html" %}
 {% block content %}
 
-<head>
-	<link rel="shortcut icon" href="">
-</head>
+
 
 <body>
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -37,7 +35,69 @@
 
 
 
+	<!-- Filter bar  -->
+	<div class="filter_bar">
+		<div class="dropdown_for_filter">
+			<button onclick="myFunction('1')" class="dropbtn_for_filter">Style <i class="arrow down"></i></button>
+			<div id="1" class="dropdown-content_for_filter">
+				<a href="#">Link 1</a>
+				<a href="#">Link 2</a>
+				<a href="#">Link 3</a>
+			</div>
 
+		</div>
+		<div class="dropdown_for_filter">
+			<button onclick="myFunction('2')" class="dropbtn_for_filter">Price <i class="arrow down"></i></button>
+			<div id="2" class="dropdown-content_for_filter">
+
+
+				<div class="containera">
+
+					<input type="range" min="0" max="6" value="0" id="slider">
+					<p class="ticket_price">Maxiumum ticket price is </p>
+					<div class="values">
+						<div class="wrapper" id="wrapper">
+							<span>100</span>
+							<span>500</span>
+							<span>1000</span>
+							<span>2000</span>
+							<span>3000</span>
+							<span>4000</span>
+							<span>5000</span>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="dropdown_for_filter">
+				<button onclick="myFunction('3')" class="dropbtn_for_filter">Date <i class="arrow down"></i></button>
+				<div id="3" class="dropdown-content_for_filter">
+
+
+
+					<label for="start">Starting:</label>
+
+					<input type="date" id="start" name="fest-start" value="2020-10-21" min="2020-01-01"
+						max="2020-12-31">
+
+
+					<label for="start">Finishing:</label>
+
+					<input type="date" id="start" name="fest-finish" value="2018-07-23" min="2020-01-01"
+						max="2020-12-31">
+
+
+
+
+				</div>
+			</div>
+			<input class="check_box_for_sales_box" type="checkbox" id="scales" name="scales">
+			<label class="check_box_for_sales" for="scales">Tickeks with sale</label>
+		</div>
+	</div>
+
+	<!-- End of filter bar -->
 
 
 
@@ -65,4 +125,48 @@
 		}
 	</style>
 </body>
+<script>
+
+	/* When the user clicks on the button,
+	toggle between hiding and showing the dropdown content */
+	function myFunction(a) {
+
+		document.getElementById(a).classList.toggle("show_for_filter");
+	}
+
+	// Close the dropdown menu if the user clicks outside of it
+	// window.onclick = function (event) {
+	// 	if (!event.target.matches('.dropbtn_for_filter')) {
+	// 		var dropdowns = document.getElementsByClassName("dropdown-content_for_filter");
+	// 		var i;
+	// 		for (i = 0; i < dropdowns.length; i++) {
+	// 			var openDropdown = dropdowns[i];
+	// 			if (openDropdown.classList.contains('show_for_filter')) {
+	// 				openDropdown.classList.remove('show_for_filter');
+	// 			}
+	// 		}
+	// 	}
+	// } 
+</script>
+<!-- <script>
+	var slider = document.getElementById("myRange");
+	var output = document.getElementById("demo");
+	output.innerHTML = slider.value; // Display the default slider value
+
+
+	// Update the current slider value (each time you drag the slider handle)
+	slider.oninput = function () {
+		output.innerHTML = this.value;
+	} 
+</script> -->
+<script type="text/javascript">
+	$('input').popup(); 
+</script>
+<script>
+	var slider = document.getElementById("slider");
+	var values = document.getElementById("wrapper");
+	slider.oninput = function () {
+		values.style.bottom = slider.value * 40 + "px";
+	}
+</script>
 {% endblock content %}
