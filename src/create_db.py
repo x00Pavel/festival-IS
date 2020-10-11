@@ -34,7 +34,7 @@ class Festival(db.Model):
         "current_ticket_count", db.Integer, nullable=False, default=0
     )
     age_restriction = db.Column("age_restriction", db.Integer, nullable=False)
-
+    sale = db.Column("sale", db.Integer, nullable=False, default=0)
     def __init__(
         self,
         fest_name,
@@ -46,6 +46,7 @@ class Festival(db.Model):
         time_to,
         max_capacity=1000,
         current_ticket_count=0,
+        sale=0,
     ):
         self.fest_name = fest_name
         self.description = description
@@ -56,9 +57,10 @@ class Festival(db.Model):
         self.time_to = time_to
         self.max_capacity = max_capacity
         self.current_ticket_count = current_ticket_count
+        self.sale = sale
 
     def __repr__(self):
-        return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}"
+        return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}, {self.sale}"
 
     @classmethod
     def get_festival(self, fest_id):
