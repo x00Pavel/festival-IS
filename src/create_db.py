@@ -202,6 +202,32 @@ class User(UserMixin, db.Model):
     def is_anonymous(self, val):
         self._is_anonymous = val
 
+    @classmethod
+    def register(cls, form, perms):
+        email = form.email.data
+        name = form.firstname.data
+        surname = form.lastname.data
+        passwd_hash = generate_password_hash(form.password.data, method="sha256")
+        address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
+        table = None
+        if perms == 4:
+            table = User
+        elif perms == 2:
+            table = Organizer
+        new_user = table(
+            user_email=email,
+            name=name,
+            surname=surname,
+            perms=perms,
+            passwd=passwd_hash,
+            address=address,
+            avatar=None,
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return new_user
+
+
     def reserve_ticket(self, fest_id):
         # TODO Send request for reservation to seller
         ticket = Ticket(self.user_id, fest_id)
@@ -275,10 +301,27 @@ class Organizer(Seller):
         super(Seller, self).__init__(**kwargs)
         self.org_id = self.get_id()
 
-    def add_seller(self):
-        pass
+    def get_sellers(self):
+        return [row for row in Seller.query.all()]
 
-    def add_fes(self):
+    def add_seller(self, **kwargs):
+        email = form.email.data
+        name = form.firstname.data
+        surname = form.lastname.data
+        passwd_hash = generate_password_hash(form.password.data, method="sha256")
+        address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
+
+        seller = Seller(user_email=email,
+            name=name,
+            surname=surname,
+            perms=3,
+            passwd=passwd_hash,
+            address=address,
+            avatar=None,)
+        db.session.add(seller)
+        db.session.commit()
+
+    def add_fest(self):
         pass
 
     def add_stage(self):

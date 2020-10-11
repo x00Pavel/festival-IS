@@ -60,25 +60,11 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         perms = int(request.form["options"])
-        _, table = ROLES[perms]
+        _, role = ROLES[perms]
         email = form.email.data
         existing_user = User.find_by_email(email)
         if existing_user is None:
-            name = form.firstname.data
-            surname = form.lastname.data
-            passwd_hash = generate_password_hash(form.password.data, method="sha256")
-            address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
-            new_user = table(
-                user_email=email,
-                name=name,
-                surname=surname,
-                perms=perms,
-                passwd=passwd_hash,
-                address=address,
-                avatar=None,
-            )
-            db.session.add(new_user)
-            db.session.commit()
+            new_user = User.register(form, perms)
             flash(f"Account created for {form.username.data}!", "success")
             return login(user=new_user)
         else:
@@ -243,7 +229,7 @@ def ticket(fest_id):
 
 
 @login_required
-@app.route("/my_tickets")
+@app.route("/my_tickets", methods=["GET", "POST"])
 def my_tickets():
     tickets = current_user.get_tickets()
     return render_template(
@@ -261,9 +247,18 @@ def manage_tickets():
 
 
 @login_required
-@app.route("/manage_sellers")
+@app.route("/manage_sellers", methods=["GET", "POST"])
 def manage_sellers():
-    return "<h2>TODO</h2> function manage_sellers"
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        existing_user = User.find_by_email(form.email.data)
+        if existing_user is None:
+            current_user.add_seller(form)
+            flash(f"Seller {form.username.data} successfully added!", "success")
+        else:
+            flash(f"Email {email} is already registered!", "danger")
+
+    return render_template("sellers_page.html", sellers=current_user.get_sellers(), form=form)
 
 
 @login_required
