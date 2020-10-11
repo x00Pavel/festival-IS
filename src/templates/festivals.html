@@ -47,7 +47,8 @@
 			{% for post in posts %}
 			{% if post.description != None %}
 			<figure class="team-member">
-				<img src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350" width="100%" alt="">
+				<a href="{{ post.fest_id }}"> <img class="grid-pic"
+						src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" alt=""></a>
 			</figure>
 			{% endif %}
 			{% endfor %}
@@ -55,85 +56,9 @@
 	</div>
 
 
-	<!-- 
-	{% for post in posts %}
-	{% if post.description != None %}
-	<div class="toprow">
-
-		<div class="row">
-
-			<div class="column">
-				<a href="/{{ post.fest_id}}">
-					<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
-						alt="Snow" style="width:100%">
-				</a>
-				<h1 class="description">{{ post.description }}</h1>
-				<p class="description2">{{ post.address }}</p>
-
-			</div>
-		</div>
-	</div>
-	{% endif %}
-	{% endfor %} -->
-
-
-
-
-
-
-
-
-	<!-- 
-	<div class="toprow">
-		<div class="row">
-			<div class="column">
-				<a href="https://vk.com/id152618548">
-					<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
-						alt="Snow" style="width:100%">
-				</a>
-				<h1 class="description">FESTIVAL SUNSHINE</h1>
-				<p class="descriptidescriptionon2">Malaga, Portugal | 21.07-22.08</p>
-
-			</div>
-			<div class="column">
-				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
-					alt="Forest" style="width:100%">
-			</div>
-			<div class="column">
-				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
-					alt="Mountains" style="width:100%">
-				<p class="description">FESTIVAL LOVE</p>
-			</div>
-			<div class="column">
-				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
-					alt="Mountains" style="width:100%">
-				<p class="description">FESTIVAL HAPPINES</p>
-			</div>
-		</div>
-		<br />
-		</fieldset>
-
-		<div class="row">
-			<div class="column">
-				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
-					alt="Forest" style="width:100%">
-				<p class="description">FESTIVAL CLOUD</p>
-			</div>
-			<div class="column">
-				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
-					alt="Forest" style="width:100%">
-				<p class="description">FESTIVAL NATUSVINCERE</p>
-			</div>
-			<div class="column">
-				<img class="roundimage" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" height="350"
-					alt="Forest" style="width:100%">
-				<p class="description">FESTIVAL LIQUID</p>
-			</div>
-		</div>
-	</div> -->
 	<style>
 		body {
-			background-image: url('static/blackbg.jpg');
+			background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/blackbg.jpg');
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;

@@ -287,26 +287,34 @@ padding-top: 5px;
 
 
 .grid-container {
-  width: 95%;
-  max-width: 1200px;
+  /* width: 95%; */
+  /* min-width: 100; */
+  /* max-width: 1200px; */
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 1em;
   margin-top: 30px;  
-  float: left;
-  grid-column-gap: 1em;
+  /* float: left; */
+  grid-column-gap: 3em;
 
 
 }
-@media screen and (max-width: 50em) 
+@media screen and (max-width: 400em) 
 {
-  grid-container
+  .grid-container
   {
-     grid-template-columns : repeat(auto-fit, minmax(15em, 1fr));
+     grid-template-columns : repeat(auto-fit, minmax(350px, 1fr));
   }
 }
 
 
 
-
+.grid-pic{
+  object-fit: cover;
+  width: 370px;
+  height: 450px;
+  min-width: 370px;
+  min-height: 450px;
+ 
+}
