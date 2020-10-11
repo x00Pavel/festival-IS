@@ -61,7 +61,7 @@ class Festival(db.Model):
         return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}"
 
     @classmethod
-    def get_festival(fest_id):
+    def get_festival(self, fest_id):
         return Festival.query.filter_by(fest_id=fest_id).first()
 
 
@@ -241,25 +241,17 @@ class User(UserMixin, db.Model):
 
     def get_tickets(self):
         today = date.today()
-        actual_tickets = (
-            db.session.query(Ticket, User, Festival)
-            .join(User)
-            .filter_by(user_id=self.user_id)
-            .join(Festival)
-            .filter(Festival.time_from >= today)
-            .all()
-        )
-        outdated_tickets = (
-            db.session.query(Ticket, User, Festival)
-            .join(User)
-            .filter_by(user_id=self.user_id)
-            .join(Festival)
-            .filter(Festival.time_from < today)
-            .all()
-        )
+        actual_tickets = []
+        outdated_tickets = []
+        tickets = Ticket.query.filter_by(user_id=self.user_id).all()
+        for ticket in tickets:
+            if (ticket.fest.time_from >= today):
+                actual_tickets.append(ticket)
+            else:
+                outdated_tickets.append(ticket)
         return actual_tickets, outdated_tickets
 
-
+        
 class Seller(User):
     __tablename__ = "Seller"
     __mapper_args__ = {

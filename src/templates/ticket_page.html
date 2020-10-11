@@ -1,21 +1,21 @@
 <div>
     <h2>Your actual reservations</h2>
     {% for ticket  in actual_tickets %}
-    Ticket id: {{ ticket[0].ticket_id }}
+    Ticket id: {{ ticket.ticket_id }}
     <br>
-    Festival name: {{ ticket[2].fest_id }}
+    Festival name: {{ ticket.fest.fest_name }}
     <br>
-    User email: {{ ticket[1].user_email }}
+    User email: {{ ticket.user.user_email }}
     <br>
     <br>
     {% endfor %}
     <h2>Your outdated reservations</h2>
     {% for ticket  in outdated_tickets %}
-    Ticket id: {{ ticket[0].ticket_id }}
+    Ticket id: {{ ticket.ticket_id }}
     <br>
-    Festival name: {{ ticket[2].fest_id }}
+    Festival name: {{ ticket.fest.fest_name }}
     <br>
-    User email: {{ ticket[1].user_email }}
+    User email: {{ ticket.user.user_email }}
     <br>
     <br>
     {% endfor %}
