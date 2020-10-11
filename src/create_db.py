@@ -112,6 +112,11 @@ class Performance(db.Model):
 class BaseUser:
     @classmethod
     def reserve_ticket(cls, form, fest_id):
+        blocker = Ticket.query.filter_by(user_email=form.user_email.data, approved=False).count()
+        if (blocker > 3):
+            raise ValueError("""You have already issued the maximum reservations for this festival,
+                                please pay for part of the reservations,
+                                or contact us to cancel your reservation.""")
         ticket = Ticket(
             user_email=form.user_email.data,
             name=form.user_name.data,
@@ -123,7 +128,6 @@ class BaseUser:
         if fest.current_ticket_count != fest.max_capacity:
             fest.current_ticket_count += 1
         else:
-            # TODO: do it better
             db.session.commit()
             raise ValueError("Festival is already out of tickets")
         db.session.commit()
@@ -227,6 +231,10 @@ class User(UserMixin, db.Model):
         self._is_anonymous = val
 
     def reserve_ticket(self, fest_id):
+        blocker = Ticket.query.filter_by(fest_id=fest_id, user_id=self.user_id, approved=False).count()
+        if (blocker > 5):
+            raise ValueError("""You have already issued the maximum reservations for this festival,
+                                please pay for part of the reservations, or cancel it.""")
         ticket = Ticket(user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname)
         db.session.add(ticket)
         fest = Festival.query.filter_by(fest_id=fest_id).first()
