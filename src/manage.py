@@ -64,12 +64,12 @@ def import_db():
     cur = conn.cursor()
     for i in sorted(os.listdir("src/data")):
         if i.endswith(".csv"):
-            table = i[2:-4]
+            table = i.split("-")[1].split(".")[0]
             print(f"From src/data/{i} - To table {table}")
             with open(f"src/data/{i}", "r") as f:
                 header = f.readline()
                 cur.copy_expert(
-                    f'COPY "{i[2:-4]}" ({header}) FROM STDIN CSV', f,
+                    f'COPY "{table}" ({header}) FROM STDIN CSV', f,
                 )
             conn.commit()
     cur.close()

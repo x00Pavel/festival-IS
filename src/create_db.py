@@ -10,7 +10,7 @@ from sqlalchemy import (
     Boolean,
     ForeignKeyConstraint,
 )
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from festival_is import app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -95,7 +95,7 @@ class Performance(db.Model):
     # time_from = db.Column("time_from", db.Date, nullable=False) TODO also edit CSV for performances
     # time_to = db.Column("time_to", db.Date, nullable=False)
 
-    fest = db.relationship("Festival", foreign_keys=fest_id)  # backref ?
+    fest = db.relationship("Festival", foreign_keys=fest_id, backref=backref("Performance", cascade="all,delete"))  # backref ?
     band = db.relationship("Band", foreign_keys=band_id)  # backref ?
     stage = db.relationship("Stage", foreign_keys=stage_id)  # backref ?
 
@@ -236,6 +236,10 @@ class User(UserMixin, db.Model):
             raise ValueError("Festival is already out of tickets")
         db.session.commit()
 
+    def cancel_ticket(self, ticket_id):
+        # TODO:
+        pass
+
     def get_tickets(self):
         today = date.today()
         actual_tickets = []
@@ -321,7 +325,9 @@ class Organizer(Seller):
         db.session.commit()
 
     def cancel_fest(self, fest_id):
-        pass
+        fest = Festival.query.filter_by(fest_id=fest_id).first()
+        db.session.delete(fest)
+        db.session.commit()
 
     def add_stage(self):
         pass
@@ -402,7 +408,7 @@ class Ticket(db.Model):
     approved = Column("approved", Boolean, nullable=False, default=False)
 
     user = db.relationship("User", foreign_keys=user_id)
-    fest = db.relationship("Festival", foreign_keys=fest_id)
+    fest = db.relationship("Festival", foreign_keys=fest_id, backref=backref("Ticket", cascade="all,delete"))
 
 
     def __repr__(self):
@@ -417,12 +423,9 @@ class SellersList(db.Model):
         "seller_id", Integer, ForeignKey("Seller.seller_id"), nullable=False
     )
 
-    fest = relationship("Festival", foreign_keys=fest_id)
+    fest = relationship("Festival", foreign_keys=fest_id, backref=backref("SellerList", cascade="all,delete"))
     seller = relationship("Seller", foreign_keys=seller_id)
 
-    def __init__(self, fest_id: int, seller_id: int):
-        self.fest_id = fest_id
-        self.seller_id = seller_id
 
     def __repr__(self):
         return f"Entry ID: {self.entry_id} - Seller id: {self.seller_id} -> Festival ID: {self.fest_id}"
