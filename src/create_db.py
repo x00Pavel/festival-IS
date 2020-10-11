@@ -322,7 +322,7 @@ class Organizer(Seller):
         db.session.commit()
 
     def cancel_fest(self, fest_id):
-        
+        pass
 
     def add_stage(self):
         pass
@@ -380,19 +380,27 @@ class Ticket(db.Model):
 
     Attributes:
         ticket_id (int): unique ID of ticket
-        fk_user_email (string): email of user, that bought this ticket
-        fk_fest_id (int): festival ID ticket corresponds to
+        approved (bool): represents if given ticket is aproved or not
+        user_email (string): used for ticket reservation for an unothorized user
+        name (string): name of person 
+        surname (string): surname of person 
+        user_id (int): ID of user, that bought this ticket
+        fest_id (int): festival ID ticket corresponds to
     """
 
     __tablename__ = "Ticket"
     ticket_id = db.Column("ticket_id", db.Integer, primary_key=True)
-    approved = Column("approved", Boolean, nullable=False, default=False)
+    user_email = Column("user_email", Text, nullable=True)
+    name = Column("name", String(20), nullable=False)
+    surname = Column("surname", String(20), nullable=False)
+    
     user_id = db.Column(
-        "user_id", Integer, db.ForeignKey("User.user_id"), nullable=False
+        "user_id", Integer, db.ForeignKey("User.user_id"), nullable=True
     )
     fest_id = db.Column(
         "fest_id", Integer, db.ForeignKey("Festival.fest_id"), nullable=False
     )
+    approved = Column("approved", Boolean, nullable=False, default=False)
 
     user = db.relationship("User", foreign_keys=user_id)
     fest = db.relationship("Festival", foreign_keys=fest_id)

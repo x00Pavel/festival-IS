@@ -3,11 +3,9 @@ from datetime import datetime
 from festival_is import app
 from create_db import db, RootAdmin
 from werkzeug.security import generate_password_hash
-from views import ROLES
 import psycopg2
 import os
 import sys
-
 
 manager = Manager(app)
 
