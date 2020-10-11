@@ -313,8 +313,16 @@ class Organizer(Seller):
         db.session.add(seller)
         db.session.commit()
 
-    def add_fest(self):
-        pass
+    def get_all_festivals(self):
+        return [row for row in Festival.query.all()]
+
+    def add_fest(self, **kwargs):
+        fest = Festival(**kwargs)
+        db.session.add(fest)
+        db.session.commit()
+
+    def cancel_fest(self, fest_id):
+        
 
     def add_stage(self):
         pass

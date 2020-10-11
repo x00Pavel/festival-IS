@@ -1,0 +1,19 @@
+<div>
+    {% for fest in fests %}
+    <h2>{{fest.fest_name}}</h2>
+    <h3>Description:{{fest.description}}</h3>
+    <h3>Cost: {{ fest.cost }}</h3>
+    <h3>Age restriciton: {{ fest.age_restriction }}</h3>
+    <a href="/manage_festivals/{{ fest.fest_id }}/del"><button>Delete festvival</button></a>
+    <br>
+    <br>
+    {% endfor %}
+</div>
+
+<div>
+    <h2>Add festival</h2>
+    <form action="/manage_festivals" method="POST">
+        <!-- TODO -->
+
+    </form>
+</div>

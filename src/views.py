@@ -9,14 +9,6 @@ import os
 import urllib.parse
 from werkzeug.datastructures import MultiDict
 
-ROLES = {
-    4: ("User", User),
-    3: ("Seller", Seller),
-    2: ("Organizer", Organizer),
-    1: ("Admin", Admin),
-    0: ("RootAdmin", RootAdmin),
-}
-
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -262,10 +254,23 @@ def manage_sellers():
 
 
 @login_required
+@app.route("/manage_sellers/<seller_id>", methods=["GET", "POST"])
+def seller_info(seller_id):
+    return "<h2>TODO</h2> function seller_info"
+
+
+@login_required
 @app.route("/manage_festivals")
 def manage_festivals():
-    return "<h2>TODO</h2> function manage_festivals"
+    fests = current_user.get_all_festivals()
+    return render_template("manage_festival_page.html", fests=fests)
 
+
+@login_required
+@app.route("/manage_festivals/<fest_id>/del")
+def cancel_fest(fest_id):
+    current_user.cancel_fest(fest_id)
+    return redirect("/manage_festivals")
 
 @login_required
 @app.route("/manage_organizers")

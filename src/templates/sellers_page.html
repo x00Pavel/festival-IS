@@ -1,7 +1,8 @@
 <div>
+    <h1>TODO adding festivals to sellers</h1>
     <h2>Existing sellers</h2>
     {% for seller  in sellers %}
-    Seler: {{ seller }}
+    Seler: {{ seller.name }} <a href="/manage_sellers/<seller.seller_id>"><button>Info</button></a>
     <br>
     {% endfor %}
 
