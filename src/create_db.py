@@ -245,8 +245,10 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     def cancel_ticket(self, ticket_id):
-        # TODO:
-        pass
+        ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
+        ticket.fest.current_ticket_count -= 1
+        db.session.delete(ticket)
+        db.session.commit()
 
     def get_tickets(self):
         today = date.today()

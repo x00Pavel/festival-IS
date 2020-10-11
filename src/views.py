@@ -233,6 +233,11 @@ def my_tickets():
         outdated_tickets=tickets[1],
     )
 
+@login_required
+@app.route("/my_tickets/<ticket_id>/cancel")
+def cancel_ticket(ticket_id):
+    current_user.cancel_ticket(ticket_id)
+    return redirect("/my_tickets")
 
 @login_required
 @app.route("/manage_tickets")

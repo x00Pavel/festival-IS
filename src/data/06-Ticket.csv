@@ -2,9 +2,9 @@ user_email,user_id,name,surname,fest_id,approved
 unathorized1@ok.com,,unathorized1,unathorized1,1,False
 unathorized2@ok.com,,unathorized2,unathorized2,2,False
 test1@ok.com,2,test1,test1,2,False
-test1@ok.com,2,test1,test1,6,False
-test1@ok.com,2,test1,test1,7,False
-test1@ok.com,2,test1,test1,8,False
+test2@ok.com,3,test2,test2,6,False
+test3@ok.com,4,test3,test3,7,False
+test3@ok.com,4,test3,test3,8,False
 test1@ok.com,2,test1,test1,9,False
 test1@ok.com,2,test1,test1,10,False
 test1@ok.com,2,mama,mama,12,False

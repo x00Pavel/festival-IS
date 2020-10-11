@@ -7,6 +7,9 @@
     <br>
     User email: {{ ticket.user.user_email }}
     <br>
+    <a href="/my_tickets/{{ ticket.ticket_id }}/cancel">
+        <button>Cancel ticket</button>
+    </a>
     <br>
     {% endfor %}
     <h2>Your outdated reservations</h2>
