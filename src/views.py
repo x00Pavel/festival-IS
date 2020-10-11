@@ -227,6 +227,8 @@ def ticket(fest_id):
 @app.route("/my_tickets", methods=["GET", "POST"])
 def my_tickets():
     tickets = current_user.get_tickets()
+    if not tickets:
+       return redirect("/") 
     return render_template(
         "ticket_page.html",
         actual_tickets=tickets[0],
