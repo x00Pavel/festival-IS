@@ -40,12 +40,19 @@
 		<div class="dropdown_for_filter">
 			<button onclick="myFunction('1')" class="dropbtn_for_filter">Style <i class="arrow down"></i></button>
 			<div id="1" class="dropdown-content_for_filter">
-				<a href="#">Link 1</a>
-				<a href="#">Link 2</a>
-				<a href="#">Link 3</a>
+
+
+				<a href="#">Rok</a>
+				<a href="#">Hip-Hop</a>
+				<a href="#">Indi</a>
+
+				<a style="font-size: 18px; border-top: 3px solid red; width: 100%;" href="#">Delete all filters
+					&#10005;</a>
 			</div>
 
 		</div>
+
+
 		<div class="dropdown_for_filter">
 			<button onclick="myFunction('2')" class="dropbtn_for_filter">Price <i class="arrow down"></i></button>
 			<div id="2" class="dropdown-content_for_filter">
@@ -70,6 +77,8 @@
 
 
 			</div>
+
+
 			<div class="dropdown_for_filter">
 				<button onclick="myFunction('3')" class="dropbtn_for_filter">Date <i class="arrow down"></i></button>
 				<div id="3" class="dropdown-content_for_filter">
@@ -84,7 +93,7 @@
 
 					<label for="start">Finishing:</label>
 
-					<input type="date" id="start" name="fest-finish" value="2018-07-23" min="2020-01-01"
+					<input type="date" id="finish" name="fest-finish" value="2018-07-23" min="2020-01-01"
 						max="2020-12-31">
 
 
@@ -92,7 +101,7 @@
 
 				</div>
 			</div>
-			<input class="check_box_for_sales_box" type="checkbox" id="scales" name="scales">
+			<input class="check_box_for_sales_box" type="checkbox" id="sales" name="sales">
 			<label class="check_box_for_sales" for="scales">Tickeks with sale</label>
 		</div>
 	</div>
@@ -107,7 +116,7 @@
 			{% for post in posts %}
 			{% if post.description != None %}
 			<figure class="team-member">
-				<a href="festival/{{ post.fest_id }}"> <img class="grid-pic"
+				<a href="{{ post.fest_id }}"> <img class="grid-pic"
 						src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" alt=""></a>
 			</figure>
 			{% endif %}
@@ -135,30 +144,20 @@
 	}
 
 	// Close the dropdown menu if the user clicks outside of it
-	// window.onclick = function (event) {
-	// 	if (!event.target.matches('.dropbtn_for_filter')) {
-	// 		var dropdowns = document.getElementsByClassName("dropdown-content_for_filter");
-	// 		var i;
-	// 		for (i = 0; i < dropdowns.length; i++) {
-	// 			var openDropdown = dropdowns[i];
-	// 			if (openDropdown.classList.contains('show_for_filter')) {
-	// 				openDropdown.classList.remove('show_for_filter');
-	// 			}
-	// 		}
-	// 	}
-	// } 
-</script>
-<!-- <script>
-	var slider = document.getElementById("myRange");
-	var output = document.getElementById("demo");
-	output.innerHTML = slider.value; // Display the default slider value
-
-
-	// Update the current slider value (each time you drag the slider handle)
-	slider.oninput = function () {
-		output.innerHTML = this.value;
+	window.onclick = function (event) {
+		if (!event.target.matches('.dropbtn_for_filter')) {
+			var dropdowns = document.getElementsByClassName("containera");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show_for_filter')) {
+					openDropdown.classList.remove('show_for_filter');
+				}
+			}
+		}
 	} 
-</script> -->
+</script>
+
 <script type="text/javascript">
 	$('input').popup(); 
 </script>

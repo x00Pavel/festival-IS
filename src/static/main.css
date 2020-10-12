@@ -138,9 +138,6 @@ display: inline-block;
   margin-top: -2%;
 }
 
-.site-header .navbar-nav {
-  /* margin-left: 13%; */
-} 
 
 
 
@@ -172,7 +169,7 @@ display: inline-block;
 
 
 .lmforsecondbut{
-  margin-left: : 50%;
+  margin-left: 50%;
 }
 
 
@@ -300,12 +297,32 @@ padding-top: 5px;
 
 
 }
+.containera{
+
+    height: 60px;
+    width: 650px;
+    /* position: absolute; */
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 25px 10px 
+    rgba(255,0,0,1);
+    /* padding: 0 10px; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
 @media screen and (max-width: 400em) 
 {
   .grid-container
   {
      grid-template-columns : repeat(auto-fit, minmax(350px, 1fr));
   }
+
+
 }
 
 
@@ -326,11 +343,29 @@ padding-top: 5px;
 
 
 .filter_bar {
-  overflow: hidden;
-  height: 200px;
+  /* overflow: hidden; */
+  height: 90px;
   border: #ff0000;
   border-style: solid;
   
+}
+@media screen and (max-width: 1200px) {
+  .filter_bar {
+    /* overflow: hidden; */
+    height: 300px;
+    /* float: left; */
+    border: #ff0000;
+    border-style: solid;
+    
+  }
+  .containera{
+
+    width: 400px;
+
+}
+
+
+
 }
 
 /* Style the links inside the navigation bar */
@@ -425,6 +460,8 @@ padding-top: 5px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   margin-left: 80px;
+    border: none;
+  cursor: pointer;
 }
 
 /* Links inside the dropdown */
@@ -466,33 +503,16 @@ form  {
 }
 
 
-.containera{
 
-    height: 60px;
-    width: 650px;
-    /* position: absolute; */
-    margin: auto;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    border-radius: 5px;
-    box-shadow: 0 0 25px 10px 
-    rgba(255,0,0,1);
-    /* padding: 0 10px; */
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-input[type="range"]{
+ input[type="range"]{
   width: 100%;
   height: 3.5px;
-  
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
   background-color: #dcdcdc;
   border-radius: 3px;
   outline: none;
 }
+
 input[type="range"]::-webkit-slider-thumb{
   -webkit-appearance: none;
   height: 20px;
@@ -501,10 +521,11 @@ input[type="range"]::-webkit-slider-thumb{
   cursor: pointer;
   border-radius: 50%;
 }
+
 input[type="range"]:active::-webkit-slider-thumb{
   background-color:white;
   border: 5px solid #1c1c1c; 
-}
+} 
 .values{
   width: 21%;
   height: 40px;
@@ -548,4 +569,16 @@ label {
 
 
 
+
+
+
+.content-section_for_my_tickets
+{
+    border: 1px solid black;
+  background: #ffffff;
+  padding: 10px 20px; 
+  width: 600px; 
+  border: 10px solid #dddddd;
+   margin-bottom: 10px;  
+}
 

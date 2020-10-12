@@ -1,32 +1,131 @@
-<div>
-    <h2>Your actual reservations</h2>
-    {% for ticket  in actual_tickets %}
-    Ticket id: {{ ticket.ticket_id }}
-    <br>
-    Festival name: {{ ticket.fest.fest_name }}
-    <br>
-    User email: {{ ticket.user.user_email }}
-    <br>
-    reservation status: {{ ticket.approved }}
-    <br>
-    Cancellation reason: {{ ticket.reason }}
-    <br>
-    <a href="/my_tickets/{{ ticket.ticket_id }}/cancel">
-        <button>Cancel ticket</button>
-    </a>
-    <br>
-    {% endfor %}
-    <h2>Your outdated reservations</h2>
+{% extends "ralaot.html" %}
+{% block content %}
+
+<head>
+    <style>
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td,
+        #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:nth-child(odd) {
+
+            background-color: #BEBEBE;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #000000;
+            color: white;
+        }
+    </style>
+
+
+</head>
+<div style="margin-top: 120px;">
+    <h2 style="margin-left: 1%; color: white;"> Your actual reservations</h2>
+
+
+    <table id="customers">
+
+        <tr>
+            <th>RESERVATION №:</th>
+            <th>FESTIVAL NAME:</th>
+            <th>DATE OF START</th>
+            <th>DATE OF END</th>
+            <th>USER EMAIL:</th>
+            <th>RESERVATION STATUS:</th>
+            <th>CANCELLATION REASON:</th>
+
+
+        </tr>
+        {% for ticket  in actual_tickets %}
+
+        <tr>
+            <td class="td_field">{{ ticket.ticket_id }}</td>
+            <td>{{ ticket.fest.fest_name }}</td>
+            <td>{{ ticket.fest.time_from }}</td>
+            <td>{{ ticket.fest.time_to }}</td>
+            <td>{{ ticket.user.user_email }}</td>
+            {% if ticket.approved == 0%}
+            <td style="background-color: #FFFF99;  max-width: 100px;">WAITING FOR CONFIRMATION</td>
+            {% elif  ticket.approved == 1%}
+            <td style="background-color: #99FF99;">CONFIRMED</td>
+            {% else %}
+            <td style="background-color: #F08080;">CANCELED</td>
+            {% endif%}
+            {% if ticket.approved == 0 %}
+
+
+            <td><a href="/my_tickets/{{ ticket.ticket_id }}/cancel">
+                    <button>Cancel ticket</button>
+                </a></td>
+            {%  else %}
+            <td>
+                <h1 style="font-size:14px;"> {{ ticket.reason }}</h1>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <h2 style="margin-left: 1%; color: white; background-color:black;"> Your outdated
+        reservations</h2>
     {% for ticket  in outdated_tickets %}
-    Ticket id: {{ ticket.ticket_id }}
-    <br>
-    Festival name: {{ ticket.fest.fest_name }}
-    <br>
-    User email: {{ ticket.user.user_email }}
-    <br>
-    reservation status: {{ ticket.approved }}
-    <br>
-    Cancellation reason: {{ ticket.reason }}
-    <br>
-    {% endfor %}
+    <table id="customers">
+        <tr>
+            <th>RESERVATION №:</th>
+            <th>FESTIVAL NAME:</th>
+            <th>DATE OF START</th>
+            <th>DATE OF END</th>
+            <th>USER EMAIL:</th>
+            <th>RESERVATION STATUS:</th>
+            <th>CANCELLATION REASON:</th>
+
+        </tr>
+
+        <tr>
+            <td>{{ ticket.ticket_id }}</td>
+            <td>{{ ticket.fest.fest_name }}</td>
+            <td>{{ ticket.fest.time_from }}</td>
+            <td>{{ ticket.fest.time_to }}</td>
+            <td>{{ ticket.user.user_email }}</td>
+            {% if ticket.approved == 0%}
+            <td style="background-color: #FFFF99; max-width: 100px;">OUTDATED</td>
+            {% elif  ticket.approved == 1%}
+            <td style="background-color: #99FF99;">CONFIRMED</td>
+            {% else %}
+            <td style="background-color: #F08080;">CANCELED</td>
+            {% endif%}
+            <td>
+                <h1 style="font-size:14px;"> {{ ticket.reason }}</h1>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
 </div>
+<style>
+    body {
+        background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/background.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+{% endblock content %}

@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <link rel="shortcut icon" href="#">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -18,19 +19,7 @@
 </head>
 
 <body>
-  <div class="row">
-    <div class="col-md-8">
-      {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-      {% for category, message in messages %}
-      <div class="alert alert-{{ category }} " style="top:120px; left:20%;">
-        {{ message }}
-      </div>
-      {% endfor %}
-      {% endif %}
-      {% endwith %}
-    </div>
-  </div>
+
 
 
 
@@ -40,9 +29,24 @@
         <button class='navbar-toggler' style="color:#fff" data-toggle='collapse' data-target='#collapseElements'>
           &#9776;
         </button>
+
+
         <div class="">
           <a class="logoimgclass" href="/">
-            <img src="https://festival-static.s3-eu-west-1.amazonaws.com/F.jpg" alt=""></a>
+            <img src="https://festival-static.s3-eu-west-1.amazonaws.com/F.jpg" style="margin-bottom: -9%;" alt=""></a>
+          <div class="row">
+            <div class="col-md-8">
+              {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+              {% for category, message in messages %}
+              <div class="alert alert-{{ category }} " style="margin-left: 70px; width: 550px; height: 50px;">
+                {{ message }}
+              </div>
+              {% endfor %}
+              {% endif %}
+              {% endwith %}
+            </div>
+          </div>
         </div>
         <div class="collapse collapse-toggleable-xs navbar-collapse" id="collapseElements">
           <div class="navbar-nav mr-auto"></div>
@@ -52,8 +56,8 @@
             {% if current_user.is_authenticated %}
 
             <div class="dropdown">
-              <button onclick="myFunction()" class="dropbtn"><img src="{{ user_columns.avatar }}" class="user_logo"
-                  alt=""></a></button>
+              <button onclick="myFunction_for_template_dropdown()" class="dropbtn"><img src="{{ user_columns.avatar }}"
+                  class="user_logo" alt=""></a></button>
               <div id="Demo" class="dropdown-content">
                 <a class="site-header" href="{{ url_for('my_tickets') }}">My tickets</a>
                 <a class="site-header" href="{{ url_for('account') }}">My account</a>
@@ -82,7 +86,7 @@
 
             <!-- Dropdown menu script -->
             <script>
-              function myFunction() {
+              function myFunction_for_template_dropdown() {
                 var x = document.getElementById("Demo");
                 if (x.className.indexOf("w3-show") == -1) {
                   x.className += " w3-show";

@@ -209,7 +209,7 @@ def ticket(fest_id):
             else:
                 current_user.reserve_ticket(fest_id)
         except ValueError as e:
-            flash(f'{e}', "warning")
+            flash(f"{e}", "warning")
 
         # if current_user.is_anonymous:>?
         flash("Ticket is successfully reserved", category="message")
@@ -226,20 +226,24 @@ def ticket(fest_id):
 @login_required
 @app.route("/my_tickets", methods=["GET", "POST"])
 def my_tickets():
+    user = User.query.filter_by(user_id=current_user.user_id).first()
     tickets = current_user.get_tickets()
     if not tickets:
-       return redirect("/") 
+        return redirect("/")
     return render_template(
         "ticket_page.html",
         actual_tickets=tickets[0],
         outdated_tickets=tickets[1],
+        user_columns=user,
     )
+
 
 @login_required
 @app.route("/my_tickets/<ticket_id>/cancel")
 def cancel_ticket(ticket_id):
     current_user.cancel_ticket(ticket_id)
     return redirect("/my_tickets")
+
 
 @login_required
 @app.route("/manage_tickets")
@@ -260,7 +264,9 @@ def manage_sellers():
         else:
             flash(f"Email {email} is already registered!", "danger")
 
-    return render_template("sellers_page.html", sellers=current_user.get_sellers(), form=form)
+    return render_template(
+        "sellers_page.html", sellers=current_user.get_sellers(), form=form
+    )
 
 
 @login_required
@@ -281,6 +287,7 @@ def manage_festivals():
 def cancel_fest(fest_id):
     current_user.cancel_fest(fest_id)
     return redirect("/manage_festivals")
+
 
 @login_required
 @app.route("/manage_organizers")
