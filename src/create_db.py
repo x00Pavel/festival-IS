@@ -253,9 +253,9 @@ class User(UserMixin, db.Model):
 
     def get_tickets(self):
         today = date.today()
-        actual_tickets = []
-        outdated_tickets = []
+        actual_tickets, outdated_tickets = [], []
         tickets = Ticket.query.filter_by(user_id=self.user_id).all()
+        tickets.sort(key=lambda ticket: ticket.fest.time_from)
         for ticket in tickets:
             if ticket.fest.time_from >= today:
                 actual_tickets.append(ticket)
