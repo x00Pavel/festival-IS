@@ -7,6 +7,10 @@
     <br>
     User email: {{ ticket.user.user_email }}
     <br>
+    reservation status: {{ ticket.approved }}
+    <br>
+    Cancellation reason: {{ ticket.reason }}
+    <br>
     <a href="/my_tickets/{{ ticket.ticket_id }}/cancel">
         <button>Cancel ticket</button>
     </a>
@@ -20,6 +24,9 @@
     <br>
     User email: {{ ticket.user.user_email }}
     <br>
+    reservation status: {{ ticket.approved }}
+    <br>
+    Cancellation reason: {{ ticket.reason }}
     <br>
     {% endfor %}
 </div>

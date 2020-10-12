@@ -112,7 +112,7 @@ class Performance(db.Model):
 class BaseUser:
     @classmethod
     def reserve_ticket(cls, form, fest_id):
-        blocker = Ticket.query.filter_by(user_email=form.user_email.data, approved=False).count()
+        blocker = Ticket.query.filter_by(user_email=form.user_email.data, approved=0).count()
         if (blocker > 3):
             raise ValueError("""You have already issued the maximum reservations for this festival,
                                 please pay for part of the reservations,
@@ -231,7 +231,7 @@ class User(UserMixin, db.Model):
         self._is_anonymous = val
 
     def reserve_ticket(self, fest_id):
-        blocker = Ticket.query.filter_by(fest_id=fest_id, user_id=self.user_id, approved=False).count()
+        blocker = Ticket.query.filter_by(fest_id=fest_id, user_id=self.user_id, approved=0).count()
         if (blocker > 5):
             raise ValueError("""You have already issued the maximum reservations for this festival,
                                 please pay for part of the reservations, or cancel it.""")
@@ -247,7 +247,8 @@ class User(UserMixin, db.Model):
     def cancel_ticket(self, ticket_id):
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
         ticket.fest.current_ticket_count -= 1
-        db.session.delete(ticket)
+        ticket.approved = 2
+        ticket.reason = f"Canceled by {ticket.user.user_email}"
         db.session.commit()
 
     def get_tickets(self):
@@ -395,7 +396,8 @@ class Ticket(db.Model):
 
     Attributes:
         ticket_id (int): unique ID of ticket
-        approved (bool): represents if given ticket is aproved or not
+        approved (int): represents if given ticket is approved - 1 / not - 0 / cancelled - 2
+        reason (string): reason of cancelation
         user_email (string): used for ticket reservation for an unothorized user
         name (string): name of person
         surname (string): surname of person
@@ -415,7 +417,8 @@ class Ticket(db.Model):
     fest_id = db.Column(
         "fest_id", Integer, db.ForeignKey("Festival.fest_id"), nullable=False
     )
-    approved = Column("approved", Boolean, nullable=False, default=False)
+    approved = Column("approved", Integer, nullable=False, default=0)
+    reason = Column("reason", String(50))
 
     user = db.relationship("User", foreign_keys=user_id)
     fest = db.relationship("Festival", foreign_keys=fest_id, backref=backref("Ticket", cascade="all,delete"))

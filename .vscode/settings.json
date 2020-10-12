@@ -4,5 +4,17 @@
     "python.linting.pylintArgs": [
         "--load-plugins",
         "pylint-flask"
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "database": "festival",
+            "username": "admin",
+            "password": "admin",
+            "name": "local_festival"
+        }
     ]
 }
