@@ -1,0 +1,25 @@
+
+    <div>
+        <h2>Actual Festivals</h2>
+        {% for fest  in fests %}
+            <h3>FESTIVAL TABLE -> {{fest.fest_id}} - {{fest.fest.fest_name}}</h3>
+            <h4>ROWS WITH TICKETS -> CAN BE EMPTY</h4>
+            <br>
+            {% for ticket  in tickets %}
+                {% if ticket.fest_id == fest.fest_id %}
+                    <h4>Row Example :: {{ ticket.ticket_id }} - {{ ticket.user.name }} - {{ ticket.user.surname }} - {{ ticket.user.user_email }} - {{ ticket.approved }} - {{ ticket.reason }}</h4>
+                    <a href="/manage_tickets/{{ ticket.ticket_id }}/approve">
+                        <button>Approve ticket</button>
+                    </a>
+                    <a href="/manage_tickets/{{ ticket.ticket_id }}/cancel">
+                        <button>Cancel ticket</button>
+                    </a>
+                    <form method="POST">
+                        <input type="text" name="Reason-{{ ticket.ticket_id }}"><br>
+                    </form>
+                {% endif %}
+            {% endfor %}
+            <br>
+            <br>
+        {% endfor %}
+    </div>

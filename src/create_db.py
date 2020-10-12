@@ -248,7 +248,7 @@ class User(UserMixin, db.Model):
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
         ticket.fest.current_ticket_count -= 1
         ticket.approved = 2
-        ticket.reason = f"Canceled by {ticket.user.user_email}"
+        ticket.reason = f"Canceled by {self.user_email}"
         db.session.commit()
 
     def get_tickets(self):
@@ -288,9 +288,31 @@ class Seller(User):
         else:
             return Ticket.query.all()
 
-    def approve_ticket(self):
-        pass
+    def get_sellers_tickets(self):
+        fests = SellersList.query.filter_by(seller_id=self.seller_id).all()
+        fests.sort(key=lambda festlist: festlist.fest.time_from)
+        tickets = Ticket.query.filter(Ticket.fest_id.in_([f.fest_id for f in fests])).all()
+        tickets.sort(key=lambda ticket: ticket.fest.time_from)
+        return fests, tickets
 
+    def manage_ticket(self, ticket_id, action, reason):
+        ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
+
+        if (action == "approve"):
+            ticket.approved = 1
+        elif (action == "cancel"):
+            ticket.fest.current_ticket_count -= 1
+            ticket.approved = 2
+
+        if (reason == "" and action == "approve"):
+            ticket.reason = f"Approved by {self.user_email}"
+        elif (reason == "" and action == "cancel"):
+            ticket.reason = f"Cancelled by {self.user_email}"
+        else:
+            ticket.reason = reason
+            
+        db.session.commit()
+        pass
 
 class Organizer(Seller):
     __tablename__ = "Organizer"

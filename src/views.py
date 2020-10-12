@@ -248,12 +248,22 @@ def cancel_ticket(ticket_id):
 @login_required
 @app.route("/manage_tickets")
 def manage_tickets():
-    tickets = current_user.get_all_tickets()
-    return "TODO"
-
+    fests, tickets = current_user.get_sellers_tickets()
+    return render_template(
+        "manage_tickets.html",
+        tickets=tickets,
+        fests=fests,
+    )
 
 @login_required
-@app.route("/manage_sellers", methods=["GET", "POST"])
+@app.route("/manage_tickets/<ticket_id>/<action>")
+def cancel_ticket_seller(ticket_id, action, methods=["POST"]):
+    reason = "" #TODO request.form[f"Reason-{ticket_id}"]
+    current_user.manage_ticket(ticket_id, action, reason)
+    return redirect("/manage_tickets")
+
+@login_required
+@app.route("/manage_sellers")
 def manage_sellers():
     form = RegistrationForm()
     if form.validate_on_submit():
