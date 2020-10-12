@@ -257,9 +257,9 @@ def manage_tickets():
 
 @login_required
 @app.route("/manage_tickets/<ticket_id>/<action>")
-def cancel_ticket_seller(ticket_id, action, methods=["POST"]):
+def manage_ticket_seller(ticket_id, action, methods=["POST"]):
     reason = "" #TODO request.form[f"Reason-{ticket_id}"]
-    current_user.manage_ticket(ticket_id, action, reason)
+    current_user.manage_ticket_seller(ticket_id, action, reason)
     return redirect("/manage_tickets")
 
 @login_required

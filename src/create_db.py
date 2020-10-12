@@ -295,7 +295,7 @@ class Seller(User):
         tickets.sort(key=lambda ticket: ticket.fest.time_from)
         return fests, tickets
 
-    def manage_ticket(self, ticket_id, action, reason):
+    def manage_ticket_seller(self, ticket_id, action, reason):
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
 
         if (action == "approve"):
@@ -310,7 +310,7 @@ class Seller(User):
             ticket.reason = f"Cancelled by {self.user_email}"
         else:
             ticket.reason = reason
-            
+
         db.session.commit()
         pass
 
