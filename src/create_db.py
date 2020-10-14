@@ -156,7 +156,7 @@ class BaseUser:
         db.session.add(new_user)
         db.session.commit()
         return new_user
-
+   
 
 class User(UserMixin, db.Model):
     __tablename__ = "User"
@@ -179,15 +179,6 @@ class User(UserMixin, db.Model):
     _is_authenticated = True
     _is_active = True
     _is_anonymous = False
-
-    def __init__(self, user_email, name, surname, perms, passwd, address, avatar=None):
-        self.user_email = user_email
-        self.name = name
-        self.surname = surname
-        self.perms = perms
-        self.passwd = passwd
-        self.avatar = avatar
-        self.address = address
 
     def __repr__(self):
         return f"{self.perms} {self.user_id}: {self.name} {self.surname}"
