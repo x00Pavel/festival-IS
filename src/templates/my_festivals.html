@@ -1,0 +1,18 @@
+<div>
+    <h2>Actual Festivals</h2>
+    {% for fest  in actual_fests %}
+    <h3>FESTIVAL -> {{fest.fest_id}} - {{fest.fest.fest_name}}</h3>
+    <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets">
+        <button>manage tickets</button>
+    </a>
+    <br>
+    {% endfor %}
+    <h2>Outdated Festivals</h2>
+    {% for fest  in outdated_fests %}
+    <h3>FESTIVAL -> {{fest.fest_id}} - {{fest.fest.fest_name}}</h3>
+    <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets">
+        <button>manage tickets</button>
+    </a>
+    <br>
+    {% endfor %}
+</div>

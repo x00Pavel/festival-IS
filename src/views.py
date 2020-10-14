@@ -226,7 +226,6 @@ def ticket(fest_id):
 @login_required
 @app.route("/my_tickets", methods=["GET", "POST"])
 def my_tickets():
-    user = User.query.filter_by(user_id=current_user.user_id).first()
     tickets = current_user.get_tickets()
     if not tickets:
         return redirect("/")
@@ -234,9 +233,7 @@ def my_tickets():
         "ticket_page.html",
         actual_tickets=tickets[0],
         outdated_tickets=tickets[1],
-        user_columns=user,
     )
-
 
 @login_required
 @app.route("/my_tickets/<ticket_id>/cancel")
@@ -244,23 +241,33 @@ def cancel_ticket(ticket_id):
     current_user.cancel_ticket(ticket_id)
     return redirect("/my_tickets")
 
-
 @login_required
-@app.route("/manage_tickets")
-def manage_tickets():
-    fests, tickets = current_user.get_sellers_tickets()
+@app.route("/my_festivals")
+def my_festivals():
+    fests = current_user.get_festivals()
+    if not fests:
+        return redirect("/")
     return render_template(
-        "manage_tickets.html",
-        tickets=tickets,
-        fests=fests,
+        "my_festivals.html",
+        actual_fests=fests[0],
+        outdated_fests=fests[1],
     )
 
 @login_required
-@app.route("/manage_tickets/<ticket_id>/<action>")
-def manage_ticket_seller(ticket_id, action, methods=["POST"]):
+@app.route("/my_festivals/<fest_id>/manage_tickets")
+def manage_tickets(fest_id):
+    tickets = current_user.get_sellers_tickets(fest_id)
+    return render_template(
+        "manage_tickets.html",
+        tickets=tickets,
+    )
+
+@login_required
+@app.route("/my_festivals/<fest_id>/manage_tickets/<ticket_id>/<action>")
+def manage_ticket_seller(fest_id, ticket_id, action, methods=["POST"]):
     reason = "" #TODO request.form[f"Reason-{ticket_id}"]
     current_user.manage_ticket_seller(ticket_id, action, reason)
-    return redirect("/manage_tickets")
+    return redirect(f"/my_festivals/{fest_id}/manage_tickets")
 
 @login_required
 @app.route("/manage_sellers")

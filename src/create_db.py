@@ -288,12 +288,21 @@ class Seller(User):
         else:
             return Ticket.query.all()
 
-    def get_sellers_tickets(self):
+    def get_festivals(self):
+        today = date.today()
+        actual_fests, outdated_fests = [], []
         fests = SellersList.query.filter_by(seller_id=self.seller_id).all()
         fests.sort(key=lambda festlist: festlist.fest.time_from)
-        tickets = Ticket.query.filter(Ticket.fest_id.in_([f.fest_id for f in fests])).all()
-        tickets.sort(key=lambda ticket: ticket.fest.time_from)
-        return fests, tickets
+        for fest in fests:
+            if fest.fest.time_from >= today:
+                actual_fests.append(fest)
+            else:
+                outdated_fests.append(fest)
+        return actual_fests, outdated_fests
+
+    def get_sellers_tickets(self, fest_id):
+        tickets = Ticket.query.filter_by(fest_id=fest_id).all()
+        return tickets
 
     def manage_ticket_seller(self, ticket_id, action, reason):
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
