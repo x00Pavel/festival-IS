@@ -236,11 +236,13 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     def cancel_ticket(self, ticket_id):
+        today = date.today()
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
-        ticket.fest.current_ticket_count -= 1
-        ticket.approved = 2
-        ticket.reason = f"Canceled by {self.user_email}"
-        db.session.commit()
+        if (ticket.approved == 0 and today < ticket.fest.time_to):
+            ticket.fest.current_ticket_count -= 1
+            ticket.approved = 2
+            ticket.reason = f"Canceled by {self.user_email}"
+            db.session.commit()
 
     def get_tickets(self):
         today = date.today()
@@ -297,22 +299,21 @@ class Seller(User):
 
     def manage_ticket_seller(self, ticket_id, action, reason):
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
-
-        if (action == "approve"):
+        today = date.today()
+        if (action == "approve" and ticket.approved == 0 and today < ticket.fest.time_to):
             ticket.approved = 1
-        elif (action == "cancel"):
+            if (reason == ""):
+                ticket.reason = f"Approved by {self.user_email}"
+            else:
+                ticket.reason = reason
+        elif (action == "cancel" and ticket.approved == 0 and today < ticket.fest.time_to):
             ticket.fest.current_ticket_count -= 1
             ticket.approved = 2
-
-        if (reason == "" and action == "approve"):
-            ticket.reason = f"Approved by {self.user_email}"
-        elif (reason == "" and action == "cancel"):
-            ticket.reason = f"Cancelled by {self.user_email}"
-        else:
-            ticket.reason = reason
-
+            if (reason == ""):
+                ticket.reason = f"Cancelled by {self.user_email}"
+            else:
+                ticket.reason = reason
         db.session.commit()
-        pass
 
 class Organizer(Seller):
     __tablename__ = "Organizer"

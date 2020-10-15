@@ -233,6 +233,7 @@ def my_tickets():
         "ticket_page.html",
         actual_tickets=tickets[0],
         outdated_tickets=tickets[1],
+        user_columns=current_user,
     )
 
 @login_required
@@ -251,6 +252,7 @@ def my_festivals():
         "my_festivals.html",
         actual_fests=fests[0],
         outdated_fests=fests[1],
+        user_columns=current_user,
     )
 
 @login_required
@@ -260,6 +262,7 @@ def manage_tickets(fest_id):
     return render_template(
         "manage_tickets.html",
         tickets=tickets,
+        user_columns=current_user,
     )
 
 @login_required
