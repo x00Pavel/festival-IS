@@ -2,3 +2,10 @@ fest_id,stage_id,band_id,canceled
 1,1,1,False
 1,1,2,False
 2,3,3,False
+2,4,1,False
+2,6,7,False
+7,4,7,False
+7,5,6,False
+7,6,5,False
+8,2,3,False
+8,5,5,False
