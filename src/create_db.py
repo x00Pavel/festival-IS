@@ -64,6 +64,7 @@ class Band(db.Model):
     scores = db.Column("scores", db.Integer, nullable=False, default=1)
     genre = db.Column("genre", db.Text, nullable=False)
     tags = db.Column("tags", db.Text)
+    deleted_on = Column("deleted_on", Date, default=None)
 
     def __repr__(self):
         return f"Band {self.band_id}: {self.name}"
@@ -363,14 +364,15 @@ class Organizer(Seller):
         band = Band(name=form.band_name.data, logo=form.band_logo.data, scores=form.band_scores.data, genre=form.band_genre.data, tags=form.band_tags.data)
         db.session.add(band)
         db.session.commit()
+        
 
     def delete_band(self, band_id):
         band = Band.query.filter_by(band_id=band_id).first()
+        band.deleted_on = datetime.now().strftime("%x %X")
+
         all_perfs = Performance.query.filter_by(band_id=band_id)
         for perf in all_perfs:
-            perf.band_id = None
             perf.canceled = True
-        db.session.delete(band)
         db.session.commit()
 
 
