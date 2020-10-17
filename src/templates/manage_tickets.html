@@ -5,14 +5,11 @@
     {% for ticket  in tickets %}
     <h4>Row Example :: {{ ticket.ticket_id }} - {{ ticket.user.name }} - {{ ticket.user.surname }} -
         {{ ticket.user.user_email }} - {{ ticket.approved }} - {{ ticket.reason }}</h4>
-    <a href="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/approve">
-        <button>Approve ticket</button>
-    </a>
-    <a href="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/cancel">
-        <button>Cancel ticket</button>
-    </a>
-    <form method="POST">
-        <input type="text" name="Reason-{{ ticket.ticket_id }}"><br>
+    
+    <form method="POST" action="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/cancel">
+        <button type="submit" formaction="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/approve">Approve ticket</button>
+        <button type="submit">Cancel ticket</button> <br>
+        <input type="text" name="reason"><br>
     </form>
     {% endfor %}
 </div>

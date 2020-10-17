@@ -266,9 +266,10 @@ def manage_tickets(fest_id):
     )
 
 @login_required
-@app.route("/my_festivals/<fest_id>/manage_tickets/<ticket_id>/<action>")
-def manage_ticket_seller(fest_id, ticket_id, action, methods=["POST"]):
-    reason = "" #TODO request.form[f"Reason-{ticket_id}"]
+@app.route("/my_festivals/<fest_id>/manage_tickets/<ticket_id>/<action>", methods=["GET", "POST"])
+def manage_ticket_seller(fest_id, ticket_id, action):
+    # reason = "" #TODO request.form[f"Reason-{ticket_id}"]
+    reason = request.form["reason"]
     current_user.manage_ticket_seller(ticket_id, action, reason)
     return redirect(f"/my_festivals/{fest_id}/manage_tickets")
 
@@ -304,11 +305,17 @@ def manage_festivals():
 
 
 @login_required
-@app.route("/manage_festivals/<fest_id>/del")
-def cancel_fest(fest_id):
-    current_user.cancel_fest(fest_id)
-    return redirect("/manage_festivals")
-
+@app.route("/manage_festivals/<fest_id>/<action>")
+def cancel_fest(fest_id, action):
+    if action == "del":
+        current_user.cancel_fest(fest_id)
+        return redirect("/manage_festivals")
+    elif action == "bands":
+        return render_template("festival_bands.html", bands=bands)
+    elif action == "stages":
+        return render_template("festival_stages.html", stages=stages)
+    elif action == "performances":
+        return render_template("festival_perfs.html", perfs=perfs)
 
 @login_required
 @app.route("/manage_organizers")
