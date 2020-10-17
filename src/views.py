@@ -210,9 +210,9 @@ def ticket(fest_id):
                 current_user.reserve_ticket(fest_id)
         except ValueError as e:
             flash(f"{e}", "warning")
-
+            return redirect("/")
         # if current_user.is_anonymous:>?
-        flash("Ticket is successfully reserved", category="message")
+        flash("Ticket is successfully reserved", "success")
         return redirect("/")
 
     return render_template(
@@ -236,11 +236,13 @@ def my_tickets():
         user_columns=current_user,
     )
 
+
 @login_required
 @app.route("/my_tickets/<ticket_id>/cancel")
 def cancel_ticket(ticket_id):
     current_user.cancel_ticket(ticket_id)
     return redirect("/my_tickets")
+
 
 @login_required
 @app.route("/my_festivals")
@@ -255,6 +257,7 @@ def my_festivals():
         user_columns=current_user,
     )
 
+
 @login_required
 @app.route("/my_festivals/<fest_id>/manage_tickets")
 def manage_tickets(fest_id):
@@ -265,8 +268,12 @@ def manage_tickets(fest_id):
         user_columns=current_user,
     )
 
+
 @login_required
-@app.route("/my_festivals/<fest_id>/manage_tickets/<ticket_id>/<action>", methods=["GET", "POST"])
+@app.route(
+    "/my_festivals/<fest_id>/manage_tickets/<ticket_id>/<action>",
+    methods=["GET", "POST"],
+)
 def manage_ticket_seller(fest_id, ticket_id, action):
     # reason = "" #TODO request.form[f"Reason-{ticket_id}"]
     reason = request.form["reason"]
@@ -317,6 +324,7 @@ def cancel_fest(fest_id, action):
     elif action == "performances":
         return render_template("festival_perfs.html", perfs=perfs)
 
+
 @login_required
 @app.route("/manage_organizers")
 def manage_organizers():
@@ -344,12 +352,14 @@ def manage_bands():
     bands = current_user.get_bands()
     return render_template("bands_page.html", bands=bands, form=form)
 
+
 @login_required
 @app.route("/manage_bands/add", methods=["POST"])
 def add_band():
     form = BandForm()
     current_user.add_band(form)
     return redirect("/manage_bands")
+
 
 @login_required
 @app.route("/manage_bands/<band_id>/delete")

@@ -116,7 +116,7 @@
 			{% for post in posts %}
 			{% if post.description != None %}
 			<figure class="team-member">
-				<a href="{{ post.fest_id }}"> <img class="grid-pic"
+				<a href="festival\/{{ post.fest_id }}"> <img class="grid-pic"
 						src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" alt=""></a>
 			</figure>
 			{% endif %}
@@ -144,18 +144,18 @@
 	}
 
 	// Close the dropdown menu if the user clicks outside of it
-	window.onclick = function (event) {
-		if (!event.target.matches('.dropbtn_for_filter')) {
-			var dropdowns = document.getElementsByClassName("containera");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show_for_filter')) {
-					openDropdown.classList.remove('show_for_filter');
-				}
-			}
-		}
-	} 
+	// window.onclick = function (event) {
+	// 	if (!event.target.matches('.dropbtn_for_filter')) {
+	// 		var dropdowns = document.getElementsByClassName("dropdown-content_for_filter");
+	// 		var i;
+	// 		for (i = 0; i < dropdowns.length; i++) {
+	// 			var openDropdown = dropdowns[i];
+	// 			if (openDropdown.classList.contains('show_for_filter')) {
+	// 				openDropdown.classList.remove('show_for_filter');
+	// 			}
+	// 		}
+	// 	}
+	// } 
 </script>
 
 <script type="text/javascript">

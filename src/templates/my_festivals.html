@@ -1,18 +1,160 @@
-<div>
-    <h2>Actual Festivals</h2>
-    {% for fest  in actual_fests %}
-    <h3>FESTIVAL -> {{fest.fest_id}} - {{fest.fest.fest_name}}</h3>
-    <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets">
-        <button>manage tickets</button>
-    </a>
-    <br>
-    {% endfor %}
-    <h2>Outdated Festivals</h2>
-    {% for fest  in outdated_fests %}
-    <h3>FESTIVAL -> {{fest.fest_id}} - {{fest.fest.fest_name}}</h3>
-    <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets">
-        <button>manage tickets</button>
-    </a>
-    <br>
-    {% endfor %}
+{% extends "ralaot.html" %}
+{% block content %}
+
+<head>
+    <style>
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td,
+        #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:nth-child(odd) {
+
+            background-color: #BEBEBE;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #000000;
+            color: white;
+        }
+    </style>
+
+
+</head>
+
+
+
+
+
+
+<div style="margin-top: 120px;">
+    <h2 style="margin-left: 1%; color: white;"> Your actual festivals</h2>
+
+
+    <table id="customers">
+
+        <tr>
+            <th>FEStIVAL №:</th>
+            <th>FESTIVAL NAME:</th>
+            <th>FESTIVAL STATUS:</th>
+            <th>MANAGING:</th>
+
+
+        </tr>
+        {% for fest  in actual_fests %}
+
+        <tr>
+            <td class="td_field">{{ fest.fest_id }}</td>
+            <td>{{ fest.fest.fest_name }}</td>
+            {% if fest.approved != 0%}
+
+            <td style="background-color: #FFFF99;  max-width: 100px;">WAITING FOR CONFIRMATION</td>
+            {% elif  fest.approved == 1%}
+            <td style="background-color: #99FF99;">CONFIRMED</td>
+            {% else %}
+            <td style="background-color: #F08080;">CANCELED</td>
+            {% endif%}
+
+
+
+            {% if current_user.perms < 3 %}
+            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
+                        tickets</button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>edit
+                    </button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>add
+                        sellers</button></a></td>
+            <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>cancel
+                    festival</button></a></td>
+            {% else %}
+            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
+                        tickets</button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button type="button" disabled>edit
+                    </button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button type="button" disabled>add
+                        sellers</button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button type="button" disabled>cancel
+                        festival</button></a></td>
+            {% endif %}
+
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
+
+    <h2 style="margin-left: 1%; color: white; background-color:black;"> Your outdated festivals</h2>
+
+    <table id="customers">
+
+        <tr>
+            <th>FESTIVAL №:</th>
+            <th>FESTIVAL NAME:</th>
+            <th>FESTIVAL STATUS:</th>
+            <th>MANAGING:</th>
+
+
+        </tr>
+        {% for fest  in outdated_fests %}
+
+        <tr>
+            <td class="td_field">{{ fest.fest_id }}</td>
+            <td>{{ fest.fest.fest_name }}</td>
+            {% if fest.approved == 0%}
+            <td style="background-color: #FFFF99;  max-width: 100px;">WAITING FOR CONFIRMATION</td>
+            {% elif  fest.approved == 1%}
+            <td style="background-color: #99FF99;">CONFIRMED</td>
+            {% else %}
+            <td style="background-color: #F08080;">CANCELED</td>
+            {% endif%}
+            {% if current_user.perms < 3 %}
+            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
+                        tickets</button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>edit
+                    </button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>add
+                        sellers</button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>cancel
+                        festival</button></a></td>
+            {% else %}
+            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
+                        tickets</button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button type="button" disabled>edit
+                    </button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button type="button" disabled>add
+                        sellers</button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button type="button" disabled>cancel
+                        festival</button></a></td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
 </div>
+<style>
+    body {
+        background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/background.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+{% endblock content %}
