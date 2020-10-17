@@ -65,7 +65,6 @@ class Band(db.Model):
     genre = db.Column("genre", db.Text, nullable=False)
     tags = db.Column("tags", db.Text)
 
-
     def __repr__(self):
         return f"Band {self.band_id}: {self.name}"
 
@@ -83,9 +82,8 @@ class Performance(db.Model):
     stage_id = db.Column(
         "stage_id", db.Integer, db.ForeignKey("Stage.stage_id"), nullable=False
     )
-    band_id = db.Column(
-        "band_id", db.Integer, db.ForeignKey("Band.band_id"), nullable=False
-    )
+    band_id = db.Column("band_id", db.Integer, db.ForeignKey("Band.band_id"))
+    canceled = Column("canceled", Boolean, default=False)
     # time_from = db.Column("time_from", db.Date, nullable=False) TODO also edit CSV for performances
     # time_to = db.Column("time_to", db.Date, nullable=False)
 
@@ -93,11 +91,6 @@ class Performance(db.Model):
     band = db.relationship("Band", foreign_keys=band_id)  # backref ?
     stage = db.relationship("Stage", foreign_keys=stage_id)  # backref ?
 
-    def __init__(self, fest_id, stage_id, band_id):
-        # TODO check if given numbers exist in corresponding tables
-        self.fest_id = fest_id
-        self.stage_id = stage_id
-        self.band_id = band_id
 
     def __repr__(self):
         return f"Performance {self.perf_id}: festival_id: {self.fk_fest_id}; stage_id: {self.fk_stage_id}; band_id: {self.fk_band_id}"
@@ -375,9 +368,11 @@ class Organizer(Seller):
         band = Band.query.filter_by(band_id=band_id).first()
         all_perfs = Performance.query.filter_by(band_id=band_id)
         for perf in all_perfs:
-            db.session.delete(perf)
+            perf.band_id = None
+            perf.canceled = True
         db.session.delete(band)
         db.session.commit()
+
 
 class Admin(Organizer):
     __tablename__ = "Admin"

@@ -1,4 +1,4 @@
-fest_id,stage_id,band_id
-1,1,1
-1,1,2
-2,3,3
+fest_id,stage_id,band_id,canceled
+1,1,1,False
+1,1,2,False
+2,3,3,False
