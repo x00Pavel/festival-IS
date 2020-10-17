@@ -60,17 +60,11 @@ class Band(db.Model):
     __tablename__ = "Band"
     band_id = db.Column("band_id", db.Integer, primary_key=True)
     name = db.Column("name", db.Text, nullable=False)
-    logo = db.Column("logo", db.Text, nullable=False)
+    logo = db.Column("logo", db.Text, nullable=False, default="No logo")
     scores = db.Column("scores", db.Integer, nullable=False, default=1)
     genre = db.Column("genre", db.Text, nullable=False)
     tags = db.Column("tags", db.Text)
 
-    def __init__(self, name, logo, scores, genre, tags):
-        self.name = name
-        self.logo = logo
-        self.scores = scores
-        self.genre = genre
-        self.tags = tags
 
     def __repr__(self):
         return f"Band {self.band_id}: {self.name}"
@@ -315,6 +309,7 @@ class Seller(User):
                 ticket.reason = reason
         db.session.commit()
 
+
 class Organizer(Seller):
     __tablename__ = "Organizer"
     __mapper_args__ = {
@@ -363,12 +358,26 @@ class Organizer(Seller):
         db.session.delete(fest)
         db.session.commit()
 
+
     def add_stage(self):
+        # TODO
         pass
 
-    def add_band(self):
-        pass
+    def get_bands(self):
+            return [row for row in Band.query.all()]
 
+    def add_band(self, form):
+        band = Band(name=form.band_name.data, logo=form.band_logo.data, scores=form.band_scores.data, genre=form.band_genre.data, tags=form.band_tags.data)
+        db.session.add(band)
+        db.session.commit()
+
+    def delete_band(self, band_id):
+        band = Band.query.filter_by(band_id=band_id).first()
+        all_perfs = Performance.query.filter_by(band_id=band_id)
+        for perf in all_perfs:
+            db.session.delete(perf)
+        db.session.delete(band)
+        db.session.commit()
 
 class Admin(Organizer):
     __tablename__ = "Admin"

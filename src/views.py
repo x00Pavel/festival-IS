@@ -272,6 +272,7 @@ def manage_ticket_seller(fest_id, ticket_id, action, methods=["POST"]):
     current_user.manage_ticket_seller(ticket_id, action, reason)
     return redirect(f"/my_festivals/{fest_id}/manage_tickets")
 
+
 @login_required
 @app.route("/manage_sellers")
 def manage_sellers():
@@ -325,3 +326,26 @@ def manage_users():
 @app.route("/manage_admins")
 def manage_admins():
     return "<h2>TODO</h2> function manage_admins"
+
+
+@login_required
+@app.route("/manage_bands", methods=["GET"])
+def manage_bands():
+    form = BandForm()
+    if form.validate_on_submit():
+        current_user.add_band(form)
+    bands = current_user.get_bands()
+    return render_template("bands_page.html", bands=bands, form=form)
+
+@login_required
+@app.route("/manage_bands/add", methods=["POST"])
+def add_band():
+    form = BandForm()
+    current_user.add_band(form)
+    return redirect("/manage_bands")
+
+@login_required
+@app.route("/manage_bands/<band_id>/delete")
+def delete_band(band_id):
+    current_user.delete_band(band_id)
+    return redirect("/manage_bands")

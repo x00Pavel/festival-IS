@@ -1,0 +1,43 @@
+<div>
+    <h3>Add bands</h3>
+    <form method="POST" action="/manage_bands/add">
+        <legend class="border-bottom mb-4">Name</legend>
+        <div class="form-group">
+            {{ form.band_name }}
+        </div>
+        <legend class="border-bottom mb-4">Logo</legend>
+        <div class="form-group">
+            {{ form.band_logo }}
+        </div>
+        <legend class="border-bottom mb-4">Scores</legend>
+        <div class="form-group">
+            {{ form.band_scores }}
+        </div>
+        <legend class="border-bottom mb-4">Genre</legend>
+        <div class="form-group">
+            {{ form.band_genre }}
+        </div>
+        <legend class="border-bottom mb-4">Tags</legend>
+        <div class="form-group">
+            {{ form.band_tags }}
+        </div>
+    
+        <button type="submit" formmethod="POST">Add band</button>
+    </form>
+    
+    {% for band in bands %}
+    <div>
+        <!-- TODO: Show festivals for bands -->
+        Band name: {{ band.name }} <br>
+        Band scores: {{ band.scores }} <br>
+        Band genre: {{ band.genre }} <br>
+        Tags: {{ band.tags }} <br>
+        <a href="/manage_bands/{{ band.band_id }}/delete">
+            <button type="button">Delete band</button>
+        </a>
+    </div>
+    {% endfor %}
+
+
+
+</div>

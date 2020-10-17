@@ -70,6 +70,7 @@
                 {% if current_user.perms < 2 %}
                 <a class="site-header" href="{{ url_for('manage_organizers') }}">Manage organizers</a>
                 <a class="site-header" href="{{ url_for('manage_users') }}">Manage users</a>
+                <a class="site-header" href="{{ url_for('manage_bands') }}">Manage bands</a>
                 {% endif %}
                 {% if current_user.perms < 1 %}
                 <a class="site-header" href="{{ url_for('manage_admins') }}">Manage admins</a>

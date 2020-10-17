@@ -78,3 +78,11 @@ class TicketForm(FlaskForm):
     user_name = StringField("Name", validators=[DataRequired()])
     user_surname = StringField("Surname", validators=[DataRequired()])
     user_email = StringField("Email", validators=[DataRequired()])
+
+
+class BandForm(FlaskForm):
+    band_name = StringField("Name", validators=[DataRequired()])
+    band_logo = StringField("Logo", default="No logo")
+    band_scores = IntegerField("Scores", validators=[DataRequired()])
+    band_genre = StringField("Genre", validators=[DataRequired()]) # TODO: issue #47
+    band_tags = StringField("Tags", validators=[DataRequired()]) # TODO: issue #47
