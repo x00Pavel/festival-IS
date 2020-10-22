@@ -182,7 +182,7 @@ def logout():
 @app.route("/festival/<fest_id>")
 def festival_page(fest_id):
     fest = Festival.get_festival(fest_id)
-    return render_template("festival_page.html", fest=fest)
+    return render_template("festival_page.html", fest=fest, user_columns=current_user)
 
 
 @app.route("/festival/<fest_id>/ticket", methods=["GET", "POST"])
