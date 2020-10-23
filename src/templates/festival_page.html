@@ -1,13 +1,43 @@
-<div>
-    <h2>{{fest.fest_name}}</h2>
-    Festival info
-    <p>
-    <h3>Description</h3> {{fest.description}}</p>
-    <h3>Cost</h3> {{ fest.cost }}
-    <h3>Age restriciton</h3> {{ fest.age_restriction }}
-    <br>
-    <br>
-    <a href="/festival/{{ fest.fest_id }}/ticket">
-        <button type="button">Reserve ticket</button>
-    </a>
-</div>
+{% extends "ralaot.html" %}
+{% block content %}
+
+<body>
+    <div style="clear: left; margin-top: 8%;">
+
+
+        <p style="float: left;"><img src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" style="border=1px">
+        </p>
+
+
+
+        <div class="fest_info">
+
+
+            <p class="fest_info">FESTIVAL NAME :{{fest.fest_name}}</p>
+            <p class="fest_info">Festival info</p>
+            <p class="fest_info">Description: {{fest.description}}</p>
+            <h3 class="fest_info">Cost {{ fest.cost }}</h3>
+            <h3 class="fest_info">Age restriciton {{ fest.age_restriction }}</h3>
+
+
+
+            <a href="/festival/{{ fest.fest_id }}/ticket">
+                <button class="reservebutton"
+                    style="width:50%; height: 200px; margin-left:8%; border-radius: 15px; ">Reserve
+                    ticket</button>
+            </a>
+        </div>
+
+    </div>
+</body>
+
+<style>
+    body {
+        background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/blackbg.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+{% endblock content %}

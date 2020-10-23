@@ -1,15 +1,129 @@
-<div>
-    <h3>FESTIVAL TABLE -> {{tickets[0].fest.fest_id}} - {{tickets[0].fest.fest_name}}</h3>
-    <h4>ROWS WITH TICKETS -> CAN BE EMPTY -> write something sad if we do not have registrations at all</h4>
-    <br>
-    {% for ticket  in tickets %}
-    <h4>Row Example :: {{ ticket.ticket_id }} - {{ ticket.user.name }} - {{ ticket.user.surname }} -
-        {{ ticket.user.user_email }} - {{ ticket.approved }} - {{ ticket.reason }}</h4>
-    
-    <form method="POST" action="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/cancel">
-        <button type="submit" formaction="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/approve">Approve ticket</button>
-        <button type="submit">Cancel ticket</button> <br>
-        <input type="text" name="reason"><br>
-    </form>
-    {% endfor %}
+{% extends "ralaot.html" %}
+{% block content %}
+
+<head>
+    <style>
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td,
+        #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:nth-child(odd) {
+
+            background-color: #BEBEBE;
+        }
+
+        #customers th {
+
+            text-align: left;
+            background-color: #000000;
+            color: white;
+        }
+
+        #customers ticket_ida {
+            /* width: 20px; */
+        }
+
+        #customers .reason_expansion {
+            width: 600px;
+            /* padding-top: -30px; */
+
+
+
+        }
+
+        #customers .narrow_user_names {
+            /* width: 20px; */
+        }
+    </style>
+
+
+</head>
+<div style="margin-top: 120px;">
+    <h2 style="margin-left: 1%; color: white;background-color:black;"> Reservations on {{tickets[0].fest.fest_name}}
+        ({{ tickets[0].fest.time_from }} - {{ tickets[0].fest.time_to }})</h2>
+
+
+    <table id="customers">
+
+        <tr>
+
+
+
+
+            <th>ID:</th>
+            <th>USER EMAIL:</th>
+
+
+
+            <th>USER NAME</th>
+            <th>SURNAME</th>
+
+            <th>REGISTERED PERSON(NAME)</th>
+            <th>REGISTERED PERSON(NAME)</th>
+
+
+
+            <th>STATUS</th>
+            <th>REASON</th>
+        </tr>
+        {% for ticket  in tickets %}
+
+        <tr>
+            <td class="ticket_ida">{{ ticket.ticket_id }}</td>
+            <td>{{ ticket.user.user_email }}</td>
+            <td class="narrow_user_names">{{ ticket.user.name }}</td>
+            <td class="narrow_user_names">{{ ticket.user.surname }}</td>
+
+            <td>{{ticket.name}}</td>
+            <td>{{ ticket.surname }}</td>
+
+            <td>{{ ticket.approved}}</td>
+            {% if ticket.approved == 0 %}
+            <td class="reason_expansion">
+                <form method="POST"
+                    action="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/cancel">
+                    <button type="submit"
+                        formaction="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/approve">Approve
+                        ticket</button>
+                    <button type="submit">Cancel ticket</button>
+                    <input type="text" name="reason">
+                </form>
+
+            </td>
+            {% else %}
+            <td>{{ ticket.reason}}</td>
+            {% endif %}
+
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
 </div>
+<style>
+    body {
+        background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/background.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+
+
+
+
+{% endblock content %}
