@@ -259,6 +259,27 @@ def my_festivals():
 
 
 @login_required
+@app.route("/my_festivals/add", methods=["GET", "POST"])
+def add_festival():
+    form  = FestivalForm()
+    if form.validate_on_submit():
+        print("Festival created!")
+        return redirect("/my_festivals")
+    return render_template("edit_festival.html", form=form, org=current_user, fest=None, perfs=[], sellers=[])
+
+
+@login_required
+@app.route("/my_festivals/<fest_id>/edit", methods=["GET", "POST"])
+def edit_festival(fest_id):
+    fest = current_user.get_all_festivals(fest_id)
+    perfs = current_user.get_perf(fest_id=fest_id)
+    sellers = current_user.get_sellers()
+    print(sellers)
+    return render_template("edit_festival.html", fest=fest, perfs=perfs, sellers=sellers, org=None)
+
+
+
+@login_required
 @app.route("/my_festivals/<fest_id>/manage_tickets")
 def manage_tickets(fest_id):
     tickets = current_user.get_sellers_tickets(fest_id)
@@ -317,7 +338,8 @@ def cancel_fest(fest_id, action):
         current_user.cancel_fest(fest_id)
         return redirect("/manage_festivals")
     elif action == "bands":
-        return render_template("festival_bands.html", bands=bands)
+        fest_bands = current_user.get_bands(fest_id)
+        return render_template("festival_bands.html", fest_bands=fest_bands)
     elif action == "stages":
         return render_template("festival_stages.html", stages=stages)
     elif action == "performances":

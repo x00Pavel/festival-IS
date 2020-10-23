@@ -5,6 +5,7 @@ from sqlalchemy import (
     Integer,
     Text,
     Date,
+    DateTime,
     ForeignKey,
     String,
     Boolean,
@@ -35,6 +36,9 @@ class Festival(db.Model):
     )
     age_restriction = db.Column("age_restriction", db.Integer, nullable=False)
     sale = db.Column("sale", db.Integer, nullable=False, default=0)
+    org_id = Column("org_id", Integer, ForeignKey("Organizer.org_id"), nullable=False)
+    canceled = Column("canceled", Boolean, default=False, nullable=False)
+    organizer = relationship("Organizer", foreign_keys=org_id)
 
     def __repr__(self):
         return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}, {self.sale}"
@@ -82,8 +86,8 @@ class Performance(db.Model):
     )
     band_id = db.Column("band_id", db.Integer, db.ForeignKey("Band.band_id"))
     canceled = Column("canceled", Boolean, default=False)
-    # time_from = db.Column("time_from", db.Date, nullable=False) TODO also edit CSV for performances
-    # time_to = db.Column("time_to", db.Date, nullable=False)
+    time_from = Column("time_from", DateTime, nullable=False) # TODO also edit CSV for performances
+    time_to = Column("time_to", DateTime, nullable=False)
 
     fest = db.relationship("Festival", foreign_keys=fest_id, backref=backref("Performance", cascade="all,delete"))  # backref ?
     band = db.relationship("Band", foreign_keys=band_id)  # backref ?
@@ -314,7 +318,11 @@ class Organizer(Seller):
         super(Seller, self).__init__(**kwargs)
         self.org_id = self.get_id()
 
-    def get_sellers(self):
+    def get_sellers(self, fest_id=None):
+        if fest_id is not None:
+            ls = [row for row in SellersList.query.filter_by(fest_id=fest_id).all()]
+            print(ls)
+            return [row for row in SellersList.query.filter_by(fest_id=fest_id).all()]
         return [row for row in Seller.query.all()]
 
     def add_seller(self, **kwargs):
@@ -336,8 +344,11 @@ class Organizer(Seller):
         db.session.add(seller)
         db.session.commit()
 
-    def get_all_festivals(self):
-        return [row for row in Festival.query.all()]
+    def get_all_festivals(self, fest_id=None):
+        if fest_id is None:
+            return [row for row in Festival.query.all()]
+        return Festival.query.filter_by(fest_id=fest_id).first()
+
 
     def add_fest(self, **kwargs):
         fest = Festival(**kwargs)
@@ -349,12 +360,18 @@ class Organizer(Seller):
         db.session.delete(fest)
         db.session.commit()
 
+    def get_perf(self, fest_id=None):
+        return [row for row in Performance.query.filter_by(fest_id=fest_id).all()]
 
     def add_stage(self):
         # TODO
         pass
 
-    def get_bands(self):
+    def get_bands(self, fest_id=None, stage_id=None, perf_id=None):
+            if fest_id is not None:
+                perfs = Performance.query.filter_by(fest_id=fest_id).all()
+                return [row.band for row in perfs]                
+            
             return [row for row in Band.query.all()]
 
     def add_band(self, form):

@@ -1,0 +1,64 @@
+<div>
+    <img src="" alt="Putt logo here" width="300" height="300">
+    <br>
+    {% if fest != None %}
+        <h4>Festival name: {{ fest.fest_name }}</h4> 
+        <h4>fest_id              {{ fest.fest_id }}</h4>
+        <h4>fest_name            {{ fest.fest_name }}</h4>
+        <h4>description          {{ fest.description }}</h4>
+        <h4>style                {{ fest.style }}</h4>
+        <h4>address              {{ fest.address }}</h4>
+        <h4>cost                 {{ fest.cost }}</h4>
+        <h4>time_from            {{ fest.time_from }}</h4>
+        <h4>time_to              {{ fest.time_to }}</h4>
+        <h4>max_capacity         {{ fest.max_capacity }}</h4>
+        <h4>current_ticket_count {{ fest.current_ticket_count }}</h4>
+        <h4>age_restriction      {{ fest.age_restriction }}</h4>
+        <h4>sale                 {{ fest.sale }}</h4>
+        <h4>org_id               {{ fest.org_id }}</h4>
+        <h4>canceled             {{ fest.canceled }}</h4>
+        <br>
+        Organizator: {{ fest.organizer.org_id }}
+    {% else %}
+        <form action="">
+            <legend class="border-bottom mb-4">Festival name</legend>
+            {{ form.fest_name }}
+            <legend class="border-bottom mb-4">Organizer ID</legend>
+            {{ form.fest_org_id }}
+        </form>
+    {% endif %}
+
+    <h3>Performances</h3>
+    <button disabled="disabled">Add performance</button>
+    <form action="">
+        <legend class="border-bottom mb-4">Band name</legend>
+        <input type="text"/>
+        <legend class="border-bottom mb-4">Stage ID:</legend>
+        <input type="text"/>
+        <legend class="border-bottom mb-4">Time slot:</legend>
+        <input type="time"/>
+        <input type="time"/>
+    </form>
+    {% for perf in perfs %}
+    <div>
+        <h4>ID: {{ perf.perf_id }}</h4>
+        Stage ID: {{ perf.stage.stage_id }}
+        <br>
+        Band name: {{ perf.band.name }}
+        <br>
+    </div>
+    {% endfor %}
+    <h3>Sellers</h3>
+    <button disabled="disabled">Add seller</button>
+    <button disabled="disabled">Create seller</button>
+    <form action="">
+        <legend class="border-bottom mb-4">Seller ID</legend>
+        <input type="text"/>
+    </form>
+    {% for seller in sellers %}
+    <div>
+        <h4>Seller ID</h4>
+        {{ seller.seller_id }}
+    </div>
+    {% endfor %}
+</div>

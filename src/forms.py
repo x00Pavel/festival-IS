@@ -86,3 +86,11 @@ class BandForm(FlaskForm):
     band_scores = IntegerField("Scores", validators=[DataRequired()])
     band_genre = StringField("Genre", validators=[DataRequired()]) # TODO: issue #47
     band_tags = StringField("Tags", validators=[DataRequired()]) # TODO: issue #47
+
+
+class FestivalForm(FlaskForm):
+    fest_name = StringField("Name", validators=[DataRequired()])
+    fest_logo = StringField("Logo", default="No logo")
+    fest_tags = StringField("Tags", default="Change ME!!!!!")
+    fest_org_id = StringField("Organizator ID")
+    
