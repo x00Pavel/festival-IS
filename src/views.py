@@ -275,7 +275,6 @@ def manage_tickets(fest_id):
     methods=["GET", "POST"],
 )
 def manage_ticket_seller(fest_id, ticket_id, action):
-    # reason = "" #TODO request.form[f"Reason-{ticket_id}"]
     reason = request.form["reason"]
     current_user.manage_ticket_seller(ticket_id, action, reason)
     return redirect(f"/my_festivals/{fest_id}/manage_tickets")

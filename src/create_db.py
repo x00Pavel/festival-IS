@@ -66,12 +66,9 @@ class Band(db.Model):
     tags = db.Column("tags", db.Text)
     deleted_on = Column("deleted_on", Date, default=None)
     created_on = Column("created_on", Date, nullable=False, default=datetime.now().strftime("%x"))
+
     def __repr__(self):
         return f"Band {self.band_id}: {self.name}"
-
-    # @classmethod
-    # def get_band(band_id):
-    #     pass
 
 
 class Performance(db.Model):
