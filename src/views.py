@@ -274,9 +274,24 @@ def edit_festival(fest_id):
     fest = current_user.get_all_festivals(fest_id)
     perfs = current_user.get_perf(fest_id=fest_id)
     sellers = current_user.get_sellers()
-    print(sellers)
     return render_template("edit_festival.html", fest=fest, perfs=perfs, sellers=sellers, org=None)
 
+
+@login_required
+@app.route("/my_festivals/<fest_id>/add_perf", methods=["POST"])
+def fest_add_perf(fest_id):
+    form = request.form
+    result, status = current_user.fest_add_perf(form, fest_id)
+    flash(result, status)
+    return redirect(f"/my_festivals/{fest_id}/edit") 
+
+
+@login_required
+@app.route("/my_festivals/<fest_id>/del_perf/<perf_id>")
+def fest_del_perf(fest_id, perf_id):
+    current_user.fest_del_perf(perf_id)
+    flash(f"Performance {perf_id} canceled", "success")
+    return redirect(f"/my_festivals/{fest_id}/edit") 
 
 
 @login_required

@@ -10,6 +10,8 @@ from sqlalchemy import (
     String,
     Boolean,
     ForeignKeyConstraint,
+    or_,
+    and_,
 )
 from sqlalchemy.orm import relationship, backref
 from festival_is import app
@@ -28,8 +30,8 @@ class Festival(db.Model):
     style = db.Column("style", db.String(10))
     address = db.Column("address", db.Text, nullable=False)
     cost = db.Column("cost", db.Integer, nullable=False, default=0)
-    time_from = db.Column("time_from", db.Date, nullable=False)
-    time_to = db.Column("time_to", db.Date, nullable=False)
+    time_from = db.Column("time_from", db.DateTime, nullable=False)
+    time_to = db.Column("time_to", db.DateTime, nullable=False)
     max_capacity = db.Column("max_capacity", db.Integer, nullable=False, default=1000)
     current_ticket_count = db.Column(
         "current_ticket_count", db.Integer, nullable=False, default=0
@@ -69,7 +71,9 @@ class Band(db.Model):
     genre = db.Column("genre", db.Text, nullable=False)
     tags = db.Column("tags", db.Text)
     deleted_on = Column("deleted_on", Date, default=None)
-    created_on = Column("created_on", Date, nullable=False, default=datetime.now().strftime("%x"))
+    created_on = Column(
+        "created_on", Date, nullable=False, default=datetime.now().strftime("%x")
+    )
 
     def __repr__(self):
         return f"Band {self.band_id}: {self.name}"
@@ -86,26 +90,35 @@ class Performance(db.Model):
     )
     band_id = db.Column("band_id", db.Integer, db.ForeignKey("Band.band_id"))
     canceled = Column("canceled", Boolean, default=False)
-    time_from = Column("time_from", DateTime, nullable=False) # TODO also edit CSV for performances
+    time_from = Column(
+        "time_from", DateTime, nullable=False
+    )  # TODO also edit CSV for performances
     time_to = Column("time_to", DateTime, nullable=False)
 
-    fest = db.relationship("Festival", foreign_keys=fest_id, backref=backref("Performance", cascade="all,delete"))  # backref ?
+    fest = db.relationship(
+        "Festival",
+        foreign_keys=fest_id,
+        backref=backref("Performance", cascade="all,delete"),
+    )  # backref ?
     band = db.relationship("Band", foreign_keys=band_id)  # backref ?
     stage = db.relationship("Stage", foreign_keys=stage_id)  # backref ?
 
-
     def __repr__(self):
-        return f"Performance {self.perf_id}: festival_id: {self.fk_fest_id}; stage_id: {self.fk_stage_id}; band_id: {self.fk_band_id}"
+        return f"Performance {self.perf_id}: festival_id: {self.fest_id}; stage_id: {self.stage_id}; band_id: {self.band_id}"
 
 
 class BaseUser:
     @classmethod
     def reserve_ticket(cls, form, fest_id):
-        blocker = Ticket.query.filter_by(user_email=form.user_email.data, approved=0).count()
-        if (blocker > 3):
-            raise ValueError("""You have already issued the maximum reservations for this festival,
-                                please pay for part of the reservations,
-                                or contact us to cancel your reservation.""")
+        blocker = Ticket.query.filter_by(
+            user_email=form.user_email.data, approved=0
+        ).count()
+        if blocker > 3:
+            raise ValueError(
+                """
+                You have already issued the maximum reservations for this festival,
+                please pay for part of the reservations, or contact us to cancel your reservation."""
+            )
         ticket = Ticket(
             user_email=form.user_email.data,
             name=form.user_name.data,
@@ -145,7 +158,7 @@ class BaseUser:
         db.session.add(new_user)
         db.session.commit()
         return new_user
-   
+
 
 class User(UserMixin, db.Model):
     __tablename__ = "User"
@@ -211,11 +224,17 @@ class User(UserMixin, db.Model):
         self._is_anonymous = val
 
     def reserve_ticket(self, fest_id):
-        blocker = Ticket.query.filter_by(fest_id=fest_id, user_id=self.user_id, approved=0).count()
-        if (blocker > 5):
-            raise ValueError("""You have already issued the maximum reservations for this festival,
-                                please pay for part of the reservations, or cancel it.""")
-        ticket = Ticket(user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname)
+        blocker = Ticket.query.filter_by(
+            fest_id=fest_id, user_id=self.user_id, approved=0
+        ).count()
+        if blocker > 5:
+            raise ValueError(
+                """You have already issued the maximum reservations for this festival,
+                   please pay for part of the reservations, or cancel it."""
+            )
+        ticket = Ticket(
+            user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname
+        )
         db.session.add(ticket)
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         if fest.current_ticket_count != fest.max_capacity:
@@ -227,7 +246,7 @@ class User(UserMixin, db.Model):
     def cancel_ticket(self, ticket_id):
         today = date.today()
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
-        if (ticket.approved == 0 and today < ticket.fest.time_to):
+        if ticket.approved == 0 and today < ticket.fest.time_to:
             ticket.fest.current_ticket_count -= 1
             ticket.approved = 2
             ticket.reason = f"Canceled by {self.user_email}"
@@ -271,7 +290,7 @@ class Seller(User):
             return Ticket.query.all()
 
     def get_festivals(self):
-        today = date.today()
+        today = datetime.today()
         actual_fests, outdated_fests = [], []
         fests = SellersList.query.filter_by(seller_id=self.seller_id).all()
         fests.sort(key=lambda festlist: festlist.fest.time_from)
@@ -289,16 +308,18 @@ class Seller(User):
     def manage_ticket_seller(self, ticket_id, action, reason):
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
         today = date.today()
-        if (action == "approve" and ticket.approved == 0 and today < ticket.fest.time_to):
+        if action == "approve" and ticket.approved == 0 and today < ticket.fest.time_to:
             ticket.approved = 1
-            if (reason == ""):
+            if reason == "":
                 ticket.reason = f"Approved by {self.user_email}"
             else:
                 ticket.reason = reason
-        elif (action == "cancel" and ticket.approved == 0 and today < ticket.fest.time_to):
+        elif (
+            action == "cancel" and ticket.approved == 0 and today < ticket.fest.time_to
+        ):
             ticket.fest.current_ticket_count -= 1
             ticket.approved = 2
-            if (reason == ""):
+            if reason == "":
                 ticket.reason = f"Cancelled by {self.user_email}"
             else:
                 ticket.reason = reason
@@ -349,7 +370,6 @@ class Organizer(Seller):
             return [row for row in Festival.query.all()]
         return Festival.query.filter_by(fest_id=fest_id).first()
 
-
     def add_fest(self, **kwargs):
         fest = Festival(**kwargs)
         db.session.add(fest)
@@ -361,24 +381,95 @@ class Organizer(Seller):
         db.session.commit()
 
     def get_perf(self, fest_id=None):
-        return [row for row in Performance.query.filter_by(fest_id=fest_id).all()]
+        if fest_id:
+            return [row for row in Performance.query.filter_by(fest_id=fest_id).all()]
+        return [row for row in Performance.query.all()]
 
-    def add_stage(self):
-        # TODO
-        pass
+    def fest_del_perf(self, perf_id):
+        perf = Performance.query.filter_by(perf_id=perf_id).first()
+        perf.canceled = True
+        db.session.commit()
 
     def get_bands(self, fest_id=None, stage_id=None, perf_id=None):
-            if fest_id is not None:
-                perfs = Performance.query.filter_by(fest_id=fest_id).all()
-                return [row.band for row in perfs]                
-            
-            return [row for row in Band.query.all()]
+        if fest_id is not None:
+            perfs = Performance.query.filter_by(fest_id=fest_id).all()
+            return [row.band for row in perfs]
+
+        return [row for row in Band.query.all()]
 
     def add_band(self, form):
-        band = Band(name=form.band_name.data, logo=form.band_logo.data, scores=form.band_scores.data, genre=form.band_genre.data, tags=form.band_tags.data)
+        band = Band(
+            name=form.band_name.data,
+            logo=form.band_logo.data,
+            scores=form.band_scores.data,
+            genre=form.band_genre.data,
+            tags=form.band_tags.data,
+        )
         db.session.add(band)
         db.session.commit()
-        
+
+    def fest_add_perf(self, form, fest_id):
+        band = Band.query.filter_by(name=form["band_name"]).first()
+        if band is None:
+            print(f"No band with this name: {form['band_name']}")
+            return (f"No band with this name: {form['band_name']}", "waring")
+        try:
+            stage_id = int(form["stage_id"])
+        except ValueError:
+            print(f"Please, provide ID for stage ID")
+
+            return (f"Please, provide ID for stage ID", "waring")
+
+        stage = Stage.query.filter_by(stage_id=stage_id).first()
+        if stage is None:
+            print(f"Now stage with this ID: {form['stage_id']}")
+            return (f"Now stage with this ID: {form['stage_id']}", "warning")
+
+        fest = Festival.query.filter_by(fest_id=fest_id).first()
+        datetime_from = f"{form['date_from']} {form['time_from']}"
+        datetime_to = f"{form['date_to']} {form['time_to']}"
+        # Time for performance is not between festival start and end
+        if not (
+            fest.time_from < datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
+            and fest.time_to > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
+            and fest.time_from < datetime.strptime(datetime_to, "%Y-%m-%d %H:%M")
+            and fest.time_to > datetime.strptime(datetime_to, "%Y-%m-%d %H:%M")
+            and datetime.strptime(datetime_to, "%Y-%m-%d %H:%M")
+            > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
+        ):
+            print(f"Date of performance is out of festival dates: {datetime_from} - {datetime_to}")
+            return (f"Date of performance is out of festival dates: {datetime_from} - {datetime_to}", "warning")
+
+        print(datetime.strptime(datetime_from, "%Y-%m-%d %H:%M"))
+        # Find collisions with other performances
+        collisions = Performance.query.filter(
+            Performance.stage_id == stage.stage_id,
+            or_(
+                and_(
+                    Performance.time_from < datetime.strptime(datetime_from, "%Y-%m-%d %H:%M"),
+                    Performance.time_to > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M"),
+                ),
+                and_(
+                    Performance.time_from
+                    < datetime.strptime(datetime_to, "%Y-%m-%d %H:%M"),
+                    Performance.time_to
+                    > datetime.strptime(datetime_to, "%Y-%m-%d %H:%M"),
+                ),
+                and_(
+                    datetime.strptime(datetime_from, "%Y-%m-%d %H:%M") < Performance.time_from,
+                    datetime.strptime(datetime_to, "%Y-%m-%d %H:%M") > Performance.time_to,
+                )
+            ),
+        ).all()
+        if collisions:
+            ids = ', '.join([str(perf.perf_id) for perf in collisions])
+            print(f"There is collisions with other performances: {ids}")
+            return (f"There is collisions with other performances: {ids}", "warning")
+        perf = Performance(stage_id=stage.stage_id, band_id=band.band_id, fest_id=fest_id, time_from=datetime_from, time_to=datetime_to)
+        db.session.add(perf)
+        db.session.commit()
+        print(f"Performance {perf.perf_id}: Band {band.name} add to stage {stage.stage_id}")
+        return (f"Performance {perf.perf_id}: Band {band.name} add to stage {stage.stage_id}", "success")
 
     def delete_band(self, band_id):
         band = Band.query.filter_by(band_id=band_id).first()
@@ -464,8 +555,11 @@ class Ticket(db.Model):
     reason = Column("reason", String(50))
 
     user = db.relationship("User", foreign_keys=user_id)
-    fest = db.relationship("Festival", foreign_keys=fest_id, backref=backref("Ticket", cascade="all,delete"))
-
+    fest = db.relationship(
+        "Festival",
+        foreign_keys=fest_id,
+        backref=backref("Ticket", cascade="all,delete"),
+    )
 
     def __repr__(self):
         return f"Ticket {self.ticket_id}: user_id: {self.user_id}; festival_id: {self.fest_id}"
@@ -479,9 +573,12 @@ class SellersList(db.Model):
         "seller_id", Integer, ForeignKey("Seller.seller_id"), nullable=False
     )
 
-    fest = relationship("Festival", foreign_keys=fest_id, backref=backref("SellerList", cascade="all,delete"))
+    fest = relationship(
+        "Festival",
+        foreign_keys=fest_id,
+        backref=backref("SellerList", cascade="all,delete"),
+    )
     seller = relationship("Seller", foreign_keys=seller_id)
-
 
     def __repr__(self):
         return f"Entry ID: {self.entry_id} - Seller id: {self.seller_id} -> Festival ID: {self.fest_id}"
