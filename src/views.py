@@ -247,13 +247,11 @@ def cancel_ticket(ticket_id):
 @login_required
 @app.route("/my_festivals")
 def my_festivals():
-    fests = current_user.get_festivals()
-    if not fests:
-        return redirect("/")
+    planed_fests, outdated_fests = current_user.get_festivals()
     return render_template(
         "my_festivals.html",
-        actual_fests=fests[0],
-        outdated_fests=fests[1],
+        actual_fests=planed_fests,
+        outdated_fests=outdated_fests,
         user_columns=current_user,
     )
 
@@ -261,8 +259,10 @@ def my_festivals():
 @login_required
 @app.route("/my_festivals/add", methods=["GET", "POST"])
 def add_festival():
-    form  = FestivalForm()
-    if form.validate_on_submit():
+    form = FestivalForm()
+    form.fest_org_id = current_user.org_id
+    if request.method == "POST":
+        current_user.add_fest(form)
         print("Festival created!")
         return redirect("/my_festivals")
     return render_template("edit_festival.html", form=form, org=current_user, fest=None, perfs=[], sellers=[])

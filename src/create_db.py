@@ -26,6 +26,7 @@ class Festival(db.Model):
 
     fest_id = db.Column("fest_id", db.Integer, primary_key=True)
     fest_name = Column("fest_name", Text, nullable=False)
+    fest_logo = Column("fest_logo", Text, nullable=False)
     description = db.Column("description", db.Text)
     style = db.Column("style", db.String(10))
     address = db.Column("address", db.Text, nullable=False)
@@ -39,9 +40,10 @@ class Festival(db.Model):
     age_restriction = db.Column("age_restriction", db.Integer, nullable=False)
     sale = db.Column("sale", db.Integer, nullable=False, default=0)
     org_id = Column("org_id", Integer, ForeignKey("Organizer.org_id"), nullable=False)
-    canceled = Column("canceled", Boolean, default=False, nullable=False)
-    organizer = relationship("Organizer", foreign_keys=org_id)
+    status = Column("status", Integer, default=0)
 
+    organizer = relationship("Organizer", foreign_keys=org_id)
+    
     def __repr__(self):
         return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}, {self.sale}"
 
@@ -292,14 +294,14 @@ class Seller(User):
     def get_festivals(self):
         today = datetime.today()
         actual_fests, outdated_fests = [], []
-        fests = SellersList.query.filter_by(seller_id=self.seller_id).all()
+        fests = SellersList.query.filter_by(seller_id=self.seller_id).all() # FIXME:  SellersList - is not festivals!!! maybe rename?
         fests.sort(key=lambda festlist: festlist.fest.time_from)
         for fest in fests:
             if fest.fest.time_from >= today:
                 actual_fests.append(fest)
             else:
                 outdated_fests.append(fest)
-        return actual_fests, outdated_fests
+        return (actual_fests, outdated_fests)
 
     def get_sellers_tickets(self, fest_id):
         tickets = Ticket.query.filter_by(fest_id=fest_id).all()
@@ -366,12 +368,26 @@ class Organizer(Seller):
         db.session.commit()
 
     def get_all_festivals(self, fest_id=None):
-        if fest_id is None:
-            return [row for row in Festival.query.all()]
-        return Festival.query.filter_by(fest_id=fest_id).first()
+        if fest_id:
+            return Festival.query.filter_by(fest_id=fest_id).first()
+        return [row for row in Festival.query.all()]
 
-    def add_fest(self, **kwargs):
-        fest = Festival(**kwargs)
+
+    def add_fest(self, form):
+        fest = Festival(fest_name=form["fest_name"].data,
+                        fest_logo = form["fest_logo"].data,
+                        description=form["fest_description"].data,
+                        style=form["fest_style"].data,
+                        cost=form["fest_cost"].data,
+                        time_from=form["fest_time_from"].data,
+                        time_to=form["fest_time_to"].data,
+                        address=form["fest_address"].data,
+                        max_capacity=form["fest_max_capacity"].data,
+                        age_restriction=form["fest_age_restriction"].data,
+                        sale=form["fest_sale"].data,
+                        org_id=form["fest_org_id"].data,
+                        status=form["fest_status"].data
+                        )
         db.session.add(fest)
         db.session.commit()
 

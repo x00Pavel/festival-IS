@@ -38,10 +38,6 @@
 </head>
 
 
-
-
-
-
 <div style="margin-top: 120px;">
     <h2 style="margin-left: 1%; color: white;"> Your actual festivals</h2> 
     <a href="/my_festivals/add">
@@ -62,13 +58,12 @@
         <tr>
             <td class="td_field">{{ fest.fest_id }}</td>
             <td>{{ fest.fest.fest_name }}</td>
-            {% if fest.approved != 0%}
-
-            <td style="background-color: #FFFF99;  max-width: 100px;">WAITING FOR CONFIRMATION</td>
-            {% elif  fest.approved == 1%}
-            <td style="background-color: #99FF99;">CONFIRMED</td>
-            {% else %}
-            <td style="background-color: #F08080;">CANCELED</td>
+            {% if fest.fest.status == 0%}
+                <td style="background-color: #FFFF99;  max-width: 100px;">Not published</td>
+            {% elif fest.fest.status == 1%}
+                <td style="background-color: #99FF99;">Published</td>
+            {% elif fest.fest.status == 2 %}
+                <td style="background-color: #F08080;">CANCELED</td>
             {% endif%}
 
 
