@@ -582,11 +582,13 @@ label {
 {
   /* margin-left: 1500px; */
   margin-left: 50%;
-  margin-top: 3%;
+  margin-top: 5%;
+  /* clear: right; */
+  /* float: right; */
     color: #ffffff;
-  padding: 15px;
-  font-size: 25px;
-  margin-top: 3%; 
+  /* padding: 15px; */
+  font-size: 120%;
+  /* margin-top: 3%;  */
   height: 75px; 
 }
 
@@ -601,9 +603,32 @@ label {
 .reservebutton{
   background-color: #ffffff;
   color: #000000;
-  font-size: 60px;
+  font-size: 90%;
 }
 .reservebutton:hover{
   background-color: #ff0000;
   color: #000000;
+}
+
+.addnewbutton{
+  background-color: #ffffff;
+  color: #000000;
+}
+.addnewbutton:hover{
+  background-color: #ff0000;
+  color: #000000;
+}
+
+.edit_festival_upper_page
+{
+  margin-top: 1%;
+  /* display: inline; */
+  /* display: table; */
+  /* margin-left: 5%; */
+}
+.edit_festival_middle_page
+{
+  /* margin-left: 40%; */
+  /* left: 40%; */
+  padding-left: 40%;
 }

@@ -265,7 +265,14 @@ def add_festival():
         current_user.add_fest(form)
         print("Festival created!")
         return redirect("/my_festivals")
-    return render_template("edit_festival.html", form=form, org=current_user, fest=None, perfs=[], sellers=[])
+    return render_template(
+        "edit_festival.html",
+        form=form,
+        org=current_user,
+        fest=None,
+        perfs=[],
+        sellers=[],
+    )
 
 
 @login_required
@@ -274,7 +281,14 @@ def edit_festival(fest_id):
     fest = current_user.get_all_festivals(fest_id)
     perfs = current_user.get_perf(fest_id=fest_id)
     sellers = current_user.get_sellers()
-    return render_template("edit_festival.html", fest=fest, perfs=perfs, sellers=sellers, org=None)
+    return render_template(
+        "edit_festival.html",
+        fest=fest,
+        perfs=perfs,
+        user_columns=current_user,
+        sellers=sellers,
+        org=None,
+    )
 
 
 @login_required
@@ -283,7 +297,7 @@ def fest_add_perf(fest_id):
     form = request.form
     result, status = current_user.fest_add_perf(form, fest_id)
     flash(result, status)
-    return redirect(f"/my_festivals/{fest_id}/edit") 
+    return redirect(f"/my_festivals/{fest_id}/edit")
 
 
 @login_required
@@ -291,7 +305,7 @@ def fest_add_perf(fest_id):
 def fest_del_perf(fest_id, perf_id):
     current_user.fest_del_perf(perf_id)
     flash(f"Performance {perf_id} canceled", "success")
-    return redirect(f"/my_festivals/{fest_id}/edit") 
+    return redirect(f"/my_festivals/{fest_id}/edit")
 
 
 @login_required

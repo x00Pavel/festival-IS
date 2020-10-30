@@ -1,49 +1,177 @@
-<div>
-    <img src="" alt="Putt logo here" width="300" height="300">
-    <br>
+{% extends "ralaot.html" %}
+{% block content %}
+<style>
+    #customers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #customers td,
+    #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+        background-color: #ddd;
+    }
+
+    #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+<img style="margin-top:150px;" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" alt=" Putt logo here"
+    width="300" height="300">
+
+<div class="edit_festival_upper_page">
     {% if fest != None %}
-        <h4>Festival name: {{ fest.fest_name }}</h4> 
-        <h4>fest_id              {{ fest.fest_id }}</h4>
-        <h4>fest_name            {{ fest.fest_name }}</h4>
-        <h4>description          {{ fest.description }}</h4>
-        <h4>style                {{ fest.style }}</h4>
-        <h4>address              {{ fest.address }}</h4>
-        <h4>cost                 {{ fest.cost }}</h4>
-        <h4>time_from            {{ fest.time_from }}</h4>
-        <h4>time_to              {{ fest.time_to }}</h4>
-        <h4>max_capacity         {{ fest.max_capacity }}</h4>
-        <h4>current_ticket_count {{ fest.current_ticket_count }}</h4>
-        <h4>age_restriction      {{ fest.age_restriction }}</h4>
-        <h4>sale                 {{ fest.sale }}</h4>
-        <h4>org_id               {{ fest.org_id }}</h4>
-        <h4>canceled             {{ fest.canceled }}</h4>
-        <br>
-        Organizator: {{ fest.organizer.org_id }}
+
+    <table id="customers">
+        <!-- <tr>
+            <th>Company</th>
+            <th>Contact</th>
+        </tr> -->
+        <tr>
+            <td>FESTIVAL NAME</td>
+            <td>{{ fest.fest_name }}</td>
+        </tr>
+        <tr>
+            <td>FESTIVAL ID</td>
+            <td>{{ fest.fest_id }}</td>
+        </tr>
+        <tr>
+            <td>FESTIVAL NAME</td>
+            <td>{{ fest.fest_name }}</td>
+        </tr>
+        <tr>
+            <td>DESCRIPTION</td>
+            <td>{{ fest.description }}</td>
+        </tr>
+        <tr>
+            <td>STYLE</td>
+            <td>{{ fest.style }}</td>
+        </tr>
+        <tr>
+            <td>ADDRESS</td>
+            <td>{{ fest.address }}</td>
+        </tr>
+        <tr>
+            <td>COST</td>
+            <td>{{ fest.cost }}</td>
+
+        </tr>
+        <tr>
+            <td>TIME FROM</td>
+            <td>{{ fest.time_from }}</td>
+
+        </tr>
+        <tr>
+            <td>TAGS</td>
+            <td>{{ fest.tag }}</td>
+        </tr>
+        <tr>
+            <td>TIME TO</td>
+            <td>{{ fest.time_to }}</td>
+        </tr>
+        <tr>
+            <td>MAXIMAL CAPACITY</td>
+            <td>{{ fest.max_capacity }}</td>
+
+        </tr>
+        <tr>
+            <td>CURRENT TICKET COUNT</td>
+            <td>{{ fest.current_ticket_count }}</td>
+        </tr>
+        <tr>
+            <td>AGE RESTRICTION</td>
+            <td>{{ fest.age_restriction }}</td>
+        </tr>
+        <tr>
+            <td>SALE</td>
+            <td>{{ fest.sale }}</td>
+
+        </tr>
+        <tr>
+            <td>ORGANIZER ID</td>
+            <td>{{ fest.org_id }}</td>
+        </tr>
+        <tr>
+            <td>CANCELED</td>
+            <td>{{ fest.canceled }}</td>
+        </tr>
+        <tr>
+            <td>ORGANIZATOR</td>
+            <td>{{ fest.organizer.org_id }}</td>
+        </tr>
+    </table>
+
+    <!-- <br> -->
+
+    <!-- <h4>Festival name: {{ fest.fest_name }}</h4> -->
+    <!-- <h4>fest_id {{ fest.fest_id }}</h4> -->
+    <!-- <h4>fest_name {{ fest.fest_name }}</h4> -->
+    <!-- <h4>description {{ fest.description }}</h4> -->
+    <!-- <h4>style {{ fest.style }}</h4> -->
+    <!-- <h4>address {{ fest.address }}</h4> -->
+    <!-- <h4>cost {{ fest.cost }}</h4> -->
+    <!-- <h4>time_from {{ fest.time_from }}</h4> -->
+    <!-- <h4>Tags : {{ fest.tag }}</h4> -->
+    <!-- <h4>time_to {{ fest.time_to }}</h4> -->
+    <!-- <h4>max_capacity {{ fest.max_capacity }}</h4> -->
+    <!-- <h4>current_ticket_count {{ fest.current_ticket_count }}</h4> -->
+    <!-- <h4>age_restriction {{ fest.age_restriction }}</h4> -->
+    <!-- <h4>sale {{ fest.sale }}</h4> -->
+    <!-- <h4>org_id {{ fest.org_id }}</h4> -->
+    <!-- <h4>canceled {{ fest.canceled }}</h4> -->
+    <!-- <br> -->
+    <!-- Organizator: {{ fest.organizer.org_id }} -->
     {% else %}
-        <form action="/my_festivals/add" method="POST">
-            {% for field in form if field.name != 'csrf_token' %}
-            <legend class="border-bottom mb-4">{{ field.label() }}</legend>
-            {{ field() }}
-            {% endfor %}
-            <input style="width: 100%; height: 45px" type="submit" value="Create festival">
-        </form>
+    <form action="/my_festivals/add" method="POST">
+        {% for field in form if field.name != 'csrf_token' %}
+        <legend class="border-bottom mb-4">{{ field.label() }}</legend>
+        {{ field() }}
+        {% endfor %}
+        <input style="width: 100%; height: 45px" type="submit" value="Create festival">
+    </form>
     {% endif %}
 
-    <h2>Performances</h2>
-    <form action="/my_festivals/{{ fest.fest_id }}/add_perf", method="POST">
-        <input type="submit" value="Add performance">
-        <legend class="border-bottom mb-4">Band name</legend>
-        <input type="text" name="band_name"/>
-        <legend class="border-bottom mb-4">Stage ID:</legend>
-        <input type="text" name="stage_id"/>
-        <legend class="border-bottom mb-4">From:</legend>
-        <input type="date" name="date_from"/>
-        <input type="time" name="time_from" />
-        <legend class="border-bottom mb-4">To:</legend>
-        <input type="date" name="date_to"/>
-        <input type="time" name="time_to"/>
-        <h1>TODO SHOW ICON WITH AVAILABLE TIME SLOTS FOR GIVEN Festival</h1>
-    </form>
+
+</div>
+<div>
+    <div class="">
+        <h2 style="margin-left: 40%">PERFORMANCE</h2>
+        <form action=" /my_festivals/{{ fest.fest_id }}/add_perf" , method="POST">
+            <input style="margin-left: 40%;" type="submit" value="Add performance">
+            <hr>
+            <legend style="margin-left: 40%;">Band name</legend>
+            <input style="margin-left: 40%;" type="text" name="band_name">
+            <hr>
+            <legend style="margin-left: 40%;">Stage ID:</legend>
+            <input style="margin-left: 40%;" type="text" name="stage_id">
+            <hr>
+            <legend style="margin-left: 40%;">From:</legend>
+            <input style="margin-left: 40%;" type="date" name="date_from">
+
+            <input style="margin-left: 0.1%;" type="time" name="time_from">
+            <hr>
+            <legend style="margin-left: 40%;">To:</legend>
+            <input style="margin-left: 40%;" type="date" name="date_to">
+            <!-- <hr> -->
+            <input style="margin-left: 0.1%;" type="time" name="time_to">
+            <br><br><br>
+            <h1>TODO SHOW ICON WITH AVAILABLE TIME SLOTS FOR GIVEN Festival</h1>
+            <hr>
+        </form>
+    </div>
     {% for perf in perfs %}
     <div>
         <h4>ID: {{ perf.perf_id }}</h4>
@@ -51,7 +179,7 @@
         <br>
         Band name: {{ perf.band.name }}
         <br>
-        From: <b>{{ perf.time_from }}</b> 
+        From: <b>{{ perf.time_from }}</b>
         <br>
         To: <b>{{ perf.time_to }}</b>
         <br>
@@ -59,12 +187,14 @@
         <a href="/my_festivals/{{ fest.fest_id }}/del_perf/{{ perf.perf_id }}"><button>Cancel</button></a>
     </div>
     {% endfor %}
-    <h2>Sellers</h2>
-    <button disabled="disabled">Add seller</button>
-    <button disabled="disabled">Create seller</button>
+    <!-- "min-width: 11%;border-radius: 12px;height: 40px; margin-left: 1%;margin-bottom: 0.3%;" -->
+    <h2 style="margin-left: 40%;">SELLERS</h2>
+    <button style=" margin-left: 40%; border-radius: 12px;min-width:7.5%;" disabled="disabled">Add
+        seller</button><br><br>
+    <button style="margin-left: 40%; border-radius: 12px;min-width: 7.5%;" disabled="disabled">Create seller</button>
     <form action="">
         <legend class="border-bottom mb-4">Seller ID</legend>
-        <input type="text"/>
+        <input type="text" />
     </form>
     {% for seller in sellers %}
     <div>
@@ -73,3 +203,5 @@
     </div>
     {% endfor %}
 </div>
+
+{% endblock content %}

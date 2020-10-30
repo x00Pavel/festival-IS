@@ -39,10 +39,15 @@
 
 
 <div style="margin-top: 120px;">
-    <h2 style="margin-left: 1%; color: white;"> Your actual festivals</h2> 
+
     <a href="/my_festivals/add">
-        <button>New</button>
+        <button class="addnewbutton"
+            style="min-width: 11%;border-radius: 12px;height: 40px; margin-left: 1%;margin-bottom: 0.3%;">Create A New
+            Festival!</button>
     </a>
+
+    <h2 style="margin-left: 1%; color: white;"> Your actual festivals</h2>
+
 
     <table id="customers">
 
@@ -59,11 +64,11 @@
             <td class="td_field">{{ fest.fest_id }}</td>
             <td>{{ fest.fest.fest_name }}</td>
             {% if fest.fest.status == 0%}
-                <td style="background-color: #FFFF99;  max-width: 100px;">Not published</td>
+            <td style="background-color: #FFFF99;  max-width: 100px;">Not published</td>
             {% elif fest.fest.status == 1%}
-                <td style="background-color: #99FF99;">Published</td>
+            <td style="background-color: #99FF99;">Published</td>
             {% elif fest.fest.status == 2 %}
-                <td style="background-color: #F08080;">CANCELED</td>
+            <td style="background-color: #F08080;">CANCELED</td>
             {% endif%}
 
 
@@ -74,9 +79,10 @@
                 <a href="/my_festivals/{{ fest.fest_id }}/edit"><button>edit
                     </button></a>
                 <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>add
-                        sellers</button></a></td>
-            <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>cancel
-                    festival</button></a></td>
+                        sellers</button></a>
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>cancel
+                        festival</button></a>
+            </td>
             {% else %}
             <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
                         tickets</button></a>
