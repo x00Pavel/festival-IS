@@ -103,3 +103,11 @@ class FestivalForm(FlaskForm):
     fest_sale = IntegerField("Sale", default=0)
     fest_org_id = IntegerField("Organizer ID", validators=[DataRequired()])
     fest_status = IntegerField("Status", default=0)
+
+
+class SellerForm(FlaskForm):
+    email = StringField("Seller email", validators=[DataRequired()])
+    name = StringField("Name", validators=[DataRequired()])
+    surname = StringField("Surname", validators=[DataRequired()])
+    address = StringField("Address", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])

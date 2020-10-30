@@ -260,14 +260,17 @@ def my_festivals():
 @app.route("/my_festivals/add", methods=["GET", "POST"])
 def add_festival():
     form = FestivalForm()
+    form.fest_org_id.data = current_user.org_id
+    seller_form = SellerForm()
     form.fest_org_id = current_user.org_id
     if request.method == "POST":
-        current_user.add_fest(form)
+        fest_id = current_user.add_fest(form)
         print("Festival created!")
-        return redirect("/my_festivals")
+        return redirect(f"/my_festivals/{fest_id}/edit")
     return render_template(
         "edit_festival.html",
         form=form,
+        seller_form=seller_form,
         org=current_user,
         fest=None,
         perfs=[],
@@ -279,12 +282,14 @@ def add_festival():
 @login_required
 @app.route("/my_festivals/<fest_id>/edit", methods=["GET", "POST"])
 def edit_festival(fest_id):
+    seller_form = SellerForm()
     fest = current_user.get_all_festivals(fest_id)
     perfs = current_user.get_perf(fest_id=fest_id)
-    sellers = current_user.get_sellers()
+    sellers = current_user.get_sellers(fest_id)
     return render_template(
         "edit_festival.html",
         fest=fest,
+        seller_form=seller_form,
         perfs=perfs,
         user_columns=current_user,
         sellers=sellers,
@@ -306,6 +311,31 @@ def fest_add_perf(fest_id):
 def fest_del_perf(fest_id, perf_id):
     current_user.fest_del_perf(perf_id)
     flash(f"Performance {perf_id} canceled", "success")
+    return redirect(f"/my_festivals/{fest_id}/edit")
+
+
+@login_required
+@app.route("/my_festivals/<fest_id>/add_seller", methods=["POST"])
+def fest_add_seller(fest_id):
+    form = request.form
+    result, status = current_user.fest_add_seller(form, fest_id)
+    flash(result, status)
+    return redirect(f"/my_festivals/{fest_id}/edit")
+
+
+@login_required
+@app.route("/my_festivals/<fest_id>/del_seller/<seller_id>")
+def fest_del_seller(fest_id, seller_id):
+    current_user.fest_del_seller(fest_id, seller_id)
+    flash(f"Seller {seller_id} removed from festival {fest_id}", "success")
+    return redirect(f"/my_festivals/{fest_id}/edit")
+
+@login_required
+@app.route("/my_festivals/<fest_id>/create_seller", methods=["POST"])
+def create_seller(fest_id):
+    form = request.form
+    result, status = current_user.create_seller(form, fest_id)
+    flash(result, status)
     return redirect(f"/my_festivals/{fest_id}/edit")
 
 

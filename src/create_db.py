@@ -343,35 +343,44 @@ class Organizer(Seller):
 
     def get_sellers(self, fest_id=None):
         if fest_id is not None:
-            ls = [row for row in SellersList.query.filter_by(fest_id=fest_id).all()]
-            print(ls)
             return [row for row in SellersList.query.filter_by(fest_id=fest_id).all()]
         return [row for row in Seller.query.all()]
 
-    def add_seller(self, **kwargs):
-        email = form.email.data
-        name = form.firstname.data
-        surname = form.lastname.data
-        passwd_hash = generate_password_hash(form.password.data, method="sha256")
-        address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
-
+    def create_seller(self, form, fest_id=None):
         seller = Seller(
-            user_email=email,
-            name=name,
-            surname=surname,
+            user_email=form.get("email"),
+            name=form.get("name"),
+            surname=form.get("surname"),
             perms=3,
-            passwd=passwd_hash,
-            address=address,
+            passwd=generate_password_hash(form.get("password"), method="sha256"),
+            address=form.get("address"),
             avatar=None,
         )
         db.session.add(seller)
+        db.session.commit()
+        return self.fest_add_seller({"seller_id": seller.seller_id}, fest_id)
+
+    def fest_add_seller(self, form, fest_id):
+        seller_id = form.get("seller_id")
+        seller = Seller.query.filter_by(seller_id=seller_id).first()
+        if seller is None:
+            return(f"Seller with ID {seller_id} does nox exist.", "info")
+
+        new_seller_list = SellersList(fest_id=fest_id, seller_id=seller_id)
+        db.session.add(new_seller_list)
+        db.session.commit()
+
+        return (f"Seller {seller_id} successfully added to festival {fest_id}", "success")        
+
+    def fest_del_seller(self, fest_id, seller_id):
+        seller = SellersList.query.filter(SellersList.fest_id == fest_id, SellersList.seller_id == seller_id).first()
+        db.session.delete(seller)
         db.session.commit()
 
     def get_all_festivals(self, fest_id=None):
         if fest_id:
             return Festival.query.filter_by(fest_id=fest_id).first()
         return [row for row in Festival.query.all()]
-
 
     def add_fest(self, form):
         fest = Festival(fest_name=form["fest_name"].data,
@@ -390,6 +399,7 @@ class Organizer(Seller):
                         )
         db.session.add(fest)
         db.session.commit()
+        return fest.fest_id
 
     def cancel_fest(self, fest_id):
         fest = Festival.query.filter_by(fest_id=fest_id).first()

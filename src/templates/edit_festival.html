@@ -29,6 +29,7 @@
         color: white;
     }
 </style>
+
 <img style="margin-top:150px;" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" alt=" Putt logo here"
     width="300" height="300">
 
@@ -114,26 +115,6 @@
         </tr>
     </table>
 
-    <!-- <br> -->
-
-    <!-- <h4>Festival name: {{ fest.fest_name }}</h4> -->
-    <!-- <h4>fest_id {{ fest.fest_id }}</h4> -->
-    <!-- <h4>fest_name {{ fest.fest_name }}</h4> -->
-    <!-- <h4>description {{ fest.description }}</h4> -->
-    <!-- <h4>style {{ fest.style }}</h4> -->
-    <!-- <h4>address {{ fest.address }}</h4> -->
-    <!-- <h4>cost {{ fest.cost }}</h4> -->
-    <!-- <h4>time_from {{ fest.time_from }}</h4> -->
-    <!-- <h4>Tags : {{ fest.tag }}</h4> -->
-    <!-- <h4>time_to {{ fest.time_to }}</h4> -->
-    <!-- <h4>max_capacity {{ fest.max_capacity }}</h4> -->
-    <!-- <h4>current_ticket_count {{ fest.current_ticket_count }}</h4> -->
-    <!-- <h4>age_restriction {{ fest.age_restriction }}</h4> -->
-    <!-- <h4>sale {{ fest.sale }}</h4> -->
-    <!-- <h4>org_id {{ fest.org_id }}</h4> -->
-    <!-- <h4>canceled {{ fest.canceled }}</h4> -->
-    <!-- <br> -->
-    <!-- Organizator: {{ fest.organizer.org_id }} -->
     {% else %}
     <form action="/my_festivals/add" method="POST">
         {% for field in form if field.name != 'csrf_token' %}
@@ -189,17 +170,33 @@
     {% endfor %}
     <!-- "min-width: 11%;border-radius: 12px;height: 40px; margin-left: 1%;margin-bottom: 0.3%;" -->
     <h2 style="margin-left: 40%;">SELLERS</h2>
-    <button style=" margin-left: 40%; border-radius: 12px;min-width:7.5%;" disabled="disabled">Add
-        seller</button><br><br>
-    <button style="margin-left: 40%; border-radius: 12px;min-width: 7.5%;" disabled="disabled">Create seller</button>
-    <form action="">
+    <!-- <button style="margin-left: 40%; border-radius: 12px;min-width: 7.5%;" disabled="disabled">Create seller</button> -->
+    <form action="/my_festivals/{{ fest.fest_id }}/add_seller" method="POST">
+        <button style=" margin-left: 40%; border-radius: 12px;min-width:7.5%;" type="submit">
+            Add existing seller to festival
+        </button><br><br>
         <legend class="border-bottom mb-4">Seller ID</legend>
-        <input type="text" />
+        <input name="seller_id" type="text"/>
+    </form>
+    <form action="/my_festivals/{{ fest.fest_id }}/create_seller" method="POST">
+        <button style=" margin-left: 40%; border-radius: 12px;min-width:7.5%;" type="submit">
+            Create new seller
+        </button><br><br>
+        
+        {% for field in seller_form if field.name != 'csrf_token'  %}
+        <legend class="border-bottom mb-4">{{ field.label() }}</legend>
+        {{ field() }}
+        {% endfor %}
+        
+
     </form>
     {% for seller in sellers %}
     <div>
         <h4>Seller ID</h4>
         {{ seller.seller_id }}
+        <a href="/my_festivals/{{ fest.fest_id }}/del_seller/{{ seller.seller_id }}">
+            <button>Remove seller</button>
+        </a>
     </div>
     {% endfor %}
 </div>
