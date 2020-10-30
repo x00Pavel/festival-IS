@@ -272,6 +272,7 @@ def add_festival():
         fest=None,
         perfs=[],
         sellers=[],
+        user_columns=current_user
     )
 
 
