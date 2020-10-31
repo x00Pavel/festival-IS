@@ -73,24 +73,24 @@
 
 
 
-            {% if current_user.perms < 3 %}
-            <td><a href="/my_festivals/{{ fest_id }}/manage_tickets"><button>manage
+            {% if current_user.user_id == fest.org_id  %}
+            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
                         tickets</button></a>
-                <a href="/my_festivals/{{ fest_id }}/edit"><button>edit
+                <a href="/my_festivals/{{ fest.fest_id }}/edit"><button>edit
                     </button></a>
-                <a href="/my_festivals/{{ fest_id }}/manage_tickets"><button>add
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>add
                         sellers</button></a>
-                <a href="/my_festivals/{{ fest_id }}/manage_tickets"><button>cancel
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>cancel
                         festival</button></a>
             </td>
             {% else %}
-            <td><a href="/my_festivals/{{ fest_id }}/manage_tickets"><button>manage
+            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
                         tickets</button></a>
-                <a href="/my_festivals/{{ fest_id }}/manage_tickets"><button type="button" disabled>edit
+                <a href="/my_festivals/{{ fest.fest_id }}/edit"><button type="button" disabled>edit
                     </button></a>
-                <a href="/my_festivals/{{ fest_id }}/manage_tickets"><button type="button" disabled>add
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button type="button" disabled>add
                         sellers</button></a>
-                <a href="/my_festivals/{{ fest_id }}/manage_tickets"><button type="button" disabled>cancel
+                <a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button type="button" disabled>cancel
                         festival</button></a></td>
             {% endif %}
 
@@ -125,7 +125,7 @@
             {% else %}
             <td style="background-color: #F08080;">CANCELED</td>
             {% endif%}
-            {% if current_user.perms < 3 %}
+            {% if current_user.user_id == fest.org_id  %}
             <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
                         tickets</button></a>
                 <a href="/my_festivals/{{ fest.fest_id }}/edit"><button>edit
