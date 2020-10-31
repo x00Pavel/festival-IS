@@ -1,0 +1,61 @@
+<div>
+    <h2>Users</h2>
+    {% for user in users[0] %}
+    <div>
+        Name: {{ user.name }} 
+        <br>
+        Surname:{{ user.surname }}
+        <br>
+        <button disabled="disabled">Remove user</button>
+
+    </div>
+    {% endfor %}
+    <h2>Sellers</h2>
+    {% for seller in users[1] %}
+    <div>
+        Seller ID: {{ seller.seller_id }}
+        <br>
+        Name: {{ seller.name }}
+        <br>
+        Surname: {{ seller.surname }}
+        <br>
+        <button disabled="disabled">Remove from sellers</button>
+        <button disabled="disabled">Remove user</button>
+    </div>
+    {% endfor %}
+    <h2>Organizers</h2>
+    {% for org in users[2] %}
+    <div>
+        Organizer ID: {{ org.seller_id }}
+        <br>
+        Name: {{ org.name }}
+        <br>
+        Surname: {{ org.surname }}
+        <br>
+        <button disabled="disabled">Remove from organizers</button>
+        <button disabled="disabled">Remove from sellers</button>
+        <button disabled="disabled">Remove user</button>
+    </div>
+    {% endfor %}
+    {% if user_columns.perms == 0 %}
+    <h2>Admins</h2>
+    {% for admin in users[3] %}
+    <div>
+        Organizer ID: {{ admin.seller_id }}
+        <br>
+        Name: {{ admin.name }}
+        <br>
+        Surname: {{ admin.surname }}
+        <br>
+        <button disabled="disabled">Remove from admins</button>
+        <button disabled="disabled">Remove from organizers</button>
+        <button disabled="disabled">Remove from sellers</button>
+        <button disabled="disabled">Remove user</button>
+    </div>
+    {% endfor %}
+
+        <!-- <button disabled="disabled">Remove from admins</button>
+        <button disabled="disabled">Remove from organizers</button>
+        <button disabled="disabled">Remove from sellers</button> -->
+    {% endif %}
+</div>

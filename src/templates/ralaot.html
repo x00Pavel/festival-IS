@@ -72,9 +72,6 @@
                 <a class="site-header" href="{{ url_for('manage_users') }}">Manage users</a><br>
                 <a class="site-header" href="{{ url_for('manage_bands') }}">Manage bands</a><br>
                 {% endif %}
-                {% if current_user.perms < 1 %}
-                <a class="site-header" href="{{ url_for('manage_admins') }}">Manage admins</a><br>
-                {% endif %}
 
                 {% endif %}
 

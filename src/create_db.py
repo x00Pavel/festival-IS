@@ -521,14 +521,16 @@ class Admin(Organizer):
         super(Organizer, self).__init__(**kwargs)
         self.admin_id = self.get_id()
 
-    def add_organizer(self):
+
+
+    def delete_user(self, user_id):
         pass
 
-    def delete_user(self):
-        pass
-
-    def list_users(self):
-        pass
+    def get_all_users(self):
+        organizers = User.query.filter_by(perms=2).all()
+        sellers = User.query.filter_by(perms=3).all()
+        users = User.query.filter_by(perms=4).all()
+        return [users, sellers, organizers]
 
 
 class RootAdmin(Admin):
@@ -546,6 +548,13 @@ class RootAdmin(Admin):
     def __init__(self, **kwargs):
         super(Admin, self).__init__(**kwargs)
         root_admin_id = self.get_id()
+    
+    def get_all_users(self):
+        admins = User.query.filter_by(perms=1).all()
+        tmp = Admin.get_all_users(self) + [admins]
+        # tmp.append(admins)
+        return tmp
+
 
     def add_admin(self):
         pass

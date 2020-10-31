@@ -415,13 +415,10 @@ def manage_organizers():
 @login_required
 @app.route("/manage_users")
 def manage_users():
-    return "<h2>TODO</h2> function manage_users"
+    users = current_user.get_all_users()
+    print(users)
+    return render_template("users_page.html", users=users, user_columns=current_user)
 
-
-@login_required
-@app.route("/manage_admins")
-def manage_admins():
-    return "<h2>TODO</h2> function manage_admins"
 
 
 @login_required
