@@ -43,7 +43,7 @@ class Festival(db.Model):
     status = Column("status", Integer, default=0)
 
     organizer = relationship("Organizer", foreign_keys=org_id)
-    
+
     def __repr__(self):
         return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}, {self.sale}"
 
@@ -295,10 +295,21 @@ class Seller(User):
     def get_festivals(self):
         today = datetime.today()
         actual_fests, outdated_fests = [], []
-        fests = SellersList.query.filter_by(seller_id=self.seller_id).all() # FIXME:  SellersList - is not festivals!!! maybe rename?
-        fests.sort(key=lambda festlist: festlist.fest.time_from)
+
+        sellers_fests = [
+            f[0]
+            for f in SellersList.query.with_entities(SellersList.fest_id).filter_by(
+                seller_id=self.seller_id
+            )
+        ]
+        fests = Festival.query.filter(
+            or_(Festival.fest_id.in_(sellers_fests), Festival.org_id == self.user_id)
+        ).all()
+
+        fests.sort(key=lambda fest: fest.time_from)
+
         for fest in fests:
-            if fest.fest.time_from >= today:
+            if fest.time_from >= today:
                 actual_fests.append(fest)
             else:
                 outdated_fests.append(fest)
@@ -365,16 +376,21 @@ class Organizer(Seller):
         seller_id = form.get("seller_id")
         seller = Seller.query.filter_by(seller_id=seller_id).first()
         if seller is None:
-            return(f"Seller with ID {seller_id} does nox exist.", "info")
+            return (f"Seller with ID {seller_id} does nox exist.", "info")
 
         new_seller_list = SellersList(fest_id=fest_id, seller_id=seller_id)
         db.session.add(new_seller_list)
         db.session.commit()
 
-        return (f"Seller {seller_id} successfully added to festival {fest_id}", "success")        
+        return (
+            f"Seller {seller_id} successfully added to festival {fest_id}",
+            "success",
+        )
 
     def fest_del_seller(self, fest_id, seller_id):
-        seller = SellersList.query.filter(SellersList.fest_id == fest_id, SellersList.seller_id == seller_id).first()
+        seller = SellersList.query.filter(
+            SellersList.fest_id == fest_id, SellersList.seller_id == seller_id
+        ).first()
         db.session.delete(seller)
         db.session.commit()
 
@@ -384,20 +400,21 @@ class Organizer(Seller):
         return [row for row in Festival.query.all()]
 
     def add_fest(self, form):
-        fest = Festival(fest_name=form["fest_name"].data,
-                        fest_logo = form["fest_logo"].data,
-                        description=form["fest_description"].data,
-                        style=form["fest_style"].data,
-                        cost=form["fest_cost"].data,
-                        time_from=form["fest_time_from"].data,
-                        time_to=form["fest_time_to"].data,
-                        address=form["fest_address"].data,
-                        max_capacity=form["fest_max_capacity"].data,
-                        age_restriction=form["fest_age_restriction"].data,
-                        sale=form["fest_sale"].data,
-                        org_id=form["fest_org_id"].data,
-                        status=form["fest_status"].data
-                        )
+        fest = Festival(
+            fest_name=form["fest_name"].data,
+            fest_logo=form["fest_logo"].data,
+            description=form["fest_description"].data,
+            style=form["fest_style"].data,
+            cost=form["fest_cost"].data,
+            time_from=form["fest_time_from"].data,
+            time_to=form["fest_time_to"].data,
+            address=form["fest_address"].data,
+            max_capacity=form["fest_max_capacity"].data,
+            age_restriction=form["fest_age_restriction"].data,
+            sale=form["fest_sale"].data,
+            org_id=form["fest_org_id"].data,
+            status=form["fest_status"].data,
+        )
         db.session.add(fest)
         db.session.commit()
         return fest.fest_id
@@ -464,8 +481,13 @@ class Organizer(Seller):
             and datetime.strptime(datetime_to, "%Y-%m-%d %H:%M")
             > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
         ):
-            print(f"Date of performance is out of festival dates: {datetime_from} - {datetime_to}")
-            return (f"Date of performance is out of festival dates: {datetime_from} - {datetime_to}", "warning")
+            print(
+                f"Date of performance is out of festival dates: {datetime_from} - {datetime_to}"
+            )
+            return (
+                f"Date of performance is out of festival dates: {datetime_from} - {datetime_to}",
+                "warning",
+            )
 
         print(datetime.strptime(datetime_from, "%Y-%m-%d %H:%M"))
         # Find collisions with other performances
@@ -473,8 +495,10 @@ class Organizer(Seller):
             Performance.stage_id == stage.stage_id,
             or_(
                 and_(
-                    Performance.time_from < datetime.strptime(datetime_from, "%Y-%m-%d %H:%M"),
-                    Performance.time_to > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M"),
+                    Performance.time_from
+                    < datetime.strptime(datetime_from, "%Y-%m-%d %H:%M"),
+                    Performance.time_to
+                    > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M"),
                 ),
                 and_(
                     Performance.time_from
@@ -483,20 +507,33 @@ class Organizer(Seller):
                     > datetime.strptime(datetime_to, "%Y-%m-%d %H:%M"),
                 ),
                 and_(
-                    datetime.strptime(datetime_from, "%Y-%m-%d %H:%M") < Performance.time_from,
-                    datetime.strptime(datetime_to, "%Y-%m-%d %H:%M") > Performance.time_to,
-                )
+                    datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
+                    < Performance.time_from,
+                    datetime.strptime(datetime_to, "%Y-%m-%d %H:%M")
+                    > Performance.time_to,
+                ),
             ),
         ).all()
         if collisions:
-            ids = ', '.join([str(perf.perf_id) for perf in collisions])
+            ids = ", ".join([str(perf.perf_id) for perf in collisions])
             print(f"There is collisions with other performances: {ids}")
             return (f"There is collisions with other performances: {ids}", "warning")
-        perf = Performance(stage_id=stage.stage_id, band_id=band.band_id, fest_id=fest_id, time_from=datetime_from, time_to=datetime_to)
+        perf = Performance(
+            stage_id=stage.stage_id,
+            band_id=band.band_id,
+            fest_id=fest_id,
+            time_from=datetime_from,
+            time_to=datetime_to,
+        )
         db.session.add(perf)
         db.session.commit()
-        print(f"Performance {perf.perf_id}: Band {band.name} add to stage {stage.stage_id}")
-        return (f"Performance {perf.perf_id}: Band {band.name} add to stage {stage.stage_id}", "success")
+        print(
+            f"Performance {perf.perf_id}: Band {band.name} add to stage {stage.stage_id}"
+        )
+        return (
+            f"Performance {perf.perf_id}: Band {band.name} add to stage {stage.stage_id}",
+            "success",
+        )
 
     def delete_band(self, band_id):
         band = Band.query.filter_by(band_id=band_id).first()
@@ -550,7 +587,7 @@ class RootAdmin(Admin):
     def __init__(self, **kwargs):
         super(Admin, self).__init__(**kwargs)
         root_admin_id = self.get_id()
-    
+
     def get_all_users(self):
         admins = User.query.filter_by(perms=1).all()
         tmp = Admin.get_all_users(self) + [admins]
@@ -559,16 +596,19 @@ class RootAdmin(Admin):
     def add_admin(self, form):
         admin = Admin.query.filter_by(user_email=form.get("email")).first()
         if admin is None:
-            admin = Admin(name=form.get("name"),
-                        surname=form.get("surname"), 
-                        user_email=form.get("email"),
-                        passwd=generate_password_hash(form.get("password")),
-                        perms=1,
-                        address=form.get("address"))
+            admin = Admin(
+                name=form.get("name"),
+                surname=form.get("surname"),
+                user_email=form.get("email"),
+                passwd=generate_password_hash(form.get("password")),
+                perms=1,
+                address=form.get("address"),
+            )
             db.session.add(admin)
             db.session.commit()
             return (f"Admin {admin.admin_id} added to system", "success")
         return (f"Admin with email {form.get('email')} is already exists", "success")
+
 
 class Ticket(db.Model):
     """Representation of ticket on festival
