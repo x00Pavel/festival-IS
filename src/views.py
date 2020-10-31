@@ -407,18 +407,11 @@ def cancel_fest(fest_id, action):
 
 
 @login_required
-@app.route("/manage_organizers")
-def manage_organizers():
-    return "<h2>TODO</h2> function manage_organizers"
-
-
-@login_required
 @app.route("/manage_users")
 def manage_users():
     users = current_user.get_all_users()
     print(users)
     return render_template("users_page.html", users=users, user_columns=current_user)
-
 
 
 @login_required
