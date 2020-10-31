@@ -1,11 +1,11 @@
 name,logo,scores,genre,tags,created_on
-Boy Band,some url to logo,5,rap,cool great fine,2020-01-01
-ACDC,some url to logo ACDC,10,metal,best of ever,2019-12-01
-Eminen,some url to logo Eminen,5,rap,beast in rap,2018-10-20
-Test band 1,logo Test band 1,5,jazz, test band 1,2018-12-18
-Test band 2,logo Test band 2,2,rap,test band 2,2019-06-06
-Test band 3,logo Test band 3,3,folk,test band 3,2020-10-06
-Test band 4,logo Test band 4,5,rock,test band 4,2020-02-10
-Test band 5,logo Test band 5,1,hardcore,test band 5,2020-05-23
-Test band 6,logo Test band 6,5,dupstep,test band 6,2020-10-10
-Test band 7,logo Test band 7,3,rap,test band 7,2020-08-19
+Boy Band,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,5,rap,cool great fine,2020-01-01
+ACDC,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,10,metal,best of ever,2019-12-01
+Eminen,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,5,rap,beast in rap,2018-10-20
+Test band 1,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,5,jazz, test band 1,2018-12-18
+Test band 2,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,2,rap,test band 2,2019-06-06
+Test band 3,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,3,folk,test band 3,2020-10-06
+Test band 4,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,5,rock,test band 4,2020-02-10
+Test band 5,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,1,hardcore,test band 5,2020-05-23
+Test band 6,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,5,dupstep,test band 6,2020-10-10
+Test band 7,https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png,3,rap,test band 7,2020-08-19
