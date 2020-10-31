@@ -1,4 +1,5 @@
 <div>
+    <!-- TODO: replace with one for loop -->
     <h2>Users</h2>
     {% for user in users[0] %}
     <div>
@@ -6,7 +7,9 @@
         <br>
         Surname:{{ user.surname }}
         <br>
-        <button disabled="disabled">Remove user</button>
+        Active: {{ user.active }}
+        <br>
+        <a href="/manage_users/{{ user.user_id }}/remove_user"><button>Remove user</button></a>
 
     </div>
     {% endfor %}
@@ -19,8 +22,10 @@
         <br>
         Surname: {{ seller.surname }}
         <br>
+        Active: {{ seller.active }}
+        <br>
         <button disabled="disabled">Remove from sellers</button>
-        <button disabled="disabled">Remove user</button>
+        <a href="/manage_users/{{ seller.seller_id }}/remove_user"><button>Remove user</button></a>
     </div>
     {% endfor %}
     <h2>Organizers</h2>
@@ -32,13 +37,23 @@
         <br>
         Surname: {{ org.surname }}
         <br>
+        Active: {{ org.active }}
+        <br>
         <button disabled="disabled">Remove from organizers</button>
         <button disabled="disabled">Remove from sellers</button>
-        <button disabled="disabled">Remove user</button>
+        <a href="/manage_users/{{ org.org_id }}/remove_user"><button>Remove user</button></a>
     </div>
     {% endfor %}
     {% if user_columns.perms == 0 %}
     <h2>Admins</h2>
+    <form action="/manage_users/add_admin" method="POST">
+        {% for field in admin_form if field.name != 'csrf_token'  %}
+        {% if field.name != 'submit' %}
+        <legend class="border-bottom mb-4">{{ field.label() }}</legend>
+        {% endif %}
+        {{ field() }}
+        {% endfor %}
+    </form>
     {% for admin in users[3] %}
     <div>
         Organizer ID: {{ admin.seller_id }}
@@ -47,10 +62,12 @@
         <br>
         Surname: {{ admin.surname }}
         <br>
-        <button disabled="disabled">Remove from admins</button>
+        Active: {{ admin.active }}
+        <br>
+        <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button disabled="true">Remove from admins</button></a>
         <button disabled="disabled">Remove from organizers</button>
         <button disabled="disabled">Remove from sellers</button>
-        <button disabled="disabled">Remove user</button>
+        <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button>Remove user</button></a>
     </div>
     {% endfor %}
 

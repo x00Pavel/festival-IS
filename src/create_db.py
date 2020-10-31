@@ -178,6 +178,7 @@ class User(UserMixin, db.Model):
     )
     perms = Column("perms", Integer, nullable=False)
     address = Column("address", String(50), nullable=False)
+    active = Column("active", Boolean, default=True)
 
     __mapper_args__ = {"polymorphic_identity": 4, "polymorphic_on": perms}
     _is_authenticated = True
@@ -521,10 +522,11 @@ class Admin(Organizer):
         super(Organizer, self).__init__(**kwargs)
         self.admin_id = self.get_id()
 
-
-
-    def delete_user(self, user_id):
-        pass
+    def remove_user(self, user_id):
+        user = User.query.filter_by(user_id=user_id).first()
+        user.active = False
+        db.session.commit()
+        return (f"User {user_id} is removed", "success")
 
     def get_all_users(self):
         organizers = User.query.filter_by(perms=2).all()
@@ -552,13 +554,21 @@ class RootAdmin(Admin):
     def get_all_users(self):
         admins = User.query.filter_by(perms=1).all()
         tmp = Admin.get_all_users(self) + [admins]
-        # tmp.append(admins)
         return tmp
 
-
-    def add_admin(self):
-        pass
-
+    def add_admin(self, form):
+        admin = Admin.query.filter_by(user_email=form.get("email")).first()
+        if admin is None:
+            admin = Admin(name=form.get("name"),
+                        surname=form.get("surname"), 
+                        user_email=form.get("email"),
+                        passwd=generate_password_hash(form.get("password")),
+                        perms=1,
+                        address=form.get("address"))
+            db.session.add(admin)
+            db.session.commit()
+            return (f"Admin {admin.admin_id} added to system", "success")
+        return (f"Admin with email {form.get('email')} is already exists", "success")
 
 class Ticket(db.Model):
     """Representation of ticket on festival

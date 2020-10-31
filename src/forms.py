@@ -105,9 +105,10 @@ class FestivalForm(FlaskForm):
     fest_status = IntegerField("Status", default=0)
 
 
-class SellerForm(FlaskForm):
-    email = StringField("Seller email", validators=[DataRequired()])
+class RoleForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired()])
     name = StringField("Name", validators=[DataRequired()])
     surname = StringField("Surname", validators=[DataRequired()])
     address = StringField("Address", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Add role")

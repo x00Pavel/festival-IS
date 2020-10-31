@@ -261,7 +261,7 @@ def my_festivals():
 def add_festival():
     form = FestivalForm()
     form.fest_org_id.data = current_user.org_id
-    seller_form = SellerForm()
+    seller_form = RoleForm()
     form.fest_org_id = current_user.org_id
     if request.method == "POST":
         fest_id = current_user.add_fest(form)
@@ -282,7 +282,7 @@ def add_festival():
 @login_required
 @app.route("/my_festivals/<fest_id>/edit", methods=["GET", "POST"])
 def edit_festival(fest_id):
-    seller_form = SellerForm()
+    seller_form = RoleForm()
     fest = current_user.get_all_festivals(fest_id)
     perfs = current_user.get_perf(fest_id=fest_id)
     sellers = current_user.get_sellers(fest_id)
@@ -410,8 +410,23 @@ def cancel_fest(fest_id, action):
 @app.route("/manage_users")
 def manage_users():
     users = current_user.get_all_users()
-    print(users)
-    return render_template("users_page.html", users=users, user_columns=current_user)
+    admin_form = RoleForm()
+    return render_template("users_page.html", users=users, admin_form=admin_form, user_columns=current_user)
+
+@login_required
+@app.route("/manage_users/add_admin", methods=["POST"])
+def add_admin():
+    response, status = current_user.add_admin(request.form)
+    flash(response, status)
+    return redirect("/manage_users")
+
+
+@login_required
+@app.route("/manage_users/<user_id>/remove_user")
+def remove_user(user_id):
+    response, status = current_user.remove_user(user_id)
+    flash(response, status)
+    return redirect("/manage_users")
 
 
 @login_required
