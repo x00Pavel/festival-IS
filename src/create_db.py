@@ -112,14 +112,22 @@ class Performance(db.Model):
 class BaseUser:
     @classmethod
     def reserve_ticket(cls, form, fest_id):
+        checker = User.query.filter_by(user_email=form.user_email.data).count()
+        if checker != 0:
+            raise ValueError(
+                """
+                You have registered account, please, login to continue with reservation.
+                """
+            )
         blocker = Ticket.query.filter_by(
             user_email=form.user_email.data, approved=0
         ).count()
         if blocker > 3:
             raise ValueError(
                 """
-                You have already issued the maximum reservations for this festival,
-                please pay for part of the reservations, or contact us to cancel your reservation."""
+                You have already issued the maximum reservations for unregistered user,
+                please pay for part of the reservations, or create account to continue.
+                """
             )
         ticket = Ticket(
             user_email=form.user_email.data,
@@ -258,7 +266,9 @@ class User(UserMixin, db.Model):
     def get_tickets(self):
         today = datetime.now()
         actual_tickets, outdated_tickets = [], []
-        tickets = Ticket.query.filter_by(user_id=self.user_id).all()
+        tickets = Ticket.query.filter(
+            or_(Ticket.user_id == self.user_id, Ticket.user_email == self.user_email)
+        ).all()
         tickets.sort(key=lambda ticket: ticket.fest.time_from)
         for ticket in tickets:
             if ticket.fest.time_from >= today:
@@ -361,7 +371,10 @@ class Organizer(Seller):
     def create_seller(self, form, fest_id=None):
         seller = Seller.query.filter_by(user_email=form.get("email")).first()
         if seller != None:
-            return (f"User with this email ({seller.user_email}) is already exist", "warning")
+            return (
+                f"User with this email ({seller.user_email}) is already exist",
+                "warning",
+            )
         seller = Seller(
             user_email=form.get("email"),
             name=form.get("name"),

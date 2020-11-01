@@ -86,7 +86,7 @@
 
     <h2 style="margin-left: 1%; color: white; background-color:black;"> Your outdated
         reservations</h2>
-    {% for ticket  in outdated_tickets %}
+    
     <table id="customers">
         <tr>
             <th>RESERVATION №:</th>
@@ -98,7 +98,7 @@
             <th>CANCELLATION REASON:</th>
 
         </tr>
-
+        {% for ticket  in outdated_tickets %}
         <tr>
             <td>{{ ticket.ticket_id }}</td>
             <td>{{ ticket.fest.fest_name }}</td>
