@@ -247,7 +247,7 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     def cancel_ticket(self, ticket_id):
-        today = date.today()
+        today = datetime.now()
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
         if ticket.approved == 0 and today < ticket.fest.time_to:
             ticket.fest.current_ticket_count -= 1
@@ -321,7 +321,7 @@ class Seller(User):
 
     def manage_ticket_seller(self, ticket_id, action, reason):
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
-        today = date.today()
+        today = datetime.now()
         if action == "approve" and ticket.approved == 0 and today < ticket.fest.time_to:
             ticket.approved = 1
             if reason == "":
