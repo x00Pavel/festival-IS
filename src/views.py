@@ -25,9 +25,9 @@ def home():
 
     if current_user.is_authenticated:
         return render_template(
-            "festivals.html", user_columns=current_user, posts=list_of_dicts
+            "festivals.html", user_columns=current_user, fests=list_of_dicts
         )
-    return render_template("festivals.html", posts=list_of_dicts)
+    return render_template("festivals.html", fests=list_of_dicts)
 
 
 @app.route("/about")

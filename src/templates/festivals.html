@@ -37,17 +37,17 @@
 <body>
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
-			{% for post in posts %}
-			{% if post.description != None %}
+			{% for fest in fests %}
+			{% if fest.description != None %}
 			<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
-				<img class="d-block" src="https://festival-static.s3-eu-west-1.amazonaws.com/f1.jpg">
+				<img class="d-block" src="{{fest.fest_logo}}">
 
 				<div class="container12">
-					<img src="https://festival-static.s3-eu-west-1.amazonaws.com/f2.jpg" alt="Norway"
+					<img src="{{fest.fest_logo}}" alt="Norway"
 						style="width:100%;">
 					<div class="text-block12">
-						<h4>{{ post.description}}</h4>
-						<p>{{ post.address}}</p>
+						<h4>{{ fest.description}}</h4>
+						<p>{{ fest.address}}</p>
 					</div>
 				</div>
 			</div>
@@ -153,19 +153,19 @@
 		<div class="container">
 
 			<div class="row">
-				{% for post in posts %}
-				{% if post.description != None %}
+				{% for fest in fests %}
+				{% if fest.description != None %}
 				<div class="col-md-4">
 					<div class="card mb-4 shadow-sm">
-						<a href="festival\/{{ post.fest_id }}">
+						<a href="festival\/{{ fest.fest_id }}">
 							<svg class="bd-placeholder-img card-img-top" width="100%" height="350"
-								xmlns="festival\/{{ post.fest_id }}" preserveAspectRatio="xMidYMid slice"
+								xmlns="festival\/{{ fest.fest_id }}" preserveAspectRatio="xMidYMid slice"
 								focusable="false" role="img" aria-label="Placeholder: Thumbnail">
 
 								<image height="100%" class="firstpic"
-									href="https://festival-static.s3-eu-west-1.amazonaws.com/f1.jpg"
+									href="{{fest.fest_logo}}"
 									clip-path="url(#myCircle)"></image>
-								{% if post.sale != 0 %}
+								{% if fest.sale != 0 %}
 								<image class="secondpic"
 									href="https://festival-static.s3-eu-west-1.amazonaws.com/salecroped.png">
 
@@ -177,23 +177,23 @@
 							</svg>
 						</a>
 						<div class="card-body bg-dark text-danger w-100 p-3 " style="max-height: 500%;">
-							<p class="card-text"> FESTIVAL NAME: {{ post.fest_name}}</p>
-							<p class="card-text"> FROM: {{ post.time_from}} TO : {{post.time_to}}</p>
-							<p class="card-text">{{ post.address}}</p>
-							{% set new_var  = post.cost * post.sale / 100 %}
+							<p class="card-text"> FESTIVAL NAME: {{ fest.fest_name}}</p>
+							<p class="card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
+							<p class="card-text">{{ fest.address}}</p>
+							{% set new_var  = fest.cost * fest.sale / 100 %}
 
-							{% if post.sale == 0 %}
-							<p class="card-text">{{ post.cost}}.0 $</p>
+							{% if fest.sale == 0 %}
+							<p class="card-text">{{ fest.cost}}.0 $</p>
 							{%else%}
 
-							<p class="card-text"> <del>{{ post.cost }}.0 $</del> <ins>{{ new_var }}$</ins> </p>
+							<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <ins>{{ new_var }}$</ins> </p>
 							{% endif %}
 							<div class="d-flex justify-content-between align-items-center">
 								<div class="btn-group">
-									<a href="festival\/{{ post.fest_id }}"> <button type="button"
+									<a href="festival\/{{ fest.fest_id }}"> <button type="button"
 											class="btn btn-sm btn-outline-secondary">View</button></a>
 								</div>
-								<small class="text-muted">TIME POSTED</small>
+								<small class="text-muted">TIME festED</small>
 							</div>
 						</div>
 					</div>
