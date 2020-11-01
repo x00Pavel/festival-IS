@@ -67,15 +67,14 @@
               <div id="Demo" class="dropdown-content">
                 <a class="site-header" href="{{ url_for('my_tickets') }}">My tickets</a><br>
                 <a class="site-header" href="{{ url_for('account') }}">My account</a><br>
-                {% if current_user.role_active %}
                 {% if current_user.perms < 4 %}
                 <a class="site-header" href="{{ url_for('my_festivals') }}">My festivals</a><br>
                 {% if current_user.perms < 3 %}
+                <a class="site-header" href="{{ url_for('manage_festivals') }}">Manage festivals</a><br>
                 <a class="site-header" href="{{ url_for('manage_bands') }}">Manage bands</a><br>
                 {% endif %}
                 {% if current_user.perms < 2 %}
                 <a class="site-header" href="{{ url_for('manage_users') }}">Manage users</a><br>
-                {% endif %}
                 {% endif %}
                 {% endif %}
 

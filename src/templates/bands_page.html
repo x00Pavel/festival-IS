@@ -1,5 +1,8 @@
-<div>
-    <h3>Add bands</h3>
+{% extends "ralaot.html" %}
+{% block content %}
+<br><br><br><br><br>
+<div class="center_user_html">
+    <h3>ADD BANDS</h3>
     <form method="POST" action="/manage_bands/add">
         <legend class="border-bottom mb-4">Name</legend>
         <div class="form-group">
@@ -24,20 +27,39 @@
 
         <button type="submit" formmethod="POST">Add band</button>
     </form>
-    
-    {% for band in bands %}
-    <div>
-        <!-- TODO: Show festivals for bands -->
-        Band name: {{ band.name }} <br>
-        Band scores: {{ band.scores }} <br>
-        Band genre: {{ band.genre }} <br>
-        Tags: {{ band.tags }} <br>
-        <a href="/manage_bands/{{ band.band_id }}/delete">
-            <button type="button">Delete band</button>
-        </a>
-    </div>
-    {% endfor %}
+    <br>
+    <hr>
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <br>
+    <table id="customers" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>BAND NAME</th>
+                <th>BAND SCORES</th>
+                <th>BAND GENRE</th>
+                <th>TAGS</th>
+                <th>EDIT</th>
+            </tr>
+        </thead>
+
+        {% for band in bands %}
+        <tbody id="myTable">
+            <tr>
+                <td>{{ band.name }}</td>
+                <td>{{ band.scores }}</td>
+                <td>{{ band.genre }}</td>
+                <td> {{ band.tags }}</td>
+                <td>
+                    <button type="button">Delete band</button>
+                </td>
+            </tr>
+
+        </tbody>
+        {% endfor %}
+    </table>
+
 
 
 
 </div>
+{% endblock content %}

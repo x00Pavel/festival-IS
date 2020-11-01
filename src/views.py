@@ -72,7 +72,7 @@ def login(user=None):
         if user is not None:
             if not user.active:
                 flash("Your user is removed by admin", "warning")
-                return redirect("/") 
+                return redirect("/")
             remember = True if request.form.get("remember") else False
             if user.check_passwd(form.password.data):
                 user.is_authenticated = True
@@ -139,12 +139,12 @@ def submit_form():
 # Listen for GET requests to yourdomain.com/sign_s3/
 @app.route("/sign-s3/<folder>/<_id>/")
 @login_required
-def sign_s3(folder,_id):
+def sign_s3(folder, _id):
     # Load necessary information into the application
     S3_BUCKET = os.environ.get("S3_BUCKET")
 
     # Load required data from the request
-    folder_name = f'{folder}/{_id}'
+    folder_name = f"{folder}/{_id}"
     file_name = request.args.get("file-name")
     file_type = request.args.get("file-type")
 
@@ -210,8 +210,13 @@ def festival_page(fest_id):
             return redirect("/")
         flash("Ticket is successfully reserved", "success")
         return redirect("/")
-    return render_template("festival_page.html", fest=fest, user_columns=current_user, form=form,
-        anonym=current_user.is_anonymous,)
+    return render_template(
+        "festival_page.html",
+        fest=fest,
+        user_columns=current_user,
+        form=form,
+        anonym=current_user.is_anonymous,
+    )
 
 
 @login_required
@@ -286,6 +291,7 @@ def edit_festival(fest_id):
         sellers=sellers,
         org=None,
     )
+
 
 @login_required
 @app.route("/my_festivals/<fest_id>/cancel_festival")
@@ -381,7 +387,9 @@ def manage_sellers():
 @app.route("/manage_festivals")
 def manage_festivals():
     fests = current_user.get_all_festivals()
-    return render_template("manage_festival_page.html", fests=fests)
+    return render_template(
+        "manage_festival_page.html", fests=fests, user_columns=current_user
+    )
 
 
 @login_required
@@ -389,7 +397,10 @@ def manage_festivals():
 def manage_users():
     users = current_user.get_all_users()
     admin_form = RoleForm()
-    return render_template("users_page.html", users=users, admin_form=admin_form, user_columns=current_user)
+    return render_template(
+        "users_page.html", users=users, admin_form=admin_form, user_columns=current_user
+    )
+
 
 @login_required
 @app.route("/manage_users/add_admin", methods=["POST"])
@@ -406,6 +417,7 @@ def remove_role(user_id):
     flash(msg, status)
     return redirect("/manage_users")
 
+
 @login_required
 @app.route("/manage_users/<user_id>/remove_user")
 def remove_user(user_id):
@@ -421,7 +433,9 @@ def manage_bands():
     if form.validate_on_submit():
         current_user.add_band(form)
     bands = current_user.get_bands()
-    return render_template("bands_page.html", bands=bands, form=form)
+    return render_template(
+        "bands_page.html", bands=bands, form=form, user_columns=current_user
+    )
 
 
 @login_required

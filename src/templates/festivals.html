@@ -1,5 +1,6 @@
 {% extends "ralaot.html" %}
 {% block content %}
+{% set  glob_val_for_sale_ticket = False %}
 
 <head>
 	<meta charset="utf-8">
@@ -12,7 +13,7 @@
 	<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/album/">
 
 	<!-- Bootstrap core CSS -->
-	<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 	<style>
 		.bd-placeholder-img {
@@ -30,8 +31,7 @@
 			}
 		}
 	</style>
-	<!-- Custom styles for this template -->
-	<link href="album.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -43,8 +43,7 @@
 				<img class="d-block" src="{{fest.fest_logo}}">
 
 				<div class="container12">
-					<img src="{{fest.fest_logo}}" alt="Norway"
-						style="width:100%;">
+					<img src="{{fest.fest_logo}}" alt="Norway" style="width:100%;">
 					<div class="text-block12">
 						<h4>{{ fest.description}}</h4>
 						<p>{{ fest.address}}</p>
@@ -116,7 +115,7 @@
 
 
 
-					<label for="start">Starting:</label>
+					<label for="start">Starting: $slider.value </label>
 
 					<input type="date" id="start" name="fest-start" value="2020-10-21" min="2020-01-01"
 						max="2020-12-31">
@@ -132,14 +131,28 @@
 
 				</div>
 			</div>
-			<input class="check_box_for_sales_box" type="checkbox" id="sales" name="sales">
-			<label class="check_box_for_sales" for="scales">Tickeks with sale</label>
+			<input class="check_box_for_sales_box" type="checkbox" id="sales" name="sales" onclick="CheckBoxFunc()">
+			<label class=" check_box_for_sales" id="text" for="scales">{{ glob_val_for_sale_ticket }}</label>
+			<!-- <p id="text" style="display:none">{{ glob_val_for_sale_ticket }}</p> -->
 		</div>
 	</div>
 
 	<!-- End of filter bar -->
 
+	<script>
+		function CheckBoxFunc() {
+			var checkBox = document.getElementById("sales");
 
+			var text = document.getElementById("text");
+			if (checkBox.checked == true) {
+				{ { glob_val_for_sale_ticket = True } }
+
+			}
+			else {
+				{ { glob_val_for_sale_ticket = False } }
+			}
+		}
+	</script>
 
 
 
@@ -162,16 +175,20 @@
 								xmlns="festival\/{{ fest.fest_id }}" preserveAspectRatio="xMidYMid slice"
 								focusable="false" role="img" aria-label="Placeholder: Thumbnail">
 
-								<image height="100%" class="firstpic"
-									href="{{fest.fest_logo}}"
+								<image height="100%" class="firstpic" href="{{fest.fest_logo}}"
 									clip-path="url(#myCircle)"></image>
 								{% if fest.sale != 0 %}
 								<image class="secondpic"
 									href="https://festival-static.s3-eu-west-1.amazonaws.com/salecroped.png">
 
+								</image>
+								{% elif fest.max_capacity - fest.current_ticket_count != 0 %}
+								{
+								<image class="thirdpic"
+									href="https://festival-static.s3-eu-west-1.amazonaws.com/sold-out-png-19949.png">
 
 								</image>
-
+								}
 								{% else %}
 								{% endif %}
 							</svg>
@@ -213,7 +230,7 @@
 		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
 		crossorigin="anonymous"></script>
 	<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
-	<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
 	<style>
@@ -257,6 +274,7 @@
 	var values = document.getElementById("wrapper");
 	slider.oninput = function () {
 		values.style.bottom = slider.value * 40 + "px";
+		var lal = slider.value * 40 + "px";
 	}
 </script>
 {% endblock content %}

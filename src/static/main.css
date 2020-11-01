@@ -654,3 +654,58 @@ label {
 
       z-index: 2;
 }
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td,
+#customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even) {
+
+    background-color: #f2f2f2;
+}
+
+#customers tr:nth-child(odd) {
+
+    background-color: #BEBEBE;
+}
+
+#customers th {
+
+    text-align: left;
+    background-color: #000000;
+    color: white;
+}
+
+#customers ticket_ida {
+    /* width: 20px; */
+}
+
+#customers .reason_expansion {
+    width: 600px;
+    /* padding-top: -30px; */
+
+
+
+}
+
+#customers .narrow_user_names {
+    /* width: 20px; */
+}
+
+.center_user_html{
+   width: 100%;
+   display: table;
+   text-align: center;
+
+}
+.thirdpic
+{
+  width: 350px;
+}
