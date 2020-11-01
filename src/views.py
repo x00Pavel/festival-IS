@@ -296,13 +296,20 @@ def edit_festival(fest_id):
         org=None,
     )
 
+@login_required
+@app.route("/my_festivals/<fest_id>/cancel_festival")
+def cancel_fest(fest_id):
+    msg, status = current_user.cancel_fest(fest_id)
+    flash(msg, status)
+    return redirect(f"/my_festivals")
+
 
 @login_required
 @app.route("/my_festivals/<fest_id>/add_perf", methods=["POST"])
 def fest_add_perf(fest_id):
     form = request.form
-    result, status = current_user.fest_add_perf(form, fest_id)
-    flash(result, status)
+    msg, status = current_user.fest_add_perf(form, fest_id)
+    flash(msg, status)
     return redirect(f"/my_festivals/{fest_id}/edit")
 
 
@@ -318,8 +325,8 @@ def fest_del_perf(fest_id, perf_id):
 @app.route("/my_festivals/<fest_id>/add_seller", methods=["POST"])
 def fest_add_seller(fest_id):
     form = request.form
-    result, status = current_user.fest_add_seller(form, fest_id)
-    flash(result, status)
+    msg, status = current_user.fest_add_seller(form, fest_id)
+    flash(msg, status)
     return redirect(f"/my_festivals/{fest_id}/edit")
 
 
@@ -335,8 +342,8 @@ def fest_del_seller(fest_id, seller_id):
 @app.route("/my_festivals/<fest_id>/create_seller", methods=["POST"])
 def create_seller(fest_id):
     form = request.form
-    result, status = current_user.create_seller(form, fest_id)
-    flash(result, status)
+    msg, status = current_user.create_seller(form, fest_id)
+    flash(msg, status)
     return redirect(f"/my_festivals/{fest_id}/edit")
 
 
@@ -386,19 +393,19 @@ def manage_festivals():
     return render_template("manage_festival_page.html", fests=fests)
 
 
-@login_required
-@app.route("/manage_festivals/<fest_id>/<action>")
-def cancel_fest(fest_id, action):
-    if action == "del":
-        current_user.cancel_fest(fest_id)
-        return redirect("/manage_festivals")
-    elif action == "bands":
-        fest_bands = current_user.get_bands(fest_id)
-        return render_template("festival_bands.html", fest_bands=fest_bands)
-    elif action == "stages":
-        return render_template("festival_stages.html", stages=stages)
-    elif action == "performances":
-        return render_template("festival_perfs.html", perfs=perfs)
+# @login_required
+# @app.route("/manage_festivals/<fest_id>/<action>")
+# def cancel_fest(fest_id, action):
+#     if action == "del":
+#         current_user.cancel_fest(fest_id)
+#         return redirect("/manage_festivals")
+#     elif action == "bands":
+#         fest_bands = current_user.get_bands(fest_id)
+#         return render_template("festival_bands.html", fest_bands=fest_bands)
+#     elif action == "stages":
+#         return render_template("festival_stages.html", stages=stages)
+#     elif action == "performances":
+#         return render_template("festival_perfs.html", perfs=perfs)
 
 
 @login_required

@@ -74,23 +74,31 @@
 
 
             {% if current_user.user_id == fest.org_id  %}
-            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
-                        tickets</button></a>
-                <a href="/my_festivals/{{ fest.fest_id }}/edit"><button>edit
-                    </button></a>
-                <a href="/my_festivals/{{ fest.fest_id }}/add_seller"><button>add
-                        sellers</button></a>
-                <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button>cancel
-                        festival</button></a>
+            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets">
+                <button>manage tickets</button>
+                </a>
+                <a href="/my_festivals/{{ fest.fest_id }}/edit">
+                    <button>edit</button>
+                </a>
+                {% if fest.status == 2 %}
+                <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival">
+                    <button disabled>cancel festival</button>
+                </a>
+            </td>
+                {% else %}
+                <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival">
+                    <button>cancel festival</button>
+                </a>
+            </td>
+                {% endif %}
             </td>
             {% else %}
-            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
-                        tickets</button></a>
+            <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets">
+                    <button>manage tickets</button>
+                </a>
                 <a href="/my_festivals/{{ fest.fest_id }}/edit"><button type="button" disabled>edit
                     </button></a>
-                <a href="/my_festivals/{{ fest.fest_id }}/add_seller"><button type="button" disabled>add
-                        sellers</button></a>
-                <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button type="button" disabled>cancel
+                <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button type="submit" disabled>cancel
                         festival</button></a></td>
             {% endif %}
 
@@ -118,9 +126,9 @@
         <tr>
             <td class="td_field">{{ fest_id }}</td>
             <td>{{ fest.fest_name }}</td>
-            {% if fest.approved == 0%}
+            {% if fest.status == 0%}
             <td style="background-color: #FFFF99;  max-width: 100px;">WAITING FOR CONFIRMATION</td>
-            {% elif  fest.approved == 1%}
+            {% elif  fest.status == 1%}
             <td style="background-color: #99FF99;">CONFIRMED</td>
             {% else %}
             <td style="background-color: #F08080;">CANCELED</td>
@@ -130,18 +138,19 @@
                         tickets</button></a>
                 <a href="/my_festivals/{{ fest.fest_id }}/edit"><button>edit
                     </button></a>
-                <a href="/my_festivals/{{ fest.fest_id }}/add_seller"><button>add
-                        sellers</button></a>
+                {% if fest.status == 2 %}
+                <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button disabled>cancel
+                    festival</button></a></td>
+                {% else %}
                 <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button>cancel
-                        festival</button></a></td>
+                    festival</button></a></td>
+                {% endif %}
             {% else %}
             <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
                         tickets</button></a>
-                <a href="/my_festivals/{{ fest.fest_id }}/edit"><button type="button" disabled>edit
+                <a href="/my_festivals/{{ fest.fest_id }}/edit"><button type="submit" disabled>edit
                     </button></a>
-                <a href="/my_festivals/{{ fest.fest_id }}/add_seller"><button type="button" disabled>add
-                        sellers</button></a>
-                <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button type="button" disabled>cancel
+                <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button type="submit" disabled>cancel
                         festival</button></a></td>
             {% endif %}
 

@@ -437,8 +437,10 @@ class Organizer(Seller):
 
     def cancel_fest(self, fest_id):
         fest = Festival.query.filter_by(fest_id=fest_id).first()
-        db.session.delete(fest)
+        fest.status = 2
         db.session.commit()
+        return f"Festival {fest.fest_id} is canceled", "success"
+
 
     def get_perf(self, fest_id=None):
         if fest_id:
