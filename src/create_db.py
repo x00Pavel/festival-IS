@@ -256,7 +256,7 @@ class User(UserMixin, db.Model):
             db.session.commit()
 
     def get_tickets(self):
-        today = date.today()
+        today = datetime.now()
         actual_tickets, outdated_tickets = [], []
         tickets = Ticket.query.filter_by(user_id=self.user_id).all()
         tickets.sort(key=lambda ticket: ticket.fest.time_from)
