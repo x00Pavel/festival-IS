@@ -29,7 +29,6 @@
         color: white;
     }
 </style>
-<<<<<<< Updated upstream=======>>>>>>> Stashed changes
     <img style="margin-top:150px;" src="https://festival-static.s3-eu-west-1.amazonaws.com/f3.jpg" alt=" Putt logo here"
         width="300" height="300">
 
@@ -115,40 +114,20 @@
             </tr>
         </table>
 
-        <<<<<<< Updated upstream=======<!-- <br> -->
-
-            <!-- <h4>Festival name: {{ fest.fest_name }}</h4> -->
-            <!-- <h4>fest_id {{ fest.fest_id }}</h4> -->
-            <!-- <h4>fest_name {{ fest.fest_name }}</h4> -->
-            <!-- <h4>description {{ fest.description }}</h4> -->
-            <!-- <h4>style {{ fest.style }}</h4> -->
-            <!-- <h4>address {{ fest.address }}</h4> -->
-            <!-- <h4>cost {{ fest.cost }}</h4> -->
-            <!-- <h4>time_from {{ fest.time_from }}</h4> -->
-            <!-- <h4>Tags : {{ fest.tag }}</h4> -->
-            <!-- <h4>time_to {{ fest.time_to }}</h4> -->
-            <!-- <h4>max_capacity {{ fest.max_capacity }}</h4> -->
-            <!-- <h4>current_ticket_count {{ fest.current_ticket_count }}</h4> -->
-            <!-- <h4>age_restriction {{ fest.age_restriction }}</h4> -->
-            <!-- <h4>sale {{ fest.sale }}</h4> -->
-            <!-- <h4>org_id {{ fest.org_id }}</h4> -->
-            <!-- <h4>canceled {{ fest.canceled }}</h4> -->
-            <!-- <br> -->
-            <!-- Organizator: {{ fest.organizer.org_id }} -->
-            >>>>>>> Stashed changes
-            {% else %}
-            <form action="/my_festivals/add" method="POST">
-                {% for field in form if field.name != 'csrf_token' %}
-                <legend class="border-bottom mb-4">{{ field.label() }}</legend>
-                {{ field() }}
-                {% endfor %}
-                <input style="width: 100%; height: 45px" type="submit" value="Create festival">
-            </form>
-            {% endif %}
+        {% else %}
+        <form action="/my_festivals/add" method="POST">
+            {% for field in form if field.name != 'csrf_token' %}
+            <legend class="border-bottom mb-4">{{ field.label() }}</legend>
+            {{ field() }}
+            {% endfor %}
+            <input style="width: 100%; height: 45px" type="submit" value="Create festival">
+        </form>
+        {% endif %}
 
 
     </div>
     <div>
+        {% if fest != None %}
         <div class="">
             <h2 style="margin-left: 40%">PERFORMANCE</h2>
             <form action=" /my_festivals/{{ fest.fest_id }}/add_perf" , method="POST">
@@ -167,7 +146,6 @@
                 <hr>
                 <legend style="margin-left: 40%;">To:</legend>
                 <input style="margin-left: 40%;" type="date" name="date_to">
-                <!-- <hr> -->
                 <input style="margin-left: 0.1%;" type="time" name="time_to">
                 <br><br><br>
                 <h1>TODO SHOW ICON WITH AVAILABLE TIME SLOTS FOR GIVEN Festival</h1>
@@ -191,19 +169,17 @@
         {% endfor %}
         <h2 style="margin-left: 40%;">SELLERS</h2>
         <form action="/my_festivals/{{ fest.fest_id }}/add_seller" method="POST">
-            <button style=" margin-left: 40%; border-radius: 12px;min-width:7.5%;" type="submit">
-                Add existing seller to festival
-            </button><br><br>
             <legend class="border-bottom mb-4">Seller ID</legend>
             <input name="seller_id" type="text" />
+            <button style=" border-radius: 12px;min-width:7.5%;" type="submit">
+                Add existing seller to festival
+            </button><br><br>
         </form>
         <form action="/my_festivals/{{ fest.fest_id }}/create_seller" method="POST">
-            <button style=" margin-left: 40%; border-radius: 12px;min-width:7.5%;" type="submit">
-                Create new seller
-            </button><br><br>
-
             {% for field in seller_form if field.name != 'csrf_token'  %}
+            {% if field.name != 'submit' %}
             <legend class="border-bottom mb-4">{{ field.label() }}</legend>
+            {% endif %}
             {{ field() }}
             {% endfor %}
 
@@ -218,6 +194,7 @@
             </a>
         </div>
         {% endfor %}
+        {% endif %}
     </div>
 
     {% endblock content %}

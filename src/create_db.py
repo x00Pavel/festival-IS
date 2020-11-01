@@ -359,6 +359,9 @@ class Organizer(Seller):
         return [row for row in Seller.query.all()]
 
     def create_seller(self, form, fest_id=None):
+        seller = Seller.query.filter_by(user_email=form.get("email")).first()
+        if seller != None:
+            return (f"User with this email ({seller.user_email}) is already exist", "warning")
         seller = Seller(
             user_email=form.get("email"),
             name=form.get("name"),

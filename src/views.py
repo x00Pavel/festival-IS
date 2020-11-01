@@ -380,12 +380,6 @@ def manage_sellers():
 
 
 @login_required
-@app.route("/manage_sellers/<seller_id>", methods=["GET", "POST"])
-def seller_info(seller_id):
-    return "<h2>TODO</h2> function seller_info"
-
-
-@login_required
 @app.route("/manage_festivals")
 def manage_festivals():
     fests = current_user.get_all_festivals()
