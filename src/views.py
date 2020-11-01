@@ -137,14 +137,14 @@ def submit_form():
 
 
 # Listen for GET requests to yourdomain.com/sign_s3/
-@app.route("/sign-s3/")
+@app.route("/sign-s3/<folder>/<_id>/")
 @login_required
-def sign_s3():
+def sign_s3(folder,_id):
     # Load necessary information into the application
     S3_BUCKET = os.environ.get("S3_BUCKET")
 
     # Load required data from the request
-    folder_name = current_user.user_id
+    folder_name = f'{folder}/{_id}'
     file_name = request.args.get("file-name")
     file_type = request.args.get("file-type")
 

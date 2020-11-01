@@ -26,6 +26,7 @@
     <div>
 
       <form method="POST" action="/submit-form/">
+        <input type="hidden" id="user-id" name="user-id" value="{{ user_columns.user_id }}">
         <input type="hidden" id="avatar_url" name="avatar_url" value="{{ user_columns.avatar }}">
         <h2>Your e-mail:</h2>
         <input style="width: 100%; height: 45px" type="text" name="user_email" value="{{ user_columns.user_email }}">
@@ -87,9 +88,9 @@
       If request successful, continue to upload the file using this signed
       request.
     */
-    function getSignedRequest(file) {
+    function getSignedRequest(file, user_id) {
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+      xhr.open('GET', `/sign-s3/user/${user_id}?file-name=${file.name}&file-type=${file.type}`);
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
@@ -109,12 +110,13 @@
        start upload procedure by asking for a signed request from the app.
     */
     function initUpload() {
+      const user_id = document.getElementById('user-id').value;
       const files = document.getElementById('file-input').files;
       const file = files[0];
       if (!file) {
         return alert('No file selected.');
       }
-      getSignedRequest(file);
+      getSignedRequest(file, user_id);
     }
 
     /*

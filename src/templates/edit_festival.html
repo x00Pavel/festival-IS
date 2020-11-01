@@ -29,11 +29,93 @@
         color: white;
     }
 </style>
-    <img style="margin-top:150px;" src="{{fest.fest_logo}}" alt=" Putt logo here"
-        width="300" height="300">
 
+<body>
+    {% if fest != None %}
+    <div class="image_in_my_account">
+        <input type="hidden" id="fest-id" name="fest-id" value="{{ fest.fest_id }}">
+        <input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center;" id=file-input>
+        <img style="margin-top:150px;" src="{{fest.fest_logo}}" id="preview" alt=" Putt logo here" width="300"
+            height="300">
+        <script type="text/javascript">
+
+            /*
+              Function to carry out the actual POST request to S3 using the signed request from the Python app.
+            */
+            function uploadFile(file, s3Data, url) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', s3Data.url);
+                xhr.setRequestHeader('x-amz-acl', 'public-read');
+
+                const postData = new FormData();
+                for (key in s3Data.fields) {
+                    postData.append(key, s3Data.fields[key]);
+                }
+                postData.append('file', file);
+
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200 || xhr.status === 204) {
+                            document.getElementById('preview').src = url;
+                            document.getElementById('avatar_url').value = url;
+                        }
+                        else {
+                            alert('Could not upload file.');
+                        }
+                    }
+                };
+                xhr.send(postData);
+            }
+
+
+            /*
+              Function to get the temporary signed request from the Python app.
+              If request successful, continue to upload the file using this signed
+              request.
+            */
+            function getSignedRequest(file, fest_id) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `/sign-s3/fests/${fest_id}?file-name=${file.name}&file-type=${file.type}`);
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            uploadFile(file, response.data, response.url);
+                        }
+                        else {
+                            alert('Could not get signed URL.');
+                        }
+                    }
+                };
+                xhr.send();
+            }
+
+            /*
+               Function called when file input updated. If there is a file selected, then
+               start upload procedure by asking for a signed request from the app.
+            */
+            function initUpload() {
+                const fest_id = document.getElementById('fest-id').value;
+                const files = document.getElementById('file-input').files;
+                const file = files[0];
+                if (!file) {
+                    return alert('No file selected.');
+                }
+                getSignedRequest(file, fest_id);
+            }
+
+            /*
+               Bind listeners when the page loads.
+            */
+            (() => {
+                document.getElementById('file-input').onchange = initUpload;
+            })();
+
+        </script>
+
+    </div>
     <div class="edit_festival_upper_page">
-        {% if fest != None %}
+
 
         <table id="customers">
             <!-- <tr>
@@ -195,6 +277,10 @@
         </div>
         {% endfor %}
         {% endif %}
+
+        {% endblock content %}
+
+
     </div>
 
-    {% endblock content %}
+</body>
