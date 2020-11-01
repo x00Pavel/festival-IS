@@ -70,6 +70,9 @@ def login(user=None):
     if form.validate_on_submit():
         user = User.find_by_email(form.email.data)
         if user is not None:
+            if not user.active:
+                flash("Your user is removed by admin", "warning")
+                return redirect("/") 
             remember = True if request.form.get("remember") else False
             if user.check_passwd(form.password.data):
                 user.is_authenticated = True
@@ -391,21 +394,6 @@ def manage_sellers():
 def manage_festivals():
     fests = current_user.get_all_festivals()
     return render_template("manage_festival_page.html", fests=fests)
-
-
-# @login_required
-# @app.route("/manage_festivals/<fest_id>/<action>")
-# def cancel_fest(fest_id, action):
-#     if action == "del":
-#         current_user.cancel_fest(fest_id)
-#         return redirect("/manage_festivals")
-#     elif action == "bands":
-#         fest_bands = current_user.get_bands(fest_id)
-#         return render_template("festival_bands.html", fest_bands=fest_bands)
-#     elif action == "stages":
-#         return render_template("festival_stages.html", stages=stages)
-#     elif action == "performances":
-#         return render_template("festival_perfs.html", perfs=perfs)
 
 
 @login_required
