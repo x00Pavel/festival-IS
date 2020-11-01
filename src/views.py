@@ -182,14 +182,8 @@ def logout():
     return redirect("/")
 
 
-@app.route("/festival/<fest_id>")
+@app.route("/festival/<fest_id>", methods=["GET", "POST"])
 def festival_page(fest_id):
-    fest = Festival.get_festival(fest_id)
-    return render_template("festival_page.html", fest=fest, user_columns=current_user)
-
-
-@app.route("/festival/<fest_id>/ticket", methods=["GET", "POST"])
-def ticket(fest_id):
     fest = Festival.get_festival(fest_id)
     anonim = current_user.is_anonymous
     form = (
@@ -214,16 +208,10 @@ def ticket(fest_id):
         except ValueError as e:
             flash(f"{e}", "warning")
             return redirect("/")
-        # if current_user.is_anonymous:>?
         flash("Ticket is successfully reserved", "success")
         return redirect("/")
-
-    return render_template(
-        "reserve_ticket.html",
-        form=form,
-        fest=fest,
-        anonym=current_user.is_anonymous,
-    )
+    return render_template("festival_page.html", fest=fest, user_columns=current_user, form=form,
+        anonym=current_user.is_anonymous,)
 
 
 @login_required

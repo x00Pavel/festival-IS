@@ -21,15 +21,32 @@
             <h3 class="fest_info">Cost {{ fest.cost }}</h3>
             <h3 class="fest_info">Age restriciton {{ fest.age_restriction }}</h3>
 
-
-
-            <a href="/festival/{{ fest.fest_id }}/ticket">
-                <button class="reservebutton"
-                    style="width:50%; height: 200px; margin-left:45%; border-radius: 15px; ">Reserve
-                    ticket</button>
-            </a>
         </div>
 
+        <form method="POST" action="/festival/{{ fest.fest_id }}" method="POST" >
+            <legend class="border-bottom mb-4">Name</legend>
+            <div class="form-group">
+                {{ form.user_name }}
+            </div>
+            <legend class="border-bottom mb-4">Surname</legend>
+            <div class="form-group">
+                {{ form.user_surname }}
+            </div>
+            {% if anonym %}
+            <legend class="border-bottom mb-4">Email</legend>
+            <div class="form-group">
+                {{ form.user_email }}
+            </div>
+            {% endif %}
+
+
+            <button type="submit">Reserve</button>
+        </form>
+
+        {% if anonym %}
+        <div>Do you want to register?</div>
+        <a href="/register"><button>Register</button></a>
+        {% endif %}
     </div>
 </body>
 

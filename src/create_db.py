@@ -244,16 +244,16 @@ class User(UserMixin, db.Model):
                 """You have already issued the maximum reservations for this festival,
                    please pay for part of the reservations, or cancel it."""
             )
-        ticket = Ticket(
-            user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname
-        )
-        db.session.add(ticket)
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         if fest.current_ticket_count != fest.max_capacity:
+            ticket = Ticket(
+                user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname
+            )
             fest.current_ticket_count += 1
+            db.session.add(ticket)
+            db.session.commit() 
         else:
             raise ValueError("Festival is already out of tickets")
-        db.session.commit()
 
     def cancel_ticket(self, ticket_id):
         today = datetime.now()
