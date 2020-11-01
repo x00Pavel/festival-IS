@@ -412,6 +412,13 @@ def add_admin():
 
 
 @login_required
+@app.route("/manage_users/<user_id>/remove_role")
+def remove_role(user_id):
+    msg, status = current_user.remove_role(user_id)
+    flash(msg, status)
+    return redirect("/manage_users")
+
+@login_required
 @app.route("/manage_users/<user_id>/remove_user")
 def remove_user(user_id):
     response, status = current_user.remove_user(user_id)

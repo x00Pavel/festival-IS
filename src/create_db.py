@@ -187,6 +187,7 @@ class User(UserMixin, db.Model):
     perms = Column("perms", Integer, nullable=False)
     address = Column("address", String(50), nullable=False)
     active = Column("active", Boolean, default=True)
+    role_active = Column("role_active", Boolean, default=True)
 
     __mapper_args__ = {"polymorphic_identity": 4, "polymorphic_on": perms}
     _is_authenticated = True
@@ -499,15 +500,11 @@ class Organizer(Seller):
             and datetime.strptime(datetime_to, "%Y-%m-%d %H:%M")
             > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
         ):
-            print(
-                f"Date of performance is out of festival dates: {datetime_from} - {datetime_to}"
-            )
             return (
                 f"Date of performance is out of festival dates: {datetime_from} - {datetime_to}",
                 "warning",
             )
 
-        print(datetime.strptime(datetime_from, "%Y-%m-%d %H:%M"))
         # Find collisions with other performances
         collisions = Performance.query.filter(
             Performance.stage_id == stage.stage_id,
@@ -534,7 +531,6 @@ class Organizer(Seller):
         ).all()
         if collisions:
             ids = ", ".join([str(perf.perf_id) for perf in collisions])
-            print(f"There is collisions with other performances: {ids}")
             return (f"There is collisions with other performances: {ids}", "warning")
         perf = Performance(
             stage_id=stage.stage_id,
@@ -545,9 +541,6 @@ class Organizer(Seller):
         )
         db.session.add(perf)
         db.session.commit()
-        print(
-            f"Performance {perf.perf_id}: Band {band.name} add to stage {stage.stage_id}"
-        )
         return (
             f"Performance {perf.perf_id}: Band {band.name} add to stage {stage.stage_id}",
             "success",
@@ -582,6 +575,14 @@ class Admin(Organizer):
         user.active = False
         db.session.commit()
         return (f"User {user_id} is removed", "success")
+
+    def remove_role(self, user_id):
+        roles = {2:"organizer", 3:"seller", 1: "admin"}
+        user = User.query.filter_by(user_id=user_id).first()
+        user.role_active = False
+        db.session.commit()
+        return (f"Permissions for {roles[user.perms]} {user_id} is removed", "success")
+
 
     def get_all_users(self):
         organizers = User.query.filter_by(perms=2).all()

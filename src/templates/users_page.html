@@ -24,7 +24,9 @@
         <br>
         Active: {{ seller.active }}
         <br>
-        <button disabled="disabled">Remove from sellers</button>
+        Role active: {{ seller.role_active }}
+        <br>
+        <a href="/manage_users/{{ seller.seller_id }}/remove_role"><button>Remove from sellers</button></a>
         <a href="/manage_users/{{ seller.seller_id }}/remove_user"><button>Remove user</button></a>
     </div>
     {% endfor %}
@@ -39,8 +41,9 @@
         <br>
         Active: {{ org.active }}
         <br>
-        <button disabled="disabled">Remove from organizers</button>
-        <button disabled="disabled">Remove from sellers</button>
+        Role active: {{ org.role_active }}
+        <br>
+        <a href="/manage_users/{{ org.org_id }}/remove_role"><button>Remove from organizers</button></a>
         <a href="/manage_users/{{ org.org_id }}/remove_user"><button>Remove user</button></a>
     </div>
     {% endfor %}
@@ -64,9 +67,9 @@
         <br>
         Active: {{ admin.active }}
         <br>
-        <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button disabled="true">Remove from admins</button></a>
-        <button disabled="disabled">Remove from organizers</button>
-        <button disabled="disabled">Remove from sellers</button>
+        Role active {{ admin.role_active }}
+        <br>
+        <a href="/manage_users/{{ admin.admin_id }}/remove_role"><button>Remove from admins</button></a>
         <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button>Remove user</button></a>
     </div>
     {% endfor %}
