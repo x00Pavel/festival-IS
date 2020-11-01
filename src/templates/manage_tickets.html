@@ -52,10 +52,14 @@
 
 </head>
 <div style="margin-top: 120px;">
+
+    {% if tickets[0] is defined %}
     <h2 style="margin-left: 1%; color: white;background-color:black;"> Reservations on {{tickets[0].fest.fest_name}}
         ({{ tickets[0].fest.time_from }} - {{ tickets[0].fest.time_to }})</h2>
-
-
+    {% else %}
+    <h2 style="margin-left: 1%; color: white;background-color:black;"> You do not have reserved tickets on your fest yet
+        &#128530 </h2>
+    {% endif %}
     <table id="customers">
 
         <tr>
