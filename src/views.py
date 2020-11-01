@@ -275,7 +275,7 @@ def add_festival():
         fest=None,
         perfs=[],
         sellers=[],
-        user_columns=current_user
+        user_columns=current_user,
     )
 
 
@@ -329,6 +329,7 @@ def fest_del_seller(fest_id, seller_id):
     current_user.fest_del_seller(fest_id, seller_id)
     flash(f"Seller {seller_id} removed from festival {fest_id}", "success")
     return redirect(f"/my_festivals/{fest_id}/edit")
+
 
 @login_required
 @app.route("/my_festivals/<fest_id>/create_seller", methods=["POST"])

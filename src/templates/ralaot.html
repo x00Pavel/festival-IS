@@ -33,18 +33,24 @@
 
         <div class="">
           <a class="logoimgclass" href="/">
-            <img src="https://festival-static.s3-eu-west-1.amazonaws.com/F.jpg" style="margin-bottom: -9%;" alt=""></a>
+            <img src="https://festival-static.s3-eu-west-1.amazonaws.com/F.jpg" style="margin-bottom: -10%;" alt=""></a>
           <div class="row">
             <div class="col-md-8">
-              {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-              {% for category, message in messages %}
-              <div class="alert alert-{{ category }} " style="margin-left: 70px; width: 550px; height: 50px;">
-                {{ message }}
+              <div class="flashwrapper">
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div id=flashwrapper style="margin-left: 70px; width: 600px; height: 50px;"
+                  class="alert alert-{{ category }} alert-dismissible" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" style="height: 47px;" aria-label="Close"
+                    onClick="close('flashwrapper')">
+                    <span aria-hidden="true">&times;</span>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
               </div>
-              {% endfor %}
-              {% endif %}
-              {% endwith %}
             </div>
           </div>
         </div>
@@ -89,7 +95,16 @@
                   x.className = x.className.replace(" w3-show", "");
                 }
               }
+
+
             </script>
+            <script>
+              function delete_flash(flash) {
+                $(flash).parent().remove()
+              }
+            </script>
+
+
             {% else %}
             <a class=" nav-item nav-link" href="{{ url_for('login') }}">Login</a>
             <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
@@ -100,6 +115,13 @@
 
 
     </nav>
+    <script>
+      $(document).ready(function () {
+        setTimeout(function () {
+          $('.alert').fadeOut('slow');
+        }, 2000);
+      });
+    </script>
   </header>
 
 
