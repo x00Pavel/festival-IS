@@ -131,98 +131,105 @@
 
 				</div>
 			</div>
-			<input class="check_box_for_sales_box" type="checkbox" id="sales" name="sales" onclick="CheckBoxFunc()">
-			<label class=" check_box_for_sales" id="text" for="scales">{{ glob_val_for_sale_ticket }}</label>
-			<!-- <p id="text" style="display:none">{{ glob_val_for_sale_ticket }}</p> -->
+			<!-- <input class="check_box_for_sales_box" type="checkbox" id="sales" name="sales" onclick="CheckBoxFunc()"> -->
+			<input class="check_box_for_sales_box" type="radio" id="sales" name="categories" value="sales">
+			<label id="id_for_sale" for="sales">SALES</label>
 		</div>
 	</div>
 
 	<!-- End of filter bar -->
-
+	<!-- 
 	<script>
 		function CheckBoxFunc() {
 			var checkBox = document.getElementById("sales");
 
 			var text = document.getElementById("text");
 			if (checkBox.checked == true) {
-				{ { glob_val_for_sale_ticket = True } }
+				<label class=" check_box_for_sales" id="text" for="scales">True</label>
 
 			}
 			else {
-				{ { glob_val_for_sale_ticket = False } }
+				<label class=" check_box_for_sales" id="text" for="scales">FASLE</label>
 			}
 		}
+	</script> -->
+	<script>
+		$(document).ready(function () {
+			document.getElementById('gender_Male').checked
+			$("#sales").on("keyup", function () {
+				var value = $(this).val().toLowerCase();
+				$("#myTable1 tr").filter(function () {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
 	</script>
 
 
 
 
-
 	<main role="main">
+		<div class="grid">
+			<div class="container">
+				<div class="row">
+					{% for fest in qewqwe.true ? festsFiltered : fests %}
+					{% if fest.description != None %}
+					{% %}
+					<div class="col-md-4">
+						<div class="card mb-4 shadow-sm">
+							<a href="festival\/{{ fest.fest_id }}">
+								<svg class="bd-placeholder-img card-img-top" width="100%" height="350"
+									xmlns="festival\/{{ fest.fest_id }}" preserveAspectRatio="xMidYMid slice"
+									focusable="false" role="img" aria-label="Placeholder: Thumbnail">
 
+									<image height="100%" class="firstpic" href="{{fest.fest_logo}}"
+										clip-path="url(#myCircle)"></image>
+									{% if fest.sale != 0 %}
+									<image class="secondpic"
+										href="https://festival-static.s3-eu-west-1.amazonaws.com/salecroped.png">
 
+									</image>
+									{% elif fest.max_capacity - fest.current_ticket_count != 0 %}
+									{
+									<image class="thirdpic"
+										href="https://festival-static.s3-eu-west-1.amazonaws.com/sold-out-png-19949.png">
 
+									</image>
+									}
+									{% else %}
+									{% endif %}
+								</svg>
+							</a>
+							<div class="card-body bg-dark text-danger w-100 p-3 " style="max-height: 500%;">
+								<p class="card-text"> FESTIVAL NAME: {{ fest.fest_name}}</p>
+								<p class="card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
+								<p class="card-text">{{ fest.address}}</p>
+								{% set new_var  = fest.cost * fest.sale / 100 %}
 
-		<div class="container">
+								{% if fest.sale == 0 %}
+								<p class="card-text">{{ fest.cost}}.0 $</p>
+								{%else%}
 
-			<div class="row">
-				{% for fest in fests %}
-				{% if fest.description != None %}
-				<div class="col-md-4">
-					<div class="card mb-4 shadow-sm">
-						<a href="festival\/{{ fest.fest_id }}">
-							<svg class="bd-placeholder-img card-img-top" width="100%" height="350"
-								xmlns="festival\/{{ fest.fest_id }}" preserveAspectRatio="xMidYMid slice"
-								focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-
-								<image height="100%" class="firstpic" href="{{fest.fest_logo}}"
-									clip-path="url(#myCircle)"></image>
-								{% if fest.sale != 0 %}
-								<image class="secondpic"
-									href="https://festival-static.s3-eu-west-1.amazonaws.com/salecroped.png">
-
-								</image>
-								{% elif fest.max_capacity - fest.current_ticket_count != 0 %}
-								{
-								<image class="thirdpic"
-									href="https://festival-static.s3-eu-west-1.amazonaws.com/sold-out-png-19949.png">
-
-								</image>
-								}
-								{% else %}
+								<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <ins>{{ new_var }}$</ins> </p>
 								{% endif %}
-							</svg>
-						</a>
-						<div class="card-body bg-dark text-danger w-100 p-3 " style="max-height: 500%;">
-							<p class="card-text"> FESTIVAL NAME: {{ fest.fest_name}}</p>
-							<p class="card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
-							<p class="card-text">{{ fest.address}}</p>
-							{% set new_var  = fest.cost * fest.sale / 100 %}
-
-							{% if fest.sale == 0 %}
-							<p class="card-text">{{ fest.cost}}.0 $</p>
-							{%else%}
-
-							<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <ins>{{ new_var }}$</ins> </p>
-							{% endif %}
-							<div class="d-flex justify-content-between align-items-center">
-								<div class="btn-group">
-									<a href="festival\/{{ fest.fest_id }}"> <button type="button"
-											class="btn btn-sm btn-outline-secondary">View</button></a>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<a href="festival\/{{ fest.fest_id }}"> <button type="button"
+												class="btn btn-sm btn-outline-secondary">View</button></a>
+									</div>
+									<small class="text-muted">TIME POSTED</small>
 								</div>
-								<small class="text-muted">TIME festED</small>
 							</div>
 						</div>
+
+
+
 					</div>
-
-
-
+					{% endif %}
+					{% endfor %}
 				</div>
-				{% endif %}
-				{% endfor %}
 			</div>
 		</div>
-
 	</main>
 
 

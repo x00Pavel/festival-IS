@@ -1,36 +1,21 @@
 {% extends "ralaot.html" %}
 {% block content %}
-<style>
-    #customers {
-        font-family: Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
 
-    #customers td,
-    #customers th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
+<head>
+    <style>
+        ul#menu li {
+            display: inline;
+            /* padding-left: 40%; */
+            /* margin-left: 20%; */
 
-    #customers tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    #customers tr:hover {
-        background-color: #ddd;
-    }
-
-    #customers th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #4CAF50;
-        color: white;
-    }
-</style>
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
 
 <body>
+
+
     {% if fest != None %}
     <div class="image_in_my_account">
         <input type="hidden" id="fest-id" name="fest-id" value="{{ fest.fest_id }}">
@@ -114,86 +99,36 @@
         </script>
 
     </div>
+    {% set list_of_names = {"FESTIVAL NAME":fest.fest_name ,
+                            "FESTIVAL ID" : fest.fest_id ,
+                            "DESCRIPTION" :fest.description ,
+                            "STYLE" :fest.style ,
+                            "ADDRESS" : fest.address ,
+                            "COST" : fest.cost ,
+                            "TIME TO" : fest.time_to ,
+                            "TAGS" : fest.tag ,
+                            "MAXIMAL CAPACITY" : fest.max_capacity ,
+                            "CURRENT TICKET COUNT" : fest.current_ticket_count,
+                            "AGE RESTRICTION" : fest.age_restriction ,
+                            "SALE" : fest.sale ,
+                            "ORGANIZER ID" : fest.org_id ,
+                            "CANCELED" :fest.canceled ,
+                            "ORGANIZATOR" :fest.organizer.org_id ,
+                            }
+                            %}
+
     <div class="edit_festival_upper_page">
 
 
         <table id="customers">
-            <!-- <tr>
-            <th>Company</th>
-            <th>Contact</th>
-        </tr> -->
+            {%for x,y in list_of_names.items():%}
             <tr>
-                <td>FESTIVAL NAME</td>
-                <td>{{ fest.fest_name }}</td>
-            </tr>
-            <tr>
-                <td>FESTIVAL ID</td>
-                <td>{{ fest.fest_id }}</td>
-            </tr>
-            <tr>
-                <td>FESTIVAL NAME</td>
-                <td>{{ fest.fest_name }}</td>
-            </tr>
-            <tr>
-                <td>DESCRIPTION</td>
-                <td>{{ fest.description }}</td>
-            </tr>
-            <tr>
-                <td>STYLE</td>
-                <td>{{ fest.style }}</td>
-            </tr>
-            <tr>
-                <td>ADDRESS</td>
-                <td>{{ fest.address }}</td>
-            </tr>
-            <tr>
-                <td>COST</td>
-                <td>{{ fest.cost }}</td>
+                <td>{{x}}</td>
+                <td>{{y}}</td>
 
             </tr>
-            <tr>
-                <td>TIME FROM</td>
-                <td>{{ fest.time_from }}</td>
+            {% endfor %}
 
-            </tr>
-            <tr>
-                <td>TAGS</td>
-                <td>{{ fest.tag }}</td>
-            </tr>
-            <tr>
-                <td>TIME TO</td>
-                <td>{{ fest.time_to }}</td>
-            </tr>
-            <tr>
-                <td>MAXIMAL CAPACITY</td>
-                <td>{{ fest.max_capacity }}</td>
-
-            </tr>
-            <tr>
-                <td>CURRENT TICKET COUNT</td>
-                <td>{{ fest.current_ticket_count }}</td>
-            </tr>
-            <tr>
-                <td>AGE RESTRICTION</td>
-                <td>{{ fest.age_restriction }}</td>
-            </tr>
-            <tr>
-                <td>SALE</td>
-                <td>{{ fest.sale }}</td>
-
-            </tr>
-            <tr>
-                <td>ORGANIZER ID</td>
-                <td>{{ fest.org_id }}</td>
-            </tr>
-            <tr>
-                <td>CANCELED</td>
-                <td>{{ fest.canceled }}</td>
-            </tr>
-            <tr>
-                <td>ORGANIZATOR</td>
-                <td>{{ fest.organizer.org_id }}</td>
-            </tr>
         </table>
 
         {% else %}
@@ -209,33 +144,131 @@
 
     </div>
     <div>
+
+
         {% if fest != None %}
-        <div class="">
-            <h2 style="margin-left: 40%">PERFORMANCE</h2>
+        <div class="mar_left">
+            <h2>PERFORMANCE</h2>
             <form action=" /my_festivals/{{ fest.fest_id }}/add_perf" , method="POST">
-                <input style="margin-left: 40%;" type="submit" value="Add performance">
+                <legend s>Band name</legend>
+                <input s type="text" name="band_name">
                 <hr>
-                <legend style="margin-left: 40%;">Band name</legend>
-                <input style="margin-left: 40%;" type="text" name="band_name">
+                <legend s>Stage ID:</legend>
+                <input s type="text" name="stage_id">
                 <hr>
-                <legend style="margin-left: 40%;">Stage ID:</legend>
-                <input style="margin-left: 40%;" type="text" name="stage_id">
-                <hr>
-                <legend style="margin-left: 40%;">From:</legend>
-                <input style="margin-left: 40%;" type="date" name="date_from">
+                <legend s>From:</legend>
+                <input s type="date" name="date_from">
 
                 <input style="margin-left: 0.1%;" type="time" name="time_from">
                 <hr>
-                <legend style="margin-left: 40%;">To:</legend>
-                <input style="margin-left: 40%;" type="date" name="date_to">
+                <legend>To:</legend>
+                <input type="date" name="date_to">
                 <input style="margin-left: 0.1%;" type="time" name="time_to">
+                <br>
+                <hr>
+                <div class="wrapper">
+                    <nav>
+                        <ul class="buttons_inline" id="menu">
+                            <p><small>CHOOSE A YEAR: </small></p>
+                            <li class="buttons_inline_f" data-rel="1" class="active">2020</li>
+                            <li class="buttons_inline_f" data-rel="2" class="">2021</li>
+                            <li class="buttons_inline_f" data-rel="3">2022</li>
+                            <li class="buttons_inline_f" data-rel="4">2023</li>
+                            <li class="buttons_inline_f" data-rel="5">2024</li>
+                        </ul>
+                    </nav>
+                    <section>
+                        <article>
+                            <h4>2020</h4>
+                            {% for fest in fests %}
+                            {% if fest.time_from.year == 2020 %}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                                    AT
+                                    {{fest.address}} </small>
+                            </p>
+                            {% endif %}
+                            {% endfor %}
+                        </article>
+                    </section>
+
+                    <section>
+                        <article>
+                            <h4>2021</h4>
+                            {% for fest in fests %}
+                            {% if fest.time_from.year == 2021 %}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                                    AT
+                                    {{fest.address}} </small>
+                            </p>
+                            {% endif %}
+                            {% endfor %}
+                        </article>
+                    </section>
+
+                    <section>
+                        <article>
+                            <h4>2022</h4>
+                            {% for fest in fests %}
+                            {% if fest.time_from.year == 2022 %}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                                    AT
+                                    {{fest.address}} </small>
+                            </p>
+                            {% endif %}
+                            {% endfor %}
+                        </article>
+                    </section>
+
+                    <section>
+                        <article>
+                            <h4>2023</h4>
+                            {% for fest in fests %}
+                            {% if fest.time_from.year == 2023 %}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                                    AT
+                                    {{fest.address}} </small>
+                            </p>
+                            {% endif %}
+                            {% endfor %}
+                        </article>
+                    </section>
+                    <section>
+                        <article>
+                            <h4>2024</h4>
+                            {% for fest in fests %}
+                            {% if fest.time_from.year == 2024 %}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                                    AT
+                                    {{fest.address}} </small>
+                            </p>
+                            {% endif %}
+                            {% endfor %}
+                        </article>
+                    </section>
+
+                </div>
+
+
+                <script>
+                    (function ($) {
+                        $('nav li').click(function () {
+                            $(this).addClass('active').siblings('li').removeClass('active');
+                            $('section:nth-of-type(' + $(this).data('rel') + ')').stop().fadeIn(400, 'linear').siblings('section').stop().fadeOut(400, 'linear');
+                        });
+                    })(jQuery);
+                </script>
+                <hr>
                 <br><br><br>
-                <h1>TODO SHOW ICON WITH AVAILABLE TIME SLOTS FOR GIVEN Festival</h1>
+
+
+
+                <input s type="submit" value="Add performance">
+
                 <hr>
             </form>
         </div>
         {% for perf in perfs %}
-        <div>
+        <div class="mar_left">
             <h4>ID: {{ perf.perf_id }}</h4>
             Stage ID: {{ perf.stage.stage_id }}
             <br>
@@ -249,38 +282,45 @@
             <a href="/my_festivals/{{ fest.fest_id }}/del_perf/{{ perf.perf_id }}"><button>Cancel</button></a>
         </div>
         {% endfor %}
-        <h2 style="margin-left: 40%;">SELLERS</h2>
-        <form action="/my_festivals/{{ fest.fest_id }}/add_seller" method="POST">
-            <legend class="border-bottom mb-4">Seller ID</legend>
-            <input name="seller_id" type="text" />
-            <button style=" border-radius: 12px;min-width:7.5%;" type="submit">
-                Add existing seller to festival
-            </button><br><br>
-        </form>
-        <form action="/my_festivals/{{ fest.fest_id }}/create_seller" method="POST">
-            {% for field in seller_form if field.name != 'csrf_token'  %}
-            {% if field.name != 'submit' %}
-            <legend class="border-bottom mb-4">{{ field.label() }}</legend>
-            {% endif %}
-            {{ field() }}
+        <div class="mar_left">
+            <h2>SELLERS</h2>
+            <form action="/my_festivals/{{ fest.fest_id }}/add_seller" method="POST">
+                <legend class="border-bottom mb-4">Seller ID</legend>
+                <input name="seller_id" type="text" />
+                <button style=" border-radius: 12px;min-width:7.5%;" type="submit">
+                    Add existing seller to festival
+                </button>
+                <hr>
+                <hr>
+                <hr>
+            </form>
+            <form action="/my_festivals/{{ fest.fest_id }}/create_seller" method="POST">
+                {% for field in seller_form if field.name != 'csrf_token'  %}
+                {% if field.name != 'submit' %}
+                <legend class="border-bottom mb-4">{{ field.label() }}</legend>
+                {% endif %}
+                <br><br>
+                {{ field() }}
+                {% endfor %}
+
+
+            </form>
+            {% for seller in sellers %}
+            <div>
+
+                <h4>Seller ID</h4>
+                {{ seller.seller_id }}
+                <a href="/my_festivals/{{ fest.fest_id }}/del_seller/{{ seller.seller_id }}">
+                    <button>Remove seller</button>
+                </a>
+            </div>
             {% endfor %}
+            {% endif %}
+
+            {% endblock content %}
 
 
-        </form>
-        {% for seller in sellers %}
-        <div>
-            <h4>Seller ID</h4>
-            {{ seller.seller_id }}
-            <a href="/my_festivals/{{ fest.fest_id }}/del_seller/{{ seller.seller_id }}">
-                <button>Remove seller</button>
-            </a>
         </div>
-        {% endfor %}
-        {% endif %}
-
-        {% endblock content %}
-
-
     </div>
 
 </body>

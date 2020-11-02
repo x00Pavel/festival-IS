@@ -7,6 +7,7 @@ from flask_login import login_required, logout_user, current_user, login_user
 import json, boto3
 import os
 import urllib.parse
+import itertools
 from werkzeug.datastructures import MultiDict
 
 
@@ -278,6 +279,9 @@ def add_festival():
 @login_required
 @app.route("/my_festivals/<fest_id>/edit", methods=["GET", "POST"])
 def edit_festival(fest_id):
+    data = Festival.query.all()
+    list_of_dicts = [row for row in data]
+
     seller_form = RoleForm()
     fest = current_user.get_all_festivals(fest_id)
     perfs = current_user.get_perf(fest_id=fest_id)
@@ -285,6 +289,7 @@ def edit_festival(fest_id):
     return render_template(
         "edit_festival.html",
         fest=fest,
+        fests=list_of_dicts,
         seller_form=seller_form,
         perfs=perfs,
         user_columns=current_user,

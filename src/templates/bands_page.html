@@ -20,10 +20,22 @@
         <div class="form-group">
             {{ form.band_genre }}
         </div>
+
+
         <legend class="border-bottom mb-4">Tags</legend>
-        <div class="form-group">
-            {{ form.band_tags }}
+        <div class="input-categories">
+            <ul id='list'>
+
+            </ul>
+            <input id='custom-input' type="text" value="" data-role="tagsinput"></input>
+            <br>
+            <div>
+                <button type="button" class="submit_delete_button" onclick='testfunc(this.e,false)'>submit</button>
+                <button type="button" class="submit_delete_button" onclick='testfunc(this.e,true)'>delete</button>
+            </div>
         </div>
+
+
 
         <button type="submit" formmethod="POST">Add band</button>
     </form>
@@ -62,4 +74,46 @@
 
 
 </div>
+<script>
+    function testfunc(e, a) {
+
+
+        if (a) {
+
+
+
+            document.querySelector('#list').removeChild(document.querySelector('#custom-input').value)
+            document.querySelector('#custom-input').value = ''
+            e.preventDefault()
+        } else {
+
+            let value = document.querySelector('#custom-input').value
+
+            const children = [...document.querySelector('#list').children]
+            const childrenStrings = children.map(el => el.innerText)
+            if (childrenStrings.includes(value) || !value.trim()) {
+                document.querySelector('#custom-input').value = ''
+            }
+            else {
+                const element = document.createElement('li')
+                const div = document.createElement('div')
+                const text = document.createElement('span')
+                text.innerHTML = value
+                const closeTag = document.createElement('span')
+                closeTag.addEventListener('click', () => element.remove())
+                closeTag.innerHTML = 'X'
+                div.append(text)
+                div.append(closeTag)
+                element.append(div)
+                document.querySelector('#list').append(element)
+            }
+            document.querySelector('#custom-input').value = ''
+            e.preventDefault()
+        }
+
+
+
+    }
+
+</script>
 {% endblock content %}
