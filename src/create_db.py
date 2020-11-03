@@ -279,6 +279,9 @@ class User(UserMixin, db.Model):
                 outdated_tickets.append(ticket)
         return actual_tickets, outdated_tickets
 
+    def get_recomendations(self):
+        styles = [t.fest.style for t in Ticket.query.filter(Ticket.user_id==self.user_id, Ticket.approved==1).all()]
+        return styles
 
 class Seller(User):
     __tablename__ = "Seller"
@@ -689,7 +692,7 @@ class SellersList(db.Model):
     def __repr__(self):
         return f"Entry ID: {self.entry_id} - Seller id: {self.seller_id} -> Festival ID: {self.fest_id}"
 
-
+# TODO: delete this class
 class BandMember(db.Model):
     """Representaton of music band member
     One member can be a member only for one band

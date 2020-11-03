@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 	<title>Projekt IIS</title>
 	<style type="text/css">
@@ -198,69 +198,75 @@
 	<!-- Zkontrolujte pros�m nastaven� k�dov�n� v hlavi�ce dokumentu 
      podle pou�it�ho editoru -->
 
-	<h1>Informational system fro manag</h1> <!-- Nahradte n�zvem sv�ho zad�n� -->
+	<h1>Festival: rezervace vstupenek na hudební festivaly</h1> <!-- Nahradte n�zvem sv�ho zad�n� -->
 
 	<dl>
-		<dt>Auto�i</dt>
-		<dd>Prvn� jm�no
-			<!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
-			<a href="mailto:xautor01@stud.fit.vutbr.cz">xautor01@stud.fit.vutbr.cz</a> -
-			popis �innosti v t�mu
+		<dt>Autoři</dt>
+		<dd>Pavel Yadlouski
+			<a href="mailto:xyadlo00@stud.fit.vutbr.cz">xyadlo00@stud.fit.vutbr.cz</a> -
+			Backend, database
 		</dd>
-		<dd>Druh� jm�no
-			<!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
-			<a href="mailto:xautor02@stud.fit.vutbr.cz">xautor02@stud.fit.vutbr.cz</a> -
-			popis �innosti v t�mu
+		<dd>Abramov Mikhail
+			<a href="mailto:xabram00@stud.fit.vutbr.cz">xabram00@stud.fit.vutbr.cz</a> -
+			Backend, infrastructure
 		</dd>
-		<dd>T�et� jm�no
-			<!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
-			<a href="mailto:xautor03@stud.fit.vutbr.cz">xautor03@stud.fit.vutbr.cz</a> -
-			popis �innosti v t�mu
+		<dd>Aghayev Raul
+			<a href="mailto:xaghay00@stud.fit.vutbr.cz">xaghay00@stud.fit.vutbr.cz</a> -
+			Backend, frontend
 		</dd>
 		<dt>URL aplikace</dt>
-		<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
-		<dd>(pokud m� aplikace v�ce vstupn�ch str�nek, napi�te obdobn� dal�� URL)</dd>
+		<dd><a href="https://festival-is.herokuapp.com/">https://festival-is.herokuapp.com/</a></dd>
 	</dl>
 
-	<h2>U�ivatel� syst�mu pro testov�n�</h2>
-	<p>Uve�te pros�m existuj�c� z�stupce <strong>v�ech rol� u�ivatel�</strong>.</p>
+	<h2>System users for testing</h2>
+	<p>Enter user for <strong>all existing roles</strong>.</p>
 	<table>
 		<tbody>
 			<tr>
 				<th>Login</th>
-				<th>Heslo</th>
+				<th>Password</th>
 				<th>Role</th>
 			</tr>
 			<tr>
-				<td>admin</td>
-				<td>admin</td>
-				<td>Administr�tor</td>
+				<td>root@ok.com</td>
+				<td>SECRET_KEY</td>
+				<td>Root administrator</td>
 			</tr>
 			<tr>
-				<td>prodavac</td>
-				<td>prodavac</td>
-				<td>Prodava�</td>
+				<td>admin1@ok.com</td>
+				<td>test</td>
+				<td>Administrator</td>
 			</tr>
 			<tr>
-				<td>franta</td>
-				<td>franta</td>
-				<td>Z�kazn�k</td>
+				<td>org1@ok.com</td>
+				<td>test</td>
+				<td>Organizer</td>
+			</tr>
+			<tr>
+				<td>seller1@ok.com</td>
+				<td>test</td>
+				<td>Seller</td>
+			</tr>
+			<tr>
+				<td>test1@ok.com</td>
+				<td>test</td>
+				<td>Basic user</td>
 			</tr>
 		</tbody>
 	</table>
 
 	<p>(Diagram p��pad� u�it� nen� nutn� vkl�dat, pokud IS implementuje role a p��pady u�it� definovan� zad�n�m.)</p>
 
-	<h2>Implementace</h2>
+	<h2>Implementation</h2>
 	<p>Stru�n� dokumentace k implementaci, kter� popisuje, kter� ��sti projektu (nap�. PHP skripty) implementuj�
 		jednotliv� p��pady pou�it�.</p>
 
-	<h3>Datab�ze</h3>
+	<h3>Database</h3>
 
-	Zde vlo�te grafick� sch�ma rela�n� datab�ze (tabulek v datab�zi).
+	<body><div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;lightbox&quot;:false,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2020-11-03T21:39:44.578Z\&quot; agent=\&quot;5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36\&quot; etag=\&quot;fHyxBc-OrX2k027HCIIs\&quot; version=\&quot;13.8.9\&quot; type=\&quot;device\&quot;&gt;&lt;diagram id=\&quot;F9ccAHXRlg6QYEhfXNht\&quot; name=\&quot;Page-2\&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
+	<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
 
-	<h2>Instalace</h2>
-
+	<h2>Instalation</h2>
 	Stru�n� popi�te:
 	<ul>
 		<li>postup instalace na server,</li>
@@ -268,7 +274,7 @@
 		<li>jak rozbalit, konfigurovat, inicializovat datab�zi, ...</li>
 	</ul>
 
-	<h2>Zn�m� probl�my</h2>
+	<h2>Limitations and bugs</h2>
 	<p>Zde popi�te, kter� body zad�n� nejsou implementov�ny a z jak�ho d�vodu. Nap�. &#8222;Z �asov�ch d�vod� nebyla
 		implementov�na spr�va u�ivatel�.&#8221; Pom��ete t�m zrychlit hodnocen�, kdy� neimplementovan� funkce nebudeme
 		muset dlouze hledat.</p>
