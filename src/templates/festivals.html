@@ -203,12 +203,15 @@
 								<p class="card-text"> FESTIVAL NAME: {{ fest.fest_name}}</p>
 								<p class="card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
 								<p class="card-text">{{ fest.address}}</p>
+								{% if recommendations and fest.style in recommendations %}
+								<p class="card-text">Recommended</p>
+								{% endif %}
+								
 								{% set new_var  = fest.cost * fest.sale / 100 %}
 
 								{% if fest.sale == 0 %}
 								<p class="card-text">{{ fest.cost}}.0 $</p>
 								{%else%}
-
 								<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <ins>{{ new_var }}$</ins> </p>
 								{% endif %}
 								<div class="d-flex justify-content-between align-items-center">

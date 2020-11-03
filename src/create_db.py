@@ -41,6 +41,7 @@ class Festival(db.Model):
     sale = db.Column("sale", db.Integer, nullable=False, default=0)
     org_id = Column("org_id", Integer, ForeignKey("Organizer.org_id"), nullable=False)
     status = Column("status", Integer, default=0)
+    tags = Column("tags", String)
 
     organizer = relationship("Organizer", foreign_keys=org_id)
 
@@ -279,6 +280,9 @@ class User(UserMixin, db.Model):
                 outdated_tickets.append(ticket)
         return actual_tickets, outdated_tickets
 
+    def get_recomendations(self):
+        styles = [t.fest.style for t in Ticket.query.filter(Ticket.user_id==self.user_id, Ticket.approved==1).all()]
+        return styles
 
 class Seller(User):
     __tablename__ = "Seller"

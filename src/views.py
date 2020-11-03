@@ -44,10 +44,11 @@ def user_loader(user_id):
 def home():
     data = Festival.query.all()
     list_of_dicts = [row for row in data]
-
+    recommendations = None
     if current_user.is_authenticated:
+        recommendations = current_user.get_recomendations()
         return render_template(
-            "festivals.html", user_columns=current_user, fests=list_of_dicts
+            "festivals.html", user_columns=current_user, fests=list_of_dicts, recommendations=recommendations
         )
     return render_template("festivals.html", fests=list_of_dicts)
 
