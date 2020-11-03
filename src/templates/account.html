@@ -21,27 +21,90 @@
       <form method="POST" action="/submit-form/">
         <input type="hidden" id="user-id" name="user-id" value="{{ user_columns.user_id }}">
         <input type="hidden" id="avatar_url" name="avatar_url" value="{{ user_columns.avatar }}">
-        <h2>Your e-mail:</h2>
-        <input style="width: 100%; height: 45px" type="text" name="user_email" value="{{ user_columns.user_email }}">
-        <br><br>
-        <h2>Your first name:</h2>
-        <input style="width: 100%; height: 45px" type="text" name="name" value="{{ user_columns.name }}">
-        <br><br>
-        <h2>Your second name:</h2>
-        <input style="width: 100%; height: 45px" type="text" name="surname" value="{{ user_columns.surname }}">
-        <br><br>
-        <h2>Your address:</h2>
-        <input style="width: 100%; height: 45px" type="text" name="address" value="{{ user_columns.address }}">
+        <h2>E-mail:</h2>
+        <div class="form-group"></div>
+                <div id="user-email" value="{{ user_columns.user_email }} class="form-group">
+                  {% if form.user_email.errors %}
+                  {{ form.user_email(class="form-control form-control form-control-lg is-invalid")}}
+                  <div class="invalid-feedback">
+                    {% for error in form.user_email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.user_email(class="form-control form-control-lg") }}
+                  {% endif %}
+                  </div>
+        </div>
+        <h2>First name:</h2>
+                <div id="user-name" value="{{ user_columns.name }} class="form-group">
+                  {% if form.name.errors %}
+                  {{ form.name(class="form-control form-control form-control-lg is-invalid")}}
+                  <div class="invalid-feedback">
+                  {% for error in form.name.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.name(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
+        <h2>Second name:</h2>
+                <div id="user-surname" value="{{ user_columns.surname }} class="form-group">
+                  {% if form.surname.errors %}
+                  {{ form.surname(class="form-control form-control form-control-lg is-invalid")}}
+                  <div class="invalid-feedback">
+                    {% for error in form.surname.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.surname(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
+        <h2>Address:</h2>
+                <div id="user-address" value="{{ user_columns.address }} class="form-group">
+                  {% if form.address.errors %}
+                  {{ form.address(class="form-control form-control form-control-lg is-invalid")}}
+                  <div class="invalid-feedback">
+                    {% for error in form.address.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.address(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
         <hr>
 
         <h2>New Password</h2>
-        <input style="width: 100%; height: 45px" type="text" name="new_psswd1" placeholder="Enter new password">
-        <br><br>
-
-        <input style="width: 100%; height: 45px" type="text" name="new_psswd2" placeholder="Repeat new password">
-        <br><br>
-        <br><br>
-        <input style="width: 100%; height: 45px" type="submit" value="Update profile">
+                <div id="password1" placeholder="Enter password" class="form-group">
+                  {% if form.password.errors %}
+                  {{ form.password(class="form-control form-control form-control-lg is-invalid")}}
+                  <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.password(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
+                <div style="width: 100%; height: 45px" id="password2" placeholder="Repeat password" class="form-group">
+                  {% if form.passwordC.errors %}
+                  {{ form.passwordC(class="form-control form-control form-control-lg is-invalid")}}
+                  <div class="invalid-feedback">
+                    {% for error in form.passwordC.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.passwordC(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
+              <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info")}}
+              </div>
       </form>
     </div>
   </div>

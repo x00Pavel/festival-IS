@@ -8,18 +8,19 @@ import phonenumbers
 from flask import request
 
 
-# class AcountForm(FlaskForm):
-#    email = StringField("Email", validators=[DataRequired(), Email()])
-#    firstname = StringField("First name", validators=[DataRequired(), Length(max=50)])
-#    lastname = StringField("Last name", validators=[DataRequired(), Length(max=50)])
-#    Password = PasswordField(
-#        "Password", validators=[DataRequired(), Length(min=2, max=20)]
-#    )
-#    Password2 = PasswordField(
-#        "Password Confirmation",
-#        validators=[DataRequired(), Length(min=2, max=20), EqualTo("Password")],
-#    )
-#    submit = SubmitField("Update profile")
+class AcountForm(FlaskForm):
+    user_email = StringField("Email", default="sfdh", validators=[DataRequired(), Email()])
+    name = StringField("First name", default="sdfh", validators=[DataRequired(), Length(max=50)])
+    surname = StringField("Last name", default="sfdh", validators=[DataRequired(), Length(max=50)])
+    address = StringField("Last name", default="sdfh", validators=[DataRequired(), Length(max=50)])
+    password = PasswordField(
+        "Password", validators=[DataRequired(), Length(min=2, max=20)]
+    )
+    passwordC = PasswordField(
+        "Password Confirmation",
+        validators=[DataRequired(), Length(min=2, max=20), EqualTo("password")],
+    )
+    submit = SubmitField("Update profile")
 
 
 class RegistrationForm(FlaskForm):
@@ -42,13 +43,6 @@ class RegistrationForm(FlaskForm):
     street = StringField("Street", validators=[Length(max=80)])
     streeta = StringField("Street (additional)", validators=[Length(max=80)])
     homenum = StringField("Home/Flat number", validators=[Length(max=80)])
-
-    if not re.search(r"^[0-9]+:[0-9]+$", str(password)):
-        # raise ValidationError("Invalid phone number.")
-        print("BLYAT, RAUL!")
-
-    # phone = StringField("Phone", validators=[DataRequired()])
-
     phonenumber = StringField("Phone number")
 
     def validate_phone(self, form, field):
@@ -82,7 +76,6 @@ class TicketForm(FlaskForm):
 
 class BandForm(FlaskForm):
     band_name = StringField("Name", validators=[DataRequired()])
-    band_logo = StringField("Logo", default="No logo")
     band_scores = IntegerField("Scores", validators=[DataRequired()])
     band_genre = StringField("Genre", validators=[DataRequired()])
     band_tags = StringField("Tags", validators=[DataRequired()])
