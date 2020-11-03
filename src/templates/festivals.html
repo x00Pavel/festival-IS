@@ -183,23 +183,25 @@
 
 									<image height="100%" class="firstpic" href="{{fest.fest_logo}}"
 										clip-path="url(#myCircle)"></image>
-									{% if fest.sale != 0 %}
-									<image class="secondpic"
-										href="https://festival-static.s3-eu-west-1.amazonaws.com/salecroped.png">
-
-									</image>
-									{% elif fest.max_capacity - fest.current_ticket_count != 0 %}
+									{% if fest.max_capacity == fest.current_ticket_count %}
 									{
 									<image class="thirdpic"
 										href="https://festival-static.s3-eu-west-1.amazonaws.com/sold-out-png-19949.png">
 
 									</image>
 									}
+									{% elif fest.sale != 0 %}
+									<image class="secondpic"
+										href="https://festival-static.s3-eu-west-1.amazonaws.com/salecroped.png">
+
+									</image>
 									{% else %}
 									{% endif %}
 								</svg>
 							</a>
 							<div class="card-body bg-dark text-danger w-100 p-3 " style="max-height: 500%;">
+								<p class="card-text"> FESTIVAL 1: {{ fest.max_capacity}}</p>
+								<p class="card-text"> FESTIVAL 2: {{ fest.current_ticket_count}}</p>
 								<p class="card-text"> FESTIVAL NAME: {{ fest.fest_name}}</p>
 								<p class="card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
 								<p class="card-text">{{ fest.address}}</p>
