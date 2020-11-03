@@ -41,7 +41,6 @@ class Festival(db.Model):
     sale = db.Column("sale", db.Integer, nullable=False, default=0)
     org_id = Column("org_id", Integer, ForeignKey("Organizer.org_id"), nullable=False)
     status = Column("status", Integer, default=0)
-    tags = Column("tags", String)
 
     organizer = relationship("Organizer", foreign_keys=org_id)
 
@@ -693,7 +692,7 @@ class SellersList(db.Model):
     def __repr__(self):
         return f"Entry ID: {self.entry_id} - Seller id: {self.seller_id} -> Festival ID: {self.fest_id}"
 
-
+# TODO: delete this class
 class BandMember(db.Model):
     """Representaton of music band member
     One member can be a member only for one band
