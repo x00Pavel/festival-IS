@@ -247,6 +247,7 @@ class User(UserMixin, db.Model):
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         if fest.current_ticket_count != fest.max_capacity:
             ticket = Ticket(
+                user_email=self.user_email,
                 user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname
             )
             fest.current_ticket_count += 1
