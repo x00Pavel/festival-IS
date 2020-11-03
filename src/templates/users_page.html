@@ -23,6 +23,7 @@
             </tr>
         </thead>
         {% for user in users[0] %}
+        {% if user.active == True %}
         <tbody id="myTable">
             <tr>
                 <td>{{ user.name }}</td>
@@ -34,6 +35,7 @@
             </tr>
 
         </tbody>
+        {% endif%}
         {% endfor %}
     </table>
 
@@ -55,6 +57,7 @@
             </tr>
         </thead>
         {% for seller in users[1] %}
+        {% if seller.active == True %}
         <tbody id="myTable1">
             <tr>
                 <td>{{ seller.seller_id }}</td>
@@ -69,7 +72,7 @@
             </tr>
 
         </tbody>
-
+        {% endif %}
         {% endfor %}
     </table>
 
@@ -92,6 +95,7 @@
             </tr>
         </thead>
         {% for org in users[2] %}
+        {% if org.active == True %}
         <tbody id="myTable2">
             <tr>
                 <td>{{ org.seller_id }}</td>
@@ -106,7 +110,7 @@
             </tr>
 
         </tbody>
-
+        {% endif %}
         {% endfor %}
     </table>
 
@@ -129,6 +133,7 @@
             </tr>
         </thead>
         {% for admin in users[3] %}
+        {% if admin.active == True %}
         <tbody id="myTable3">
             <tr>
                 <td>{{ admin.seller_id }}</td>
@@ -145,6 +150,7 @@
             </tr>
 
         </tbody>
+        {% endif %}
         {% endfor %}
     </table>
 
