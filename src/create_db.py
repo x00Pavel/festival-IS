@@ -470,6 +470,7 @@ class Organizer(Seller):
         )
         db.session.add(band)
         db.session.commit()
+        return band.band_id
 
     def fest_add_perf(self, form, fest_id):
         band = Band.query.filter_by(name=form["band_name"]).first()

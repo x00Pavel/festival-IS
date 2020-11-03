@@ -151,7 +151,6 @@ def sign_s3(folder, _id):
 
     # Initialise the S3 client
     s3 = boto3.client("s3")
-
     # Generate and return the presigned URL
     presigned_post = s3.generate_presigned_post(
         Bucket=S3_BUCKET,
@@ -442,12 +441,26 @@ def manage_bands():
         "bands_page.html", bands=bands, form=form, user_columns=current_user
     )
 
-
 @login_required
 @app.route("/manage_bands/add", methods=["POST"])
 def add_band():
     form = BandForm()
-    current_user.add_band(form)
+
+    band_id = current_user.add_band(form)
+
+    print(f"TEST: {form.band_logo.data}")
+    print(f"TEST: {band_id}")
+
+    S3_BUCKET = os.environ.get("S3_BUCKET")
+
+    s3 = boto3.resource('s3')
+    copy_source = {
+        'Bucket': S3_BUCKET,
+        'Key': form.band_logo.data.split(".com/")[-1]
+        }
+    bucket = s3.Bucket(S3_BUCKET)
+    bucket.copy(copy_source, f'band/{band_id}/{form.band_name.data}.png')
+    
     return redirect("/manage_bands")
 
 
