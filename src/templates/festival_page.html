@@ -1,13 +1,12 @@
 {% extends "ralaot.html" %}
 {% block content %}
 
-<body>
+<body class="bg_css1">
     <div style="clear:left; margin-top: 8%;">
 
 
         <!-- <p style="float:left;"> -->
-        <img style="width: 70%; float: left;" src="{{fest.fest_logo}}"
-            style="border:1px;">
+        <img style="width: 70%; float: left;" src="{{fest.fest_logo}}" style="border:1px;">
         <!-- </p>  -->
 
 
@@ -16,47 +15,52 @@
 
 
             <p class="fest_info">FESTIVAL NAME :{{fest.fest_name}}</p>
-            <p class="fest_info">Festival info</p>
-            <p class="fest_info">Description: {{fest.description}}</p>
-            <h3 class="fest_info">Cost {{ fest.cost }}</h3>
-            <h3 class="fest_info">Age restriciton {{ fest.age_restriction }}</h3>
+            <p class="fest_info">DESCRIPTION: {{fest.description}}</p>
+            <p class="fest_info">COST: {{ fest.cost }}</p>
+            <p class="fest_info">AGE RESTRICTION: {{ fest.age_restriction }}</p>
+            <p class="fest_info">STYLE: {{ fest.style }}</p>
+            <p class="fest_info">ADDRESS: {{ fest.address }}</p>
+            <p class="fest_info">MAXIMAL CAPACITY: {{ fest.max_capacity }}</p>
+            <p class="fest_info">STATUS: {{ fest.status }}</p>
+            <br>
+            <p>
+                <small style="font-size: 30px;">FROM: {{ fest.time_from }} TO: {{ fest.time_to }}</small>
+            </p>
 
         </div>
+        <div class="festival_main_page_1">
+            <form method="POST" action="/festival/{{ fest.fest_id }}" method="POST">
+                <legend>Name</legend>
+                <div class="form-group">
+                    {{ form.user_name }}
+                </div>
+                <hr>
+                <legend>Surname</legend>
+                <div class="form-group">
+                    {{ form.user_surname }}
+                </div>
+                <hr>
+                {% if anonym %}
+                <legend>Email</legend>
+                <div class="form-group">
+                    {{ form.user_email }}
+                </div>
+                <hr>
+                {% endif %}
 
-        <form method="POST" action="/festival/{{ fest.fest_id }}" method="POST" >
-            <legend class="border-bottom mb-4">Name</legend>
-            <div class="form-group">
-                {{ form.user_name }}
-            </div>
-            <legend class="border-bottom mb-4">Surname</legend>
-            <div class="form-group">
-                {{ form.user_surname }}
-            </div>
+
+                <button class="butt_for_reserver" type="submit">RESERVE!</button><br><br>
+
+            </form>
+
             {% if anonym %}
-            <legend class="border-bottom mb-4">Email</legend>
-            <div class="form-group">
-                {{ form.user_email }}
-            </div>
+            <div style="font-size: 20px;">Do you want to register? <a href="/register"><button
+                        class="butt_for_reserver">REGISTER</button></a></div>
+
             {% endif %}
-
-
-            <button type="submit">Reserve</button>
-        </form>
-
-        {% if anonym %}
-        <div>Do you want to register?</div>
-        <a href="/register"><button>Register</button></a>
-        {% endif %}
+        </div>
     </div>
 </body>
 
-<style>
-    body {
-        background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/blackbg.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-    }
-</style>
 
 {% endblock content %}

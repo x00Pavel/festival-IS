@@ -785,3 +785,51 @@ label {
   display: inline-block;
   /* font-size: 16px; */
   display: inline;}
+
+.bg_css{
+  background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+
+
+
+.bg_css1{
+			background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/blackbg.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+      background-size: cover
+}
+.festival_main_page_1
+{
+   width: 100%;
+  display: table;
+  /* text-align: right; */
+   text-align: center;
+   color: red;
+ red;
+}
+.butt_for_reserver{
+  background-color: white; /* Green */
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;  
+  border-radius: 12px;
+}
+.butt_for_reserver:hover{
+  background-color: red; /* Green */
+  border: none;
+  /* color: red;   */
+  padding: 15px 32px;
+  text-align: center;
+  border-radius: 12px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}

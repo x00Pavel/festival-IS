@@ -1,97 +1,113 @@
 {% extends "ralaot.html" %}
 {% block content %}
 
+<body class="bg_css">
+    <div style="margin-top: 120px;">
+        <h2 style="margin-left: 1%; color: white;"> Your actual reservations</h2>
+        <input class="form-control" id="myInput" type="text" placeholder="Search..">
 
-<div style="margin-top: 120px;">
-    <h2 style="margin-left: 1%; color: white;"> Your actual reservations</h2>
+        <table id="customers" class="table table-bordered table-striped">
 
-
-    <table id="customers">
-
-        <tr>
-            <th>RESERVATION №:</th>
-            <th>FESTIVAL NAME:</th>
-            <th>DATE OF START</th>
-            <th>DATE OF END</th>
-            <th>USER EMAIL:</th>
-            <th>RESERVATION STATUS:</th>
-            <th>CANCELLATION REASON:</th>
-
-
-        </tr>
-        {% for ticket  in actual_tickets %}
-
-        <tr>
-            <td class="td_field">{{ ticket.ticket_id }}</td>
-            <td>{{ ticket.fest.fest_name }}</td>
-            <td>{{ ticket.fest.time_from }}</td>
-            <td>{{ ticket.fest.time_to }}</td>
-            <td>{{ ticket.user.user_email }}</td>
-            {% if ticket.approved == 0%}
-            <td style="background-color: #FFFF99;  max-width: 100px;">WAITING FOR CONFIRMATION</td>
-            {% elif  ticket.approved == 1%}
-            <td style="background-color: #99FF99;">CONFIRMED</td>
-            {% else %}
-            <td style="background-color: #F08080;">CANCELED</td>
-            {% endif%}
-            {% if ticket.approved == 0 %}
+            <tr>
+                <th>RESERVATION №:</th>
+                <th>FESTIVAL NAME:</th>
+                <th>DATE OF START</th>
+                <th>DATE OF END</th>
+                <th>USER EMAIL:</th>
+                <th>RESERVATION STATUS:</th>
+                <th>CANCELLATION REASON:</th>
 
 
-            <td><a href="/my_tickets/{{ ticket.ticket_id }}/cancel">
-                    <button>Cancel ticket</button>
-                </a></td>
-            {%  else %}
-            <td>
-                <h1 style="font-size:14px;"> {{ ticket.reason }}</h1>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
+            </tr>
+            {% for ticket  in actual_tickets %}
+            <tbody id="myTable">
+                <tr>
+                    <td class="td_field">{{ ticket.ticket_id }}</td>
+                    <td>{{ ticket.fest.fest_name }}</td>
+                    <td>{{ ticket.fest.time_from }}</td>
+                    <td>{{ ticket.fest.time_to }}</td>
+                    <td>{{ ticket.user.user_email }}</td>
+                    {% if ticket.approved == 0%}
+                    <td style="background-color: #FFFF99;  max-width: 100px;">WAITING FOR CONFIRMATION</td>
+                    {% elif  ticket.approved == 1%}
+                    <td style="background-color: #99FF99;">CONFIRMED</td>
+                    {% else %}
+                    <td style="background-color: #F08080;">CANCELED</td>
+                    {% endif%}
+                    {% if ticket.approved == 0 %}
 
-    </table>
 
-    <h2 style="margin-left: 1%; color: white; background-color:black;"> Your outdated
-        reservations</h2>
+                    <td><a href="/my_tickets/{{ ticket.ticket_id }}/cancel">
+                            <button>Cancel ticket</button>
+                        </a></td>
+                    {%  else %}
+                    <td>
+                        <h1 style="font-size:14px;"> {{ ticket.reason }}</h1>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+            {% endfor %}
 
-    <table id="customers">
-        <tr>
-            <th>RESERVATION №:</th>
-            <th>FESTIVAL NAME:</th>
-            <th>DATE OF START</th>
-            <th>DATE OF END</th>
-            <th>USER EMAIL:</th>
-            <th>RESERVATION STATUS:</th>
-            <th>CANCELLATION REASON:</th>
+        </table>
 
-        </tr>
-        {% for ticket  in outdated_tickets %}
-        <tr>
-            <td>{{ ticket.ticket_id }}</td>
-            <td>{{ ticket.fest.fest_name }}</td>
-            <td>{{ ticket.fest.time_from }}</td>
-            <td>{{ ticket.fest.time_to }}</td>
-            <td>{{ ticket.user.user_email }}</td>
-            {% if ticket.approved == 0%}
-            <td style="background-color: #FFFF99; max-width: 100px;">OUTDATED</td>
-            {% elif  ticket.approved == 1%}
-            <td style="background-color: #99FF99;">CONFIRMED</td>
-            {% else %}
-            <td style="background-color: #F08080;">CANCELED</td>
-            {% endif%}
-            <td>
-                <h1 style="font-size:14px;"> {{ ticket.reason }}</h1>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+        <h2 style="margin-left: 1%; color: white; background-color:black;"> Your outdated
+            reservations</h2><input class="form-control" id="myInput1" type="text" placeholder="Search..">
 
-</div>
-<style>
-    body {
-        background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/background.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-    }
-</style>
+        <table id="customers" class="table table-bordered table-striped">
+            <tr>
+                <th>RESERVATION №:</th>
+                <th>FESTIVAL NAME:</th>
+                <th>DATE OF START</th>
+                <th>DATE OF END</th>
+                <th>USER EMAIL:</th>
+                <th>RESERVATION STATUS:</th>
+                <th>CANCELLATION REASON:</th>
+
+            </tr>
+            {% for ticket  in outdated_tickets %}
+            <tbody id="myTable1">
+                <tr>
+                    <td>{{ ticket.ticket_id }}</td>
+                    <td>{{ ticket.fest.fest_name }}</td>
+                    <td>{{ ticket.fest.time_from }}</td>
+                    <td>{{ ticket.fest.time_to }}</td>
+                    <td>{{ ticket.user.user_email }}</td>
+                    {% if ticket.approved == 0%}
+                    <td style="background-color: #FFFF99; max-width: 100px;">OUTDATED</td>
+                    {% elif  ticket.approved == 1%}
+                    <td style="background-color: #99FF99;">CONFIRMED</td>
+                    {% else %}
+                    <td style="background-color: #F08080;">CANCELED</td>
+                    {% endif%}
+                    <td>
+                        <h1 style="font-size:14px;"> {{ ticket.reason }}</h1>
+                    </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#myInput1").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable1 tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 {% endblock content %}

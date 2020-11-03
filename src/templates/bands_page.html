@@ -31,7 +31,6 @@
             <br>
             <div>
                 <button type="button" class="submit_delete_button" onclick='testfunc(this.e,false)'>submit</button>
-                <button type="button" class="submit_delete_button" onclick='testfunc(this.e,true)'>delete</button>
             </div>
         </div>
 
@@ -78,38 +77,31 @@
     function testfunc(e, a) {
 
 
-        if (a) {
 
 
+        let value = document.querySelector('#custom-input').value
 
-            document.querySelector('#list').removeChild(document.querySelector('#custom-input').value)
+        const children = [...document.querySelector('#list').children]
+        const childrenStrings = children.map(el => el.innerText)
+        console.log(childrenStrings)
+        if (childrenStrings.includes(value + '\nx') || !value.trim()) {
             document.querySelector('#custom-input').value = ''
-            e.preventDefault()
-        } else {
-
-            let value = document.querySelector('#custom-input').value
-
-            const children = [...document.querySelector('#list').children]
-            const childrenStrings = children.map(el => el.innerText)
-            if (childrenStrings.includes(value) || !value.trim()) {
-                document.querySelector('#custom-input').value = ''
-            }
-            else {
-                const element = document.createElement('li')
-                const div = document.createElement('div')
-                const text = document.createElement('span')
-                text.innerHTML = value
-                const closeTag = document.createElement('span')
-                closeTag.addEventListener('click', () => element.remove())
-                closeTag.innerHTML = 'X'
-                div.append(text)
-                div.append(closeTag)
-                element.append(div)
-                document.querySelector('#list').append(element)
-            }
-            document.querySelector('#custom-input').value = ''
-            e.preventDefault()
         }
+        else {
+            const element = document.createElement('li')
+            const div = document.createElement('div')
+            const text = document.createElement('span')
+            text.innerHTML = value
+            const closeTag = document.createElement('span')
+            closeTag.addEventListener('click', () => element.remove())
+            closeTag.innerHTML = 'x'
+            div.append(text, closeTag)
+            element.append(div)
+            document.querySelector('#list').append(element)
+        }
+        document.querySelector('#custom-input').value = ''
+        e.preventDefault()
+
 
 
 
