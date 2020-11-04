@@ -438,7 +438,7 @@ class Organizer(Seller):
         )
         db.session.add(fest)
         db.session.commit()
-        return fest.fest_id
+        return fest
 
     def cancel_fest(self, fest_id):
         fest = Festival.query.filter_by(fest_id=fest_id).first()
@@ -474,7 +474,7 @@ class Organizer(Seller):
         )
         db.session.add(band)
         db.session.commit()
-        return band.band_id
+        return band
 
     def fest_add_perf(self, form, fest_id):
         band = Band.query.filter_by(name=form["band_name"]).first()

@@ -79,11 +79,10 @@ class BandForm(FlaskForm):
     band_scores = IntegerField("Scores", validators=[DataRequired()])
     band_genre = StringField("Genre", validators=[DataRequired()])
     band_tags = StringField("Tags", validators=[DataRequired()])
-
-
+    band_logo = HiddenField("LOGO")
+    
 class FestivalForm(FlaskForm):
     fest_name = StringField("Name", validators=[DataRequired()])
-    fest_logo = StringField("Logo", default="No logo")
     fest_tags = StringField("Tags", default="Change ME!!!!!")
     fest_description=StringField("Description", default="No description")
     fest_style=StringField("Style", validators=[DataRequired()])
@@ -94,8 +93,9 @@ class FestivalForm(FlaskForm):
     fest_max_capacity = IntegerField("Max capacity", validators=[DataRequired()])
     fest_age_restriction = IntegerField("Age restriction", default=16)
     fest_sale = IntegerField("Sale", default=0)
-    fest_org_id = IntegerField("Organizer ID", validators=[DataRequired()])
+    fest_org_id = HiddenField(validators=[DataRequired()])
     fest_status = IntegerField("Status", default=0)
+    fest_logo = HiddenField("LOGO")
 
 
 class RoleForm(FlaskForm):

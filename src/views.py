@@ -284,9 +284,20 @@ def add_festival():
     seller_form = RoleForm()
     form.fest_org_id = current_user.org_id
     if request.method == "POST":
-        fest_id = current_user.add_fest(form)
-        print("Festival created!")
-        return redirect(f"/my_festivals/{fest_id}/edit")
+        fest = current_user.add_fest(form)
+        S3_BUCKET = os.environ.get("S3_BUCKET")
+
+        s3 = boto3.resource('s3')
+        copy_source = {
+            'Bucket': S3_BUCKET,
+            'Key': request.form["fest_logo"].split(".com/")[-1]
+            }
+        bucket = s3.Bucket(S3_BUCKET)
+        bucket.copy(copy_source, f'fest/{fest.fest_id}/{form.fest_name.data}.png')
+        
+        fest.fest_logo = f'{request.form["fest_logo"].split(".com/")[0]}.com/fest/{fest.fest_id}/{form.fest_name.data}.png'
+        db.session.commit()
+        return redirect(f"/my_festivals/{fest.fest_id}/edit")
     return render_template(
         "edit_festival.html",
         form=form,
@@ -297,6 +308,10 @@ def add_festival():
         sellers=[],
         user_columns=current_user,
     )
+
+
+
+    return redirect("/manage_bands")
 
 
 @login_required
@@ -469,19 +484,21 @@ def manage_bands():
 @app.route("/manage_bands/add", methods=["POST"])
 def add_band():
     form = BandForm()
-
-    band_id = current_user.add_band(form)
+    band = current_user.add_band(form)
 
     S3_BUCKET = os.environ.get("S3_BUCKET")
 
     s3 = boto3.resource('s3')
     copy_source = {
         'Bucket': S3_BUCKET,
-        'Key': form.band_logo.data.split(".com/")[-1]
+        'Key': request.form["band-logo"].split(".com/")[-1]
         }
     bucket = s3.Bucket(S3_BUCKET)
-    bucket.copy(copy_source, f'band/{band_id}/{form.band_name.data}.png')
+    bucket.copy(copy_source, f'band/{band.band_id}/{form.band_name.data}.png')
     
+    band.logo = f'{request.form["band-logo"].split(".com/")[0]}.com/band/{band.band_id}/{form.band_name.data}.png'
+    db.session.commit()
+
     return redirect("/manage_bands")
 
 
