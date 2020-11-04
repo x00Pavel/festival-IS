@@ -8,19 +8,18 @@ import phonenumbers
 from flask import request
 
 
-class AcountForm(FlaskForm):
-    user_email = StringField("Email", default="sfdh", validators=[DataRequired(), Email()])
-    name = StringField("First name", default="sdfh", validators=[DataRequired(), Length(max=50)])
-    surname = StringField("Last name", default="sfdh", validators=[DataRequired(), Length(max=50)])
-    address = StringField("Last name", default="sdfh", validators=[DataRequired(), Length(max=50)])
-    password = PasswordField(
-        "Password", validators=[DataRequired(), Length(min=2, max=20)]
-    )
-    passwordC = PasswordField(
-        "Password Confirmation",
-        validators=[DataRequired(), Length(min=2, max=20), EqualTo("password")],
-    )
-    submit = SubmitField("Update profile")
+# class AcountForm(FlaskForm):
+#    email = StringField("Email", validators=[DataRequired(), Email()])
+#    firstname = StringField("First name", validators=[DataRequired(), Length(max=50)])
+#    lastname = StringField("Last name", validators=[DataRequired(), Length(max=50)])
+#    Password = PasswordField(
+#        "Password", validators=[DataRequired(), Length(min=2, max=20)]
+#    )
+#    Password2 = PasswordField(
+#        "Password Confirmation",
+#        validators=[DataRequired(), Length(min=2, max=20), EqualTo("Password")],
+#    )
+#    submit = SubmitField("Update profile")
 
 
 class RegistrationForm(FlaskForm):
