@@ -5,15 +5,16 @@
 
     <div style="margin-top: 120px;">
 
-        <a href="/my_festivals/add">
+        {% if source == '{{ source }}' %}
+        <a href="{{ source }}/add">
             <button class="addnewbutton"
                 style="min-width: 11%;border-radius: 12px;height: 40px; margin-left: 1%;margin-bottom: 0.3%;">Create A
                 New
                 Festival!</button>
         </a>
+        {% endif%}
 
-
-        <h2 style="margin-left: 1%; color: white; background-color:black;"> Your actual festivals</h2>
+        <h2 style="margin-left: 1%; color: white; background-color:black;"> Actual festivals</h2>
         <input class="form-control" id="myInput" type="text" placeholder="Search..">
         <br>
         <table id="customers" class="table table-bordered table-striped">
@@ -40,22 +41,23 @@
                     <td style="background-color: #F08080;">CANCELED</td>
                     {% endif%}
 
-
-
-                    {% if current_user.user_id == fest.org_id  %}
-                    <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
+                    
+                    {% if current_user.user_id == fest.org_id or current_user.perms < 2 %}
+                    <td><a href="{{ source }}/{{ fest.fest_id }}/manage_tickets"><button>manage
                                 tickets</button></a>
-                        <a href="/my_festivals/{{ fest.fest_id }}/edit"><button>edit
-                            </button></a>
-                        <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button>cancel
-                                festival</button></a>
+                        {% if fest.status == 2 %}
+                        <a href="{{ source }}/{{ fest.fest_id }}/edit"><button type="button" disabled>edit
+                        </button></a>
+                        <a href="{{ source }}/{{ fest.fest_id }}/cancel_festival"><button type="button" disabled>cancel
+                            festival</button></a></td>
+                        {% endif %}
                     </td>
                     {% else %}
-                    <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
+                    <td><a href="{{ source }}/{{ fest.fest_id }}/manage_tickets"><button>manage
                                 tickets</button></a>
-                        <a href="/my_festivals/{{ fest.fest_id }}/edit"><button type="button" disabled>edit
+                        <a href="{{ source }}/{{ fest.fest_id }}/edit"><button type="button" disabled>edit
                             </button></a>
-                        <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button type="button" disabled>cancel
+                        <a href="{{ source }}/{{ fest.fest_id }}/cancel_festival"><button type="button" disabled>cancel
                                 festival</button></a></td>
                     {% endif %}
 
@@ -66,7 +68,7 @@
         </table>
 
 
-        <h2 style="margin-left: 1%; color: white; background-color:black;"> Your outdated festivals</h2>
+        <h2 style="margin-left: 1%; color: white; background-color:black;"> Outdated festivals</h2>
         <input class="form-control" id="myInput1" type="text" placeholder="Search.."><br>
 
         <table id="customers" class="table table-bordered table-striped">
@@ -86,30 +88,30 @@
                     <td class="td_field">{{ fest.fest_id }}</td>
                     <td>{{ fest.fest_name }}</td>
                     {% if fest.status == 0%}
-                    <td style="background-color: #FFFF99;  max-width: 100px;">WAITING FOR CONFIRMATION</td>
+                    <td style="background-color: #FFFF99;  max-width: 100px;">OUTDATED</td>
                     {% elif  fest.status == 1%}
-                    <td style="background-color: #99FF99;">CONFIRMED</td>
+                    <td style="background-color: #99FF99;">Published</td>
                     {% else %}
-                    <td style="background-color: #F08080;">CANCELED</td>
+                    <td style="background-color: #F08080;">Not published</td>
                     {% endif%}
-                    {% if current_user.user_id == fest.org_id  %}
-                    <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
+                    {% if current_user.user_id == fest.org_id or current_user.perms < 2 %}
+                    <td><a href="{{ source }}/{{ fest.fest_id }}/manage_tickets"><button>manage
                                 tickets</button></a>
-                        <a href="/my_festivals/{{ fest.fest_id }}/edit"><button>edit
-                            </button></a>
+                        <a href="{{ source }}/{{ fest.fest_id }}/edit"><button type="submit" disabled>edit
+                        </button></a>
                         {% if fest.status == 2 %}
-                        <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button disabled>cancel
+                        <a href="{{ source }}/{{ fest.fest_id }}/cancel_festival"><button disabled>cancel
                                 festival</button></a></td>
                     {% else %}
-                    <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button>cancel
-                            festival</button></a></td>
+                    <a href="{{ source }}/{{ fest.fest_id }}/cancel_festival"><button disabled>cancel
+                        festival</button></a></td>
                     {% endif %}
                     {% else %}
-                    <td><a href="/my_festivals/{{ fest.fest_id }}/manage_tickets"><button>manage
+                    <td><a href="{{ source }}/{{ fest.fest_id }}/manage_tickets"><button>manage
                                 tickets</button></a>
-                        <a href="/my_festivals/{{ fest.fest_id }}/edit"><button type="submit" disabled>edit
+                        <a href="{{ source }}/{{ fest.fest_id }}/edit"><button type="submit" disabled>edit
                             </button></a>
-                        <a href="/my_festivals/{{ fest.fest_id }}/cancel_festival"><button type="submit" disabled>cancel
+                        <a href="{{ source }}/{{ fest.fest_id }}/cancel_festival"><button type="submit" disabled>cancel
                                 festival</button></a></td>
                     {% endif %}
 

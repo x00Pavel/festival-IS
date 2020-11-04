@@ -273,6 +273,7 @@ def my_festivals():
         actual_fests=planed_fests,
         outdated_fests=outdated_fests,
         user_columns=current_user,
+        source = '/my_festivals'
     )
 
 
@@ -315,8 +316,8 @@ def add_festival():
 
 
 @login_required
-@app.route("/my_festivals/<fest_id>/edit", methods=["GET", "POST"])
-def edit_festival(fest_id):
+@app.route("/<source>/<fest_id>/edit", methods=["GET", "POST"])
+def edit_festival(fest_id, source):
     data = Festival.query.all()
     list_of_dicts = [row for row in data]
 
@@ -337,11 +338,11 @@ def edit_festival(fest_id):
 
 
 @login_required
-@app.route("/my_festivals/<fest_id>/cancel_festival")
-def cancel_fest(fest_id):
+@app.route("/<source>/<fest_id>/cancel_festival")
+def cancel_fest(fest_id, source):
     msg, status = current_user.cancel_fest(fest_id)
     flash(msg, status)
-    return redirect(f"/my_festivals")
+    return redirect(f"/{source}")
 
 
 @login_required
@@ -388,25 +389,27 @@ def create_seller(fest_id):
 
 
 @login_required
-@app.route("/my_festivals/<fest_id>/manage_tickets")
-def manage_tickets(fest_id):
-    tickets = current_user.get_sellers_tickets(fest_id)
+@app.route("/<source>/<fest_id>/manage_tickets")
+def manage_tickets(fest_id, source):
+    tickets, fest, actuality = current_user.get_sellers_tickets(fest_id)
     return render_template(
         "manage_tickets.html",
         tickets=tickets,
         user_columns=current_user,
+        actuality = actuality,
+        fest = fest
     )
 
 
 @login_required
 @app.route(
-    "/my_festivals/<fest_id>/manage_tickets/<ticket_id>/<action>",
+    "/<source>/<fest_id>/manage_tickets/<ticket_id>/<action>",
     methods=["GET", "POST"],
 )
-def manage_ticket_seller(fest_id, ticket_id, action):
+def manage_ticket_seller(fest_id, ticket_id, action, source):
     reason = request.form["reason"]
     current_user.manage_ticket_seller(ticket_id, action, reason)
-    return redirect(f"/my_festivals/{fest_id}/manage_tickets")
+    return redirect(f"/{source}/{fest_id}/manage_tickets")
 
 
 @login_required
@@ -429,9 +432,13 @@ def manage_sellers():
 @login_required
 @app.route("/manage_festivals")
 def manage_festivals():
-    fests = current_user.get_all_festivals()
+    planed_fests, outdated_fests = current_user.manage_festivals()
     return render_template(
-        "manage_festival_page.html", fests=fests, user_columns=current_user
+        "my_festivals.html",
+        actual_fests=planed_fests,
+        outdated_fests=outdated_fests,
+        user_columns=current_user,
+        source = '/manage_festivals'
     )
 
 

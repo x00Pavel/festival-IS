@@ -331,8 +331,10 @@ class Seller(User):
         return (actual_fests, outdated_fests)
 
     def get_sellers_tickets(self, fest_id):
-        tickets = Ticket.query.filter_by(fest_id=fest_id).all()
-        return tickets
+        today = datetime.now()
+        tickets  = Ticket.query.filter_by(fest_id=fest_id).all()
+        fest = Festival.query.filter_by(fest_id=fest_id).first()
+        return tickets, fest, (fest.time_from >= today)
 
     def manage_ticket_seller(self, ticket_id, action, reason):
         ticket = Ticket.query.filter_by(ticket_id=ticket_id).first()
@@ -594,7 +596,21 @@ class Admin(Organizer):
         sellers = User.query.filter_by(perms=3).all()
         users = User.query.filter_by(perms=4).all()
         return [users, sellers, organizers]
+        
+    def manage_festivals(self):
+        today = datetime.today()
+        actual_fests, outdated_fests = [], []
 
+        fests = Festival.query.all()
+
+        fests.sort(key=lambda fest: fest.time_from)
+
+        for fest in fests:
+            if fest.time_from >= today:
+                actual_fests.append(fest)
+            else:
+                outdated_fests.append(fest)
+        return (actual_fests, outdated_fests)
 
 class RootAdmin(Admin):
     """Reperesentation of root admin. Only this role can add new admins"""
