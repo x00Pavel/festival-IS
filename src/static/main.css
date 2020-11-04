@@ -186,16 +186,16 @@ padding-top: 5px;
 .text-block12 {
   position: absolute;
   bottom: 15%;
+  /* height: 200px; */
   background-color: black;
   color: white;
-  font: bold 24px/45px Helvetica, Sans-Serif; 
+  font: bold 40px/40px Helvetica, Sans-Serif; 
   letter-spacing: -1px;  
   background: rgb(0, 0, 0);
   background: rgba(0, 0, 0, 0.7);
-  margin-left: 45%;
-  padding-top: 10px;
-  padding-left: 30px;
-  padding-right: 30px;
+  width: 100%;
+  display: table;
+  text-align: center;
 
 } 
 
@@ -315,7 +315,7 @@ padding-top: 5px;
 {
   .grid-container
   {
-     grid-template-columns : repeat(auto-fit, minmax(350px, 1fr));
+     grid-template-columns : repeat(auto-fit, minmax(400px, 4fr));
   }
 
 
@@ -639,20 +639,56 @@ label {
   margin-top: 3%;
 }
 .firstpic{
-
-      position:absolute;
-      z-index: 1;
+   height: 15wv;
+   width: 100%;
+   object-fit: cover;
 }
 .secondpic
 {    
   /* position:absolute; */
-  width: 590px;
+  width: 100%;
   /* left: 300px; */
-   height:110px;
+   /* height:110px; */
    /* top: -32 0px; */
    /* padding-top: -300px; */
 
       z-index: 2;
+}
+.thirdpic
+{
+  height: 18%;
+  width: 100%;
+  z-index: 3;
+}
+
+@media screen and (max-width: 1200px) {
+  .thirdpic {
+   height: 15%;
+  }
+}
+@media screen and (max-width: 980px) {
+  .thirdpic {
+   height: 12%;
+  }
+
+}
+@media screen and (max-width: 997px) {
+  .thirdpic {
+   height: 11.5%;
+  }
+
+}
+@media screen and (max-width: 765px) {
+  .thirdpic {
+   height: 27%;
+  }
+
+}
+
+.fourthpic
+{
+  width: 100%;
+  height: 100%;
 }
 #customers {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -705,11 +741,6 @@ label {
    text-align: center;
 
 }
-.thirdpic
-{
-  width: 350px;
-}
-
 
 
 
@@ -833,3 +864,36 @@ label {
   display: inline-block;
   font-size: 16px;
 }
+
+.rec_fest
+{
+  
+  font-size: 24px;
+  color: white;
+  margin-bottom: 40px;
+  
+}
+input.largerCheckbox {
+  width: 40px;
+  margin-top: 18x;
+  /* padding-left: 120px; */
+  /* margin-right: 110px; */
+  /* padding-bottom: 30px; */
+  height: 30px;
+}
+.flash_css{
+  margin-left: 70px; 
+  width: 150%; 
+  height: 50px;
+  font-size: 1vw;
+
+}
+@media screen and (max-width: 800px) 
+{
+ .flash_css{
+  width: 80%; 
+  }
+
+
+}
+

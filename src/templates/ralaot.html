@@ -40,8 +40,8 @@
                 {% with messages = get_flashed_messages(with_categories=True) %}
                 {% if messages %}
                 {% for category, message in messages %}
-                <div id=flashwrapper style="margin-left: 70px; width: 600px; height: 50px;"
-                  class="alert alert-{{ category }} alert-dismissible" role="alert">
+                <div id=flashwrapper style="margin-left: 70px; width: 3; height: 50px;"
+                  class="alert alert-{{ category }} alert-dismissible flash_css" role="alert">
                   {{ message }}
                   <button type="button" class="close" data-dismiss="alert" style="height: 47px;" aria-label="Close"
                     onClick="close('flashwrapper')">
