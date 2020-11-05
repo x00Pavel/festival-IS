@@ -40,8 +40,7 @@
                 {% with messages = get_flashed_messages(with_categories=True) %}
                 {% if messages %}
                 {% for category, message in messages %}
-                <div id=flashwrapper style="margin-left: 70px; width: 600px; height: 50px;"
-                  class="alert alert-{{ category }} alert-dismissible" role="alert">
+                <div id=flashwrapper class="alert alert-{{ category }} alert-dismissible flash_css" role="alert">
                   {{ message }}
                   <button type="button" class="close" data-dismiss="alert" style="height: 47px;" aria-label="Close"
                     onClick="close('flashwrapper')">
@@ -70,10 +69,10 @@
                 {% if current_user.perms < 4 %}
                 <a class="site-header" href="{{ url_for('my_festivals') }}">My festivals</a><br>
                 {% if current_user.perms < 3 %}
+                <a class="site-header" href="{{ url_for('manage_festivals') }}">Manage festivals</a><br>
                 <a class="site-header" href="{{ url_for('manage_bands') }}">Manage bands</a><br>
                 {% endif %}
                 {% if current_user.perms < 2 %}
-                <a class="site-header" href="{{ url_for('manage_festivals') }}">Manage festivals</a><br>
                 <a class="site-header" href="{{ url_for('manage_users') }}">Manage users</a><br>
                 {% endif %}
                 {% endif %}

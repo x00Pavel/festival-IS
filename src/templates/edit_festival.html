@@ -2,14 +2,7 @@
 {% block content %}
 
 <head>
-    <style>
-        ul#menu li {
-            display: inline;
-            /* padding-left: 40%; */
-            /* margin-left: 20%; */
 
-        }
-    </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 
@@ -18,8 +11,7 @@
 
     {% if fest != None %}
     <div class="image_in_my_account">
-        <img style="margin-top:150px;" src="{{fest.fest_logo}}" id="preview"
-            width="600" height="600">
+        <img style="margin-top:150px;" src="{{fest.fest_logo}}" id="preview" width="600" height="600">
     </div>
     {% set list_of_names = {"FESTIVAL NAME":fest.fest_name ,
                             "FESTIVAL ID" : fest.fest_id ,
@@ -54,98 +46,107 @@
         </table>
 
         {% else %}
-        <form action="/my_festivals/add" method="POST">
 
 
-            <input type="hidden" name="fest_logo" id="fest_logo" value="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png">
-            
-            <img style="margin-top:150px;" src="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png" id="preview2" width="300" height="300">
+        <div class="content-section_for_reg">
+            <form action="/my_festivals/add" method="POST">
 
-            <input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center;" id=file-input>
-            {% for field in form if field.name != 'csrf_token' %}
-            <legend class="border-bottom mb-4">{{ field.label() }}</legend>
-            {{ field() }}
-            {% endfor %}
-            
-            <script type="text/javascript">
 
-                /*
-                  Function to carry out the actual POST request to S3 using the signed request from the Python app.
-                */
-                function uploadFile(file, s3Data, url) {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', s3Data.url);
-                    xhr.setRequestHeader('x-amz-acl', 'public-read');
+                <input type="hidden" name="fest_logo" id="fest_logo"
+                    value="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png">
 
-                    const postData = new FormData();
-                    for (key in s3Data.fields) {
-                        postData.append(key, s3Data.fields[key]);
-                    }
-                    postData.append('file', file);
+                <img style="margin-top:150px;"
+                    src="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png" id="preview2" width="300"
+                    height="300">
 
-                    xhr.onreadystatechange = () => {
-                        if (xhr.readyState === 4) {
-                            if (xhr.status === 200 || xhr.status === 204) {
-                                document.getElementById('preview2').src = url;
-                                document.getElementById('fest_logo').value = url;
-                            }
-                            else {
-                                alert('Could not upload file.');
-                            }
+                <input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center;" id=file-input>
+                {% for field in form if field.name != 'csrf_token' %}
+                <hr>
+                {{ field.label() }}
+                <br><br>
+                {{ field() }}
+                {% endfor %}
+
+                <script type="text/javascript">
+
+                    /*
+                      Function to carry out the actual POST request to S3 using the signed request from the Python app.
+                    */
+                    function uploadFile(file, s3Data, url) {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', s3Data.url);
+                        xhr.setRequestHeader('x-amz-acl', 'public-read');
+
+                        const postData = new FormData();
+                        for (key in s3Data.fields) {
+                            postData.append(key, s3Data.fields[key]);
                         }
-                    };
-                    xhr.send(postData);
-                }
+                        postData.append('file', file);
 
-
-                /*
-                  Function to get the temporary signed request from the Python app.
-                  If request successful, continue to upload the file using this signed
-                  request.
-                */
-                function getSignedRequest(file, fest_logo) {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('GET', `/sign-s3/tmp/tmpfest?file-name=${file.name}&file-type=${file.type}`);
-                    xhr.onreadystatechange = () => {
-                        if (xhr.readyState === 4) {
-                            if (xhr.status === 200) {
-                                const response = JSON.parse(xhr.responseText);
-                                uploadFile(file, response.data, response.url);
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === 4) {
+                                if (xhr.status === 200 || xhr.status === 204) {
+                                    document.getElementById('preview2').src = url;
+                                    document.getElementById('fest_logo').value = url;
+                                }
+                                else {
+                                    alert('Could not upload file.');
+                                }
                             }
-                            else {
-                                alert('Could not get signed URL.');
-                            }
-                        }
-                    };
-                    xhr.send();
-                }
-
-                /*
-                   Function called when file input updated. If there is a file selected, then
-                   start upload procedure by asking for a signed request from the app.
-                */
-                function initUpload() {
-                    const fest_logo = document.getElementById('fest_logo').value;
-                    const files = document.getElementById('file-input').files;
-                    const file = files[0];
-                    if (!file) {
-                        return alert('No file selected.');
+                        };
+                        xhr.send(postData);
                     }
-                    getSignedRequest(file, fest_logo);
-                }
-
-                /*
-                   Bind listeners when the page loads.
-                */
-                (() => {
-                    document.getElementById('file-input').onchange = initUpload;
-                })();
-
-            </script>
 
 
-            <input style="width: 100%; height: 45px" type="submit" value="Create festival">
-        </form>
+                    /*
+                      Function to get the temporary signed request from the Python app.
+                      If request successful, continue to upload the file using this signed
+                      request.
+                    */
+                    function getSignedRequest(file, fest_logo) {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', `/sign-s3/tmp/tmpfest?file-name=${file.name}&file-type=${file.type}`);
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === 4) {
+                                if (xhr.status === 200) {
+                                    const response = JSON.parse(xhr.responseText);
+                                    uploadFile(file, response.data, response.url);
+                                }
+                                else {
+                                    alert('Could not get signed URL.');
+                                }
+                            }
+                        };
+                        xhr.send();
+                    }
+
+                    /*
+                       Function called when file input updated. If there is a file selected, then
+                       start upload procedure by asking for a signed request from the app.
+                    */
+                    function initUpload() {
+                        const fest_logo = document.getElementById('fest_logo').value;
+                        const files = document.getElementById('file-input').files;
+                        const file = files[0];
+                        if (!file) {
+                            return alert('No file selected.');
+                        }
+                        getSignedRequest(file, fest_logo);
+                    }
+
+                    /*
+                       Bind listeners when the page loads.
+                    */
+                    (() => {
+                        document.getElementById('file-input').onchange = initUpload;
+                    })();
+
+                </script>
+
+
+                <input style="width: 100%; height: 45px" type="submit" value="Create festival">
+            </form>
+        </div>
         {% endif %}
 
 
@@ -189,7 +190,8 @@
                             <h4>2020</h4>
                             {% for fest in fests %}
                             {% if fest.time_from.year == 2020 %}
-                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO
+                                    {{ fest.time_to}}
                                     AT
                                     {{fest.address}} </small>
                             </p>
@@ -203,7 +205,8 @@
                             <h4>2021</h4>
                             {% for fest in fests %}
                             {% if fest.time_from.year == 2021 %}
-                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO
+                                    {{ fest.time_to}}
                                     AT
                                     {{fest.address}} </small>
                             </p>
@@ -217,7 +220,8 @@
                             <h4>2022</h4>
                             {% for fest in fests %}
                             {% if fest.time_from.year == 2022 %}
-                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO
+                                    {{ fest.time_to}}
                                     AT
                                     {{fest.address}} </small>
                             </p>
@@ -231,7 +235,8 @@
                             <h4>2023</h4>
                             {% for fest in fests %}
                             {% if fest.time_from.year == 2023 %}
-                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO
+                                    {{ fest.time_to}}
                                     AT
                                     {{fest.address}} </small>
                             </p>
@@ -244,7 +249,8 @@
                             <h4>2024</h4>
                             {% for fest in fests %}
                             {% if fest.time_from.year == 2024 %}
-                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO {{ fest.time_to}}
+                            <p><small class="datas_for_choose"> BUSY DATES ARE {{ fest.time_from}} TO
+                                    {{ fest.time_to}}
                                     AT
                                     {{fest.address}} </small>
                             </p>
@@ -324,10 +330,9 @@
             {% endfor %}
             {% endif %}
 
-            {% endblock content %}
 
 
         </div>
     </div>
-
-</body>
+    </div>
+</body> {% endblock content %}

@@ -12,56 +12,62 @@
 
 	<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/album/">
 
-	<!-- Bootstrap core CSS -->
-
-
-	<style>
-		.bd-placeholder-img {
-			font-size: 1.125rem;
-			text-anchor: middle;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}
-
-		@media (min-width: 768px) {
-			.bd-placeholder-img-lg {
-				font-size: 3.5rem;
-			}
-		}
-	</style>
 
 </head>
 
 <body class="bg_css1">
+
+
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			{% for fest in fests %}
 			{% if fest.description != None %}
+			{% if fest.style in recommendations %}
+
+			<a href="festival\/{{ fest.fest_id }}">
+				<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
+					<img class="d-block" src="{{fest.fest_logo}}">
+			</a>
+
+			<div class="text-block12">
+				<p></p>
+				<p>{{ fest.description}}</p>
+				<p>{{ fest.address}}</p>
+				<p>RECOMMENDED TO YOU!</p>
+			</div>
+		</div>
+
+		{%else%}
+		<a href="festival\/{{ fest.fest_id }}">
 			<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
 				<img class="d-block" src="{{fest.fest_logo}}">
+		</a>
 
-				<div class="container12">
-					<img src="{{fest.fest_logo}}" alt="Norway" style="width:100%;">
-					<div class="text-block12">
-						<h4>{{ fest.description}}</h4>
-						<p>{{ fest.address}}</p>
-					</div>
-				</div>
-			</div>
-			{% endif %}
-			{% endfor %}
+		<div class="text-block12">
+			<p></p>
+			<p>{{ fest.description}}</p>
+			<p>{{ fest.address}}</p>
 		</div>
-		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</a>
-		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-			<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
 	</div>
+
+	{% endif %}
+	{%endif%}
+	{% endfor %}
+	</div>
+	<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<!-- <span class="sr-only">Previous</span> -->
+	</a>
+	<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<!-- <span class="sr-only">Next</span> -->
+	</a>
+	</div>
+
+
+
+
+
 
 
 
@@ -132,27 +138,20 @@
 				</div>
 			</div>
 			<!-- <input class="check_box_for_sales_box" type="checkbox" id="sales" name="sales" onclick="CheckBoxFunc()"> -->
-			<input class="check_box_for_sales_box" type="radio" id="sales" name="categories" value="sales">
-			<label id="id_for_sale" for="sales">SALES</label>
+			<!-- <input class="check_box_for_sales_box" type="radio" id="sales" name="categories" value="sales"> -->
+			<!-- <label id="try_but" for="sales">SALES</label> -->
+			<!-- <button id="try_but">YES</button> -->
 		</div>
+
+		<input style="margin-left: 600px;" type="checkbox" class="largerCheckbox" id="try_but" onclick="myFunctionaa()">
+		<label class="rec_fest" id="try_but" for="sales">RECOMMENDED FESTIVALS</label>
+		<!-- <p id="text" style="font-size: 22px;">Checkbox is CHECKED!</p> -->
+
+		<input type="checkbox" class="largerCheckbox" id="try_but1" onclick="myFunctionab()">
+		<label class="rec_fest" id="try_but1" for="sales">FESTIVALS WITH SALES</label>
 	</div>
 
-	<!-- End of filter bar -->
-	<!-- 
-	<script>
-		function CheckBoxFunc() {
-			var checkBox = document.getElementById("sales");
 
-			var text = document.getElementById("text");
-			if (checkBox.checked == true) {
-				<label class=" check_box_for_sales" id="text" for="scales">True</label>
-
-			}
-			else {
-				<label class=" check_box_for_sales" id="text" for="scales">FASLE</label>
-			}
-		}
-	</script> -->
 	<script>
 		$(document).ready(function () {
 			document.getElementById('gender_Male').checked
@@ -170,56 +169,88 @@
 
 	<main role="main">
 		<div class="grid">
-			<div class="container">
-				<div class="row">
+			<div class="container" id="trytab">
+				<div class="row ">
 					{% for fest in fests %}
 					{% if fest.description != None %}
 					<div class="col-md-4">
-						<div class="card mb-4 shadow-sm">
+						<div class="card mb-4 shadow-sm" style=" height: 680px;">
+							<!-- <div class="card mb-4 shadow-sm" style=" height: 760px; min-width: 230px; max-width: 230px;"></div> -->
 							<a href="festival\/{{ fest.fest_id }}">
-								<svg class="bd-placeholder-img card-img-top" width="100%" height="350"
+								<svg class="bd-placeholder-img card-img-top" width="100%" height="400px"
 									xmlns="festival\/{{ fest.fest_id }}" preserveAspectRatio="xMidYMid slice"
 									focusable="false" role="img" aria-label="Placeholder: Thumbnail">
 
-									<image height="100%" class="firstpic" href="{{fest.fest_logo}}"
-										clip-path="url(#myCircle)"></image>
+									<image class="firstpic" href="{{fest.fest_logo}}">
+									</image>
+
 									{% if fest.max_capacity == fest.current_ticket_count %}
 									{
-									<image class="thirdpic"
+									<image class=" fourthpic"
 										href="https://festival-static.s3-eu-west-1.amazonaws.com/sold-out-png-19949.png">
 
 									</image>
 									}
-									{% elif fest.sale != 0 %}
+									{%endif%}
+									{% if fest.sale != 0 %}
+									{
 									<image class="secondpic"
-										href="https://festival-static.s3-eu-west-1.amazonaws.com/salecroped.png">
+										href="https://festival-static.s3-eu-west-1.amazonaws.com/sale_line.jpg">
 
 									</image>
-									{% else %}
+									}
+									{% endif%}
+									{% if recommendations and fest.style  in recommendations %}
+									{
+									<image class="thirdpic"
+										href="https://festival-static.s3-eu-west-1.amazonaws.com/recommended.jpg">
+
+									</image>
+									}
 									{% endif %}
 								</svg>
 							</a>
-							<div class="card-body bg-dark text-danger w-100 p-3 " style="max-height: 500%;">
+							<div class="card-body bg-dark text-danger w-100 p-3">
 								<p class="card-text"> FESTIVAL NAME: {{ fest.fest_name}}</p>
-								<p class="card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
+								<p class=" card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
 								<p class="card-text">{{ fest.address}}</p>
+
+
+								{% if recommendations and fest.style in recommendations and fest.sale != 0 %}
+								<p class="card-text">Buy festival recommended to you with {{fest.sale}}% sale
+									right now
+								</p>
+								{% else %}
+
 								{% if recommendations and fest.style in recommendations %}
-								<p class="card-text">Recommended</p>
+								<p class="card-text">Recommended for you</p>
 								{% endif %}
-								
-								{% set new_var  = fest.cost * fest.sale / 100 %}
+								{% if fest.sale != 0 %}
+								<p class="card-text">Buy now with {{fest.sale }} % sale</p>
+								{% endif %}
+								{%endif%}
+
+								{% set new_var  = fest.cost - (fest.cost * fest.sale / 100) %}
 
 								{% if fest.sale == 0 %}
 								<p class="card-text">{{ fest.cost}}.0 $</p>
 								{%else%}
-								<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <ins>{{ new_var }}$</ins> </p>
+								<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <ins>{{ new_var }}$</ins>
+								</p>
 								{% endif %}
 								<div class="d-flex justify-content-between align-items-center">
-									<div class="btn-group">
-										<a href="festival\/{{ fest.fest_id }}"> <button type="button"
-												class="btn btn-sm btn-outline-secondary">View</button></a>
-									</div>
-									<small class="text-muted">TIME POSTED</small>
+									{% if recommendations and fest.style in recommendations and fest.sale != 0 %}
+									<small class="text-muted">#Sale, #Recommended </small>
+									{% else %}
+
+									{% if recommendations and fest.style in recommendations %}
+									<small class="text-muted">#Recommended</small>
+									{% endif %}
+									{% if fest.sale != 0 %}
+									<small class="text-muted">#Sale </small>
+									{% endif %}
+									{%endif%}
+
 								</div>
 							</div>
 						</div>
@@ -276,5 +307,82 @@
 		values.style.bottom = slider.value * 40 + "px";
 		var lal = slider.value * 40 + "px";
 	}
+</script>
+<script>
+	//Reccom	
+	function myFunctionaa() {
+
+		var checkBox = document.getElementById("try_but");
+		var checkBox1 = document.getElementById("try_but1");
+		if (checkBox.checked == true) {
+
+			if (checkBox1.checked == true) {
+				$("#trytab div").filter(function () {
+
+					$(this).toggle($(this).text().indexOf(("Buy festival recommended to you with ")) > -1)
+				});
+
+			}
+			else {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("#Recommended") > -1)
+				});
+			}
+
+
+		}
+		if (checkBox.checked == false) {
+			if (checkBox1.checked == true) {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("#Sale") > -1)
+				});
+
+			}
+			else {
+
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
+				});
+			}
+
+		}
+	}
+
+</script>
+<script>
+	//Sales
+	function myFunctionab() {
+
+		var checkBox = document.getElementById("try_but1");
+		var checkBox1 = document.getElementById("try_but");//Reccom
+		if (checkBox.checked == true) {
+
+			if (checkBox1.checked == true) {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf(("Buy festival recommended to you with ")) > -1)
+
+				});
+			}
+			else {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("#Sale") > -1)
+				});
+			}
+
+		}
+		if (checkBox.checked == false) {
+			if (checkBox1.checked == true) {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("#Recommended") > -1)
+				});
+			}
+			else {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
+				});
+			}
+		}
+	}
+
 </script>
 {% endblock content %}

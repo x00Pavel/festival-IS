@@ -46,9 +46,14 @@ def home():
     list_of_dicts = [row for row in data]
     recommendations = None
     if current_user.is_authenticated:
-        recommendations = current_user.get_recomendations()
+        recommendations = list(current_user.get_recomendations())
+        recommendations_count = len(list(set(recommendations)))
         return render_template(
-            "festivals.html", user_columns=current_user, fests=list_of_dicts, recommendations=recommendations
+            "festivals.html",
+            user_columns=current_user,
+            fests=list_of_dicts,
+            recommendations=recommendations,
+            recommendations_count=recommendations_count,
         )
     return render_template("festivals.html", fests=list_of_dicts)
 
@@ -271,7 +276,7 @@ def my_festivals():
         actual_fests=planed_fests,
         outdated_fests=outdated_fests,
         user_columns=current_user,
-        source = '/my_festivals'
+        source="/my_festivals",
     )
 
 
@@ -286,14 +291,14 @@ def add_festival():
         fest = current_user.add_fest(form)
         S3_BUCKET = os.environ.get("S3_BUCKET")
 
-        s3 = boto3.resource('s3')
+        s3 = boto3.resource("s3")
         copy_source = {
-            'Bucket': S3_BUCKET,
-            'Key': request.form["fest_logo"].split(".com/")[-1]
-            }
+            "Bucket": S3_BUCKET,
+            "Key": request.form["fest_logo"].split(".com/")[-1],
+        }
         bucket = s3.Bucket(S3_BUCKET)
-        bucket.copy(copy_source, f'fest/{fest.fest_id}/{form.fest_name.data}.png')
-        
+        bucket.copy(copy_source, f"fest/{fest.fest_id}/{form.fest_name.data}.png")
+
         fest.fest_logo = f'{request.form["fest_logo"].split(".com/")[0]}.com/fest/{fest.fest_id}/{form.fest_name.data}.png'
         db.session.commit()
         return redirect(f"/my_festivals/{fest.fest_id}/edit")
@@ -307,8 +312,6 @@ def add_festival():
         sellers=[],
         user_columns=current_user,
     )
-
-
 
     return redirect("/manage_bands")
 
@@ -394,8 +397,8 @@ def manage_tickets(fest_id, source):
         "manage_tickets.html",
         tickets=tickets,
         user_columns=current_user,
-        actuality = actuality,
-        fest = fest
+        actuality=actuality,
+        fest=fest,
     )
 
 
@@ -436,7 +439,7 @@ def manage_festivals():
         actual_fests=planed_fests,
         outdated_fests=outdated_fests,
         user_columns=current_user,
-        source = '/manage_festivals'
+        source="/manage_festivals",
     )
 
 
@@ -485,6 +488,7 @@ def manage_bands():
         "bands_page.html", bands=bands, form=form, user_columns=current_user
     )
 
+
 @login_required
 @app.route("/manage_bands/add", methods=["POST"])
 def add_band():
@@ -493,14 +497,14 @@ def add_band():
 
     S3_BUCKET = os.environ.get("S3_BUCKET")
 
-    s3 = boto3.resource('s3')
+    s3 = boto3.resource("s3")
     copy_source = {
-        'Bucket': S3_BUCKET,
-        'Key': request.form["band-logo"].split(".com/")[-1]
-        }
+        "Bucket": S3_BUCKET,
+        "Key": request.form["band-logo"].split(".com/")[-1],
+    }
     bucket = s3.Bucket(S3_BUCKET)
-    bucket.copy(copy_source, f'band/{band.band_id}/{form.band_name.data}.png')
-    
+    bucket.copy(copy_source, f"band/{band.band_id}/{form.band_name.data}.png")
+
     band.logo = f'{request.form["band-logo"].split(".com/")[0]}.com/band/{band.band_id}/{form.band_name.data}.png'
     db.session.commit()
 
