@@ -129,11 +129,15 @@ class BaseUser:
                 please pay for part of the reservations, or create account to continue.
                 """
             )
+        fest = Festival.query.filter_by(fest_id=fest_id).first()
+        price = fest.cost if fest.sale == 0 else (fest.cost * fest.sale) / 100
+
         ticket = Ticket(
             user_email=form.user_email.data,
             name=form.user_name.data,
             surname=form.user_surname.data,
             fest_id=fest_id,
+            price=price
         )
         db.session.add(ticket)
         fest = Festival.query.filter_by(fest_id=fest_id).first()
@@ -246,9 +250,11 @@ class User(UserMixin, db.Model):
             )
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         if fest.current_ticket_count != fest.max_capacity:
+            price = fest.cost if fest.sale == 0 else (fest.cost * fest.sale) / 100
             ticket = Ticket(
                 user_email=self.user_email,
-                user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname
+                user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname,
+                price=price
             )
             fest.current_ticket_count += 1
             db.session.add(ticket)
@@ -669,6 +675,7 @@ class Ticket(db.Model):
     user_email = Column("user_email", Text, nullable=True)
     name = Column("name", String(20), nullable=False)
     surname = Column("surname", String(20), nullable=False)
+    price = Column("price", Integer)
 
     user_id = db.Column(
         "user_id", Integer, db.ForeignKey("User.user_id"), nullable=True
@@ -683,8 +690,9 @@ class Ticket(db.Model):
     fest = db.relationship(
         "Festival",
         foreign_keys=fest_id,
-        backref=backref("Ticket", cascade="all,delete"),
+        backref=backref("Ticket"),
     )
+
 
     def __repr__(self):
         return f"Ticket {self.ticket_id}: user_id: {self.user_id}; festival_id: {self.fest_id}"
