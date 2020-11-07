@@ -24,7 +24,7 @@ db = SQLAlchemy(app)
 class Festival(db.Model):
     __tablename__ = "Festival"
 
-    fest_id = db.Column("fest_id", db.Integer, primary_key=True)
+    fest_id = db.Column("fest_id", db.Integer, primary_key=True, index=True)
     fest_name = Column("fest_name", Text, nullable=False)
     fest_logo = Column("fest_logo", Text, nullable=False)
     description = db.Column("description", db.Text)
@@ -50,7 +50,6 @@ class Festival(db.Model):
     @classmethod
     def get_festival(self, fest_id):
         return Festival.query.filter_by(fest_id=fest_id).first()
-
 
 class Stage(db.Model):
     __tablename__ = "Stage"
@@ -715,27 +714,3 @@ class SellersList(db.Model):
 
     def __repr__(self):
         return f"Entry ID: {self.entry_id} - Seller id: {self.seller_id} -> Festival ID: {self.fest_id}"
-
-# TODO: delete this class
-class BandMember(db.Model):
-    """Representaton of music band member
-    One member can be a member only for one band
-    """
-
-    __tablename__ = "BandMember"
-    person_id = Column("person_id", Integer, primary_key=True)
-    band_id = Column("band_id", Integer, ForeignKey("Band.band_id"), nullable=False)
-    name = Column("name", String(10), nullable=False)
-    surname = Column("surname", String(10), nullable=False)
-
-    band = relationship("Band", foreign_keys=band_id)
-
-    def __init__(self, person_id: int, band_id: int, name: str, surname: str):
-        self.band_id = band_id
-        self.name = name
-        self.surname = surname
-
-    def __repr__(self):
-        return (
-            f"Band member {self.person_id}: {self.name}, {self.surname}, {self.band_id}"
-        )
