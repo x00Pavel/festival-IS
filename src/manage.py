@@ -1,7 +1,7 @@
 from flask_script import Manager, commands
 from datetime import datetime
 from festival_is import app
-from create_db import db, RootAdmin
+from classes import db, RootAdmin
 from werkzeug.security import generate_password_hash
 import psycopg2
 import os

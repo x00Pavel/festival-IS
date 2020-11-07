@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, flash, url_for
-from create_db import *
+from classes import *
 from festival_is import app, login_manager
 from forms import *
 from werkzeug.security import generate_password_hash, check_password_hash
