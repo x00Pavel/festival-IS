@@ -5,7 +5,7 @@
 
     <div style="margin-top: 120px;">
 
-        {% if source == '{{ source }}' %}
+        {% if source == "/my_festivals" %}
         <a href="{{ source }}/add">
             <button class="addnewbutton"
                 style="min-width: 11%;border-radius: 12px;height: 40px; margin-left: 1%;margin-bottom: 0.3%;">Create A
@@ -42,7 +42,7 @@
                     {% endif%}
 
                     
-                    {% if current_user.user_id == fest.org_id or current_user.perms < 2 %}
+                    {% if current_user.user_id == fest.org_id or (current_user.perms < 2 and source == "/manage_festivals") %}
                     <td><a href="{{ source }}/{{ fest.fest_id }}/manage_tickets"><button>manage
                                 tickets</button></a>
                         {% if fest.status == 2 %}
@@ -50,6 +50,10 @@
                         </button></a>
                         <a href="{{ source }}/{{ fest.fest_id }}/cancel_festival"><button type="button" disabled>cancel
                             festival</button></a></td>
+                        {% else %}
+                        <a href="{{ source }}/{{ fest.fest_id }}/edit"><button type="button">edit
+                            </button></a>
+                        <a href="{{ source }}/{{ fest.fest_id }}/cancel_festival"><button type="button">cancel
                         {% endif %}
                     </td>
                     {% else %}
