@@ -128,7 +128,7 @@ def login(user=None):
 
 # Listen for GET requests to yourdomain.com/account/
 @login_required
-@app.route("/account/", methods=["GET", "POST"])
+@app.route("/account/", methods=["GET"])
 def account():
     user = User.query.filter_by(user_id=current_user.user_id).first()
     return render_template("account.html", user_columns=user)
@@ -136,40 +136,10 @@ def account():
 
 # Listen for POST requests to yourdomain.com/submit_form/
 @login_required
-@app.route("/submit-form/", methods=["GET", "POST"])
+@app.route("/submit-form/", methods=["POST"])
 def submit_form():
-
-    new_psswd1 = request.form["new_psswd1"]
-    new_psswd2 = request.form["new_psswd2"]
-    new_user_email = request.form["user_email"]
-
-    users_email = (
-        db.session.query(User.user_email)
-        .filter(current_user.user_email != User.user_email)
-        .all()
-    )
-
-    for i in users_email:
-        if i[0] == new_user_email:
-            flash("Email already exists", "warning")
-            return redirect("/account")
-
-    setattr(current_user, "user_email", request.form["user_email"])
-    setattr(current_user, "name", request.form["name"])
-    setattr(current_user, "surname", request.form["surname"])
-    setattr(current_user, "address", request.form["address"])
-    setattr(current_user, "avatar", request.form["avatar_url"])
-
-    if new_psswd1 is not None and new_psswd2 is not None:
-        if new_psswd1 == new_psswd2:
-            current_user.set_password(new_psswd1)
-        else:
-            flash("Wrong password", "warning")
-            return redirect("/account")
-
-    db.session.commit()
-
-    # Redirect to the user's profile page, if appropriate
+    msg, status = current_user.change_account(request.form)
+    flash(msg, status)
     return redirect("/account")
 
 
