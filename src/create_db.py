@@ -23,18 +23,21 @@ db = SQLAlchemy(app)
 
 
 def validate(email=None, name=None, surname=None, address=None, phone=None):
-    if email and (not match(r'^[a-zA-Z]+[\w.]*@[a-z]{2,}\.[a-z]{2,}$', email)):
+    if email and (not match(r"^[a-zA-Z]+[\w.]*@[a-z]{2,}\.[a-z]{2,}$", email)):
         return f"Email {email} is incorrect", "warning"
-    if name and (not match(r'^[a-zA-Z]{2,}[a-zA-Z-]*$', name)):
+    if name and (not match(r"^[a-zA-Z]{2,}[a-zA-Z-]*$", name)):
         return f"Name {name} is incorrect", "warning"
-    if surname and (not match(r'^[a-zA-Z]{2,}[a-zA-Z\-]*$', surname)):
+    if surname and (not match(r"^[a-zA-Z]{2,}[a-zA-Z\-]*$", surname)):
         return f"Surname {surname} is incorrect", "warning"
-    if address and (not match(r'^[A-Za-z][\w\-]{2,}, [A-Za-z][\w\- ]{2,}, \d[\-/\d]*$', address)):
+    if address and (
+        not match(r"^[A-Za-z][\w\-]{2,}, [A-Za-z][\w\- ]{2,}, \d[\-/\d]*$", address)
+    ):
         return f"Address {address} is incorrect", "warning"
-    if phone and (not match(r'^\+?\d{6,}$', phone)):
+    if phone and (not match(r"^\+?\d{6,}$", phone)):
         return f"Phone number {phone} is incorrect", "warning"
 
     return None
+
 
 class Festival(db.Model):
     __tablename__ = "Festival"
@@ -65,6 +68,7 @@ class Festival(db.Model):
     @classmethod
     def get_festival(self, fest_id):
         return Festival.query.filter_by(fest_id=fest_id).first()
+
 
 class Stage(db.Model):
     __tablename__ = "Stage"
@@ -151,7 +155,7 @@ class BaseUser:
             name=form.user_name.data,
             surname=form.user_surname.data,
             fest_id=fest_id,
-            price=price
+            price=price,
         )
         db.session.add(ticket)
         fest = Festival.query.filter_by(fest_id=fest_id).first()
@@ -166,14 +170,16 @@ class BaseUser:
     def register(cls, form, perms):
         email = form.email.data
         name = form.firstname.data
-        surname = form.lastname.data        
+        surname = form.lastname.data
         passwd_hash = generate_password_hash(form.password.data, method="sha256")
         address = f"{form.city.data}, {form.street.data}, {form.homenum.data}"
         phone = form.phonenumber.data
-        result = validate(email=email, name=name, surname=surname, address=address, phone=phone)
+        result = validate(
+            email=email, name=name, surname=surname, address=address, phone=phone
+        )
         if result is not None:
             return None, result[0], result[1]
-        
+
         table = None
         if perms == 4:
             table = User
@@ -273,12 +279,15 @@ class User(UserMixin, db.Model):
             price = fest.cost if fest.sale == 0 else (fest.cost * fest.sale) / 100
             ticket = Ticket(
                 user_email=self.user_email,
-                user_id=self.user_id, fest_id=fest_id, name=self.name, surname=self.surname,
-                price=price
+                user_id=self.user_id,
+                fest_id=fest_id,
+                name=self.name,
+                surname=self.surname,
+                price=price,
             )
             fest.current_ticket_count += 1
             db.session.add(ticket)
-            db.session.commit() 
+            db.session.commit()
         else:
             raise ValueError("Festival is already out of tickets")
 
@@ -306,8 +315,14 @@ class User(UserMixin, db.Model):
         return actual_tickets, outdated_tickets
 
     def get_recomendations(self):
-        styles = [t.fest.style for t in Ticket.query.filter(Ticket.user_id==self.user_id, Ticket.approved==1).all()]
+        styles = [
+            t.fest.style
+            for t in Ticket.query.filter(
+                Ticket.user_id == self.user_id, Ticket.approved == 1
+            ).all()
+        ]
         return styles
+
 
 class Seller(User):
     __tablename__ = "Seller"
@@ -358,7 +373,7 @@ class Seller(User):
 
     def get_sellers_tickets(self, fest_id):
         today = datetime.now()
-        tickets  = Ticket.query.filter_by(fest_id=fest_id).all()
+        tickets = Ticket.query.filter_by(fest_id=fest_id).all()
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         return tickets, fest, (fest.time_from >= today)
 
@@ -408,13 +423,20 @@ class Organizer(Seller):
                 f"User with this email ({seller.user_email}) is already exist",
                 "warning",
             )
+        email = form.get("email")
+        name = form.get("name")
+        surname = form.get("surname")
+        address = form.get("address")
+        result = validate(email=email, name=name, surname=surname, address=address)
+        if result is not None:
+            return result
         seller = Seller(
-            user_email=form.get("email"),
-            name=form.get("name"),
-            surname=form.get("surname"),
+            user_email=email,
+            name=name,
+            surname=surname,
             perms=3,
             passwd=generate_password_hash(form.get("password"), method="sha256"),
-            address=form.get("address"),
+            address=address,
             avatar=None,
         )
         db.session.add(seller)
@@ -473,7 +495,6 @@ class Organizer(Seller):
         fest.status = 2
         db.session.commit()
         return f"Festival {fest.fest_id} is canceled", "success"
-
 
     def get_perf(self, fest_id=None):
         if fest_id:
@@ -610,19 +631,18 @@ class Admin(Organizer):
         return (f"User {user_id} is removed", "success")
 
     def remove_role(self, user_id):
-        roles = {2:"organizer", 3:"seller", 1: "admin"}
+        roles = {2: "organizer", 3: "seller", 1: "admin"}
         user = User.query.filter_by(user_id=user_id).first()
         user.role_active = False
         db.session.commit()
         return (f"Permissions for {roles[user.perms]} {user_id} is removed", "success")
-
 
     def get_all_users(self):
         organizers = User.query.filter_by(perms=2).all()
         sellers = User.query.filter_by(perms=3).all()
         users = User.query.filter_by(perms=4).all()
         return [users, sellers, organizers]
-        
+
     def manage_festivals(self):
         today = datetime.today()
         actual_fests, outdated_fests = [], []
@@ -637,6 +657,7 @@ class Admin(Organizer):
             else:
                 outdated_fests.append(fest)
         return (actual_fests, outdated_fests)
+
 
 class RootAdmin(Admin):
     """Reperesentation of root admin. Only this role can add new admins"""
@@ -712,7 +733,6 @@ class Ticket(db.Model):
         foreign_keys=fest_id,
         backref=backref("Ticket"),
     )
-
 
     def __repr__(self):
         return f"Ticket {self.ticket_id}: user_id: {self.user_id}; festival_id: {self.fest_id}"
