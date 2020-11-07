@@ -26,3 +26,6 @@ Werkzeug==1.0.1
 Flask-WTF==0.14.3
 email-validator==1.1.1
 phonenumbers==8.12.9
+flask-script==2.0.6
+flask-login==0.5.0
+boto3==1.15.6

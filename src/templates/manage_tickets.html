@@ -1,0 +1,81 @@
+{% extends "ralaot.html" %}
+{% block content %}
+
+<body class="bg_css">
+
+    <div style="margin-top: 120px;">
+
+        {% if tickets[0] is defined %}
+        <h2 style="margin-left: 1%; color: white;background-color:black;"> Reservations on {{tickets[0].fest.fest_name}}
+            ({{ tickets[0].fest.time_from }} - {{ tickets[0].fest.time_to }})</h2>
+        {% else %}
+        <h2 style="margin-left: 1%; color: white;background-color:black;"> You do not have reserved tickets on your fest
+            yet
+            &#128530 </h2>
+        {% endif %}
+        <table id="customers">
+
+            <tr>
+                <th>ID:</th>
+                <th>USER EMAIL:</th>
+                <th>USER NAME</th>
+                <th>SURNAME</th>
+                <th>REGISTERED PERSON(NAME)</th>
+                <th>REGISTERED PERSON(NAME)</th>
+                <th>PRICE</th>
+                <th>STATUS</th>
+                <th>REASON</th>
+            </tr>
+            {% for ticket  in tickets %}
+
+            <tr>
+                <td class="ticket_ida">{{ ticket.ticket_id }}</td>
+                <td>{{ ticket.user.user_email }}</td>
+                <td class="narrow_user_names">{{ ticket.user.name }}</td>
+                <td class="narrow_user_names">{{ ticket.user.surname }}</td>
+                <td>{{ ticket.name }}</td>
+                <td>{{ ticket.surname }}</td>
+                <td>{{ ticket.price }}</td>
+                <td>
+                    {% if ticket.approved == 0 %}
+                    Awaiting confirmation</td>
+                    {% elif ticket.approved == 1 %}
+                    Approved</td>
+                    {% elif ticket.approved == 2 %}
+                    Canceled</td>
+                    {% endif %}
+                {% if ticket.approved == 0 %}
+                <td class="reason_expansion">
+                    <form method="POST"
+                        action="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/cancel">
+                        {% if actuality and fest.status == 1 %}
+                        <button type="submit"
+                            formaction="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/approve">Approve
+                            ticket</button>
+                        <button type="submit">Cancel ticket</button>
+                        <input type="text" name="reason">
+                        {% else %}
+                        <button type="submit" disabled
+                            formaction="/my_festivals/{{ ticket.fest.fest_id }}/manage_tickets/{{ ticket.ticket_id }}/approve">Approve
+                            ticket</button>
+                        <button type="submit" disabled>Cancel ticket</button>
+                        {% endif %}
+                    </form>
+
+                </td>
+                {% else %}
+                <td>{{ ticket.reason}}</td>
+                {% endif %}
+
+
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+</body>
+
+
+
+{% endblock content %}

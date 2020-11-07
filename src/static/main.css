@@ -17,16 +17,18 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
   padding: 15px;
   font-size: 25px;
-  margin-top: 3%;
-  height: 75px;
+  margin-top: 3%; 
+  height: 75px; 
 }
 
 .site-header .navbar-nav .nav-link:hover {
   color: #ff0000;
+
 }
 
 .site-header .navbar-nav  .nav-link.active {
   font-weight: 500;
+  
 }
 
 .navbar-brand img:hover  {
@@ -65,19 +67,21 @@ display: inline-block;
   
 }
 .defoffests {
-
+  font-size: 40px;
+  -webkit-text-stroke: 1px black; 
   color: #ffffff;
   
 }
-
-.d-block{
-  height: 800px;
+ 
+ .d-block{
+  height: 900px;
   width: 100%;
-}
+} 
 
-.p1 {
-  padding-bottom: 20%;
-  font-size: 20px;
+ .p1 {
+  padding-bottom: 10%;
+  font-size: 40px;
+  -webkit-text-stroke: 1px black; 
   color: #ffffff;
 } 
 .upcevents {
@@ -88,16 +92,18 @@ display: inline-block;
 
 }
 .navbar {
-  overflow: hidden;
-  position: fixed;
+  align-content: center;
+  /* overflow: hidden; */
+  /* position: fixed; */
+  position: relative;
   top: 0;
   width: 100%; 
-  height: 80px;
-}
+
+} 
 
 .carousel-inner {
 
-  height: 800px;
+  height: 900px; 
   width: 100%;
 
 
@@ -129,56 +135,30 @@ display: inline-block;
   font-size: 50px;
   margin-left: -40%;
   margin-right: -90%;
-  /*padding: 15px;*/
   margin-top: -2%;
-  /*font-size: 35px;*/
-}
-
-.site-header .navbar-nav {
-  margin-left: 13%;
-  /*margin-right: : 10%;*/
 }
 
 
-/* Three image containers (use 25% for four, and 50% for two, etc) */
-.column {
-  float: left;
-  width: 25%;
-  padding: 10px;
-  /*border: 3px solid red;*/
 
-  
 
-}
 
 .roundimage
 {
    border-radius: 10px;
-}
+} */
 
 
-/* Clear floats after image containers */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-.toprow {
-  display: block;
-  margin-top: 100px;
-  margin-left: 10%;
-  margin-right: 10%;
 
-}
+
 
 .description{
   padding-top: 7px;
   text-align: center;
   color: #ff0000;
 
-  font-family:georgia,garamond,serif;font-size:24px;font-style:vendana;
-}
-.description2
+  font-family:georgia,garamond,serif;font-size:24px;font-style:vendana; 
+} 
+ .description2
 {
   text-align: center;
   color: #ff0000;
@@ -189,7 +169,7 @@ display: inline-block;
 
 
 .lmforsecondbut{
-  margin-left: : 50%;
+  margin-left: 50%;
 }
 
 
@@ -200,5 +180,720 @@ display: inline-block;
 
 .togglebutton{
 padding-top: 5px;
-/*padding: 30px;*/
 }
+
+
+.text-block12 {
+  position: absolute;
+  bottom: 15%;
+  /* height: 200px; */
+  background-color: black;
+  color: white;
+  font: bold 40px/40px Helvetica, Sans-Serif; 
+  letter-spacing: -1px;  
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  display: table;
+  text-align: center;
+
+} 
+
+
+
+
+
+ .navbar-toggler {
+   float: left;
+   margin-left: -9%;
+ }
+
+ .user_logo{
+ border-radius: 50%;
+ width: 70px;
+ height: 70px;
+ }
+.user_logo1{
+  border-radius: 90%;
+}
+
+
+
+  /* Dropdown Button */
+.dropbtn {
+  background-color:transparent;
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 16px;
+  border: none;
+  margin-left: 50%;
+  cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #000000;
+
+}
+
+
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #000000;
+  margin-left: 35%;
+  width: 151px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: white;
+  padding: 12px;
+  /* display: block; */
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  color: #ff0000;
+  text-decoration: none;
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;} 
+/* .not {} */
+
+
+/* Image in my account page */
+.image_in_my_account
+ {
+  font-size: 12px;
+  text-align: center;
+  width: 100%;
+  
+ 
+} 
+
+
+
+.grid-container {
+  /* width: 95%; */
+  /* min-width: 100; */
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1em;
+  margin-top: 30px;  
+  /* float: left; */
+  grid-column-gap: 3em;
+
+
+}
+.containera{
+
+    height: 60px;
+    width: 650px;
+    /* position: absolute; */
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 25px 10px 
+    rgba(255,0,0,1);
+    /* padding: 0 10px; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+@media screen and (max-width: 400em) 
+{
+  .grid-container
+  {
+     grid-template-columns : repeat(auto-fit, minmax(400px, 4fr));
+  }
+
+
+}
+
+
+
+.grid-pic{
+  object-fit: cover;
+  /* width: 370px; */
+  /* height: 450px; */
+  min-width: 100%;
+  /* max-height: ; */
+  height: 100%;
+ 
+}
+
+
+
+
+
+
+
+.filter_bar {
+  /* overflow: hidden; */
+  height: 90px;
+  border: #ff0000;
+  border-style: solid;
+  margin-bottom: 3%;
+  
+}
+@media screen and (max-width: 1200px) {
+  .filter_bar {
+    /* overflow: hidden; */
+    height: 300px;
+    /* float: left; */
+    border: #ff0000;
+    border-style: solid;
+    
+  }
+  .containera{
+
+    width: 400px;
+
+}
+
+
+
+}
+
+/* Style the links inside the navigation bar */
+.filter_bar a {
+  
+  float: left;
+  color: #ffffff;
+  text-align: center;
+  padding: 14px 16px;
+  font-size: 30px;
+  padding-left: 80px;
+}
+
+/* Change the color of links on hover */
+.filter_bar a:hover {
+
+  color: #ff0000;
+  text-decoration: none;
+}
+
+/* Add a color to the active/current link */
+.filter_bar a.active {
+  background-color: #4CAF50;
+  color: white;
+
+  
+}
+
+.check_box_for_sales {
+  /* margin: 30px; */
+  /* margin-left: 100px; */
+  padding: 14px 16px;
+  font-size: 30px;
+  color: #ffffff;
+}
+
+.check_box_for_sales_box {
+  margin-left: 80px;
+}
+
+
+.arrow {
+  border: solid white;
+  border-width: 0px 3px 3px 0;
+  display: inline-block;
+  text-align: center;
+  margin: 3px;
+  padding: 3px;
+  
+}
+
+.down {
+  
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  
+}
+
+
+
+
+ /* Dropdown Button */
+ .dropbtn_for_filter {
+  background: transparent;
+  color: white;
+  padding: 16px;
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+
+  margin-left: 80px;
+  /* float: left; */
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn_for_filter:hover, .dropbtn_for_filter:focus {
+  color: red;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown_for_filter {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content_for_filter {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-left: 80px;
+    border: none;
+  cursor: pointer;
+}
+
+/* Links inside the dropdown */
+.dropdown-content_for_filter a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content_for_filter a:hover {background-color: #ddd}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show_for_filter {display:block;} 
+
+
+
+
+
+
+form  {
+  margin: 60px 0 0 0 !important;
+}
+
+.ui-slider .ui-btn-inner {
+  padding: 4px 0 0 0 !important;
+}
+
+.ui-slider-popup {
+  position: absolute !important;
+  width: 64px;
+  height: 64px;
+  text-align: center;
+  font-size: 36px;
+  padding-top: 14px;
+  z-index: 100;
+  opacity: 0.8;
+}
+
+
+
+ input[type="range"]{
+  width: 100%;
+  height: 3.5px;
+  /* -webkit-appearance: none; */
+  background-color: #dcdcdc;
+  border-radius: 3px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  height: 20px;
+  width: 2011px;
+  background-color: #1c1c1c;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+input[type="range"]:active::-webkit-slider-thumb{
+  background-color:white;
+  border: 5px solid #1c1c1c; 
+} 
+.values{
+  width: 21%;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.wrapper{
+  height: 100%;
+  width: 100%;
+  position: relative;
+  transition: 0.3s;
+}
+span{
+  display: block;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins',sans-serif;
+  font-size: 18px;
+}
+
+.ticket_price
+{
+  margin-top: 3%;
+  margin-left: 3%;
+  margin-right: -3%;
+}
+
+
+label {
+  display: block;
+  font: 1rem 'Fira Sans', sans-serif;
+}
+
+input,
+label {
+  margin: .4rem 0;
+}
+
+
+
+
+
+
+.content-section_for_my_tickets
+{
+    border: 1px solid black;
+  background: #ffffff;
+  padding: 10px 20px; 
+  width: 600px; 
+  border: 10px solid #dddddd;
+   margin-bottom: 10px;  
+}
+
+.fest_info
+{
+  /* margin-left: 1500px; */
+  margin-left: 50%;
+  margin-top: 5%;
+  /* clear: right; */
+  /* float: right; */
+    color: #ffffff;
+  /* padding: 15px; */
+  font-size: 120%;
+  /* margin-top: 3%;  */
+  height: 75px; 
+}
+
+
+.fest_info:hover
+{
+  color: #ff0000;
+}
+
+
+
+.reservebutton{
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 90%;
+}
+.reservebutton:hover{
+  background-color: #ff0000;
+  color: #000000;
+}
+
+.addnewbutton{
+  background-color: #ffffff;
+  color: #000000;
+}
+.addnewbutton:hover{
+  background-color: #ff0000;
+  color: #000000;
+}
+
+.edit_festival_upper_page
+{
+  margin-top: 1%;
+  /* display: inline; */
+  /* display: table; */
+  /* margin-left: 5%; */
+}
+.edit_festival_middle_page
+{
+  /* margin-left: 40%; */
+  /* left: 40%; */
+  padding-left: 40%;
+}
+
+.agcontainer{
+  margin-top: 3%;
+}
+.firstpic{
+   height: 15wv;
+   width: 100%;
+   object-fit: cover;
+}
+.secondpic
+{    
+  /* position:absolute; */
+  width: 100%;
+  /* left: 300px; */
+   /* height:110px; */
+   /* top: -32 0px; */
+   /* padding-top: -300px; */
+
+      z-index: 2;
+}
+.thirdpic
+{
+  height: 18%;
+  width: 100%;
+  z-index: 3;
+}
+
+@media screen and (max-width: 1200px) {
+  .thirdpic {
+   height: 15%;
+  }
+}
+@media screen and (max-width: 980px) {
+  .thirdpic {
+   height: 12%;
+  }
+
+}
+@media screen and (max-width: 997px) {
+  .thirdpic {
+   height: 11.5%;
+  }
+
+}
+@media screen and (max-width: 765px) {
+  .thirdpic {
+   height: 27%;
+  }
+
+}
+
+.fourthpic
+{
+  width: 100%;
+  height: 100%;
+}
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td,
+#customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even) {
+
+    background-color: #f2f2f2;
+}
+
+#customers tr:nth-child(odd) {
+
+    background-color: #BEBEBE;
+}
+
+#customers th {
+
+    text-align: left;
+    background-color: #000000;
+    color: white;
+}
+
+#customers ticket_ida {
+    /* width: 20px; */
+}
+
+#customers .reason_expansion {
+    width: 600px;
+    /* padding-top: -30px; */
+
+
+
+}
+
+#customers .narrow_user_names {
+    /* width: 20px; */
+}
+
+.center_user_html{
+   width: 100%;
+   display: table;
+   text-align: center;
+
+}
+
+
+
+.input-categories{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  /* border: 1px solid black; */
+}
+
+.input-categories ul{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  list-style-type: none;
+  flex-wrap: wrap;
+}
+
+.input-categories li{
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 1px;
+  margin: 1px;
+}
+.input-categories input{
+  flex: 1 1 auto;
+  align-self: flex-start;
+}
+
+.submit_delete_button{
+  height: 30px;
+  /* position: absolute; */
+  
+}
+.mar_left
+{
+  width: 100%;
+     display: table;
+   text-align: center;
+  /* margin-left: 40%; */
+}
+
+.datas_for_choose:hover
+{
+  font-size: 25px;
+  color:red;
+}
+
+.datas_for_choose
+{
+  font-size: 15px;
+  
+}
+
+.buttons_inline{
+ 
+  margin-left: 80%;
+
+}
+
+.buttons_inline_f:hover{
+  color: red;
+}
+.buttons_inline_f{
+
+
+
+  border: none;
+  /* color: white; */
+  /* padding: 15px 32px; */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  /* font-size: 16px; */
+  display: inline;}
+
+.bg_css{
+  background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+
+
+
+.bg_css1{
+			background-image: url('https://festival-static.s3-eu-west-1.amazonaws.com/blackbg.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+      background-size: cover
+}
+.festival_main_page_1
+{
+   width: 100%;
+  display: table;
+  /* text-align: right; */
+   text-align: center;
+   color: red;
+ red;
+}
+.butt_for_reserver{
+  background-color: white; /* Green */
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;  
+  border-radius: 12px;
+}
+.butt_for_reserver:hover{
+  background-color: red; /* Green */
+  border: none;
+  /* color: red;   */
+  padding: 15px 32px;
+  text-align: center;
+  border-radius: 12px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.rec_fest
+{
+  
+  font-size: 24px;
+  color: white;
+  margin-bottom: 40px;
+  
+}
+input.largerCheckbox {
+  width: 40px;
+  margin-top: 18x;
+  /* padding-left: 120px; */
+  /* margin-right: 110px; */
+  /* padding-bottom: 30px; */
+  height: 30px;
+}
+.flash_css{
+  margin-left: 70px; 
+  width: 150%; 
+  height: 50px;
+  font-size: 1vw;
+
+}
+@media screen and (max-width: 800px) 
+{
+ .flash_css{
+  width: 80%; 
+  }
+
+
+}
+

@@ -1,5 +1,5 @@
 festival-is-db:
-    image: "postgres:latest"
+    image: "postgres:12"
     container_name: festival-is-db
     volumes:
       - gallery-data:/var/lib/postgresql/data

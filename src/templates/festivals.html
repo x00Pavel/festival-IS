@@ -1,53 +1,388 @@
 {% extends "ralaot.html" %}
 {% block content %}
-<div class="toprow">
-<div class="row">
-	  <div class="column">
-		 <a  href="https://vk.com/id152618548">
-	    <img class="roundimage"src="static/f3.jpg" height="350"alt="Snow" style="width:100%">
-	   	</a>
-	    <h1 class="description">FESTIVAL SUNSHINE</h1>
-	    <p class="description2">Malaga, Portugal | 21.07-22.08</p>
+{% set  glob_val_for_sale_ticket = False %}
 
-	  </div>
-	  <div class="column">
-	    <img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
-	     <!-- <p class="description">FESTIVAL SUSHI</p> -->
-	  </div>
-	  <div class="column">
-	    <img class="roundimage" src="static/f3.jpg" height="350" alt="Mountains" style="width:100%">
-	     <p class="description">FESTIVAL LOVE</p>
-	  </div>
-	  <div class="column">
-	    <img class="roundimage" src="static/f3.jpg" height="350" alt="Mountains" style="width:100%">
-	     <p class="description">FESTIVAL HAPPINES</p>
-	  </div>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Jekyll v4.1.1">
+
+
+	<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/album/">
+
+
+</head>
+
+<body class="bg_css1">
+
+
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner">
+			{% for fest in fests %}
+			{% if fest.description != None %}
+			{% if fest.style in recommendations %}
+
+			<a href="festival\/{{ fest.fest_id }}">
+				<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
+					<img class="d-block" src="{{fest.fest_logo}}">
+			</a>
+
+			<div class="text-block12">
+				<p></p>
+				<p>{{ fest.description}}</p>
+				<p>{{ fest.address}}</p>
+				<p>RECOMMENDED TO YOU!</p>
+			</div>
+		</div>
+
+		{%else%}
+		<a href="festival\/{{ fest.fest_id }}">
+			<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
+				<img class="d-block" src="{{fest.fest_logo}}">
+		</a>
+
+		<div class="text-block12">
+			<p></p>
+			<p>{{ fest.description}}</p>
+			<p>{{ fest.address}}</p>
+		</div>
 	</div>
-	<br/>
-		</fieldset>
 
-	<div class="row">
-	  <div class="column">
-	    <img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
-	     <p class="description">FESTIVAL CLOUD</p>
-	  </div> 
-	  <div class="column">
-	    <img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
-	     <p class="description">FESTIVAL NATUSVINCERE</p>
-	  </div>  <div class="column">
-	    <img class="roundimage" src="static/f3.jpg" height="350" alt="Forest" style="width:100%">
-	     <p class="description">FESTIVAL LIQUID</p>
-	  </div>
+	{% endif %}
+	{%endif%}
+	{% endfor %}
 	</div>
-</div>
-<style>
-body {
-  background-image: url('static/blackbg.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-}
+	<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<!-- <span class="sr-only">Previous</span> -->
+	</a>
+	<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<!-- <span class="sr-only">Next</span> -->
+	</a>
+	</div>
 
-</style>
+
+
+
+
+
+
+
+	<!-- Filter bar  -->
+	<div class="filter_bar">
+		<div class="dropdown_for_filter">
+			<button onclick="myFunction('1')" class="dropbtn_for_filter">Style <i class="arrow down"></i></button>
+			<div id="1" class="dropdown-content_for_filter">
+
+
+				<a href="#">Rok</a>
+				<a href="#">Hip-Hop</a>
+				<a href="#">Indi</a>
+
+				<a style="font-size: 18px; border-top: 3px solid red; width: 100%;" href="#">Delete all filters
+					&#10005;</a>
+			</div>
+
+		</div>
+
+
+		<div class="dropdown_for_filter">
+			<button onclick="myFunction('2')" class="dropbtn_for_filter">Price <i class="arrow down"></i></button>
+			<div id="2" class="dropdown-content_for_filter">
+
+
+				<div class="containera">
+
+					<input type="range" min="0" max="6" value="0" id="slider">
+					<p class="ticket_price">Maxiumum ticket price is </p>
+					<div class="values">
+						<div class="wrapper" id="wrapper">
+							<span>100</span>
+							<span>500</span>
+							<span>1000</span>
+							<span>2000</span>
+							<span>3000</span>
+							<span>4000</span>
+							<span>5000</span>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+
+			<div class="dropdown_for_filter">
+				<button onclick="myFunction('3')" class="dropbtn_for_filter">Date <i class="arrow down"></i></button>
+				<div id="3" class="dropdown-content_for_filter">
+
+
+
+					<label for="start">Starting: $slider.value </label>
+
+					<input type="date" id="start" name="fest-start" value="2020-10-21" min="2020-01-01"
+						max="2020-12-31">
+
+
+					<label for="start">Finishing:</label>
+
+					<input type="date" id="finish" name="fest-finish" value="2018-07-23" min="2020-01-01"
+						max="2020-12-31">
+
+
+
+
+				</div>
+			</div>
+			<!-- <input class="check_box_for_sales_box" type="checkbox" id="sales" name="sales" onclick="CheckBoxFunc()"> -->
+			<!-- <input class="check_box_for_sales_box" type="radio" id="sales" name="categories" value="sales"> -->
+			<!-- <label id="try_but" for="sales">SALES</label> -->
+			<!-- <button id="try_but">YES</button> -->
+		</div>
+
+		<input style="margin-left: 600px;" type="checkbox" class="largerCheckbox" id="try_but" onclick="myFunctionaa()">
+		<label class="rec_fest" id="try_but" for="sales">RECOMMENDED FESTIVALS</label>
+		<!-- <p id="text" style="font-size: 22px;">Checkbox is CHECKED!</p> -->
+
+		<input type="checkbox" class="largerCheckbox" id="try_but1" onclick="myFunctionab()">
+		<label class="rec_fest" id="try_but1" for="sales">FESTIVALS WITH SALES</label>
+	</div>
+
+
+	<script>
+		$(document).ready(function () {
+			document.getElementById('gender_Male').checked
+			$("#sales").on("keyup", function () {
+				var value = $(this).val().toLowerCase();
+				$("#myTable1 tr").filter(function () {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	</script>
+
+
+
+
+	<main role="main">
+		<div class="grid">
+			<div class="container" id="trytab">
+				<div class="row ">
+					{% for fest in fests %}
+					{% if fest.description != None %}
+					<div class="col-md-4">
+						<div class="card mb-4 shadow-sm" style=" height: 680px;">
+							<!-- <div class="card mb-4 shadow-sm" style=" height: 760px; min-width: 230px; max-width: 230px;"></div> -->
+							<a href="festival\/{{ fest.fest_id }}">
+								<svg class="bd-placeholder-img card-img-top" width="100%" height="400px"
+									xmlns="festival\/{{ fest.fest_id }}" preserveAspectRatio="xMidYMid slice"
+									focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+
+									<image class="firstpic" href="{{fest.fest_logo}}">
+									</image>
+
+									{% if fest.max_capacity == fest.current_ticket_count %}
+									{
+									<image class=" fourthpic"
+										href="https://festival-static.s3-eu-west-1.amazonaws.com/sold-out-png-19949.png">
+
+									</image>
+									}
+									{%endif%}
+									{% if fest.sale != 0 %}
+									{
+									<image class="secondpic"
+										href="https://festival-static.s3-eu-west-1.amazonaws.com/sale_line.jpg">
+
+									</image>
+									}
+									{% endif%}
+									{% if recommendations and fest.style  in recommendations %}
+									{
+									<image class="thirdpic"
+										href="https://festival-static.s3-eu-west-1.amazonaws.com/recommended.jpg">
+
+									</image>
+									}
+									{% endif %}
+								</svg>
+							</a>
+							<div class="card-body bg-dark text-danger w-100 p-3">
+								<p class="card-text"> FESTIVAL NAME: {{ fest.fest_name}}</p>
+								<p class=" card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
+								<p class="card-text">{{ fest.address}}</p>
+
+
+								{% if recommendations and fest.style in recommendations and fest.sale != 0 %}
+								<p class="card-text">Buy festival recommended to you with {{fest.sale}}% sale
+									right now
+								</p>
+								{% else %}
+
+								{% if recommendations and fest.style in recommendations %}
+								<p class="card-text">Recommended for you</p>
+								{% endif %}
+								{% if fest.sale != 0 %}
+								<p class="card-text">Buy now with {{fest.sale }} % sale</p>
+								{% endif %}
+								{%endif%}
+
+								{% set new_var  = fest.cost - (fest.cost * fest.sale / 100) %}
+
+								{% if fest.sale == 0 %}
+								<p class="card-text">{{ fest.cost}}.0 $</p>
+								{%else%}
+								<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <ins>{{ new_var }}$</ins>
+								</p>
+								{% endif %}
+								<div class="d-flex justify-content-between align-items-center">
+									{% if recommendations and fest.style in recommendations and fest.sale != 0 %}
+									<small class="text-muted">#Sale, #Recommended </small>
+									{% else %}
+
+									{% if recommendations and fest.style in recommendations %}
+									<small class="text-muted">#Recommended</small>
+									{% endif %}
+									{% if fest.sale != 0 %}
+									<small class="text-muted">#Sale </small>
+									{% endif %}
+									{%endif%}
+
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</main>
+
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+
+
 </body>
-{% endblock content  %}	
+<script>
+
+	/* When the user clicks on the button,
+	toggle between hiding and showing the dropdown content */
+	function myFunction(a) {
+
+		document.getElementById(a).classList.toggle("show_for_filter");
+	}
+
+	// Close the dropdown menu if the user clicks outside of it
+	// window.onclick = function (event) {
+	// 	if (!event.target.matches('.dropbtn_for_filter')) {
+	// 		var dropdowns = document.getElementsByClassName("dropdown-content_for_filter");
+	// 		var i;
+	// 		for (i = 0; i < dropdowns.length; i++) {
+	// 			var openDropdown = dropdowns[i];
+	// 			if (openDropdown.classList.contains('show_for_filter')) {
+	// 				openDropdown.classList.remove('show_for_filter');
+	// 			}
+	// 		}
+	// 	}
+	// } 
+</script>
+
+<script type="text/javascript">
+	$('input').popup(); 
+</script>
+<script>
+	var slider = document.getElementById("slider");
+	var values = document.getElementById("wrapper");
+	slider.oninput = function () {
+		values.style.bottom = slider.value * 40 + "px";
+		var lal = slider.value * 40 + "px";
+	}
+</script>
+<script>
+	//Reccom	
+	function myFunctionaa() {
+
+		var checkBox = document.getElementById("try_but");
+		var checkBox1 = document.getElementById("try_but1");
+		if (checkBox.checked == true) {
+
+			if (checkBox1.checked == true) {
+				$("#trytab div").filter(function () {
+
+					$(this).toggle($(this).text().indexOf(("Buy festival recommended to you with ")) > -1)
+				});
+
+			}
+			else {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("#Recommended") > -1)
+				});
+			}
+
+
+		}
+		if (checkBox.checked == false) {
+			if (checkBox1.checked == true) {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("#Sale") > -1)
+				});
+
+			}
+			else {
+
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
+				});
+			}
+
+		}
+	}
+
+</script>
+<script>
+	//Sales
+	function myFunctionab() {
+
+		var checkBox = document.getElementById("try_but1");
+		var checkBox1 = document.getElementById("try_but");//Reccom
+		if (checkBox.checked == true) {
+
+			if (checkBox1.checked == true) {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf(("Buy festival recommended to you with ")) > -1)
+
+				});
+			}
+			else {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("#Sale") > -1)
+				});
+			}
+
+		}
+		if (checkBox.checked == false) {
+			if (checkBox1.checked == true) {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("#Recommended") > -1)
+				});
+			}
+			else {
+				$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
+				});
+			}
+		}
+	}
+
+</script>
+{% endblock content %}

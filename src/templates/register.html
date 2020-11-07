@@ -1,5 +1,7 @@
 {% extends "ralaot.html" %}
 {% block content %}
+
+<body class="bg_css">
 	<div class="content-section_for_reg">
 		<form method="POST" action="">
 			{{ form.hidden_tag() }}
@@ -10,14 +12,14 @@
 					{{ form.firstname.label(class="form-control-label") }}
 
 					{% if form.firstname.errors %}
-						{{ form.firstname(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.firstname.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
+					{{ form.firstname(class="form-control form-control form-control-lg is-invalid")}}
+					<div class="invalid-feedback">
+						{% for error in form.firstname.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
 					{% else %}
-						{{ form.firstname(class="form-control form-control-lg") }}
+					{{ form.firstname(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
 
@@ -25,43 +27,28 @@
 					{{ form.lastname.label(class="form-control-label") }}
 
 					{% if form.lastname.errors %}
-						{{ form.lastname(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.lastname.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
+					{{ form.lastname(class="form-control form-control form-control-lg is-invalid")}}
+					<div class="invalid-feedback">
+						{% for error in form.lastname.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
 					{% else %}
-						{{ form.lastname(class="form-control form-control-lg") }}
-					{% endif %}
-				</div>
-
-				<div class="form-group">
-					{{ form.username.label(class="form-control-label") }}
-
-					{% if form.username.errors %}
-						{{ form.username(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.username.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.username(class="form-control form-control-lg") }}
+					{{ form.lastname(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
 
 				<div class="form-group">
 					{{ form.email.label(class="form-control-label") }}
 					{% if form.email.errors %}
-						{{ form.email(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.email.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
+					{{ form.email(class="form-control form-control form-control-lg is-invalid")}}
+					<div class="invalid-feedback">
+						{% for error in form.email.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
 					{% else %}
-						{{ form.email(class="form-control form-control-lg") }}
+					{{ form.email(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
 
@@ -69,14 +56,14 @@
 					{{ form.phonenumber.label(class="form-control-label") }}
 
 					{% if form.phonenumber.errors %}
-						{{ form.phonenumber(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.phonenumber.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
+					{{ form.phonenumber(class="form-control form-control form-control-lg is-invalid")}}
+					<div class="invalid-feedback">
+						{% for error in form.phonenumber.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
 					{% else %}
-						{{ form.phonenumber(class="form-control form-control-lg") }}
+					{{ form.phonenumber(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
 
@@ -84,14 +71,14 @@
 					{{ form.city.label(class="form-control-label") }}
 
 					{% if form.city.errors %}
-						{{ form.city(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.city.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
+					{{ form.city(class="form-control form-control form-control-lg is-invalid")}}
+					<div class="invalid-feedback">
+						{% for error in form.city.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
 					{% else %}
-						{{ form.city(class="form-control form-control-lg") }}
+					{{ form.city(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
 
@@ -100,47 +87,29 @@
 					{{ form.street.label(class="form-control-label") }}
 
 					{% if form.street.errors %}
-						{{ form.street(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.street.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
+					{{ form.street(class="form-control form-control form-control-lg is-invalid")}}
+					<div class="invalid-feedback">
+						{% for error in form.street.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
 					{% else %}
-						{{ form.street(class="form-control form-control-lg") }}
+					{{ form.street(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
-
-
-				<div class="form-group">
-					{{ form.streeta.label(class="form-control-label") }}
-
-					{% if form.streeta.errors %}
-						{{ form.streeta(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.streeta.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.streeta(class="form-control form-control-lg") }}
-					{% endif %}
-				</div>
-
-
 
 				<div class="form-group">
 					{{ form.homenum.label(class="form-control-label") }}
 
 					{% if form.homenum.errors %}
-						{{ form.homenum(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.homenum.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
+					{{ form.homenum(class="form-control form-control form-control-lg is-invalid")}}
+					<div class="invalid-feedback">
+						{% for error in form.homenum.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
 					{% else %}
-						{{ form.homenum(class="form-control form-control-lg") }}
+					{{ form.homenum(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
 
@@ -148,34 +117,35 @@
 				<div class="form-group">
 					{{ form.password.label(class="form-control-label") }}
 					{% if form.password.errors %}
-						{{ form.password(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.password.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
+					{{ form.password(class="form-control form-control form-control-lg is-invalid")}}
+					<div class="invalid-feedback">
+						{% for error in form.password.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
 					{% else %}
-						{{ form.password(class="form-control form-control-lg") }}
+					{{ form.password(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
 					{{ form.passwordC.label(class="form-control-label") }}
 					{% if form.passwordC.errors %}
-						{{ form.passwordC(class="form-control form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.passwordC.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
+					{{ form.passwordC(class="form-control form-control form-control-lg is-invalid")}}
+					<div class="invalid-feedback">
+						{% for error in form.passwordC.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
 					{% else %}
-						{{ form.passwordC(class="form-control form-control-lg") }}
+					{{ form.passwordC(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
 
-			<div class="togglebutton">
-				<input type="radio" name="options" id="option1" value="option1">   GUEST MODE</input><br>
-				<input type="radio" name="options" id="option2" value="option2">   ADMIN MODE</input><br>
-			</div>
+				<div class="togglebutton">
+
+					<input type="radio" name="options" id="option1" value="4" checked> USER </input><br>
+					<input type="radio" name="options" id="option2" value="2"> ORGANIZATOR </input><br>
+				</div>
 			</fieldset>
 
 			<div class="form-group">
@@ -185,35 +155,29 @@
 				<small class="text-muted form-groupa">
 					Already have an account? <a class="form-group" href="{{url_for('login')}}"> Sign in </a>
 				</small>
-			</div>	
+			</div>
 		</form>
 	</div>
-	<style>
-body {
-  background-image: url('static/background.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-}
-</style>
+
+
 </body>
 
 <script>
-function change_status(status_class) {
-     var current_status = $(status_class).text();
-     $.ajax({
-      url: "/get_toggled_status",
-      type: "get",
-      data: {status: current_status},
-      success: function(response) {
-        $(status_class).html(response);
-      },
-      error: function(xhr) {
+	function change_status(status_class) {
+		var current_status = $(status_class).text();
+		$.ajax({
+			url: "/get_toggled_status",
+			type: "get",
+			data: { status: current_status },
+			success: function (response) {
+				$(status_class).html(response);
+			},
+			error: function (xhr) {
 
-      }
-    });
-   }
- </script>
+			}
+		});
+	}
+</script>
 
 
 {% endblock content  %}

@@ -1,0 +1,190 @@
+{% extends "ralaot.html" %}
+{% block content %}
+<br><br><br><br><br>
+<div class="center_user_html">
+    <h3>ADD BANDS</h3>
+
+    <form method="POST" action="/manage_bands/add">
+        <legend class="border-bottom mb-4">Logo</legend>
+        <div class="image_in_my_account">
+            <hr><input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center;" id=file-input></br>
+            <img style="border:1px solid gray;width:300px; height: 300px; margin-top: 20px; border-radius: 70%; text-align: left;"
+                id="preview" style="text-align: left; " src="https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png">
+            <hr>
+        </div>
+        <input type="hidden" name="band-logo" id="band-logo" value="https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png">
+        <legend class="border-bottom mb-4">Name</legend>
+        <div id="band-name" class="form-group">
+            {{ form.band_name }}
+        </div>
+        <legend class="border-bottom mb-4">Scores</legend>
+        <div class="form-group">
+            {{ form.band_scores }}
+        </div>
+        <legend class="border-bottom mb-4">Genre</legend>
+        <div class="form-group">
+            {{ form.band_genre }}
+        </div>
+
+
+        <legend class="border-bottom mb-4">Tags</legend>
+        <div class="input-categories">
+            <ul id='list'>
+
+            </ul>
+            <input id='custom-input' type="text" value="" data-role="tagsinput"></input>
+            <br>
+            <div>
+                <button type="button" class="submit_delete_button" onclick='testfunc(this.e,false)'>submit</button>
+            </div>
+        </div>
+
+        <button type="submit" formmethod="POST">Add band</button>
+
+        <script type="text/javascript">
+
+            /*
+              Function to carry out the actual POST request to S3 using the signed request from the Python app.
+            */
+            function uploadFile(file, s3Data, url) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', s3Data.url);
+                xhr.setRequestHeader('x-amz-acl', 'public-read');
+
+                const postData = new FormData();
+                for (key in s3Data.fields) {
+                    postData.append(key, s3Data.fields[key]);
+                }
+                postData.append('file', file);
+
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200 || xhr.status === 204) {
+                            document.getElementById('preview').src = url;
+                            document.getElementById('band-logo').value = url;
+                        }
+                        else {
+                            alert('Could not upload file.');
+                        }
+                    }
+                };
+                xhr.send(postData);
+            }
+
+
+            /*
+              Function to get the temporary signed request from the Python app.
+              If request successful, continue to upload the file using this signed
+              request.
+            */
+            function getSignedRequest(file, band_name) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `/sign-s3/tmp/${band_name}?file-name=${file.name}&file-type=${file.type}`);
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            uploadFile(file, response.data, response.url);
+                        }
+                        else {
+                            alert('Could not get signed URL.');
+                        }
+                    }
+                };
+                xhr.send();
+            }
+
+            /*
+               Function called when file input updated. If there is a file selected, then
+               start upload procedure by asking for a signed request from the app.
+            */
+            function initUpload() {
+                const band_name = document.getElementById('band-name').value;
+                const files = document.getElementById('file-input').files;
+                const file = files[0];
+                if (!file) {
+                    return alert('No file selected.');
+                }
+                getSignedRequest(file, band_name);
+            }
+
+            /*
+               Bind listeners when the page loads.
+            */
+            (() => {
+                document.getElementById('file-input').onchange = initUpload;
+            })();
+
+        </script>
+    </form>
+    <br>
+    <hr>
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <br>
+    <table id="customers" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>BAND NAME</th>
+                <th>BAND SCORES</th>
+                <th>BAND GENRE</th>
+                <th>TAGS</th>
+                <th>EDIT</th>
+            </tr>
+        </thead>
+
+        {% for band in bands %}
+        <tbody id="myTable">
+            <tr>
+                <td>{{ band.name }}</td>
+                <td>{{ band.scores }}</td>
+                <td>{{ band.genre }}</td>
+                <td> {{ band.tags }}</td>
+                <td>
+                    <button type="button">Delete band</button>
+                </td>
+            </tr>
+
+        </tbody>
+        {% endfor %}
+    </table>
+
+
+
+
+</div>
+<script>
+    function testfunc(e, a) {
+
+
+
+
+        let value = document.querySelector('#custom-input').value
+
+        const children = [...document.querySelector('#list').children]
+        const childrenStrings = children.map(el => el.innerText)
+        console.log(childrenStrings)
+        if (childrenStrings.includes(value + '\nx') || !value.trim()) {
+            document.querySelector('#custom-input').value = ''
+        }
+        else {
+            const element = document.createElement('li')
+            const div = document.createElement('div')
+            const text = document.createElement('span')
+            text.innerHTML = value
+            const closeTag = document.createElement('span')
+            closeTag.addEventListener('click', () => element.remove())
+            closeTag.innerHTML = 'x'
+            div.append(text, closeTag)
+            element.append(div)
+            document.querySelector('#list').append(element)
+        }
+        document.querySelector('#custom-input').value = ''
+        e.preventDefault()
+
+
+
+
+    }
+
+</script>
+{% endblock content %}
