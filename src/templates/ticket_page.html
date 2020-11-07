@@ -14,6 +14,7 @@
                 <th>DATE OF START</th>
                 <th>DATE OF END</th>
                 <th>USER EMAIL:</th>
+                <th>PRICE</th>
                 <th>RESERVATION STATUS:</th>
                 <th>CANCELLATION REASON:</th>
 
@@ -27,6 +28,7 @@
                     <td>{{ ticket.fest.time_from }}</td>
                     <td>{{ ticket.fest.time_to }}</td>
                     <td>{{ ticket.user.user_email }}</td>
+                    <td>{{ ticket.price }}</td>
                     {% if ticket.approved == 0%}
                     <td style="background-color: #FFFF99;  max-width: 100px;">WAITING FOR CONFIRMATION</td>
                     {% elif  ticket.approved == 1%}

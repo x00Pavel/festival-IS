@@ -16,23 +16,13 @@
         <table id="customers">
 
             <tr>
-
-
-
-
                 <th>ID:</th>
                 <th>USER EMAIL:</th>
-
-
-
                 <th>USER NAME</th>
                 <th>SURNAME</th>
-
                 <th>REGISTERED PERSON(NAME)</th>
                 <th>REGISTERED PERSON(NAME)</th>
-
-
-
+                <th>PRICE</th>
                 <th>STATUS</th>
                 <th>REASON</th>
             </tr>
@@ -43,10 +33,9 @@
                 <td>{{ ticket.user.user_email }}</td>
                 <td class="narrow_user_names">{{ ticket.user.name }}</td>
                 <td class="narrow_user_names">{{ ticket.user.surname }}</td>
-
-                <td>{{ticket.name}}</td>
+                <td>{{ ticket.name }}</td>
                 <td>{{ ticket.surname }}</td>
-
+                <td>{{ ticket.price }}</td>
                 <td>
                     {% if ticket.approved == 0 %}
                     Awaiting confirmation</td>
