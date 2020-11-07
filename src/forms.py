@@ -1,25 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from wtforms.fields import *
-from wtforms import ValidationError
-import re
-import phonenumbers
 from flask import request
-
-
-# class AcountForm(FlaskForm):
-#    email = StringField("Email", validators=[DataRequired(), Email()])
-#    firstname = StringField("First name", validators=[DataRequired(), Length(max=50)])
-#    lastname = StringField("Last name", validators=[DataRequired(), Length(max=50)])
-#    Password = PasswordField(
-#        "Password", validators=[DataRequired(), Length(min=2, max=20)]
-#    )
-#    Password2 = PasswordField(
-#        "Password Confirmation",
-#        validators=[DataRequired(), Length(min=2, max=20), EqualTo("Password")],
-#    )
-#    submit = SubmitField("Update profile")
 
 
 class RegistrationForm(FlaskForm):
@@ -42,19 +25,7 @@ class RegistrationForm(FlaskForm):
     street = StringField("Street", validators=[Length(max=80)])
     streeta = StringField("Street (additional)", validators=[Length(max=80)])
     homenum = StringField("Home/Flat number", validators=[Length(max=80)])
-    phonenumber = StringField("Phone number")
-
-    def validate_phone(self, form, field):
-        if len(field.data) > 16:
-            raise ValidationError("Invalid phone number.")
-        try:
-            input_number = phonenumbers.parse(field.data)
-            if not (phonenumbers.is_valid_number(input_number)):
-                raise ValidationError("Invalid phone number.")
-        except:
-            input_number = phonenumbers.parse("+1" + field.data)
-            if not (phonenumbers.is_valid_number(input_number)):
-                raise ValidationError("Invalid phone number.")
+    phonenumber = StringField("Phone number", validators=[DataRequired()])
 
 
 class LoginForm(FlaskForm):

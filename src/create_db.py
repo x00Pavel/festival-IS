@@ -148,7 +148,7 @@ class BaseUser:
                 """
             )
         fest = Festival.query.filter_by(fest_id=fest_id).first()
-        price = fest.cost if fest.sale == 0 else (fest.cost * fest.sale) / 100
+        price = fest.cost if fest.sale == 0 else fest.cost - ((fest.cost * fest.sale) / 100)
 
         ticket = Ticket(
             user_email=form.user_email.data,
@@ -276,7 +276,7 @@ class User(UserMixin, db.Model):
             )
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         if fest.current_ticket_count != fest.max_capacity:
-            price = fest.cost if fest.sale == 0 else (fest.cost * fest.sale) / 100
+            price = fest.cost if fest.sale == 0 else fest.cost - (fest.cost * fest.sale) / 100
             ticket = Ticket(
                 user_email=self.user_email,
                 user_id=self.user_id,
