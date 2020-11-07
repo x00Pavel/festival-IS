@@ -1,5 +1,6 @@
 from datetime import datetime, date
 from flask_sqlalchemy import SQLAlchemy
+from re import match
 from sqlalchemy import (
     Column,
     Integer,
@@ -20,6 +21,20 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy(app)
 
+
+def validate(email=None, name=None, surname=None, address=None, phone=None):
+    if email and (not match(r'^[a-zA-Z]+[\w.]*@[a-z]{2,}\.[a-z]{2,}$', email)):
+        return f"Email {email} is incorrect", "warning"
+    if name and (not match(r'^[a-zA-Z]{2,}[a-zA-Z-]*$', name)):
+        return f"Name {name} is incorrect", "warning"
+    if surname and (not match(r'^[a-zA-Z]{2,}[a-zA-Z\-]*$', surname)):
+        return f"Surname {surname} is incorrect", "warning"
+    if address and (not match(r'^[A-Za-z][\w\-]{2,}, [A-Za-z][\w\- ]{2,}, \d[\-/\d]*$', address)):
+        return f"Address {address} is incorrect", "warning"
+    if phone and (not match(r'^\+?\d{6,}$', phone)):
+        return f"Phone number {phone} is incorrect", "warning"
+
+    return None
 
 class Festival(db.Model):
     __tablename__ = "Festival"
@@ -151,9 +166,14 @@ class BaseUser:
     def register(cls, form, perms):
         email = form.email.data
         name = form.firstname.data
-        surname = form.lastname.data
+        surname = form.lastname.data        
         passwd_hash = generate_password_hash(form.password.data, method="sha256")
-        address = f"{form.city.data}, {form.street.data} ({form.streeta.data if form.streeta is not None else 'No additional street' }), {form.homenum.data}"
+        address = f"{form.city.data}, {form.street.data}, {form.homenum.data}"
+        phone = form.phonenumber.data
+        result = validate(email=email, name=name, surname=surname, address=address, phone=phone)
+        if result is not None:
+            return None, result[0], result[1]
+        
         table = None
         if perms == 4:
             table = User
@@ -170,7 +190,7 @@ class BaseUser:
         )
         db.session.add(new_user)
         db.session.commit()
-        return new_user
+        return new_user, f"Account created for {name} {surname}!", "success"
 
 
 class User(UserMixin, db.Model):
@@ -187,6 +207,7 @@ class User(UserMixin, db.Model):
         nullable=False,
         default="https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png",
     )
+    phone = Column("phone", String)
     perms = Column("perms", Integer, nullable=False)
     address = Column("address", String(50), nullable=False)
     active = Column("active", Boolean, default=True)

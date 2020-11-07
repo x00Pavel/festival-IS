@@ -39,21 +39,6 @@
 				</div>
 
 				<div class="form-group">
-					{{ form.username.label(class="form-control-label") }}
-
-					{% if form.username.errors %}
-					{{ form.username(class="form-control form-control form-control-lg is-invalid")}}
-					<div class="invalid-feedback">
-						{% for error in form.username.errors %}
-						<span>{{ error }}</span>
-						{% endfor %}
-					</div>
-					{% else %}
-					{{ form.username(class="form-control form-control-lg") }}
-					{% endif %}
-				</div>
-
-				<div class="form-group">
 					{{ form.email.label(class="form-control-label") }}
 					{% if form.email.errors %}
 					{{ form.email(class="form-control form-control form-control-lg is-invalid")}}
@@ -112,24 +97,6 @@
 					{{ form.street(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
-
-
-				<div class="form-group">
-					{{ form.streeta.label(class="form-control-label") }}
-
-					{% if form.streeta.errors %}
-					{{ form.streeta(class="form-control form-control form-control-lg is-invalid")}}
-					<div class="invalid-feedback">
-						{% for error in form.streeta.errors %}
-						<span>{{ error }}</span>
-						{% endfor %}
-					</div>
-					{% else %}
-					{{ form.streeta(class="form-control form-control-lg") }}
-					{% endif %}
-				</div>
-
-
 
 				<div class="form-group">
 					{{ form.homenum.label(class="form-control-label") }}

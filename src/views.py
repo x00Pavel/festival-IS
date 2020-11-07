@@ -31,6 +31,13 @@ def undef_error(e):
     flash(f"Debug {e}.", "warning")
     return redirect("/")
 
+# FIXME: uncomment for release
+# @app.errorhandler(Exception)
+# def undef_error(e):
+#     flash("Exception is raised", "warning")
+#     flash(f"Debug {e}.", "warning")
+#     return redirect("/")
+
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -83,9 +90,11 @@ def register():
         email = form.email.data
         existing_user = User.find_by_email(email)
         if existing_user is None:
-            new_user = BaseUser.register(form, perms)
-            flash(f"Account created for {form.username.data}!", "success")
-            return login(user=new_user)
+            new_user, msg, status = BaseUser.register(form, perms)
+            print(msg, status)
+            flash(msg, status)
+            if new_user:
+                return login(user=new_user)
         else:
             flash(f"Email {email} is already registered!", "danger")
             return render_template("register.html", title="Registration", form=form)
