@@ -6,7 +6,8 @@
 
 
         <!-- <p style="float:left;"> -->
-        <img style="width: 70%; float: left;" src="{{fest.fest_logo}}" style="border:1px;">
+        <img style="width: 70%; height: 80%;object-fit: cover; float: left;" src="{{fest.fest_logo}}"
+            style="border:1px;">
         <!-- </p>  -->
 
 
@@ -16,20 +17,58 @@
 
             <p class="fest_info">FESTIVAL NAME :{{fest.fest_name}}</p>
             <p class="fest_info">DESCRIPTION: {{fest.description}}</p>
+            {% if fest.sale != 0 %}
+            {% set new_var  = fest.cost - (fest.cost * fest.sale / 100) %}
+            <p class="fest_info">COST: <del>{{ fest.cost }}.0 $</del> <ins>{{ new_var }}$</ins></p>
+            {% else%}
             <p class="fest_info">COST: {{ fest.cost }}</p>
+            {%endif%}
+
             <p class="fest_info">AGE RESTRICTION: {{ fest.age_restriction }}</p>
             <p class="fest_info">STYLE: {{ fest.style }}</p>
             <p class="fest_info">ADDRESS: {{ fest.address }}</p>
             <p class="fest_info">MAXIMAL CAPACITY: {{ fest.max_capacity }}</p>
             <p class="fest_info">STATUS: {{ fest.status }}</p>
-            <br>
-            <p>
-                <small style="font-size: 30px;">FROM: {{ fest.time_from }} TO: {{ fest.time_to }}</small>
-            </p>
+            <p class="fest_info"> FROM: {{ fest.time_from }} TO: {{ fest.time_to }}</p>
 
         </div>
-        <br><br><br>
-        <div class="festival_main_page_1">
+
+        <div class="festival_main_page_1" style="padding-top: 100px;">
+            <br><br><br><br><br><br>
+            <h3> BAND THAT WILL PERFORM ON THIS FERSTIVAL:</h3>
+            <br>
+            <main role="main">
+                <div class="grid">
+                    <div class="container" id="trytab">
+                        <div class="row ">
+                            {% for band in perfs %}
+                            {% if band.description != None %}
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm" style=" height: 650px;">
+                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="400px"
+                                        xmlns="festival\/{{ band.fest_id }}" preserveAspectRatio="xMidYMid slice"
+                                        focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                                        <image class="firstpic" href="{{band.band.logo}}">
+                                        </image>
+                                    </svg>
+                                    <div class="card-body bg-dark text-danger ticket w-100 p-3">
+                                        <p class="card-text"> BAND NAME: {{ band.band.name}}</p>
+                                        <p class=" card-text"> SCORES: {{ band.band.scores}}</p>
+                                        <p class="card-text">GENRE: {{ band.band.genre}}</p>
+                                        <p class="card-text">TAGS: {{band.band.tags}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+
+
+
             <form method="POST" action="/festival/{{ fest.fest_id }}" method="POST">
                 <legend>Name</legend>
                 <div class="form-group">
@@ -61,6 +100,8 @@
             {% endif %}
         </div>
     </div>
+    <a name="bottom"></a>
+
 </body>
 
 

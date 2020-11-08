@@ -1,6 +1,10 @@
 {% extends "ralaot.html" %}
 {% block content %}
 {% set  glob_val_for_sale_ticket = False %}
+<script>
+	var gvalue = "";
+	var saveda = '';
+</script>
 
 <head>
 	<meta charset="utf-8">
@@ -11,7 +15,7 @@
 
 
 	<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/album/">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 </head>
 
@@ -73,17 +77,53 @@
 
 	<!-- Filter bar  -->
 	<div class="filter_bar">
+
+
 		<div class="dropdown_for_filter">
 			<button onclick="myFunction('1')" class="dropbtn_for_filter">Style <i class="arrow down"></i></button>
 			<div id="1" class="dropdown-content_for_filter">
 
 
-				<a href="#">Rok</a>
-				<a href="#">Hip-Hop</a>
-				<a href="#">Indi</a>
+				<label style="font-size: 20px;">
+					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
+						onclick="rok_func('Rok')" name="fooby[1][]" />ROK</label>
+				<br>
+				<label style="font-size: 20px;">
+					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
+						onclick="rok_func('Hip-hop')" name="fooby[1][]" />HIP-HOP</label>
+				<br>
+				<label style="font-size: 20px;">
+					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
+						onclick="rok_func('Indi')" name="fooby[1][]" />INDI</label>
+				<br>
+				<label style="font-size: 20px;">
+					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
+						onclick="rok_func('Jazz')" name="fooby[1][]" />JAZZ</label>
+				<br>
+				<label style="font-size: 20px;">
+					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
+						onclick="rok_func('Country')" name="fooby[1][]" />COUNTRY</label>
+				<br>
+				<label style="font-size: 20px;">
+					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
+						onclick="rok_func('Folk')" name="fooby[1][]" />FOLK</label>
+				<br>
+				<label style="font-size: 20px;">
+					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
+						onclick="rok_func('RnB')" name="fooby[1][]" />RNB</label>
+				<br>
+				<label style="font-size: 20px;">
+					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
+						onclick="rok_func('Blues')" name="fooby[1][]" />BLUES</label>
+				<br>
+				<label style="font-size: 20px;">
+					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
+						onclick="rok_func('Punk')" name="fooby[1][]" />PUNK</label>
+				<br>
 
-				<a style="font-size: 18px; border-top: 3px solid red; width: 100%;" href="#">Delete all filters
-					&#10005;</a>
+
+				<div style="font-size: 18px; border-top: 3px solid red; width: 100%;">
+				</div>
 			</div>
 
 		</div>
@@ -91,22 +131,23 @@
 
 		<div class="dropdown_for_filter">
 			<button onclick="myFunction('2')" class="dropbtn_for_filter">Price <i class="arrow down"></i></button>
-			<div id="2" class="dropdown-content_for_filter">
+			<div id="2" class="dropdown-content_for_filter_s">
 
 
 				<div class="containera">
 
-					<input type="range" min="0" max="6" value="0" id="slider">
+					<input type="range" min="0" max="7" onclick="func_wrapper(value)" value="0" id="slider">
 					<p class="ticket_price">Maxiumum ticket price is </p>
 					<div class="values">
 						<div class="wrapper" id="wrapper">
-							<span>100</span>
-							<span>500</span>
-							<span>1000</span>
-							<span>2000</span>
-							<span>3000</span>
-							<span>4000</span>
-							<span>5000</span>
+							<span>ALL</span>
+							<span>0-50</span>
+							<span>50-100</span>
+							<span>100-200</span>
+							<span>200-300</span>
+							<span>300-400</span>
+							<span>400-500</span>
+							<span>500-1000</span>
 						</div>
 					</div>
 				</div>
@@ -121,29 +162,26 @@
 
 
 
-					<label for="start">Starting: $slider.value </label>
+					<label for="start">Starting:</label>
 
 					<input type="date" id="start" name="fest-start" value="2020-10-21" min="2020-01-01"
 						max="2020-12-31">
 
 
-					<label for="start">Finishing:</label>
+					<label for="finish">Finishing:</label>
 
-					<input type="date" id="finish" name="fest-finish" value="2018-07-23" min="2020-01-01"
-						max="2020-12-31">
+					<input type="date" id="finish" onclick="data_func()" name="fest-finish" value="2020-10-29"
+						min="2020-01-01" max="2020-12-31">
 
 
 
 
 				</div>
 			</div>
-			<!-- <input class="check_box_for_sales_box" type="checkbox" id="sales" name="sales" onclick="CheckBoxFunc()"> -->
-			<!-- <input class="check_box_for_sales_box" type="radio" id="sales" name="categories" value="sales"> -->
-			<!-- <label id="try_but" for="sales">SALES</label> -->
-			<!-- <button id="try_but">YES</button> -->
+
 		</div>
 
-		<input style="margin-left: 600px;" type="checkbox" class="largerCheckbox" id="try_but" onclick="myFunctionaa()">
+		<input style="margin-left: 500px;" type="checkbox" class="largerCheckbox" id="try_but" onclick="myFunctionaa()">
 		<label class="rec_fest" id="try_but" for="sales">RECOMMENDED FESTIVALS</label>
 		<!-- <p id="text" style="font-size: 22px;">Checkbox is CHECKED!</p> -->
 
@@ -152,7 +190,7 @@
 	</div>
 
 
-	<script>
+	<!-- <script>
 		$(document).ready(function () {
 			document.getElementById('gender_Male').checked
 			$("#sales").on("keyup", function () {
@@ -162,7 +200,7 @@
 				});
 			});
 		});
-	</script>
+	</script> -->
 
 
 
@@ -174,7 +212,7 @@
 					{% for fest in fests %}
 					{% if fest.description != None %}
 					<div class="col-md-4">
-						<div class="card mb-4 shadow-sm" style=" height: 680px;">
+						<div class="card mb-4 shadow-sm" style=" height: 740px;">
 							<!-- <div class="card mb-4 shadow-sm" style=" height: 760px; min-width: 230px; max-width: 230px;"></div> -->
 							<a href="festival\/{{ fest.fest_id }}">
 								<svg class="bd-placeholder-img card-img-top" width="100%" height="400px"
@@ -196,7 +234,7 @@
 									{
 									<image class="secondpic"
 										href="https://festival-static.s3-eu-west-1.amazonaws.com/sale_line.jpg">
-
+										ticket
 									</image>
 									}
 									{% endif%}
@@ -210,10 +248,13 @@
 									{% endif %}
 								</svg>
 							</a>
-							<div class="card-body bg-dark text-danger w-100 p-3">
+							<div id="oh_yes" class="card-body bg-dark text-danger ticket w-100 p-3">
 								<p class="card-text"> FESTIVAL NAME: {{ fest.fest_name}}</p>
-								<p class=" card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
+								<label class=" card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</label>
 								<p class="card-text">{{ fest.address}}</p>
+								<!-- <label name="oh_yes2" class="card-text" value="{{fest.style}}">STYLE: {{fest.style}} -->
+								<!-- </label> -->
+								<p class="card-text" id="festival_style">STYLE: {{fest.style}}</p>
 
 
 								{% if recommendations and fest.style in recommendations and fest.sale != 0 %}
@@ -233,10 +274,98 @@
 								{% set new_var  = fest.cost - (fest.cost * fest.sale / 100) %}
 
 								{% if fest.sale == 0 %}
-								<p class="card-text">{{ fest.cost}}.0 $</p>
+
+								<a autofocus="" href="festival\/{{ fest.fest_id }}#bottom"></a>
+
+
+
+								<a href="festival\/{{ fest.fest_id }}#bottom">
+									<p class="card-text">{{ fest.cost}}.0 $
+									</p>
+								</a>
+
+								{% if recommendations and fest.style in recommendations %}
+								{% if fest.cost <= 50%}
+								<p style="font-size: 10px;" class="card-text">strctr1{{fest.style}}recastrctr1</p>
+								{% elif fest.cost <= 100 %}
+								<p style="font-size: 10px;" class="card-text">t2sfms{{fest.style}}recat2sfms</p>
+								{% elif fest.cost <= 200%}
+								<p style="font-size: 10px;" class="card-text">3sfms{{fest.style}}reca3sfms</p>
+								{% elif fest.cost <= 300%}
+								<p style="font-size: 10px;" class="card-text">altfms{{fest.style}}recaaltfms</p>
+								{% elif fest.cost <= 400%}
+								<p style="font-size: 10px;" class="card-text">plsfos{{fest.style}}recaplsfos</p>
+								{% elif fest.cost <= 500%}
+								<p style="font-size: 10px;" class="card-text">fftis{{fest.style}}recafftis</p>
+								{% elif fest.cost <= 10000%}
+								<p style="font-size: 10px;" class="card-text">tmbanmtin{{fest.style}}recatmbanmtin</p>
+
+								{% endif %}
+
+
 								{%else%}
-								<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <ins>{{ new_var }}$</ins>
+								{% if fest.cost <= 50%}
+								<p style="font-size: 10px;" class="card-text">strctr1{{fest.style}}strctr1</p>
+								{% elif fest.cost <= 100 %}
+								<p style="font-size: 10px;" class="card-text">t2sfms{{fest.style}}t2sfms</p>
+								{% elif fest.cost <= 200%}
+								<p style="font-size: 10px;" class="card-text">3sfms{{fest.style}}3sfms</p>
+								{% elif fest.cost <= 300%}
+								<p style="font-size: 10px;" class="card-text">altfms{{fest.style}}altfms</p>
+								{% elif fest.cost <= 400%}
+								<p style="font-size: 10px;" class="card-text">plsfos{{fest.style}}plsfos</p>
+								{% elif fest.cost <= 500%}
+								<p style="font-size: 10px;" class="card-text">fftis{{fest.style}}fftis</p>
+								{% elif fest.cost <= 10000%}
+								<p style="font-size: 10px;" class="card-text">tmbanmtin{{fest.style}}tmbanmtin</p>
+
+								{% endif %}
+
+
+								{% endif %}
+								{%else%}
+								<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <a
+										href="festival\/{{ fest.fest_id }}#bottom"><ins>{{ new_var }}$</ins></a></p>
+
+
+								{% if recommendations and fest.style in recommendations %}
+								{% if new_var <= 50%}
+								<p style="font-size: 10px;" class="card-text">strctr1{{fest.style}}slinrecastrctr1</p>
+								{% elif new_var <= 100 %}
+								<p style="font-size: 10px;" class="card-text">t2sfms{{fest.style}}slinrecat2sfms</p>
+								{% elif new_var <= 200%}
+								<p style="font-size: 10px;" class="card-text">3sfms{{fest.style}}slinreca3sfms</p>
+								{% elif new_var <= 300%}
+								<p style="font-size: 10px;" class="card-text">altfms{{fest.style}}slinrecaaltfms</p>
+								{% elif new_var <= 400%}
+								<p style="font-size: 10px;" class="card-text">plsfos{{fest.style}}slinrecaplsfos</p>
+								{% elif new_var<= 500%}
+								<p style="font-size: 10px;" class="card-text">fftis{{fest.style}}slinrecafftis</p>
+								{% elif new_var<= 10000%}
+								<p style="font-size: 10px;" class="card-text">tmbanmtin{{fest.style}}slinrecatmbanmtin
 								</p>
+								{% endif %}
+								{%else%}
+								{% if new_var <= 50%}
+								<p style="font-size: 10px;" class="card-text">strctr1{{fest.style}}slinstrctr1</p>
+								{% elif new_var <= 100 %}
+								<p style="font-size: 10px;" class="card-text">t2sfms{{fest.style}}slint2sfms</p>
+								{% elif new_var <= 200%}
+								<p style="font-size: 10px;" class="card-text">3sfms{{fest.style}}slin3sfms</p>
+								{% elif new_var <= 300%}
+								<p style="font-size: 10px;" class="card-text">altfms{{fest.style}}slinaltfms</p>
+								{% elif new_var <= 400%}
+								<p style="font-size: 10px;" class="card-text">plsfos{{fest.style}}slinplsfos</p>
+								{% elif new_var<= 500%}
+								<p style="font-size: 10px;" class="card-text">fftis{{fest.style}}slinfftis</p>
+								{% elif new_var<= 10000%}
+								<p style="font-size: 10px;" class="card-text">tmbanmtin{{fest.style}}slintmbanmtin</p>
+								{% endif %}
+								{% endif %}
+
+
+
+
 								{% endif %}
 								<div class="d-flex justify-content-between align-items-center">
 									{% if recommendations and fest.style in recommendations and fest.sale != 0 %}
@@ -244,12 +373,15 @@
 									{% else %}
 
 									{% if recommendations and fest.style in recommendations %}
-									<small class="text-muted">#Recommended</small>
-									{% endif %}
-									{% if fest.sale != 0 %}
+									<small style="padding-top: 10px;" class="text-muted">#Recommended</small>
+
+									{% elif fest.sale != 0 %}
 									<small class="text-muted">#Sale </small>
 									{% endif %}
+
 									{%endif%}
+
+
 
 								</div>
 							</div>
@@ -297,9 +429,9 @@
 	// } 
 </script>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$('input').popup(); 
-</script>
+</script> -->
 <script>
 	var slider = document.getElementById("slider");
 	var values = document.getElementById("wrapper");
@@ -312,20 +444,20 @@
 	//Reccom	
 	function myFunctionaa() {
 
-		var checkBox = document.getElementById("try_but");
-		var checkBox1 = document.getElementById("try_but1");
+		var checkBox = document.getElementById("try_but");//recomm	
+		var checkBox1 = document.getElementById("try_but1");//sales
 		if (checkBox.checked == true) {
 
 			if (checkBox1.checked == true) {
 				$("#trytab div").filter(function () {
 
-					$(this).toggle($(this).text().indexOf(("Buy festival recommended to you with ")) > -1)
+					$(this).toggle($(this).text().indexOf(saveda + "slinreca") > -1)
 				});
 
 			}
 			else {
 				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf("#Recommended") > -1)
+					$(this).toggle($(this).text().indexOf(saveda + "reca") > -1)
 				});
 			}
 
@@ -334,15 +466,22 @@
 		if (checkBox.checked == false) {
 			if (checkBox1.checked == true) {
 				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf("#Sale") > -1)
+					$(this).toggle($(this).text().indexOf(saveda + "slin") > -1)
 				});
 
 			}
 			else {
+				if (saveda == '') {
+					$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
+					});
+				}
+				else {
+					$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf(saveda) > -1)
+					});
+				}
 
-				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
-				});
 			}
 
 		}
@@ -352,20 +491,20 @@
 <script>
 	//Sales
 	function myFunctionab() {
-
+		// console.log(saveda)
 		var checkBox = document.getElementById("try_but1");
 		var checkBox1 = document.getElementById("try_but");//Reccom
 		if (checkBox.checked == true) {
 
 			if (checkBox1.checked == true) {
 				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf(("Buy festival recommended to you with ")) > -1)
+					$(this).toggle($(this).text().indexOf(saveda + "slinreca") > -1)
 
 				});
 			}
 			else {
 				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf("#Sale") > -1)
+					$(this).toggle($(this).text().indexOf(saveda + "slin") > -1)
 				});
 			}
 
@@ -373,16 +512,254 @@
 		if (checkBox.checked == false) {
 			if (checkBox1.checked == true) {
 				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf("#Recommended") > -1)
+					$(this).toggle($(this).text().indexOf(saveda + "reca") > -1)
 				});
 			}
 			else {
-				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
-				});
+				if (saveda == '') {
+					$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
+					});
+				} else {
+
+					$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf(saveda) > -1)
+					});
+				}
+
 			}
 		}
 	}
 
+</script>
+<script>
+	//Sales
+	function rok_func(a) {
+
+		// var checkBox = document.getElementById("rok_check_box");//Reccom
+		var checkBox = document.getElementById("try_but1");
+		var checkBox1 = document.getElementById("try_but");//Reccom
+		fill1 = ''
+		fill2 = ''
+		if (checkBox.checked) {
+			fill1 = "slin"
+		}
+		if (checkBox1.checked) {
+			fill2 = "reca"
+		}
+		var group
+		// g12 = 0
+		$("input:checkbox").on('click', function () {
+			// in the handler, 'this' refers to the box clicked on
+			var $box = $(this);
+			if ($box.is(":checked")) {
+				// the name of the box is retrieved using the .attr() method
+				// as it is assumed and expected to be immutable
+				group = "input:checkbox[name='" + $box.attr("name") + "']";
+				// the checked state of the group/box on the other hand will change
+				// and the current value is retrieved using .prop() method
+				$(group).prop("checked", false);
+				$box.prop("checked", true);
+				g12 = 3
+
+			} else {
+				$box.prop("checked", false);
+				g12 = 5
+			}
+		});
+		gvalue = a
+		c = document.getElementById('slider').value
+
+
+		switch (parseInt(c)) {
+			case 0:
+				b = ""
+				break;
+			case 1:
+				b = "strctr1"
+				break;
+			case 2:
+				b = "t2sfms"
+				break;
+			case 3:
+				b = "3sfms"
+				break;
+			case 4:
+				b = "altfms"
+				break;
+			case 5:
+				b = "plsfos"
+				break;
+			case 6:
+				b = "fftis"
+				break;
+			case 7:
+				b = "tmbanmtin"
+				break;
+			default:
+				break;
+		}
+
+		if (saveda == a) {
+			a = ''
+			saveda = ''
+		} else {
+			saveda = a
+		}
+
+		// d = b + a
+		console.log(a)
+		console.log(fill1)
+		console.log(fill2)
+		$("#trytab div").filter(function () {
+			$(this).toggle($(this).text().indexOf((b + a + fill1 + fill2)) > -1)
+
+		});
+
+
+	}
+
+</script>
+<script>
+	function func_wrapper(a) {
+
+		// console.log(document.getElementById('slider').value)
+		a = document.getElementById('slider').value
+		c = gvalue
+
+		switch (parseInt(a)) {
+			case 0:
+				b = ""
+				break;
+			case 1:
+				b = "strctr1"
+				break;
+			case 2:
+				b = "t2sfms"
+				break;
+			case 3:
+				b = "3sfms"
+				break;
+			case 4:
+				b = "altfms"
+				break;
+			case 5:
+				b = "plsfos"
+				break;
+			case 6:
+				b = "fftis"
+				break;
+			case 7:
+				b = "tmbanmtin"
+				break;
+			default:
+				break;
+		}
+		var checkBox = document.getElementById("try_but1");
+		var checkBox1 = document.getElementById("try_but");//Reccom
+
+
+
+		fill1 = ''
+		fill2 = ''
+		if (checkBox.checked) {
+			fill1 = "slin"
+		}
+		if (checkBox1.checked) {
+			fill2 = "reca"
+		}
+		if (c == '') {
+
+		}
+		else {
+			c = c
+		}
+		if (fill2 == '' && fill1 == '') {
+			console.log(c + fill1 + fill2 + b)
+			$("#trytab div").filter(function () {
+				$(this).toggle($(this).text().indexOf((b + fill1 + fill2 + c)) > -1)
+			});
+		}
+		else {
+			console.log(c + fill1 + fill2 + b)
+			$("#trytab div").filter(function () {
+				$(this).toggle($(this).text().indexOf((c + fill1 + fill2 + b)) > -1)
+			});
+		}
+
+	}
+
+
+
+
+
+
+
+</script>
+<script>
+	function data_func() {
+		// 	a = document.getElementById('start').value
+		// 	b = document.getElementById('finish').value
+		// 	a = a.substring(0, a.length - 3);
+		// 	b = b.substring(0, b.length - 3);
+		// 	$("#trytab div").filter(function () {
+		// 		// $(this).toggle($(this).text().indexOf(("FESTIVAL NAME")) > -1)
+		// 		$(this).toggle($(this).text().indexOf((a)) > -1)
+		// 	});
+		// 	console.log(a)
+		// 	console.log(b)
+		// }
+
+		// $(function () {
+
+		var b = document.getElementById($("#oh_yes p"))
+		$("#oh_yes label").text()
+		var fit_from = document.getElementById('start').value
+		var fit_to = document.getElementById('finish').value
+		console.log(fit_from)
+		// console.log(typeof (fil_from))
+		asd = $(this)
+		// if ($("#oh_yes label").text())
+		// 	$('#tabela input').keyup(function () {
+		// 		var val = $(this).val().toUpperCase();
+		// $("#trytab div").filter(function () 
+		// $('#oh_yes label').each(function (index, element) {
+		var asdass = $('#trytab div');
+		// console.log(asdass)
+		$('#trytab div #oh_yes label').filter(function (index, elements) {
+
+			// console.log(elements.tex?tContent)
+			// FROM: 2021-01-03 08:00:00 TO : 2021-01-10 22:00:00
+			a = elements.textContent
+			// var fes_from = a.slice(7, 26);
+			var fes_from = new Date(a.slice(7, 26))
+			var fes_to = new Date(a.slice(32, 51))
+			var fil_from = new Date(fit_from)
+			var fil_to = new Date(fit_to)
+			// console.log(fes_from)
+			// console.log(typeof (fes_from1))
+			// console.log(fes_to)
+			// console.log(fil_from)
+			// console.log(fil_to)
+			if (fil_from > fes_from && fes_to < fil_to) {
+				asdass.show($(this))
+				// $(this).hide()
+			}
+			else {
+				// asdass.hide($(this))
+				// $(this).hide()
+				$(this).toggle($(this))
+			}
+
+
+		});
+		// });
+		// 			if ($(this).text().toUpperCase().indexOf(val) < 	0)
+		// 				$(this).hide();
+		// 			else
+		// 				$(this).show();
+		// 		});
+		// 	});
+	}
 </script>
 {% endblock content %}

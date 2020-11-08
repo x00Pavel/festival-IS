@@ -17,8 +17,11 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
   padding: 15px;
   font-size: 25px;
-  margin-top: 3%; 
+  margin-top: 3%;
+ 
   height: 75px; 
+  min-height: 75px;
+  max-height: 75px;
 }
 
 .site-header .navbar-nav .nav-link:hover {
@@ -205,7 +208,7 @@ padding-top: 5px;
 
  .navbar-toggler {
    float: left;
-   margin-left: -9%;
+   margin-left: -3%;
  }
 
  .user_logo{
@@ -448,13 +451,28 @@ padding-top: 5px;
   position: relative;
   display: inline-block;
 }
-
+.dropdown-content_for_filter_s
+ {
+  display: none;
+  position: absolute;
+  padding-top: 20px;
+  background-color: #f1f1f1;
+  width: 650px;
+  /* min-width: 800px; */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-left: 80px;
+    border: none;
+  cursor: pointer;
+}
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content_for_filter {
   display: none;
   position: absolute;
+  padding-top: 20px;
   background-color: #f1f1f1;
-  min-width: 200px;
+  width: 180px;
+  min-width: 90px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   margin-left: 80px;
@@ -883,17 +901,150 @@ input.largerCheckbox {
 }
 .flash_css{
   margin-left: 70px; 
-  width: 150%; 
+  width: 190%; 
   height: 50px;
   font-size: 1vw;
 
 }
-@media screen and (max-width: 800px) 
+.press_f
+{
+    position: relative;
+    margin-bottom: -12%;
+}
+@media screen and (max-width: 1600px) 
 {
  .flash_css{
-  width: 80%; 
+  width: 200%; 
+  font-size: 20px;
+  }
+  
+.press_f
+{
+    margin-bottom: -13%;
+}
+
+
+
+}
+@media screen and (max-width: 1200px) 
+{
+ .flash_css{
+  width: 160%; 
+    font-size: 15px;
+  }
+
+}
+@media screen and (max-width: 1000px) 
+{
+ .flash_css{
+  width: 140%; 
+   font-size: 11px;
+   margin-left: 13%;
+  }
+
+.press_f
+{
+    /* position: relative; */
+    margin-bottom: -25%;
+    /* margin-left: -25%; */
+}
+
+
+
+}
+@media only screen and (max-width: 768px) 
+{
+ .flash_css{
+  width: 140%; 
+  height: 55px;
+  font-size: 15px;
+  /* margin: auto 0; */
+  margin-left: -50%;
+  /* margin-bottom: 100%; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  } 
+
+
+}
+
+
+@media only screen and (max-width: 768px) 
+{
+ .press_f{
+  /* width: 1%;  */
+  margin-top: -3%;
+  margin-left: 100%;
+  /* margin-right: 3200%; */
+  /* margin-left: auto; */
+  /* margin-right: 300px; */
+  } 
+  .navbar
+  {
+    height: 120px;
   }
 
 
 }
+@media only screen and (max-width: 600px) 
+{
+ .flash_css{
+  width: 120%; 
+  /* height: 55px; */
+  font-size: 15px;
+  /* margin: auto 0; */
+  margin-left: -30%;
+  /* margin-bottom: 100%; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  } 
+   .press_f{
+  /* width: 1%;  */
+
+  margin-left: 90%;
+
+  } 
+
+
+}
+
+.filter_check_box
+{
+  /* width: 30px; */
+  /* margin-top: 18x; */
+  /* padding-left: 220px; */
+  margin-left: 20px;
+  /* margin-right: 110px; */
+  /* padding-bottom: 30px; */
+  /* height: 30px; */
+}
+
+.dropdown_content_for_filter_date
+{
+  display: none;
+  position: absolute;
+  padding-top: 20px;
+  background-color: #f1f1f1;
+  width: 290px;
+  /* min-width: 800px; */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-left: 80px;
+    border: none;
+  cursor: pointer;
+}
+/* Links inside the dropdown */
+.dropdown_content_for_filter_date a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown_content_for_filter_date a:hover {background-color: #ddd}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show_for_filter {display:block;} 
+
 

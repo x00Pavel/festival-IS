@@ -31,6 +31,7 @@ def undef_error(e):
     flash(f"Debug {e}.", "warning")
     return redirect("/")
 
+
 # FIXME: uncomment for release
 # @app.errorhandler(Exception)
 # def undef_error(e):
@@ -55,6 +56,7 @@ def home():
     if current_user.is_authenticated:
         recommendations = list(current_user.get_recomendations())
         recommendations_count = len(list(set(recommendations)))
+        recommendations = ["Folk", "Jazz"]
         return render_template(
             "festivals.html",
             user_columns=current_user,
@@ -192,6 +194,9 @@ def logout():
 def festival_page(fest_id):
     fest = Festival.get_festival(fest_id)
     anonim = current_user.is_anonymous
+    perfs = Performance.query.filter_by(fest_id=fest_id).all()
+    #  Festival.query.filter_by(fest_id=fest_id).first()
+    # Performance.quert.filterby(fest"id)
     form = (
         TicketForm()
         if anonim
@@ -222,6 +227,7 @@ def festival_page(fest_id):
         user_columns=current_user,
         form=form,
         anonym=current_user.is_anonymous,
+        perfs=perfs,
     )
 
 
@@ -258,6 +264,7 @@ def my_festivals():
         source="/my_festivals",
     )
 
+
 @login_required
 @app.route("/<source>/<fest_id>/edit", methods=["GET", "POST"])
 def edit_festival(fest_id, source):
@@ -268,8 +275,8 @@ def edit_festival(fest_id, source):
             msg, status, fest = current_user.update_fest(request.form, fest)
             flash(msg, status)
         else:
-            flash("Not valid input", "warning")            
-        
+            flash("Not valid input", "warning")
+
     fest_form.org_id.data = fest.org_id
     fest_form.fest_name.data = fest.fest_name
     fest_form.fest_tags.data = fest.fest_tags
@@ -285,7 +292,7 @@ def edit_festival(fest_id, source):
     fest_form.submit = "Update festival"
     fest_form.logo.data = fest.fest_logo
     fest_form.time_from.data = fest.time_from
-    fest_form.time_to.data =   fest.time_to
+    fest_form.time_to.data = fest.time_to
 
     seller_form = RoleForm()
     perfs = current_user.get_perf(fest_id=fest_id)
@@ -300,6 +307,7 @@ def edit_festival(fest_id, source):
         sellers=sellers,
         org=None,
     )
+
 
 @login_required
 @app.route("/my_festivals/add", methods=["GET", "POST"])
@@ -334,9 +342,6 @@ def add_festival():
     )
 
     return redirect("/manage_bands")
-
-
-
 
 
 @login_required
