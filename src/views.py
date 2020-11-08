@@ -11,11 +11,11 @@ import itertools
 from werkzeug.datastructures import MultiDict
 
 
-@app.errorhandler(AttributeError)
-def undef_error(e):
-    flash("Attribute error is raised on client side. Please, contact admin.", "warning")
-    flash(f"Debug {e}.", "warning")
-    return redirect("/")
+# @app.errorhandler(AttributeError)
+# def undef_error(e):
+#     flash("Attribute error is raised on client side. Please, contact admin.", "warning")
+#     flash(f"Debug {e}.", "warning")
+#     return redirect("/")
 
 
 @app.errorhandler(500)
@@ -258,12 +258,54 @@ def my_festivals():
         source="/my_festivals",
     )
 
+@login_required
+@app.route("/<source>/<fest_id>/edit", methods=["GET", "POST"])
+def edit_festival(fest_id, source):
+    fest_form = FestivalForm()
+    fest = Festival.query.filter_by(fest_id=fest_id).first()
+    if request.method == "POST":
+        if fest_form.validate_on_submit():
+            msg, status, fest = current_user.update_fest(request.form, fest)
+            flash(msg, status)
+        else:
+            flash("Not valid input", "warning")            
+        
+    fest_form.org_id.data = fest.org_id
+    fest_form.fest_name.data = fest.fest_name
+    fest_form.fest_tags.data = fest.fest_tags
+    fest_form.description.data = fest.description
+    fest_form.style.data = fest.style
+    fest_form.cost.data = fest.cost
+    fest_form.address.data = fest.address
+    fest_form.max_capacity.data = fest.max_capacity
+    fest_form.age_restriction.data = fest.age_restriction
+    fest_form.sale.data = fest.sale
+    fest_form.org_id.data = fest.org_id
+    fest_form.status.data = fest.status
+    fest_form.submit = "Update festival"
+    fest_form.logo.data = fest.fest_logo
+    fest_form.time_from.data = fest.time_from
+    fest_form.time_to.data =   fest.time_to
+
+    seller_form = RoleForm()
+    perfs = current_user.get_perf(fest_id=fest_id)
+    sellers = current_user.get_sellers(fest_id)
+    return render_template(
+        "edit_festival.html",
+        form=fest_form,
+        fest=fest,
+        seller_form=seller_form,
+        perfs=perfs,
+        user_columns=current_user,
+        sellers=sellers,
+        org=None,
+    )
 
 @login_required
 @app.route("/my_festivals/add", methods=["GET", "POST"])
 def add_festival():
     form = FestivalForm()
-    form.fest_org_id.data = current_user.org_id
+    form.org_id.data = current_user.org_id
     seller_form = RoleForm()
     form.fest_org_id = current_user.org_id
     if request.method == "POST":
@@ -286,35 +328,15 @@ def add_festival():
         form=form,
         seller_form=seller_form,
         org=current_user,
-        fest=None,
-        perfs=[],
-        sellers=[],
+        perfs=None,
+        sellers=None,
         user_columns=current_user,
     )
 
     return redirect("/manage_bands")
 
 
-@login_required
-@app.route("/<source>/<fest_id>/edit", methods=["GET", "POST"])
-def edit_festival(fest_id, source):
-    data = Festival.query.all()
-    list_of_dicts = [row for row in data]
 
-    seller_form = RoleForm()
-    fest = current_user.get_all_festivals(fest_id)
-    perfs = current_user.get_perf(fest_id=fest_id)
-    sellers = current_user.get_sellers(fest_id)
-    return render_template(
-        "edit_festival.html",
-        fest=fest,
-        fests=list_of_dicts,
-        seller_form=seller_form,
-        perfs=perfs,
-        user_columns=current_user,
-        sellers=sellers,
-        org=None,
-    )
 
 
 @login_required

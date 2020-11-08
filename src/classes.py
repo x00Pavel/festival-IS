@@ -59,6 +59,7 @@ class Festival(db.Model):
     sale = db.Column("sale", db.Integer, nullable=False, default=0)
     org_id = Column("org_id", Integer, ForeignKey("Organizer.org_id"), nullable=False)
     status = Column("status", Integer, default=0)
+    fest_tags = Column("fest_tags", String, default="No tags")
 
     organizer = relationship("Organizer", foreign_keys=org_id)
 
@@ -148,7 +149,9 @@ class BaseUser:
                 """
             )
         fest = Festival.query.filter_by(fest_id=fest_id).first()
-        price = fest.cost if fest.sale == 0 else fest.cost - ((fest.cost * fest.sale) / 100)
+        price = (
+            fest.cost if fest.sale == 0 else fest.cost - ((fest.cost * fest.sale) / 100)
+        )
 
         ticket = Ticket(
             user_email=form.user_email.data,
@@ -276,7 +279,11 @@ class User(UserMixin, db.Model):
             )
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         if fest.current_ticket_count != fest.max_capacity:
-            price = fest.cost if fest.sale == 0 else fest.cost - (fest.cost * fest.sale) / 100
+            price = (
+                fest.cost
+                if fest.sale == 0
+                else fest.cost - (fest.cost * fest.sale) / 100
+            )
             ticket = Ticket(
                 user_email=self.user_email,
                 user_id=self.user_id,
@@ -331,10 +338,15 @@ class User(UserMixin, db.Model):
         if (user is not None) and (user != self):
             return (f"Email {new_user_email} is already exist", "warning")
 
-        result = validate(email=new_user_email, surname=form.get("surname"), name=form.get("name"), address=form.get("address"))
+        result = validate(
+            email=new_user_email,
+            surname=form.get("surname"),
+            name=form.get("name"),
+            address=form.get("address"),
+        )
         if result is not None:
             return result
-        
+
         new_psswd1 = form.get("new_psswd1")
         new_psswd2 = form.get("new_psswd2")
 
@@ -351,6 +363,7 @@ class User(UserMixin, db.Model):
 
         db.session.commit()
         return (f"Your account is successfully changed", "success")
+
 
 class Seller(User):
     __tablename__ = "Seller"
@@ -686,6 +699,25 @@ class Admin(Organizer):
                 outdated_fests.append(fest)
         return (actual_fests, outdated_fests)
 
+    def update_fest(self, form, fest):
+        fest.fest_name = form.get("fest_name")
+        fest.fest_tags = form.get("fest_tags")
+        fest.description = form.get("description")
+        fest.style = form.get("style")
+        fest.cost = form.get("cost")
+        fest.address = form.get("address")
+        fest.max_capacity = form.get("max_capacity")
+        fest.age_restriction = form.get("age_restriction")
+        fest.sale = form.get("sale")
+        fest.org_id = form.get("org_id")
+        fest.status = form.get("status")
+        fest.logo = form.get("fest_logo")
+        fest.time_from = form.get("time_from")
+        fest.time_to = form.get("time_to")
+
+        db.session.commit()
+
+        return f"Festival {fest.fest_name} successfully updated", "success", fest
 
 class RootAdmin(Admin):
     """Reperesentation of root admin. Only this role can add new admins"""
