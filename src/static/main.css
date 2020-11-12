@@ -1048,3 +1048,16 @@ input.largerCheckbox {
 .show_for_filter {display:block;} 
 
 
+.databut
+{
+  border: none;
+  color: white;
+  background-color: black;
+  padding: 11px 25px;
+  text-align: center;
+  /* text-decoration: none; */
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+}

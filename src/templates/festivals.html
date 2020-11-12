@@ -4,6 +4,7 @@
 <script>
 	var gvalue = "";
 	var saveda = '';
+	var flag_for_data = false;
 </script>
 
 <head>
@@ -164,16 +165,17 @@
 
 					<label for="start">Starting:</label>
 
-					<input type="date" id="start" name="fest-start" value="2020-10-21" min="2020-01-01"
+					<input type="date" id="start" name="fest-start" value="2020-01-01" min="2020-01-01"
 						max="2020-12-31">
 
 
 					<label for="finish">Finishing:</label>
 
-					<input type="date" id="finish" onclick="data_func()" name="fest-finish" value="2020-10-29"
-						min="2020-01-01" max="2020-12-31">
-
-
+					<input type="date" id="finish" name="fest-finish" value="2020-10-29" min="2020-01-01"
+						max="2030-12-31">
+					<br><br>
+					<button class="databut" type="button" onclick="data_func()">Apply</button>
+					<button class="databut" type="button" onclick="data_func()">Show</button>
 
 
 				</div>
@@ -250,7 +252,7 @@
 							</a>
 							<div id="oh_yes" class="card-body bg-dark text-danger ticket w-100 p-3">
 								<p class="card-text"> FESTIVAL NAME: {{ fest.fest_name}}</p>
-								<label class=" card-text"> FROM: {{ fest.time_from}} TO : {{fest.time_to}}</label>
+								<p class=" card-text">FROM: {{ fest.time_from}} TO : {{fest.time_to}}</p>
 								<p class="card-text">{{ fest.address}}</p>
 								<!-- <label name="oh_yes2" class="card-text" value="{{fest.style}}">STYLE: {{fest.style}} -->
 								<!-- </label> -->
@@ -286,38 +288,53 @@
 
 								{% if recommendations and fest.style in recommendations %}
 								{% if fest.cost <= 50%}
-								<p style="font-size: 10px;" class="card-text">strctr1{{fest.style}}recastrctr1</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									strctr1{{fest.style}}recastrctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 100 %}
-								<p style="font-size: 10px;" class="card-text">t2sfms{{fest.style}}recat2sfms</p>
+								<h1 id="maybebabe" style="font-size: 10px;" class="card-text">
+									t2sfms{{fest.style}}recat2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 200%}
-								<p style="font-size: 10px;" class="card-text">3sfms{{fest.style}}reca3sfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									3sfms{{fest.style}}reca3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 300%}
-								<p style="font-size: 10px;" class="card-text">altfms{{fest.style}}recaaltfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									altfms{{fest.style}}recaaltfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 400%}
-								<p style="font-size: 10px;" class="card-text">plsfos{{fest.style}}recaplsfos</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									plsfos{{fest.style}}recaplsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 500%}
-								<p style="font-size: 10px;" class="card-text">fftis{{fest.style}}recafftis</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									fftis{{fest.style}}recafftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 10000%}
-								<p style="font-size: 10px;" class="card-text">tmbanmtin{{fest.style}}recatmbanmtin</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									tmbanmtin{{fest.style}}recatmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}
+								</h1>
 
 								{% endif %}
 
 
 								{%else%}
 								{% if fest.cost <= 50%}
-								<p style="font-size: 10px;" class="card-text">strctr1{{fest.style}}strctr1</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									strctr1{{fest.style}}strctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 100 %}
-								<p style="font-size: 10px;" class="card-text">t2sfms{{fest.style}}t2sfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									t2sfms{{fest.style}}t2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 200%}
-								<p style="font-size: 10px;" class="card-text">3sfms{{fest.style}}3sfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									3sfms{{fest.style}}3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 300%}
-								<p style="font-size: 10px;" class="card-text">altfms{{fest.style}}altfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									altfms{{fest.style}}altfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 400%}
-								<p style="font-size: 10px;" class="card-text">plsfos{{fest.style}}plsfos</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									plsfos{{fest.style}}plsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 500%}
-								<p style="font-size: 10px;" class="card-text">fftis{{fest.style}}fftis</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									fftis{{fest.style}}fftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 10000%}
-								<p style="font-size: 10px;" class="card-text">tmbanmtin{{fest.style}}tmbanmtin</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									tmbanmtin{{fest.style}}tmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 
 								{% endif %}
 
@@ -325,41 +342,62 @@
 								{% endif %}
 								{%else%}
 								<p class="card-text"> <del>{{ fest.cost }}.0 $</del> <a
-										href="festival\/{{ fest.fest_id }}#bottom"><ins>{{ new_var }}$</ins></a></p>
+										href="festival\/{{ fest.fest_id }}#bottom"><ins>{{ new_var }}$</ins></a>
+								</p>
 
 
 								{% if recommendations and fest.style in recommendations %}
 								{% if new_var <= 50%}
-								<p style="font-size: 10px;" class="card-text">strctr1{{fest.style}}slinrecastrctr1</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									strctr1{{fest.style}}slinrecastrctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}
+								</h1>
+
 								{% elif new_var <= 100 %}
-								<p style="font-size: 10px;" class="card-text">t2sfms{{fest.style}}slinrecat2sfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									t2sfms{{fest.style}}slinrecat2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}
+								</h1>
 								{% elif new_var <= 200%}
-								<p style="font-size: 10px;" class="card-text">3sfms{{fest.style}}slinreca3sfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									3sfms{{fest.style}}slinreca3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 300%}
-								<p style="font-size: 10px;" class="card-text">altfms{{fest.style}}slinrecaaltfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									altfms{{fest.style}}slinrecaaltfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}
+								</h1>
 								{% elif new_var <= 400%}
-								<p style="font-size: 10px;" class="card-text">plsfos{{fest.style}}slinrecaplsfos</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									plsfos{{fest.style}}slinrecaplsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}
+								</h1>
 								{% elif new_var<= 500%}
-								<p style="font-size: 10px;" class="card-text">fftis{{fest.style}}slinrecafftis</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									fftis{{fest.style}}slinrecafftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var<= 10000%}
-								<p style="font-size: 10px;" class="card-text">tmbanmtin{{fest.style}}slinrecatmbanmtin
-								</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									tmbanmtin{{fest.style}}slinrecatmbanmtinFROM: {{ fest.time_from}} TO :
+									{{fest.time_to}}</h1>
 								{% endif %}
 								{%else%}
 								{% if new_var <= 50%}
-								<p style="font-size: 10px;" class="card-text">strctr1{{fest.style}}slinstrctr1</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									strctr1{{fest.style}}slinstrctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 100 %}
-								<p style="font-size: 10px;" class="card-text">t2sfms{{fest.style}}slint2sfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									t2sfms{{fest.style}}slint2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 200%}
-								<p style="font-size: 10px;" class="card-text">3sfms{{fest.style}}slin3sfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									3sfms{{fest.style}}slin3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 300%}
-								<p style="font-size: 10px;" class="card-text">altfms{{fest.style}}slinaltfms</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									altfms{{fest.style}}slinaltfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 400%}
-								<p style="font-size: 10px;" class="card-text">plsfos{{fest.style}}slinplsfos</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									plsfos{{fest.style}}slinplsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var<= 500%}
-								<p style="font-size: 10px;" class="card-text">fftis{{fest.style}}slinfftis</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									fftis{{fest.style}}slinfftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var<= 10000%}
-								<p style="font-size: 10px;" class="card-text">tmbanmtin{{fest.style}}slintmbanmtin</p>
+								<h1 style="font-size: 10px;" class="card-text">
+									tmbanmtin{{fest.style}}slintmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}
+								</h1>
 								{% endif %}
 								{% endif %}
 
@@ -369,14 +407,17 @@
 								{% endif %}
 								<div class="d-flex justify-content-between align-items-center">
 									{% if recommendations and fest.style in recommendations and fest.sale != 0 %}
-									<small class="text-muted">#Sale, #Recommended </small>
+									<small class="text-muted">#Sale,
+										#Recommended
+									</small>
 									{% else %}
 
 									{% if recommendations and fest.style in recommendations %}
 									<small style="padding-top: 10px;" class="text-muted">#Recommended</small>
 
 									{% elif fest.sale != 0 %}
-									<small class="text-muted">#Sale </small>
+									<small class="text-muted">#Sale
+									</small>
 									{% endif %}
 
 									{%endif%}
@@ -608,9 +649,9 @@
 		}
 
 		// d = b + a
-		console.log(a)
-		console.log(fill1)
-		console.log(fill2)
+		// console.log(a)
+		// console.log(fill1)
+		// console.log(fill2)
 		$("#trytab div").filter(function () {
 			$(this).toggle($(this).text().indexOf((b + a + fill1 + fill2)) > -1)
 
@@ -675,13 +716,13 @@
 			c = c
 		}
 		if (fill2 == '' && fill1 == '') {
-			console.log(c + fill1 + fill2 + b)
+			// console.log(c + fill1 + fill2 + b)
 			$("#trytab div").filter(function () {
 				$(this).toggle($(this).text().indexOf((b + fill1 + fill2 + c)) > -1)
 			});
 		}
 		else {
-			console.log(c + fill1 + fill2 + b)
+			// console.log(c + fill1 + fill2 + b)
 			$("#trytab div").filter(function () {
 				$(this).toggle($(this).text().indexOf((c + fill1 + fill2 + b)) > -1)
 			});
@@ -698,68 +739,60 @@
 </script>
 <script>
 	function data_func() {
-		// 	a = document.getElementById('start').value
-		// 	b = document.getElementById('finish').value
-		// 	a = a.substring(0, a.length - 3);
-		// 	b = b.substring(0, b.length - 3);
-		// 	$("#trytab div").filter(function () {
-		// 		// $(this).toggle($(this).text().indexOf(("FESTIVAL NAME")) > -1)
-		// 		$(this).toggle($(this).text().indexOf((a)) > -1)
-		// 	});
-		// 	console.log(a)
-		// 	console.log(b)
-		// }
 
-		// $(function () {
-
-		var b = document.getElementById($("#oh_yes p"))
-		$("#oh_yes label").text()
+		flag_for_data = true;
 		var fit_from = document.getElementById('start').value
 		var fit_to = document.getElementById('finish').value
-		console.log(fit_from)
-		// console.log(typeof (fil_from))
-		asd = $(this)
-		// if ($("#oh_yes label").text())
-		// 	$('#tabela input').keyup(function () {
-		// 		var val = $(this).val().toUpperCase();
-		// $("#trytab div").filter(function () 
-		// $('#oh_yes label').each(function (index, element) {
-		var asdass = $('#trytab div');
-		// console.log(asdass)
-		$('#trytab div #oh_yes label').filter(function (index, elements) {
 
-			// console.log(elements.tex?tContent)
+		$('#trytab div h1').filter(function (index, elements) {
+
 			// FROM: 2021-01-03 08:00:00 TO : 2021-01-10 22:00:00
 			a = elements.textContent
-			// var fes_from = a.slice(7, 26);
-			var fes_from = new Date(a.slice(7, 26))
-			var fes_to = new Date(a.slice(32, 51))
+			var fes_from = new Date(a.slice(-19, -1))
+			var fes_to = new Date(a.slice(-44, -25))
+			var from_s = a.slice(-19, -1)
+			var to_s = a.slice(-44, -25)
+			from_s = from_s + "0"
 			var fil_from = new Date(fit_from)
 			var fil_to = new Date(fit_to)
 			// console.log(fes_from)
-			// console.log(typeof (fes_from1))
 			// console.log(fes_to)
-			// console.log(fil_from)
-			// console.log(fil_to)
-			if (fil_from > fes_from && fes_to < fil_to) {
-				asdass.show($(this))
-				// $(this).hide()
+			//21.10.2020 01.01.2020   03.01.2020 29.10.2020
+			if (fil_from < fes_from && fes_to < fil_to) {
+				asd = $(this).text()
+
+				// asd = asd.slice(0, -50)
+
+				// elements.innerHTML = asd
+
+				$(this).append("datadadatadda")
+				// atadadatadd
+
+
 			}
 			else {
-				// asdass.hide($(this))
-				// $(this).hide()
-				$(this).toggle($(this))
+				if (elements.innerHTML.slice(-12, -1) == "atadadatadd") {
+
+					asd1 = $(this).text()
+					asd1 = asd1.slice(0, -13)
+
+					elements.innerHTML = asd1
+
+				}
+
+
 			}
-
-
+			// $("#trytab div").filter(function () {
+			// 	$(this).toggle($(this).text().indexOf(("datadadatadda")) > -1)
+			// });
 		});
-		// });
-		// 			if ($(this).text().toUpperCase().indexOf(val) < 	0)
-		// 				$(this).hide();
-		// 			else
-		// 				$(this).show();
-		// 		});
-		// 	});
+
+		$("#trytab div").filter(function () {
+			$(this).toggle($(this).text().indexOf(("datadadatadda")) > -1)
+		});
 	}
+	// $("#trytab div").filter(function () {
+	// 	$(this).toggle($(this).text().indexOf(("datadadatadda")) > -1)
+	// });
 </script>
 {% endblock content %}
