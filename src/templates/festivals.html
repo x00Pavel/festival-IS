@@ -166,16 +166,16 @@
 					<label for="start">Starting:</label>
 
 					<input type="date" id="start" name="fest-start" value="2020-01-01" min="2020-01-01"
-						max="2020-12-31">
+						max="2023-12-31">
 
 
 					<label for="finish">Finishing:</label>
 
-					<input type="date" id="finish" name="fest-finish" value="2020-10-29" min="2020-01-01"
+					<input type="date" id="finish" name="fest-finish" value="2022-10-29" min="2020-01-01"
 						max="2030-12-31">
 					<br><br>
 					<button class="databut" type="button" onclick="data_func()">Apply</button>
-					<button class="databut" type="button" onclick="data_func()">Show</button>
+
 
 
 				</div>
@@ -288,53 +288,38 @@
 
 								{% if recommendations and fest.style in recommendations %}
 								{% if fest.cost <= 50%}
-								<h1 style="font-size: 10px;" class="card-text">
-									strctr1{{fest.style}}recastrctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">recastrctr1reca{{fest.style}}recastrctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 100 %}
-								<h1 id="maybebabe" style="font-size: 10px;" class="card-text">
-									t2sfms{{fest.style}}recat2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 id="maybebabe" style="font-size: 10px;" class="card-text">recat2sfmsreca{{fest.style}}recat2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 200%}
-								<h1 style="font-size: 10px;" class="card-text">
-									3sfms{{fest.style}}reca3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">reca3sfmsreca{{fest.style}}reca3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 300%}
-								<h1 style="font-size: 10px;" class="card-text">
-									altfms{{fest.style}}recaaltfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">recaaltfmsreca{{fest.style}}recaaltfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 400%}
-								<h1 style="font-size: 10px;" class="card-text">
-									plsfos{{fest.style}}recaplsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">recaplsfosreca{{fest.style}}recaplsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 500%}
-								<h1 style="font-size: 10px;" class="card-text">
-									fftis{{fest.style}}recafftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">recafftisreca{{fest.style}}recafftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 10000%}
-								<h1 style="font-size: 10px;" class="card-text">
-									tmbanmtin{{fest.style}}recatmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}
-								</h1>
+								<h1 style="font-size: 10px;" class="card-text">recatmbanmtinreca{{fest.style}}recatmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 
 								{% endif %}
 
 
 								{%else%}
 								{% if fest.cost <= 50%}
-								<h1 style="font-size: 10px;" class="card-text">
-									strctr1{{fest.style}}strctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">strctr1{{fest.style}}strctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 100 %}
-								<h1 style="font-size: 10px;" class="card-text">
-									t2sfms{{fest.style}}t2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">t2sfms{{fest.style}}t2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 200%}
-								<h1 style="font-size: 10px;" class="card-text">
-									3sfms{{fest.style}}3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">3sfms{{fest.style}}3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 300%}
-								<h1 style="font-size: 10px;" class="card-text">
-									altfms{{fest.style}}altfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">altfms{{fest.style}}altfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 400%}
-								<h1 style="font-size: 10px;" class="card-text">
-									plsfos{{fest.style}}plsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">plsfos{{fest.style}}plsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 500%}
-								<h1 style="font-size: 10px;" class="card-text">
-									fftis{{fest.style}}fftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">fftis{{fest.style}}fftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif fest.cost <= 10000%}
-								<h1 style="font-size: 10px;" class="card-text">
-									tmbanmtin{{fest.style}}tmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">tmbanmtin{{fest.style}}tmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 
 								{% endif %}
 
@@ -348,56 +333,36 @@
 
 								{% if recommendations and fest.style in recommendations %}
 								{% if new_var <= 50%}
-								<h1 style="font-size: 10px;" class="card-text">
-									strctr1{{fest.style}}slinrecastrctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}
-								</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinrecastrctr1slinreca{{fest.style}}slinrecastrctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 
 								{% elif new_var <= 100 %}
-								<h1 style="font-size: 10px;" class="card-text">
-									t2sfms{{fest.style}}slinrecat2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}
-								</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinrecat2sfmsslinreca{{fest.style}}slinrecat2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 200%}
-								<h1 style="font-size: 10px;" class="card-text">
-									3sfms{{fest.style}}slinreca3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinreca3sfmsslinreca{{fest.style}}slinreca3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 300%}
-								<h1 style="font-size: 10px;" class="card-text">
-									altfms{{fest.style}}slinrecaaltfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}
-								</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinrecaaltfmsslinreca{{fest.style}}slinrecaaltfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 400%}
-								<h1 style="font-size: 10px;" class="card-text">
-									plsfos{{fest.style}}slinrecaplsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}
-								</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinrecaplsfosslinreca{{fest.style}}slinrecaplsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var<= 500%}
-								<h1 style="font-size: 10px;" class="card-text">
-									fftis{{fest.style}}slinrecafftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinrecafftisslinreca{{fest.style}}slinrecafftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var<= 10000%}
-								<h1 style="font-size: 10px;" class="card-text">
-									tmbanmtin{{fest.style}}slinrecatmbanmtinFROM: {{ fest.time_from}} TO :
-									{{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinrecatmbanmtinslinreca{{fest.style}}slinrecatmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% endif %}
 								{%else%}
 								{% if new_var <= 50%}
-								<h1 style="font-size: 10px;" class="card-text">
-									strctr1{{fest.style}}slinstrctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinstrctr1slin{{fest.style}}slinstrctr1FROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 100 %}
-								<h1 style="font-size: 10px;" class="card-text">
-									t2sfms{{fest.style}}slint2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">slint2sfmsslin{{fest.style}}slint2sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 200%}
-								<h1 style="font-size: 10px;" class="card-text">
-									3sfms{{fest.style}}slin3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">slin3sfmsslin{{fest.style}}slin3sfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 300%}
-								<h1 style="font-size: 10px;" class="card-text">
-									altfms{{fest.style}}slinaltfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinaltfmsslin{{fest.style}}slinaltfmsFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var <= 400%}
-								<h1 style="font-size: 10px;" class="card-text">
-									plsfos{{fest.style}}slinplsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinplsfosslin{{fest.style}}slinplsfosFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var<= 500%}
-								<h1 style="font-size: 10px;" class="card-text">
-									fftis{{fest.style}}slinfftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
+								<h1 style="font-size: 10px;" class="card-text">slinfftisslin{{fest.style}}slinfftisFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% elif new_var<= 10000%}
-								<h1 style="font-size: 10px;" class="card-text">
-									tmbanmtin{{fest.style}}slintmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}
-								</h1>
+								<h1 style="font-size: 10px;" class="card-text">slintmbanmtinslin{{fest.style}}slintmbanmtinFROM: {{ fest.time_from}} TO : {{fest.time_to}}</h1>
 								{% endif %}
 								{% endif %}
 
@@ -484,6 +449,37 @@
 <script>
 	//Reccom	
 	function myFunctionaa() {
+		c = document.getElementById('slider').value
+
+
+		switch (parseInt(c)) {
+			case 0:
+				b = ""
+				break;
+			case 1:
+				b = "strctr1"
+				break;
+			case 2:
+				b = "t2sfms"
+				break;
+			case 3:
+				b = "3sfms"
+				break;
+			case 4:
+				b = "altfms"
+				break;
+			case 5:
+				b = "plsfos"
+				break;
+			case 6:
+				b = "fftis"
+				break;
+			case 7:
+				b = "tmbanmtin"
+				break;
+			default:
+				break;
+		}
 
 		var checkBox = document.getElementById("try_but");//recomm	
 		var checkBox1 = document.getElementById("try_but1");//sales
@@ -491,36 +487,88 @@
 
 			if (checkBox1.checked == true) {
 				$("#trytab div").filter(function () {
+					if(flag_for_data)
+					{
+						$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf("datadadatadda"+ "slinreca"+b) > -1)
+						});
+						
+					}
+					else
+					{
 
-					$(this).toggle($(this).text().indexOf(saveda + "slinreca") > -1)
+						$(this).toggle($(this).text().indexOf(saveda + "slinreca"+b) > -1)	
+					}
+				
 				});
 
 			}
 			else {
-				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf(saveda + "reca") > -1)
-				});
+				if(flag_for_data)
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("datadadatadda"+ "reca"+b) > -1)
+					});
+					
+				}
+				else
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf(saveda + "reca"+b) > -1)
+					});
+				}
+
 			}
 
 
 		}
 		if (checkBox.checked == false) {
 			if (checkBox1.checked == true) {
-				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf(saveda + "slin") > -1)
+				if(flag_for_data)
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("datadadatadda" + "slin"+b) > -1)
 				});
+				}
+				else
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf(saveda + "slin"+b) > -1)
+				});
+				}
+
 
 			}
 			else {
 				if (saveda == '') {
-					$("#trytab div").filter(function () {
-						$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
+					if(flag_for_data)
+					{
+						$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf("datadadatadda"+b) > -1)
 					});
+					}
+					else
+					{
+						$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf("FESTIVAL NAME"+b) > -1)
+					});
+					}
+
 				}
 				else {
-					$("#trytab div").filter(function () {
-						$(this).toggle($(this).text().indexOf(saveda) > -1)
+					if(flag_for_data)
+					{
+						$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf("datadadatadda"+b) > -1)
 					});
+					}
+					else
+					{
+						$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf(saveda+b) > -1)
+					});
+					}
+
 				}
 
 			}
@@ -532,40 +580,122 @@
 <script>
 	//Sales
 	function myFunctionab() {
-		// console.log(saveda)
-		var checkBox = document.getElementById("try_but1");
+		c = document.getElementById('slider').value
+
+
+		switch (parseInt(c)) {
+			case 0:
+				b = ""
+				break;
+			case 1:
+				b = "strctr1"
+				break;
+			case 2:
+				b = "t2sfms"
+				break;
+			case 3:
+				b = "3sfms"
+				break;
+			case 4:
+				b = "altfms"
+				break;
+			case 5:
+				b = "plsfos"
+				break;
+			case 6:
+				b = "fftis"
+				break;
+			case 7:
+				b = "tmbanmtin"
+				break;
+			default:
+				break;
+		}
+		var checkBox = document.getElementById("try_but1");//sales
 		var checkBox1 = document.getElementById("try_but");//Reccom
 		if (checkBox.checked == true) {
 
 			if (checkBox1.checked == true) {
-				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf(saveda + "slinreca") > -1)
+				if(flag_for_data == true)
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("datadadatadda" + "slinreca"+b) > -1)
+
+				});	
+				}
+				else
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf(saveda + "slinreca"+b) > -1)
 
 				});
+				}
+
 			}
 			else {
-				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf(saveda + "slin") > -1)
-				});
+				if(flag_for_data)
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("datadadatadda" + "slin"+b) > -1)
+
+					});	
+				}
+				else
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf(saveda + "slin"+b) > -1)
+					});
+				}
+
 			}
 
 		}
 		if (checkBox.checked == false) {
 			if (checkBox1.checked == true) {
-				$("#trytab div").filter(function () {
-					$(this).toggle($(this).text().indexOf(saveda + "reca") > -1)
+				if(flag_for_data==true)
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf("datadadatadda" + "reca"+b) > -1)
 				});
+				}
+				else
+				{
+					$("#trytab div").filter(function () {
+					$(this).toggle($(this).text().indexOf(saveda + "reca"+b) > -1)
+				});
+				}
+
 			}
 			else {
-				if (saveda == '') {
-					$("#trytab div").filter(function () {
-						$(this).toggle($(this).text().indexOf("FESTIVAL NAME") > -1)
-					});
-				} else {
 
-					$("#trytab div").filter(function () {
+				if (saveda == '') {
+					if(flag_for_data)
+					{
+						$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf("datadadatadda"+b) > -1)
+					});
+					}
+					else
+					{
+						$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf("FESTIVAL NAME"+b) > -1)
+					});
+					}
+
+				} else {
+					if(flag_for_data)
+					{
+						$("#trytab div").filter(function () {
+						$(this).toggle($(this).text().indexOf("datadadatadda"+b) > -1)
+					});
+					}
+					else
+					{
+						$("#trytab div").filter(function () {
 						$(this).toggle($(this).text().indexOf(saveda) > -1)
 					});
+					}
+
 				}
 
 			}
@@ -715,6 +845,8 @@
 		else {
 			c = c
 		}
+
+
 		if (fill2 == '' && fill1 == '') {
 			// console.log(c + fill1 + fill2 + b)
 			$("#trytab div").filter(function () {
@@ -762,19 +894,22 @@
 				asd = $(this).text()
 
 				// asd = asd.slice(0, -50)
+				if (elements.innerHTML.slice(0, 13) != "datadadatadda") {
+					elements.innerHTML = "datadadatadda" + asd
+				}
 
-				// elements.innerHTML = asd
 
-				$(this).append("datadadatadda")
+				// $(this).append("datadadatadda")
 				// atadadatadd
 
 
 			}
 			else {
-				if (elements.innerHTML.slice(-12, -1) == "atadadatadd") {
+				if (elements.innerHTML.slice(0, 13) == "datadadatadda") {
 
 					asd1 = $(this).text()
-					asd1 = asd1.slice(0, -13)
+					asd1 = asd1.substring(13);
+
 
 					elements.innerHTML = asd1
 
@@ -782,14 +917,68 @@
 
 
 			}
-			// $("#trytab div").filter(function () {
-			// 	$(this).toggle($(this).text().indexOf(("datadadatadda")) > -1)
-			// });
+
+			var checkBox = document.getElementById("try_but1");//sales
+			var checkBox1 = document.getElementById("try_but");//Reccom
+			fill1 = ''
+			fill2 = ''
+			if (checkBox.checked) {
+				fill1 = "slin"
+			}
+			if (checkBox1.checked) {
+				fill2 = "reca"
+			}
+
+	
+			c = document.getElementById('slider').value
+
+
+			switch (parseInt(c)) {
+				case 0:
+					b = ""
+					break;
+				case 1:
+					b = "strctr1"
+					break;
+				case 2:
+					b = "t2sfms"
+					break;
+				case 3:
+					b = "3sfms"
+					break;
+				case 4:
+					b = "altfms"
+					break;
+				case 5:
+					b = "plsfos"
+					break;
+				case 6:
+					b = "fftis"
+					break;
+				case 7:
+					b = "tmbanmtin"
+					break;
+				default:
+					break;
+			}
+			c = gvalue
+			if (c == '') 
+			{
+
+			}
+			else
+			{
+				c = c
+			}
+			console.log("datadadatadda"+ b+fill1+fill2+c)
+			$("#trytab div").filter(function () {
+				$(this).toggle($(this).text().indexOf(("datadadatadda"+ b+fill1+fill2+c)) > -1)
+			});
 		});
 
-		$("#trytab div").filter(function () {
-			$(this).toggle($(this).text().indexOf(("datadadatadda")) > -1)
-		});
+		// $("#trytab div").filter(function () {
+		// 	$(this).toggle($(this).text().indexOf(("datadadatadda")) > -1)
+		// });
 	}
 	// $("#trytab div").filter(function () {
 	// 	$(this).toggle($(this).text().indexOf(("datadadatadda")) > -1)
