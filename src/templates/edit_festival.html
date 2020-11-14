@@ -13,6 +13,12 @@
         <div class="image_in_my_account">
             <img style="margin-top:150px;" src="{{fest.fest_logo}}" id="preview" width="600" height="600">
         </div>
+        <legend s>Date from</legend>
+        {{ fest.time_from }}
+        <hr>
+        <legend s>Date to</legend>
+        {{ fest.time_to }}
+        <br><br>
         <form action="/my_festivals/{{ fest.fest_id }}/edit" method="POST">
             {% for field in form if field.name != 'csrf_token' %}
                 {% if field.name == "submit" %}
@@ -37,7 +43,6 @@
                 <img style="margin-top:150px;"
                     src="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png" id="preview2" width="300"
                     height="300">
-
                 <input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center;" id=file-input>
                 {% for field in form if field.name != 'csrf_token' %}
                 <hr>
@@ -45,7 +50,15 @@
                 <br><br>
                 {{ field() }}
                 {% endfor %}
-
+                <hr>
+                <legend s>Date from</legend>
+                Date: <input type="date" name="date_from"/>
+                Time: <input s type="time" name="time_from"/>
+                <hr>
+                <legend s>Date to</legend>
+                Date: <input type="date" name="date_to"/>
+                Time: <input s type="time" name="time_to"/>
+                <br><br>
                 <script type="text/javascript">
 
                     /*

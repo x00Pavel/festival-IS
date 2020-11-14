@@ -34,10 +34,10 @@
             <ul id='list'>
 
             </ul>
-            <input id='custom-input' type="text" value="" data-role="tagsinput"></input>
+            <input id='custom-input' type="text" value="" name="tags" data-role="tagsinput"></input>
             <br>
             <div>
-                <button type="button" class="submit_delete_button" onclick='testfunc(this.e,false)'>submit</button>
+                <button type="button" class="submit_delete_button" onclick='testfunc(this.e,false)'>Add tag</button>
             </div>
         </div>
 
@@ -146,9 +146,14 @@
                 <td> {{ band.deleted_on }}</td>
                 <td> {{ band.created_on }}</td>
                 <td>
+                    {% if band.deleted_on == None %}
                     <a href="/manage_bands/{{ band.band_id }}/delete">
                         <button type="button">Delete band</button>
-                    </a>
+                    </a>                    
+                    {% else %}
+                    <button disabled type="button">Delete band</button>
+                    {% endif %}
+
                 </td>
             </tr>
 

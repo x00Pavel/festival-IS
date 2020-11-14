@@ -93,10 +93,6 @@ class FestivalForm(FlaskForm):
     )
     style = StringField("Style", validators=[DataRequired()])
     cost = IntegerField("Cost", validators=[DataRequired(), NumberRange(min=0)])
-    time_from = DateTimeField(
-        "From", validators=[DataRequired()], format="%d-%m-%Y %H:%M"
-    )
-    time_to = DateTimeField("To", validators=[DataRequired()], format="%d-%m-%Y %H:%M")
     address = StringField("Address", validators=[DataRequired()])
     max_capacity = IntegerField("Max capacity", validators=[DataRequired()])
     age_restriction = IntegerField(

@@ -512,19 +512,19 @@ class Organizer(Seller):
 
     def add_fest(self, form):
         fest = Festival(
-            fest_name=form["fest_name"].data,
+            fest_name=form["fest_name"],
             fest_logo="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png",
-            description=form["description"].data,
-            style=form["style"].data,
-            cost=form["cost"].data,
-            time_from=form["time_from"].data,
-            time_to=form["time_to"].data,
-            address=form["address"].data,
-            max_capacity=form["max_capacity"].data,
-            age_restriction=form["age_restriction"].data,
-            sale=form["sale"].data,
+            description=form["description"],
+            style=form["style"],
+            cost=form["cost"],
+            time_from=f"{form['date_from']} {form['time_from']}",
+            time_to=f"{form['date_to']} {form['time_to']}",
+            address=form["address"],
+            max_capacity=form["max_capacity"],
+            age_restriction=form["age_restriction"],
+            sale=form["sale"],
             org_id=self.org_id,
-            status=form["status"].data,
+            status=form["status"],
         )
         db.session.add(fest)
         db.session.commit()

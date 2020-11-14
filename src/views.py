@@ -277,8 +277,6 @@ def edit_festival(fest_id, source):
     fest_form.sale.data = fest.sale
     fest_form.status.data = fest.status
     fest_form.submit = "Update festival"
-    fest_form.time_from.data = fest.time_from
-    fest_form.time_to.data = fest.time_to
 
     seller_form = RoleForm()
     perfs = current_user.get_perf(fest_id=fest_id)
@@ -302,6 +300,7 @@ def add_festival():
     seller_form = RoleForm()
     form.fest_org_id = current_user.org_id
     if request.method == "POST":
+        form = request.form
         fest = current_user.add_fest(form)
         
         if request.form["fest_logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png":
@@ -312,12 +311,12 @@ def add_festival():
             s3 = boto3.resource("s3")
             copy_source = {
                 "Bucket": S3_BUCKET,
-                "Key": request.form["fest_logo"].split(".com/")[-1],
+                "Key": form["fest_logo"].split(".com/")[-1],
             }
             bucket = s3.Bucket(S3_BUCKET)
-            bucket.copy(copy_source, f"fest/{fest.fest_id}/{form.fest_name.data}.png")
+            bucket.copy(copy_source, f"fest/{fest.fest_id}/{form['fest_name']}.png")
         
-            fest.fest_logo = f'{request.form["fest_logo"].split(".com/")[0]}.com/fest/{fest.fest_id}/{form.fest_name.data}.png'
+            fest.fest_logo = f'{form["fest_logo"].split(".com/")[0]}.com/fest/{fest.fest_id}/{form["fest_name"]}.png'
             
         db.session.commit()
         return redirect(f"/my_festivals/{fest.fest_id}/edit")
