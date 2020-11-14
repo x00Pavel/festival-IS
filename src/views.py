@@ -267,9 +267,7 @@ def edit_festival(fest_id, source):
         else:
             flash("Not valid input", "warning")
 
-    fest_form.org_id.data = fest.org_id
     fest_form.fest_name.data = fest.fest_name
-    fest_form.fest_tags.data = fest.fest_tags
     fest_form.description.data = fest.description
     fest_form.style.data = fest.style
     fest_form.cost.data = fest.cost
@@ -277,10 +275,8 @@ def edit_festival(fest_id, source):
     fest_form.max_capacity.data = fest.max_capacity
     fest_form.age_restriction.data = fest.age_restriction
     fest_form.sale.data = fest.sale
-    fest_form.org_id.data = fest.org_id
     fest_form.status.data = fest.status
     fest_form.submit = "Update festival"
-    fest_form.logo.data = fest.fest_logo
     fest_form.time_from.data = fest.time_from
     fest_form.time_to.data = fest.time_to
 
@@ -303,7 +299,6 @@ def edit_festival(fest_id, source):
 @app.route("/my_festivals/add", methods=["GET", "POST"])
 def add_festival():
     form = FestivalForm()
-    form.org_id.data = current_user.org_id
     seller_form = RoleForm()
     form.fest_org_id = current_user.org_id
     if request.method == "POST":

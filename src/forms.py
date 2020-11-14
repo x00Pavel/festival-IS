@@ -80,19 +80,14 @@ class BandForm(FlaskForm):
     band_genre = StringField(
         "Genre", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$")]
     )
-    band_tags = StringField("Tags", validators=[DataRequired()])
+    band_tags = StringField("Tags")
     band_logo = HiddenField("LOGO")
 
 
 class FestivalForm(FlaskForm):
-    logo = StringField(
-        "Logo",
-        default="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png",
-    )
     fest_name = StringField(
         "Name", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
     )
-    fest_tags = StringField("Tags", default="No tags")
     description = StringField(
         "Description", default="No description", validators=[Regexp(r"^[\d\w\,\. ]*$", message="Invalid format of description")]
     )
@@ -108,10 +103,9 @@ class FestivalForm(FlaskForm):
         "Age restriction", default=16, validators=[NumberRange(min=0)]
     )
     sale = IntegerField("Sale", default=0, validators=[NumberRange(min=0)])
-    org_id = HiddenField(validators=[DataRequired()])
     status = IntegerField("Status", default=0)
     current_ticket_count = IntegerField("Ticket count", default=0)
-    submit = SubmitField()
+    # submit = SubmitField()
 
 
 class RoleForm(FlaskForm):
