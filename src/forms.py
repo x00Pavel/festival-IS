@@ -16,11 +16,11 @@ from flask import request
 class RegistrationForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField(
-        "Password", validators=[DataRequired(), Length(min=2, max=20)]
+        "Password", validators=[DataRequired(), Length(min=6)]
     )
     passwordC = PasswordField(
         "Password Confirmation",
-        validators=[DataRequired(), Length(min=2, max=20), EqualTo("password")],
+        validators=[DataRequired(), Length(min=6), EqualTo("password")],
     )
 
     submit = SubmitField("Sign up")
@@ -55,7 +55,7 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField(
-        "Password", validators=[DataRequired(), Length(min=2, max=20)]
+        "Password", validators=[DataRequired(), Length(min=6)]
     )
     remember = BooleanField("Remember me")
     submit = SubmitField("Log in up")

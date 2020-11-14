@@ -336,13 +336,12 @@ class User(UserMixin, db.Model):
         user = User.query.filter_by(user_email=new_user_email).first()
 
         if (user is not None) and (user != self):
-            return (f"Email {new_user_email} is already exist", "warning")
+            return (f"Email {new_user_email} is already exist", "error")
 
         result = validate(
             email=new_user_email,
             surname=form.get("surname"),
             name=form.get("name"),
-            address=form.get("address"),
         )
         if result is not None:
             return result
@@ -354,12 +353,12 @@ class User(UserMixin, db.Model):
             if new_psswd1 == new_psswd2:
                 self.set_password(new_psswd1)
             else:
-                return ("Wrong password", "warning")
+                return ("Wrong password", "error")
         self.user_email = form.get("user_email")
         self.surname = form.get("surname")
         self.name = form.get("name")
         self.address = form.get("address")
-        self.avatar_url = form.get("avatar_url")
+        self.avatar = form.get("avatar_url")
 
         db.session.commit()
         return (f"Your account is successfully changed", "success")

@@ -11,25 +11,25 @@ import itertools
 from werkzeug.datastructures import MultiDict
 
 
-@app.errorhandler(500)
-def undef_error(e):
-    flash("Undefined error is raised on client side. Please, contact admin.", "warning")
-    flash(f"Debug {e}.", "warning")
-    return redirect("/")
+# @app.errorhandler(500)
+# def undef_error(e):
+#     flash("Undefined error is raised on client side. Please, contact admin.", "warning")
+#     flash(f"Debug {e}.", "warning")
+#     return redirect("/")
 
 
-@app.errorhandler(404)
-def undef_error(e):
-    flash("Error 404 raised", "warning")
-    flash(f"Debug {e}.", "warning")
-    return redirect("/")
+# @app.errorhandler(404)
+# def undef_error(e):
+#     flash("Error 404 raised", "warning")
+#     flash(f"Debug {e}.", "warning")
+#     return redirect("/")
 
 
-@app.errorhandler(Exception)
-def undef_error(e):
-    flash("Exception is raised", "warning")
-    flash(f"Debug {e}.", "warning")
-    return redirect("/")
+# @app.errorhandler(Exception)
+# def undef_error(e):
+#     flash("Exception is raised", "warning")
+#     flash(f"Debug {e}.", "warning")
+#     return redirect("/")
 
 
 @login_manager.user_loader
@@ -132,6 +132,7 @@ def account():
 @app.route("/submit-form/", methods=["POST"])
 def submit_form():
     msg, status = current_user.change_account(request.form)
+    print(msg, status)
     flash(msg, status)
     return redirect("/account")
 
