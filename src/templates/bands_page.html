@@ -131,6 +131,8 @@
                 <th>BAND GENRE</th>
                 <th>TAGS</th>
                 <th>EDIT</th>
+                <th>DELETED ON</th>
+                <th>CREATED ON</th>
             </tr>
         </thead>
 
@@ -141,8 +143,12 @@
                 <td>{{ band.scores }}</td>
                 <td>{{ band.genre }}</td>
                 <td> {{ band.tags }}</td>
+                <td> {{ band.deleted_on }}</td>
+                <td> {{ band.created_on }}</td>
                 <td>
-                    <button type="button">Delete band</button>
+                    <a href="/manage_bands/{{ band.band_id }}/delete">
+                        <button type="button">Delete band</button>
+                    </a>
                 </td>
             </tr>
 
