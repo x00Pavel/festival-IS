@@ -56,7 +56,6 @@ def home():
     if current_user.is_authenticated:
         recommendations = list(current_user.get_recomendations())
         recommendations_count = len(list(set(recommendations)))
-        recommendations = ["Folk", "Jazz"]
         return render_template(
             "festivals.html",
             user_columns=current_user,
@@ -334,6 +333,7 @@ def add_festival():
     return render_template(
         "edit_festival.html",
         form=form,
+        fest=None,
         seller_form=seller_form,
         org=current_user,
         perfs=None,
