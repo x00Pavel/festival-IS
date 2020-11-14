@@ -719,6 +719,7 @@ class Admin(Organizer):
 
         return f"Festival {fest.fest_name} successfully updated", "success", fest
 
+
 class RootAdmin(Admin):
     """Reperesentation of root admin. Only this role can add new admins"""
 

@@ -7,6 +7,7 @@
 	var flag_for_data = false;
 </script>
 
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,7 +17,6 @@
 
 
 	<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/album/">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 </head>
 
@@ -69,22 +69,11 @@
 	</a>
 	</div>
 
-
-
-
-
-
-
-
 	<!-- Filter bar  -->
 	<div class="filter_bar">
-
-
 		<div class="dropdown_for_filter">
 			<button onclick="myFunction('1')" class="dropbtn_for_filter">Style <i class="arrow down"></i></button>
 			<div id="1" class="dropdown-content_for_filter">
-
-
 				<label style="font-size: 20px;">
 					<input class=" filter_check_box" type="checkbox" class="radio" value="1" id="rok_check_box"
 						onclick="rok_func('Rok')" name="fooby[1][]" />ROK</label>
@@ -133,8 +122,6 @@
 		<div class="dropdown_for_filter">
 			<button onclick="myFunction('2')" class="dropbtn_for_filter">Price <i class="arrow down"></i></button>
 			<div id="2" class="dropdown-content_for_filter_s">
-
-
 				<div class="containera">
 
 					<input type="range" min="0" max="7" onclick="func_wrapper(value)" value="0" id="slider">
@@ -176,37 +163,18 @@
 					<br><br>
 					<button class="databut" type="button" onclick="data_func()">Apply</button>
 
-
-
 				</div>
 			</div>
-
 		</div>
 
 		<input style="margin-left: 500px;" type="checkbox" class="largerCheckbox" id="try_but" onclick="myFunctionaa()">
+
 		<label class="rec_fest" id="try_but" for="sales">RECOMMENDED FESTIVALS</label>
 		<!-- <p id="text" style="font-size: 22px;">Checkbox is CHECKED!</p> -->
 
 		<input type="checkbox" class="largerCheckbox" id="try_but1" onclick="myFunctionab()">
 		<label class="rec_fest" id="try_but1" for="sales">FESTIVALS WITH SALES</label>
 	</div>
-
-
-	<!-- <script>
-		$(document).ready(function () {
-			document.getElementById('gender_Male').checked
-			$("#sales").on("keyup", function () {
-				var value = $(this).val().toLowerCase();
-				$("#myTable1 tr").filter(function () {
-					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-				});
-			});
-		});
-	</script> -->
-
-
-
-
 	<main role="main">
 		<div class="grid">
 			<div class="container" id="trytab">
@@ -215,6 +183,7 @@
 					{% if fest.description != None %}
 					<div class="col-md-4">
 						<div class="card mb-4 shadow-sm" style=" height: 740px;">
+
 							<!-- <div class="card mb-4 shadow-sm" style=" height: 760px; min-width: 230px; max-width: 230px;"></div> -->
 							<a href="festival\/{{ fest.fest_id }}">
 								<svg class="bd-placeholder-img card-img-top" width="100%" height="400px"
@@ -257,7 +226,6 @@
 								<!-- <label name="oh_yes2" class="card-text" value="{{fest.style}}">STYLE: {{fest.style}} -->
 								<!-- </label> -->
 								<p class="card-text" id="festival_style">STYLE: {{fest.style}}</p>
-
 
 								{% if recommendations and fest.style in recommendations and fest.sale != 0 %}
 								<p class="card-text">Buy festival recommended to you with {{fest.sale}}% sale
@@ -386,9 +354,6 @@
 									{% endif %}
 
 									{%endif%}
-
-
-
 								</div>
 							</div>
 						</div>
@@ -419,25 +384,12 @@
 
 		document.getElementById(a).classList.toggle("show_for_filter");
 	}
-
-	// Close the dropdown menu if the user clicks outside of it
-	// window.onclick = function (event) {
-	// 	if (!event.target.matches('.dropbtn_for_filter')) {
-	// 		var dropdowns = document.getElementsByClassName("dropdown-content_for_filter");
-	// 		var i;
-	// 		for (i = 0; i < dropdowns.length; i++) {
-	// 			var openDropdown = dropdowns[i];
-	// 			if (openDropdown.classList.contains('show_for_filter')) {
-	// 				openDropdown.classList.remove('show_for_filter');
-	// 			}
-	// 		}
-	// 	}
-	// } 
 </script>
 
 <!-- <script type="text/javascript">
 	$('input').popup(); 
 </script> -->
+
 <script>
 	var slider = document.getElementById("slider");
 	var values = document.getElementById("wrapper");
@@ -450,7 +402,6 @@
 	//Reccom	
 	function myFunctionaa() {
 		c = document.getElementById('slider').value
-
 
 		switch (parseInt(c)) {
 			case 0:
@@ -499,7 +450,6 @@
 
 						$(this).toggle($(this).text().indexOf(saveda + "slinreca"+b) > -1)	
 					}
-				
 				});
 
 			}
@@ -517,7 +467,6 @@
 					$(this).toggle($(this).text().indexOf(saveda + "reca"+b) > -1)
 					});
 				}
-
 			}
 
 
@@ -570,7 +519,6 @@
 					}
 
 				}
-
 			}
 
 		}
@@ -614,7 +562,6 @@
 		var checkBox = document.getElementById("try_but1");//sales
 		var checkBox1 = document.getElementById("try_but");//Reccom
 		if (checkBox.checked == true) {
-
 			if (checkBox1.checked == true) {
 				if(flag_for_data == true)
 				{
@@ -646,7 +593,6 @@
 					$(this).toggle($(this).text().indexOf(saveda + "slin"+b) > -1)
 					});
 				}
-
 			}
 
 		}
