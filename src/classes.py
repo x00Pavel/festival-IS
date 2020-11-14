@@ -674,12 +674,22 @@ class Admin(Organizer):
     def remove_user(self, user_id):
         user = User.query.filter_by(user_id=user_id).first()
         user.active = False
+        user.role_active = False
         db.session.commit()
         return (f"User {user_id} is removed", "success")
 
     def remove_role(self, user_id):
         roles = {2: "organizer", 3: "seller", 1: "admin"}
         user = User.query.filter_by(user_id=user_id).first()
+        if user.perms <= 3:
+            # Delete all relations for seller - festival 
+            SellerList.query.filter_by(seller_id=user_id).delete()
+        if user.perms <= 2:
+            # Move all organized festival to root
+            fests = Festival.query.filter_by(ort_id=user_id).all()
+            for fest in fests:
+                fest.org_id = 0
+
         user.role_active = False
         db.session.commit()
         return (f"Permissions for {roles[user.perms]} {user_id} is removed", "success")

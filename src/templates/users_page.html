@@ -23,19 +23,21 @@
             </tr>
         </thead>
         {% for user in users[0] %}
-        {% if user.active == True %}
         <tbody id="myTable">
             <tr>
                 <td>{{ user.name }}</td>
                 <td>{{ user.surname }}</td>
                 <td>{{ user.active }}</td>
                 <td>
+                    {% if user.active %}
                     <a href="/manage_users/{{ user.user_id }}/remove_user"><button>Remove user</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ user.user_id }}/remove_user"><button disabled>Remove user</button></a>
+                    {% endif %}
                 </td>
             </tr>
 
         </tbody>
-        {% endif%}
         {% endfor %}
     </table>
 
@@ -57,7 +59,6 @@
             </tr>
         </thead>
         {% for seller in users[1] %}
-        {% if seller.active == True %}
         <tbody id="myTable1">
             <tr>
                 <td>{{ seller.seller_id }}</td>
@@ -66,13 +67,20 @@
                 <td>{{ seller.active }}</td>
                 <td>{{ seller.role_active }}</td>
                 <td>
+                    {% if seller.role_active %}
                     <a href="/manage_users/{{ seller.seller_id }}/remove_role"><button>Remove from sellers</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ seller.seller_id }}/remove_role"><button disabled>Remove from sellers</button></a>
+                    {% endif %}
+                    {% if seller.active %}
                     <a href="/manage_users/{{ seller.seller_id }}/remove_user"><button>Remove user</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ seller.seller_id }}/remove_user"><button disabled>Remove user</button></a>
+                    {% endif %}
                 </td>
             </tr>
 
         </tbody>
-        {% endif %}
         {% endfor %}
     </table>
 
@@ -95,7 +103,6 @@
             </tr>
         </thead>
         {% for org in users[2] %}
-        {% if org.active == True %}
         <tbody id="myTable2">
             <tr>
                 <td>{{ org.seller_id }}</td>
@@ -104,13 +111,20 @@
                 <td>{{ org.active }}</td>
                 <td>{{ org.role_active }}</td>
                 <td>
+                    {% if org.role_active %}
                     <a href="/manage_users/{{ org.org_id }}/remove_role"><button>Remove from organizers</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ org.org_id }}/remove_role"><button disabled>Remove from organizers</button></a>
+                    {% endif %}
+                    {% if org.active %}
                     <a href="/manage_users/{{ org.org_id }}/remove_user"><button>Remove user</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ org.org_id }}/remove_user"><button disabled>Remove user</button></a>
+                    {% endif %}
                 </td>
             </tr>
 
         </tbody>
-        {% endif %}
         {% endfor %}
     </table>
 
@@ -129,28 +143,35 @@
                 <th>NAME</th>
                 <th>SURNAME</th>
                 <th>ACTIVE</th>
+                <th>ROLE ACTIVE</th>
                 <th>EDIT</th>
             </tr>
         </thead>
         {% for admin in users[3] %}
-        {% if admin.active == True %}
         <tbody id="myTable3">
             <tr>
                 <td>{{ admin.seller_id }}</td>
                 <td>{{ admin.name }}</td>
                 <td>{{ admin.surname }}</td>
                 <td> {{ admin.active }}</td>
+                <td> {{ admin.role_active }}</td>
                 <td>
+                    {% if admin.role_active %}
+                    <a href="/manage_users/{{ admin.admin_id }}/remove_role"><button>Remove from
+                            admins</button></a>                    
+                    {% else %}
                     <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button disabled="true">Remove from
-                            admins</button></a>
-                    <button disabled="disabled">Remove from organizers</button>
-                    <button disabled="disabled">Remove from sellers</button>
+                            admins</button></a>                    
+                    {% endif %}
+                    {% if admin.active %}
                     <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button>Remove user</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button disabled>Remove user</button></a>
+                    {% endif %}
                 </td>
             </tr>
 
         </tbody>
-        {% endif %}
         {% endfor %}
     </table>
 
