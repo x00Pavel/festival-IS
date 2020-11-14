@@ -303,17 +303,22 @@ def add_festival():
     form.fest_org_id = current_user.org_id
     if request.method == "POST":
         fest = current_user.add_fest(form)
-        S3_BUCKET = os.environ.get("S3_BUCKET")
+        
+        if request.form["fest_logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png":
+            pass
+        else:
+            S3_BUCKET = os.environ.get("S3_BUCKET")
 
-        s3 = boto3.resource("s3")
-        copy_source = {
-            "Bucket": S3_BUCKET,
-            "Key": request.form["fest_logo"].split(".com/")[-1],
-        }
-        bucket = s3.Bucket(S3_BUCKET)
-        bucket.copy(copy_source, f"fest/{fest.fest_id}/{form.fest_name.data}.png")
-
-        fest.fest_logo = f'{request.form["fest_logo"].split(".com/")[0]}.com/fest/{fest.fest_id}/{form.fest_name.data}.png'
+            s3 = boto3.resource("s3")
+            copy_source = {
+                "Bucket": S3_BUCKET,
+                "Key": request.form["fest_logo"].split(".com/")[-1],
+            }
+            bucket = s3.Bucket(S3_BUCKET)
+            bucket.copy(copy_source, f"fest/{fest.fest_id}/{form.fest_name.data}.png")
+        
+            fest.fest_logo = f'{request.form["fest_logo"].split(".com/")[0]}.com/fest/{fest.fest_id}/{form.fest_name.data}.png'
+            
         db.session.commit()
         return redirect(f"/my_festivals/{fest.fest_id}/edit")
     return render_template(
