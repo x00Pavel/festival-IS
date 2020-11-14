@@ -1,0 +1,15 @@
+<div>
+    <form action="/manage_stages/add_stage" method="POST">
+        Stage size:
+        <input type="text" name="size" value="100">
+        <button type="submit">Add stage</button>
+    </form>
+    {% for stage in stages %}
+    <hr>
+    {{ stage.stage_id }} 
+    <br>
+    {{ stage.size }}
+    <br>
+    {% endfor %}
+    <hr>
+</div>

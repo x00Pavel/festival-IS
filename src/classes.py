@@ -76,11 +76,8 @@ class Stage(db.Model):
     stage_id = db.Column("stage_id", db.Integer, primary_key=True)
     size = db.Column("size", db.Integer)
 
-    def __init__(self, size):
-        self.size = size
-
     def __repr__(self):
-        return f"Stager {self.stage_id}: size: {self.size}"
+        return f"Stage {self.stage_id}: size: {self.size}"
 
 
 class Band(db.Model):
@@ -520,11 +517,11 @@ class Organizer(Seller):
             time_from=f"{form['date_from']} {form['time_from']}",
             time_to=f"{form['date_to']} {form['time_to']}",
             address=form["address"],
-            max_capacity=form["max_capacity"],
+            max_capacity=0,
             age_restriction=form["age_restriction"],
             sale=form["sale"],
             org_id=self.org_id,
-            status=form["status"],
+            status=0,
         )
         db.session.add(fest)
         db.session.commit()
@@ -649,6 +646,16 @@ class Organizer(Seller):
             perf.canceled = True
         db.session.commit()
 
+    def get_all_stages(self):
+        return Stage.query.all()
+
+    def add_stage(self, form):
+        stage = Stage(size=form["size"])
+        db.session.add(stage)
+        db.session.commit()
+        print(stage)
+        return f"Stage {stage.stage_id} added", "success"
+
 
 class Admin(Organizer):
     __tablename__ = "Admin"
@@ -694,29 +701,21 @@ class Admin(Organizer):
         for fest in fests:
             if fest.time_from >= today:
                 actual_fests.append(fest)
-            else:
+            else:   
                 outdated_fests.append(fest)
         return (actual_fests, outdated_fests)
 
-    def update_fest(self, form, fest):
-        fest.fest_name = form.get("fest_name")
+    def update_fest(self, form, fest_id):
+        fest = Festival.query.filter_by(fest_id=fest_id).first()
+
         fest.fest_tags = form.get("fest_tags")
         fest.description = form.get("description")
-        fest.style = form.get("style")
-        fest.cost = form.get("cost")
-        fest.address = form.get("address")
-        fest.max_capacity = form.get("max_capacity")
-        fest.age_restriction = form.get("age_restriction")
         fest.sale = form.get("sale")
-        fest.org_id = form.get("org_id")
         fest.status = form.get("status")
-        fest.logo = form.get("fest_logo")
-        fest.time_from = form.get("time_from")
-        fest.time_to = form.get("time_to")
 
         db.session.commit()
 
-        return f"Festival {fest.fest_name} successfully updated", "success", fest
+        return f"Festival {fest.fest_name} successfully updated", "success"
 
 
 class RootAdmin(Admin):

@@ -1,42 +1,82 @@
 {% extends "ralaot.html" %}
 {% block content %}
-
 <head>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 
 <body>
-
-
     {% if fest != None %}
+        {% if fest.status == 2 %}
+        {% set disabled = "disabled" %}
+        {% else %}
+        {% set disabled = "" %}
+        {% endif %}
         <div class="image_in_my_account">
             <img style="margin-top:150px;" src="{{fest.fest_logo}}" id="preview" width="600" height="600">
         </div>
-        <legend s>Date from</legend>
-        {{ fest.time_from }}
-        <hr>
-        <legend s>Date to</legend>
-        {{ fest.time_to }}
-        <br><br>
-        <form action="/my_festivals/{{ fest.fest_id }}/edit" method="POST">
-            {% for field in form if field.name != 'csrf_token' %}
-                {% if field.name == "submit" %}
-                    {{ field(style="width: 100%; height: 45px") }}
+        <br>
+        <div class="mar_left">
+            <legend s>Fest name</legend>
+            {{ fest.fest_name }}
+            <hr>
+            <legend>Status</legend>
+            {% if fest.status == 0 %}
+            <p style="background-color: grey; color: whitesmoke;">Not published</p>
+            {% elif fest.status == 1 %}
+            <p style="background-color: green; color: whitesmoke;">Published</p>
+            {% else %}
+            <p style="background-color:crimson; color: whitesmoke;">Canceled</p>
+            {% endif %}
+            <hr>
+            <legend s>Date from</legend>
+            {{ fest.time_from }}
+            <hr>
+            <legend s>Date to</legend>
+            {{ fest.time_to }}
+            <hr>
+            <legend>Festival capacity</legend>   
+            {% if fest.max_capacity == 0%}
+            You need to add performances
+            {% else %}
+            {{ fest.max_capacity }}
+            {% endif %}
+            <hr>
+            <legend>Tickets soled</legend>   
+            {{ fest.current_ticket_count }}
+            <hr>
+            <legend>Cost</legend>   
+            {{ fest.cost }}
+            <hr>
+            <legend>Age restriction</legend>   
+            {{ fest.age_restriction }}
+            <hr>
+            
+            <form action="/my_festivals/{{ fest.fest_id }}/update_fest" method="POST">
+                <legend>Description</legend>
+                <input type="text" name="description" value="{{ fest.description }}" {{ disabled }}>
+                <hr>
+                <legend>Sale</legend>
+                <input type="text" name="sale" value="{{ fest.sale }}" {{ disabled }}>
+                <hr>
+                
+
+                {% if fest.status == 0 %}
+                <button type="submit" name="status" value="1">Publish</button>
+                <button type="submit" name="status" value="{{ fest.status }}">Update info</button>
+                {% elif fest.status == 1 %}
+                <button type="submit" name="status" value="2" >Cancel</button>
+                <button type="submit" name="status" value="{{ fest.status }}">Update info</button>
                 {% else %}
-                    <hr>
-                    {{ field.label() }}
-                    <br><br>
-                    {{ field() }}
+                <button type="submit" name="status" value="{{ fest.status }}" {{ disabled }}>Update info</button>
                 {% endif %}
-            {% endfor %}
-        </form>
-        {% else %}
+                
+            </form>
+        </div>
+    {% else %}
 
         <div class="content-section_for_reg">
             <form action="/my_festivals/add" method="POST">
-
-
                 <input type="hidden" name="fest_logo" id="fest_logo"
                     value="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png">
 
@@ -44,12 +84,25 @@
                     src="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png" id="preview2" width="300"
                     height="300">
                 <input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center;" id=file-input>
-                {% for field in form if field.name != 'csrf_token' %}
-                <hr>
-                {{ field.label() }}
-                <br><br>
-                {{ field() }}
-                {% endfor %}
+                <legend>Name</legend>
+                <input type="text" name="fest_name">
+
+                <legend>Description</legend>
+                <input type="text" name="description">
+
+                <legend>Style</legend>
+                <input type="text" name="style">
+                <legend>Cost</legend>
+                <input type="text" name="cost" value="0">
+                <legend>Address</legend>
+                <input type="text" name="address">
+                <legend>Age restriction</legend>
+                <input type="text" name="age_restriction" value="16">
+                <legend>Sale</legend>
+                <input type="text" name="sale" value="0">
+
+
+                
                 <hr>
                 <legend s>Date from</legend>
                 Date: <input type="date" name="date_from"/>
@@ -140,28 +193,31 @@
             </form>
         </div>
         {% endif %}
-
+    <br>
+    <br>
+    <br>
     <div>
-
         {% if fest != None %}
         <div class="mar_left">
             <h2>PERFORMANCE</h2>
             <form action=" /my_festivals/{{ fest.fest_id }}/add_perf" , method="POST">
                 <legend s>Band name</legend>
-                <input s type="text" name="band_name">
+                <input s type="text" name="band_name" {{ disabled }}>
                 <hr>
                 <legend s>Stage ID:</legend>
-                <input s type="text" name="stage_id">
+                <input s type="text" name="stage_id" {{ disabled }}>
                 <hr>
                 <legend s>From:</legend>
-                <input s type="date" name="date_from">
+                <input s type="date" name="date_from" {{ disabled }}>
 
-                <input style="margin-left: 0.1%;" type="time" name="time_from">
+                <input style="margin-left: 0.1%;" type="time" name="time_from" {{ disabled }}>
                 <hr>
                 <legend>To:</legend>
-                <input type="date" name="date_to">
-                <input style="margin-left: 0.1%;" type="time" name="time_to">
-                <br>
+                <input type="date" name="date_to" {{ disabled }}>
+                <input style="margin-left: 0.1%;" type="time" name="time_to" {{ disabled }}>
+                <hr>
+                <input s type="submit" value="Add performance" {{ disabled }}>
+
                 <hr>
                 <div class="wrapper">
                     <nav>
@@ -263,9 +319,6 @@
                 <br><br><br>
 
 
-
-                <input s type="submit" value="Add performance">
-
                 <hr>
             </form>
         </div>
@@ -288,8 +341,10 @@
             <h2>SELLERS</h2>
             <form action="/my_festivals/{{ fest.fest_id }}/add_seller" method="POST">
                 <legend class="border-bottom mb-4">Seller ID</legend>
-                <input name="seller_id" type="text" />
-                <button style=" border-radius: 12px;min-width:7.5%;" type="submit">
+                <input name="seller_id" type="text" {{ disabled }}/>
+                <br>
+                <br>
+                <button style=" border-radius: 12px;min-width:7.5%;" type="submit" {{ disabled }} >
                     Add existing seller to festival
                 </button>
                 <hr>
@@ -302,7 +357,12 @@
                 <legend class="border-bottom mb-4">{{ field.label() }}</legend>
                 {% endif %}
                 <br><br>
+                {% if fest.status == 0 %}
+                {{ field(disabled=True) }}
+                {% else %}
                 {{ field() }}
+                {% endif %}
+
                 {% endfor %}
 
 
@@ -313,9 +373,10 @@
                 <h4>Seller ID</h4>
                 {{ seller.seller_id }}
                 <a href="/my_festivals/{{ fest.fest_id }}/del_seller/{{ seller.seller_id }}">
-                    <button>Remove seller</button>
+                    <button {{ disabled }}>Remove seller</button>
                 </a>
-            </div>
+
+                </div>
             {% endfor %}
             {% endif %}
 

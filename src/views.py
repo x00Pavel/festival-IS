@@ -253,37 +253,25 @@ def my_festivals():
         user_columns=current_user,
         source="/my_festivals",
     )
+@login_required
+@app.route("/<source>/<fest_id>/update_fest", methods=["POST"])
+def update_fest(fest_id, source):
+    msg, status = current_user.update_fest(request.form, fest_id)
+    flash(msg, status)
+    return redirect(f"/my_festivals/{fest_id}/edit")
 
 
 @login_required
-@app.route("/<source>/<fest_id>/edit", methods=["GET", "POST"])
+@app.route("/<source>/<fest_id>/edit", methods=["GET"])
 def edit_festival(fest_id, source):
-    fest_form = FestivalForm()
-    fest = Festival.query.filter_by(fest_id=fest_id).first()
-    if request.method == "POST":
-        if fest_form.validate_on_submit():
-            msg, status, fest = current_user.update_fest(request.form, fest)
-            flash(msg, status)
-        else:
-            flash("Not valid input", "warning")
-
-    fest_form.fest_name.data = fest.fest_name
-    fest_form.description.data = fest.description
-    fest_form.style.data = fest.style
-    fest_form.cost.data = fest.cost
-    fest_form.address.data = fest.address
-    fest_form.max_capacity.data = fest.max_capacity
-    fest_form.age_restriction.data = fest.age_restriction
-    fest_form.sale.data = fest.sale
-    fest_form.status.data = fest.status
-    fest_form.submit = "Update festival"
-
     seller_form = RoleForm()
+
+    fest = Festival.query.filter_by(fest_id=fest_id).first()
+
     perfs = current_user.get_perf(fest_id=fest_id)
     sellers = current_user.get_sellers(fest_id)
     return render_template(
         "edit_festival.html",
-        form=fest_form,
         fest=fest,
         seller_form=seller_form,
         perfs=perfs,
@@ -296,9 +284,7 @@ def edit_festival(fest_id, source):
 @login_required
 @app.route("/my_festivals/add", methods=["GET", "POST"])
 def add_festival():
-    form = FestivalForm()
     seller_form = RoleForm()
-    form.fest_org_id = current_user.org_id
     if request.method == "POST":
         form = request.form
         fest = current_user.add_fest(form)
@@ -322,7 +308,6 @@ def add_festival():
         return redirect(f"/my_festivals/{fest.fest_id}/edit")
     return render_template(
         "edit_festival.html",
-        form=form,
         fest=None,
         seller_form=seller_form,
         org=current_user,
@@ -343,8 +328,8 @@ def cancel_fest(fest_id, source):
 
 
 @login_required
-@app.route("/my_festivals/<fest_id>/add_perf", methods=["POST"])
-def fest_add_perf(fest_id):
+@app.route("/<source>/<fest_id>/add_perf", methods=["POST"])
+def fest_add_perf(fest_id, source):
     form = request.form
     msg, status = current_user.fest_add_perf(form, fest_id)
     flash(msg, status)
@@ -352,16 +337,16 @@ def fest_add_perf(fest_id):
 
 
 @login_required
-@app.route("/my_festivals/<fest_id>/del_perf/<perf_id>")
-def fest_del_perf(fest_id, perf_id):
+@app.route("/<source>/<fest_id>/del_perf/<perf_id>")
+def fest_del_perf(fest_id, perf_id, source):
     current_user.fest_del_perf(perf_id)
     flash(f"Performance {perf_id} canceled", "success")
     return redirect(f"/my_festivals/{fest_id}/edit")
 
 
 @login_required
-@app.route("/my_festivals/<fest_id>/add_seller", methods=["POST"])
-def fest_add_seller(fest_id):
+@app.route("/<source>/<fest_id>/add_seller", methods=["POST"])
+def fest_add_seller(fest_id, source):
     form = request.form
     msg, status = current_user.fest_add_seller(form, fest_id)
     flash(msg, status)
@@ -369,16 +354,16 @@ def fest_add_seller(fest_id):
 
 
 @login_required
-@app.route("/my_festivals/<fest_id>/del_seller/<seller_id>")
-def fest_del_seller(fest_id, seller_id):
+@app.route("/<source>/<fest_id>/del_seller/<seller_id>")
+def fest_del_seller(fest_id, seller_id, source):
     current_user.fest_del_seller(fest_id, seller_id)
     flash(f"Seller {seller_id} removed from festival {fest_id}", "success")
     return redirect(f"/my_festivals/{fest_id}/edit")
 
 
 @login_required
-@app.route("/my_festivals/<fest_id>/create_seller", methods=["POST"])
-def create_seller(fest_id):
+@app.route("/<source>/<fest_id>/create_seller", methods=["POST"])
+def create_seller(fest_id, source):
     form = request.form
     msg, status = current_user.create_seller(form, fest_id)
     flash(msg, status)
@@ -512,3 +497,18 @@ def add_band():
 def delete_band(band_id):
     current_user.delete_band(band_id)
     return redirect("/manage_bands")
+
+
+@login_required
+@app.route("/manage_stages")
+def manage_stages():
+    stages = current_user.get_all_stages()
+    return render_template("stages_page.html", stages=stages)
+
+
+@login_required
+@app.route("/manage_stages/add_stage", methods=["POST"])
+def add_stage():
+    form = request.form
+    msg, status = current_user.add_stage(form)
+    return redirect("/manage_stages")
