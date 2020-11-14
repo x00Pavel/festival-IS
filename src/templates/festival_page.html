@@ -23,14 +23,12 @@
             {% else%}
             <p class="fest_info">COST: {{ fest.cost }}</p>
             {%endif%}
-
             <p class="fest_info">AGE RESTRICTION: {{ fest.age_restriction }}</p>
             <p class="fest_info">STYLE: {{ fest.style }}</p>
             <p class="fest_info">ADDRESS: {{ fest.address }}</p>
             <p class="fest_info">MAXIMAL CAPACITY: {{ fest.max_capacity }}</p>
             <p class="fest_info">STATUS: {{ fest.status }}</p>
             <p class="fest_info"> FROM: {{ fest.time_from }} TO: {{ fest.time_to }}</p>
-
         </div>
 
         <div class="festival_main_page_1" style="padding-top: 100px;">
@@ -66,9 +64,6 @@
                 </div>
             </main>
 
-
-
-
             <form method="POST" action="/festival/{{ fest.fest_id }}" method="POST">
                 <legend>Name</legend>
                 <div class="form-group">
@@ -103,6 +98,5 @@
     <a name="bottom"></a>
 
 </body>
-
 
 {% endblock content %}

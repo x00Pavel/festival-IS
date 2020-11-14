@@ -11,13 +11,6 @@ import itertools
 from werkzeug.datastructures import MultiDict
 
 
-# @app.errorhandler(AttributeError)
-# def undef_error(e):
-#     flash("Attribute error is raised on client side. Please, contact admin.", "warning")
-#     flash(f"Debug {e}.", "warning")
-#     return redirect("/")
-
-
 @app.errorhandler(500)
 def undef_error(e):
     flash("Undefined error is raised on client side. Please, contact admin.", "warning")
@@ -32,12 +25,11 @@ def undef_error(e):
     return redirect("/")
 
 
-# FIXME: uncomment for release
-# @app.errorhandler(Exception)
-# def undef_error(e):
-#     flash("Exception is raised", "warning")
-#     flash(f"Debug {e}.", "warning")
-#     return redirect("/")
+@app.errorhandler(Exception)
+def undef_error(e):
+    flash("Exception is raised", "warning")
+    flash(f"Debug {e}.", "warning")
+    return redirect("/")
 
 
 @login_manager.user_loader
@@ -55,7 +47,7 @@ def home():
     recommendations = None
     if current_user.is_authenticated:
         recommendations = list(current_user.get_recomendations())
-        recommendations_count = len(list(set(recommendations)))
+        recommendations_count = len(recommendations)
         return render_template(
             "festivals.html",
             user_columns=current_user,
@@ -194,8 +186,6 @@ def festival_page(fest_id):
     fest = Festival.get_festival(fest_id)
     anonim = current_user.is_anonymous
     perfs = Performance.query.filter_by(fest_id=fest_id).all()
-    #  Festival.query.filter_by(fest_id=fest_id).first()
-    # Performance.quert.filterby(fest"id)
     form = (
         TicketForm()
         if anonim

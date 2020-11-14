@@ -34,26 +34,22 @@
         <div class="">
           <a class="logoimgclass" href="/">
             <img src="https://festival-static.s3-eu-west-1.amazonaws.com/F.jpg" class="press_f" alt=""></a>
-          <!-- <div class="row"> -->
           <div class="col-md-8">
             <div>
               <div class="flashwrapper">
                 {% with messages = get_flashed_messages(with_categories=True) %}
                 {% if messages %}
-                <!-- {% for category, message in messages %} -->
                 <div id=flashwrapper class="alert alert-{{ category }} alert-dismissible flash_css" role="alert">
                   {{ message }}
                   <button type="button" class="close" data-dismiss="alert" style="height: 47px;" aria-label="Close"
                     onClick="close('flashwrapper')">
                     <span aria-hidden="true">&times;</span>
                 </div>
-                <!-- {% endfor %} -->
                 {% endif %}
                 {% endwith %}
               </div>
             </div>
           </div>
-          <!-- </div> -->
         </div>
         <div class="collapse collapse-toggleable-xs navbar-collapse" id="collapseElements">
           <div class="navbar-nav mr-auto"></div>
@@ -116,25 +112,10 @@
 
 
     </nav>
-    <!-- <script>
-      $(document).ready(function () {
-        setTimeout(function () {
-          $('.alert').fadeOut('slow');
-        }, 2000);
-      });
-    </script> -->
+
   </header>
 
-
-
   {% block content %}{% endblock %}
-
-
-
-
-
-
-
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

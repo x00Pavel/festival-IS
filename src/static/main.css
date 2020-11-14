@@ -142,16 +142,10 @@ display: inline-block;
 }
 
 
-
-
-
 .roundimage
 {
    border-radius: 10px;
 } */
-
-
-
 
 
 .description{
@@ -201,10 +195,6 @@ padding-top: 5px;
   text-align: center;
 
 } 
-
-
-
-
 
  .navbar-toggler {
    float: left;
@@ -451,6 +441,7 @@ padding-top: 5px;
   position: relative;
   display: inline-block;
 }
+
 .dropdown-content_for_filter_s
  {
   display: none;
@@ -465,10 +456,13 @@ padding-top: 5px;
     border: none;
   cursor: pointer;
 }
+
+
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content_for_filter {
   display: none;
   position: absolute;
+
   padding-top: 20px;
   background-color: #f1f1f1;
   width: 180px;
@@ -476,7 +470,7 @@ padding-top: 5px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   margin-left: 80px;
-    border: none;
+  border: none;
   cursor: pointer;
 }
 
@@ -493,10 +487,6 @@ padding-top: 5px;
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show_for_filter {display:block;} 
-
-
-
-
 
 
 form  {
@@ -900,12 +890,13 @@ input.largerCheckbox {
   height: 30px;
 }
 .flash_css{
-  margin-left: 70px; 
+  margin-left: 70px;
   width: 190%; 
   height: 50px;
   font-size: 1vw;
 
 }
+
 .press_f
 {
     position: relative;
@@ -983,9 +974,8 @@ input.largerCheckbox {
   {
     height: 120px;
   }
-
-
 }
+
 @media only screen and (max-width: 600px) 
 {
  .flash_css{
