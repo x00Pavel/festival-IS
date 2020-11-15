@@ -460,7 +460,7 @@ def remove_user(user_id):
 
 
 @login_required
-@app.route("/manage_bands", methods=["GET"])
+@app.route("/manage_bands", methods=["GET", "POST"])
 def manage_bands():
     form = BandForm()
     if form.validate_on_submit():

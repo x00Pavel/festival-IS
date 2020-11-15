@@ -14,18 +14,18 @@ from flask import request
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
+    email = StringField("Email *", validators=[DataRequired(), Email()])
     password = PasswordField(
-        "Password", validators=[DataRequired(), Length(min=6)]
+        "Password *", validators=[DataRequired(), Length(min=6)]
     )
     passwordC = PasswordField(
-        "Password Confirmation",
+        "Password Confirmation *",
         validators=[DataRequired(), Length(min=6), EqualTo("password")],
     )
 
     submit = SubmitField("Sign up")
     firstname = StringField(
-        "First name",
+        "First name *",
         validators=[
             DataRequired(),
             Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$"),
@@ -33,7 +33,7 @@ class RegistrationForm(FlaskForm):
         ],
     )
     lastname = StringField(
-        "Last name",
+        "Last name *",
         validators=[
             DataRequired(),
             Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$"),
@@ -47,7 +47,7 @@ class RegistrationForm(FlaskForm):
         "Home/Flat number", validators=[Length(max=80), Regexp(r"^\d[\d-]*$")]
     )
     phonenumber = StringField(
-        "Phone number", validators=[DataRequired(), Regexp(r"^\+?\d[\d-]{6,}$")]
+        "Phone number *", validators=[DataRequired(), Regexp(r"^\+?\d[\d-]{6,}$")]
     )
 
 
@@ -55,7 +55,7 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField("Email *", validators=[DataRequired(), Email()])
     password = PasswordField(
-        "Password", validators=[DataRequired(), Length(min=6)]
+        "Password *", validators=[DataRequired(), Length(min=2)]
     )
     remember = BooleanField("Remember me")
     submit = SubmitField("Log in up")
@@ -64,34 +64,34 @@ class LoginForm(FlaskForm):
 class TicketForm(FlaskForm):
     submit = SubmitField("Reserve")
     user_name = StringField(
-        "Name", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
+        "Name *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
     )
     user_surname = StringField(
-        "Surname", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
+        "Surname *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
     )
     user_email = StringField("Email", validators=[DataRequired(), Email()])
 
 
 class BandForm(FlaskForm):
     band_name = StringField(
-        "Name", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$")]
+        "Name *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$")]
     )
     band_scores = IntegerField("Scores", validators=[DataRequired(), Regexp(r"^\d+")])
     band_genre = StringField(
-        "Genre", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$")]
+        "Genre *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$")]
     )
     band_tags = StringField("Tags")
     band_logo = HiddenField("LOGO")
 
 
 class RoleForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
+    email = StringField("Email *", validators=[DataRequired(), Email()])
     name = StringField(
-        "Name", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
+        "Name *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
     )
     surname = StringField(
-        "Surname", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
+        "Surname *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
     )
-    address = StringField("Address", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
+    address = StringField("Address *", validators=[DataRequired()])
+    password = PasswordField("Password *", validators=[DataRequired()])
     submit = SubmitField("Add role")

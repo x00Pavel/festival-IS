@@ -1,5 +1,8 @@
 {% extends "ralaot.html" %}
 {% block content %}
+<script>
+    var tags_string = "";
+</script>
 <br><br><br><br><br>
 <div class="center_user_html">
     <h3>ADD BANDS</h3>
@@ -34,90 +37,19 @@
             <ul id='list'>
 
             </ul>
-            <input id='custom-input' type="text" value="" name="tags" data-role="tagsinput"></input>
+ 
+            <input id='custom-input'   type="text" value="" name="tags" data-role="tagsinput"></input>
+            <input type="hidden" name="tags_bands" id="hide_str_for_bands" value=""></input>
             <br>
             <div>
-                <button type="button" class="submit_delete_button" onclick='testfunc(this.e,false)'>Add tag</button>
+            <button type="button" class="submit_delete_button" onclick='testfunc(this.e,false)'>Add tag</button>
             </div>
+    
         </div>
 
         <button type="submit" formmethod="POST">Add band</button>
 
-        <script type="text/javascript">
-
-            /*
-              Function to carry out the actual POST request to S3 using the signed request from the Python app.
-            */
-            function uploadFile(file, s3Data, url) {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', s3Data.url);
-                xhr.setRequestHeader('x-amz-acl', 'public-read');
-
-                const postData = new FormData();
-                for (key in s3Data.fields) {
-                    postData.append(key, s3Data.fields[key]);
-                }
-                postData.append('file', file);
-
-                xhr.onreadystatechange = () => {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200 || xhr.status === 204) {
-                            document.getElementById('preview').src = url;
-                            document.getElementById('band-logo').value = url;
-                        }
-                        else {
-                            alert('Could not upload file.');
-                        }
-                    }
-                };
-                xhr.send(postData);
-            }
-
-
-            /*
-              Function to get the temporary signed request from the Python app.
-              If request successful, continue to upload the file using this signed
-              request.
-            */
-            function getSignedRequest(file, band_name) {
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', `/sign-s3/tmp/${band_name}?file-name=${file.name}&file-type=${file.type}`);
-                xhr.onreadystatechange = () => {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            const response = JSON.parse(xhr.responseText);
-                            uploadFile(file, response.data, response.url);
-                        }
-                        else {
-                            alert('Could not get signed URL.');
-                        }
-                    }
-                };
-                xhr.send();
-            }
-
-            /*
-               Function called when file input updated. If there is a file selected, then
-               start upload procedure by asking for a signed request from the app.
-            */
-            function initUpload() {
-                const band_name = document.getElementById('band-name').value;
-                const files = document.getElementById('file-input').files;
-                const file = files[0];
-                if (!file) {
-                    return alert('No file selected.');
-                }
-                getSignedRequest(file, band_name);
-            }
-
-            /*
-               Bind listeners when the page loads.
-            */
-            (() => {
-                document.getElementById('file-input').onchange = initUpload;
-            })();
-
-        </script>
+     
     </form>
     <br>
     <hr>
@@ -165,6 +97,81 @@
 
 
 </div>
+<script type="text/javascript">
+
+    /*
+      Function to carry out the actual POST request to S3 using the signed request from the Python app.
+    */
+    function uploadFile(file, s3Data, url) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', s3Data.url);
+        xhr.setRequestHeader('x-amz-acl', 'public-read');
+
+        const postData = new FormData();
+        for (key in s3Data.fields) {
+            postData.append(key, s3Data.fields[key]);
+        }
+        postData.append('file', file);
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200 || xhr.status === 204) {
+                    document.getElementById('preview').src = url;
+                    document.getElementById('band-logo').value = url;
+                }
+                else {
+                    alert('Could not upload file.');
+                }
+            }
+        };
+        xhr.send(postData);
+    }
+
+
+    /*
+      Function to get the temporary signed request from the Python app.
+      If request successful, continue to upload the file using this signed
+      request.
+    */
+    function getSignedRequest(file, band_name) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/sign-s3/tmp/${band_name}?file-name=${file.name}&file-type=${file.type}`);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    uploadFile(file, response.data, response.url);
+                }
+                else {
+                    alert('Could not get signed URL.');
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    /*
+       Function called when file input updated. If there is a file selected, then
+       start upload procedure by asking for a signed request from the app.
+    */
+    function initUpload() {
+        const band_name = document.getElementById('band-name').value;
+        const files = document.getElementById('file-input').files;
+        const file = files[0];
+        if (!file) {
+            return alert('No file selected.');
+        }
+        getSignedRequest(file, band_name);
+    }
+
+    /*
+       Bind listeners when the page loads.
+    */
+    (() => {
+        document.getElementById('file-input').onchange = initUpload;
+    })();
+
+</script>
 <script>
     function testfunc(e, a) {
 
@@ -172,10 +179,10 @@
 
 
         let value = document.querySelector('#custom-input').value
-
+        
         const children = [...document.querySelector('#list').children]
         const childrenStrings = children.map(el => el.innerText)
-        console.log(childrenStrings)
+        // console.log(childrenStrings)
         if (childrenStrings.includes(value + '\nx') || !value.trim()) {
             document.querySelector('#custom-input').value = ''
         }
@@ -190,6 +197,15 @@
             div.append(text, closeTag)
             element.append(div)
             document.querySelector('#list').append(element)
+
+            tags_string = (tags_string.concat(" ")).concat(value)
+            if( tags_string[0] == " ")
+            {
+                tags_string = tags_string.slice(1)
+            }
+     
+            document.getElementById('hide_str_for_bands').value = tags_string;
+
         }
         document.querySelector('#custom-input').value = ''
         e.preventDefault()
@@ -199,5 +215,10 @@
 
     }
 
+</script>
+<script>
+    function ret_var_func() {
+    return tags_string
+}
 </script>
 {% endblock content %}
