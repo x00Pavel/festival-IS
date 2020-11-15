@@ -175,7 +175,7 @@ class BaseUser:
         address = f"{form.city.data}, {form.street.data}, {form.homenum.data}"
         phone = form.phonenumber.data
         result = validate(
-            email=email, name=name, surname=surname, address=address, phone=phone
+            email=email, name=name, surname=surname, phone=phone
         )
         if result is not None:
             return None, result[0], result[1]
