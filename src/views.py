@@ -477,17 +477,20 @@ def add_band():
     form = BandForm()
     band = current_user.add_band(form)
 
-    S3_BUCKET = os.environ.get("S3_BUCKET")
+    if request.form["fest_logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png":
+        pass
+    else:
+        S3_BUCKET = os.environ.get("S3_BUCKET")
 
-    s3 = boto3.resource("s3")
-    copy_source = {
-        "Bucket": S3_BUCKET,
-        "Key": request.form["band-logo"].split(".com/")[-1],
-    }
-    bucket = s3.Bucket(S3_BUCKET)
-    bucket.copy(copy_source, f"band/{band.band_id}/{form.band_name.data}.png")
+        s3 = boto3.resource("s3")
+        copy_source = {
+            "Bucket": S3_BUCKET,
+            "Key": request.form["band-logo"].split(".com/")[-1],
+        }
+        bucket = s3.Bucket(S3_BUCKET)
+        bucket.copy(copy_source, f"band/{band.band_id}/{form.band_name.data}.png")
 
-    band.logo = f'{request.form["band-logo"].split(".com/")[0]}.com/band/{band.band_id}/{form.band_name.data}.png'
+        band.logo = f'{request.form["band-logo"].split(".com/")[0]}.com/band/{band.band_id}/{form.band_name.data}.png'
     db.session.commit()
 
     return redirect("/manage_bands")
