@@ -197,14 +197,9 @@
             div.append(text, closeTag)
             element.append(div)
             document.querySelector('#list').append(element)
-
-            tags_string = (tags_string.concat(";")).concat(value)
-            if( tags_string[0] == ";")
-            {
-                tags_string = tags_string.slice(1)
-            }
-     
-            document.getElementById('hide_str_for_bands').value = tags_string;
+            ret_val = document.querySelector('#list').innerText
+            ret_val = ret_val.replace(/\nx/g, "")
+            document.getElementById('hide_str_for_bands').value = ret_val;
 
         }
         document.querySelector('#custom-input').value = ''
