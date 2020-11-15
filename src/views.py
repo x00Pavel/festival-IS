@@ -187,6 +187,10 @@ def festival_page(fest_id):
     fest = Festival.get_festival(fest_id)
     anonim = current_user.is_anonymous
     perfs = Performance.query.filter_by(fest_id=fest_id).all()
+    tags = ""
+    for perf in perfs[0:5:]:
+        tags += " ".join(perf.band.tags.split(";"))
+
     form = (
         TicketForm()
         if anonim
@@ -218,6 +222,7 @@ def festival_page(fest_id):
         form=form,
         anonym=current_user.is_anonymous,
         perfs=perfs,
+        tags=tags
     )
 
 

@@ -565,7 +565,7 @@ class Organizer(Seller):
             logo=form["band-logo"],
             scores=form["band_scores"],
             genre=form["band_genre"],
-            tags=", ".join([a for a in form["tags_bands"].split(";")])
+            tags=form["tags_bands"]
         )
         db.session.add(band)
         db.session.commit()
