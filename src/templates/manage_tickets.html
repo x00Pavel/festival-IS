@@ -31,7 +31,7 @@
             <tr>
                 <td class="ticket_ida">{{ ticket.ticket_id }}</td>
                 <td>{{ ticket.user_email }}</td>
-                {% if anonym %}
+                {% if ticket.user.name is not defined  %}
                     <td class="narrow_user_names">{{ ticket.name }}</td>
                     <td class="narrow_user_names">{{ ticket.surname }}</td>               
                 {% else %}
