@@ -464,7 +464,7 @@ class Organizer(Seller):
         name = form.get("name")
         surname = form.get("surname")
         address = form.get("address")
-        result = validate(email=email, name=name, surname=surname, address=address)
+        result = validate(email=email, name=name, surname=surname)
         if result is not None:
             return result
         seller = Seller(
