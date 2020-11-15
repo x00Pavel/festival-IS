@@ -198,8 +198,8 @@
             element.append(div)
             document.querySelector('#list').append(element)
 
-            tags_string = (tags_string.concat(" ")).concat(value)
-            if( tags_string[0] == " ")
+            tags_string = (tags_string.concat(";")).concat(value)
+            if( tags_string[0] == ";")
             {
                 tags_string = tags_string.slice(1)
             }
