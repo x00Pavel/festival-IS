@@ -289,9 +289,10 @@ def add_festival():
         form = request.form
         fest = current_user.add_fest(form)
         
-        if request.form["fest_logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/default_avatar.png":
+        if request.form["fest_logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png":
             pass
         else:
+            print(request.form["fest_logo"], flush=True)
             S3_BUCKET = os.environ.get("S3_BUCKET")
 
             s3 = boto3.resource("s3")
