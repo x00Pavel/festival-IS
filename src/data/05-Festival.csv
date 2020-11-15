@@ -7,7 +7,7 @@ Test3 fest,Test3,Rock,1,100,2020.12.01           08:00,2020.12.03  22:00,2000,0,
 Test4 fest,Test4,Hip-Hop,2,80,2021.01.03         08:00,2021.01.010 22:00,1500,1,16,0,10 ,1,https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png
 Test5 fest,Test5,RnB,1,100,2021.02.01            08:00,2021.02.03  22:00,2000,1,18,10,11,1,https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png
 Test6 fest,Test6,Blues,2,80,2021.03.03           08:00,2021.03.010 22:00,1500,1,12,20,13,0,https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png
-Test7 fest,Test7,County,1,100,2021.04.01         08:00,2021.04.03  22:00,2000,1,18,30,13,0,https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png
+Test7 fest,Test7,Country,1,100,2021.04.01         08:00,2021.04.03  22:00,2000,1,18,30,13,0,https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png
 Test8 fest,Test8,Indi,2,80,2021.05.03            08:00,2021.05.010 22:00,1500,1,16,40,12,0,https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png
 Test9 fest,Test9,Punk,1,100,2021.06.01           08:00,2021.06.03  22:00,2000,0,8,50,11,2,https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png
 Small fest, Small fest,Folk,2,80,2021.07.03      08:00,2021.07.010 22:00,3,3,16,99,10,1,https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png
