@@ -477,10 +477,11 @@ def add_band():
     form = BandForm()
     band = current_user.add_band(form)
 
-    if request.form["fest_logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png":
-        pass
-    else:
-        S3_BUCKET = os.environ.get("S3_BUCKET")
+    S3_BUCKET = os.environ.get("S3_BUCKET")
+    
+    band_tags = request.form["tags_bands"]
+    print(band_tags)
+
 
         s3 = boto3.resource("s3")
         copy_source = {
