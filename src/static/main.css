@@ -1051,3 +1051,11 @@ input.largerCheckbox {
   margin: 4px 2px;
   cursor: pointer;
 }
+.stages_page{
+  align-content: center;
+  /* overflow: hidden; */
+  /* position: fixed; */
+  position: relative;
+  /* top: 0; */
+  width: 100%; 
+}

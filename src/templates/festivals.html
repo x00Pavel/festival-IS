@@ -26,7 +26,7 @@
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			{% for fest in fests %}
-			{% if fest.description != None %}
+			{% if fest.description != None and fest.style == 1%}
 			{% if fest.style in recommendations %}
 
 			<a href="festival\/{{ fest.fest_id }}">
@@ -161,7 +161,8 @@
 					<input type="date" id="finish" name="fest-finish" value="2022-10-29" min="2020-01-01"
 						max="2030-12-31">
 					<br><br>
-					<button class="databut" type="button" onclick="data_func()">Apply</button>
+					<button class="databut" type="button" onclick="data_func(true)">Apply</button>
+					<button class="databut" type="button" onclick="data_func(false)">Reset</button>
 
 				</div>
 			</div>
@@ -180,7 +181,7 @@
 			<div class="container" id="trytab">
 				<div class="row ">
 					{% for fest in fests %}
-					{% if fest.description != None %}
+					{% if fest.description != None and fest.status == 1%}
 					<div class="col-md-4">
 						<div class="card mb-4 shadow-sm" style=" height: 740px;">
 
@@ -813,11 +814,21 @@
 
 </script>
 <script>
-	function data_func() {
-
+	function data_func(a) {
+		if(a == false)
+		{
+			var fit_from = "2019-01-01"
+			var fit_to = "2030-01-01"
+		}
+		else
+		{
+			var fit_from = document.getElementById('start').value
+			var fit_to = document.getElementById('finish').value
+		}
+		// console.log(fit_to)
 		flag_for_data = true;
-		var fit_from = document.getElementById('start').value
-		var fit_to = document.getElementById('finish').value
+		// var fit_from = document.getElementById('start').value
+		// var fit_to = document.getElementById('finish').value
 
 		$('#trytab div h1').filter(function (index, elements) {
 
@@ -913,7 +924,7 @@
 			{
 				c = c
 			}
-			console.log("datadadatadda"+ b+fill1+fill2+c)
+			// console.log("datadadatadda"+ b+fill1+fill2+c)
 			$("#trytab div").filter(function () {
 				$(this).toggle($(this).text().indexOf(("datadadatadda"+ b+fill1+fill2+c)) > -1)
 			});

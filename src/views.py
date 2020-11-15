@@ -506,7 +506,7 @@ def delete_band(band_id):
 @app.route("/manage_stages")
 def manage_stages():
     stages = current_user.get_all_stages()
-    return render_template("stages_page.html", stages=stages)
+    return render_template("stages_page.html", stages=stages, user_columns=current_user)
 
 
 @login_required
