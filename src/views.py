@@ -293,7 +293,7 @@ def add_festival():
     if request.method == "POST":
         form = request.form
         msg, status, fest = current_user.add_fest(form)
-        flush(msg, status)
+        flash(msg, status)
         if request.form["fest_logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png":
             pass
         else:
