@@ -18,13 +18,13 @@ def init_db():
         db.metadata.bind = db.engine
         db.metadata.create_all(checkfirst=True)
         root = RootAdmin(
-            user_email="root@ok.com",
-            name="root",
-            surname="root",
+            user_email=app.config["SECRET_USER"],
+            name="Main",
+            surname="Admin",
             avatar=None,
             passwd=generate_password_hash(app.config["SECRET_KEY"], method="sha256"),
             perms=0,
-            address="Root root root",
+            address="Fests HQ",
         )
         db.session.add(root)
         db.session.commit()
