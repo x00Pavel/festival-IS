@@ -9,6 +9,7 @@ login_manager = LoginManager()
 
 app = Flask(__name__)
 
+app.config["SECRET_USER"] = os.getenv("ROOT_EMAIL")
 app.config["SECRET_KEY"] = os.getenv("ROOT_PSSWD")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 
