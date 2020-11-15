@@ -20,8 +20,8 @@
                 <th>USER EMAIL:</th>
                 <th>USER NAME</th>
                 <th>SURNAME</th>
-                <th>REGISTERED PERSON(NAME)</th>
-                <th>REGISTERED PERSON(NAME)</th>
+                <th>PERSON NAME</th>
+                <th>PERSON SURNAME</th>
                 <th>PRICE</th>
                 <th>STATUS</th>
                 <th>REASON</th>
@@ -31,8 +31,13 @@
             <tr>
                 <td class="ticket_ida">{{ ticket.ticket_id }}</td>
                 <td>{{ ticket.user_email }}</td>
-                <td class="narrow_user_names">{{ ticket.user.name }}</td>
-                <td class="narrow_user_names">{{ ticket.user.surname }}</td>
+                {% if anonym %}
+                    <td class="narrow_user_names">{{ ticket.name }}</td>
+                    <td class="narrow_user_names">{{ ticket.surname }}</td>               
+                {% else %}
+                    <td class="narrow_user_names">{{ ticket.user.name }}</td>
+                    <td class="narrow_user_names">{{ ticket.user.surname }}</td>
+                {% endif %}
                 <td>{{ ticket.name }}</td>
                 <td>{{ ticket.surname }}</td>
                 <td>{{ ticket.price }}</td>
