@@ -561,15 +561,15 @@ class Organizer(Seller):
 
     def add_band(self, form):
         band = Band(
-            name=form.band_name.data,
-            logo=form.band_logo.data,
-            scores=form.band_scores.data,
-            genre=form.band_genre.data,
-            tags=form.band_tags.data,
+            name=form["band_name"],
+            logo=form["band-logo"],
+            scores=form["band_scores"],
+            genre=form["band_genre"],
+            tags=", ".join([a for a in form["tags_bands"].split(";")])
         )
         db.session.add(band)
         db.session.commit()
-        return band
+        return f"Band {band.name} is created", "success", band
 
     def fest_add_perf(self, form, fest_id):
         band = Band.query.filter_by(name=form["band_name"]).first()

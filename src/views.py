@@ -474,14 +474,13 @@ def manage_bands():
 @login_required
 @app.route("/manage_bands/add", methods=["POST"])
 def add_band():
-    form = BandForm()
-    band = current_user.add_band(form)
-
-    S3_BUCKET = os.environ.get("S3_BUCKET")
+    msg, status, band = current_user.add_band(request.form)
+    flush(msg, status)
     
-    band_tags = request.form["tags_bands"]
-    print(band_tags)
-
+    if request.form["band-logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png":
+        pass
+    else:
+        S3_BUCKET = os.environ.get("S3_BUCKET")
 
         s3 = boto3.resource("s3")
         copy_source = {
