@@ -76,7 +76,7 @@ class BandForm(FlaskForm):
     band_name = StringField(
         "Name *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$")]
     )
-    band_scores = IntegerField("Scores", validators=[DataRequired(), Regexp(r"^\d+")])
+    band_scores = IntegerField("Scores", validators=[DataRequired(), Regexp(r"^\d+"), Length(max=2])
     band_genre = StringField(
         "Genre *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$")]
     )
