@@ -334,7 +334,11 @@
             To: <b>{{ perf.time_to }}</b>
             <br>
             Canceled: <b>{{ perf.canceled }}</b>
+            <br>
+            {% if not perf.canceled %}
             <a href="/my_festivals/{{ fest.fest_id }}/del_perf/{{ perf.perf_id }}"><button>Cancel</button></a>
+            {% endif %}
+            <hr>
         </div>
         {% endfor %}
         <div class="mar_left">
@@ -357,7 +361,7 @@
                 <legend class="border-bottom mb-4">{{ field.label() }}</legend>
                 {% endif %}
                 <br><br>
-                {% if fest.status == 0 %}
+                {% if fest.status == 2 %}
                 {{ field(disabled=True) }}
                 {% else %}
                 {{ field() }}

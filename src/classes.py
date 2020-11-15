@@ -541,6 +541,15 @@ class Organizer(Seller):
     def fest_del_perf(self, perf_id):
         perf = Performance.query.filter_by(perf_id=perf_id).first()
         perf.canceled = True
+        perf.fest.max_capacity -= perf.stage.size
+        # Cancel tickets until current_ticket_count is not equal to max_capacity
+        if perf.fest.current_ticket_count > perf.fest.max_capacity:
+            tickets = Ticket.query.filter_by(fest_id=perf.fest.fest_id)
+            while perf.fest.current_ticket_count > perf.fest.max_capacity:
+                ticket = tickets[-1]
+                ticket.reason = "Due to capacity reason"
+                ticket.approved = 2
+
         db.session.commit()
 
     def get_bands(self, fest_id=None, stage_id=None, perf_id=None):
@@ -580,6 +589,8 @@ class Organizer(Seller):
             return (f"Now stage with this ID: {form['stage_id']}", "warning")
 
         fest = Festival.query.filter_by(fest_id=fest_id).first()
+        fest.max_capacity += stage.size
+
         datetime_from = f"{form['date_from']} {form['time_from']}"
         datetime_to = f"{form['date_to']} {form['time_to']}"
         # Time for performance is not between festival start and end
