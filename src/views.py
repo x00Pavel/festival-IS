@@ -481,7 +481,6 @@ def add_band():
         pass
     else:
         S3_BUCKET = os.environ.get("S3_BUCKET")
-        print(request.form["tags_bands"])
         s3 = boto3.resource("s3")
         copy_source = {
             "Bucket": S3_BUCKET,
