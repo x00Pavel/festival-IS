@@ -475,7 +475,7 @@ def manage_bands():
 @app.route("/manage_bands/add", methods=["POST"])
 def add_band():
     msg, status, band = current_user.add_band(request.form)
-    flush(msg, status)
+    flash(msg, status)
     
     if request.form["band-logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/defaut_band_logo.png":
         pass
