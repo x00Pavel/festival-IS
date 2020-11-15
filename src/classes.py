@@ -529,6 +529,8 @@ class Organizer(Seller):
 
     def cancel_fest(self, fest_id):
         fest = Festival.query.filter_by(fest_id=fest_id).first()
+        Performance.query.filter_by(fest_id=fest_id).delete()
+        SellersList.query.filter_by(fest_id=fest_id).delete()
         fest.status = 2
         db.session.commit()
         return f"Festival {fest.fest_id} is canceled", "success"
