@@ -664,7 +664,6 @@ class Organizer(Seller):
         stage = Stage(size=form["size"])
         db.session.add(stage)
         db.session.commit()
-        print(stage)
         return f"Stage {stage.stage_id} added", "success"
 
 
@@ -694,12 +693,12 @@ class Admin(Organizer):
         user = User.query.filter_by(user_id=user_id).first()
         if user.perms <= 3:
             # Delete all relations for seller - festival 
-            SellerList.query.filter_by(seller_id=user_id).delete()
+            SellersList.query.filter_by(seller_id=user_id).delete()
         if user.perms <= 2:
             # Move all organized festival to root
-            fests = Festival.query.filter_by(ort_id=user_id).all()
+            fests = Festival.query.filter_by(org_id=user_id).all()
             for fest in fests:
-                fest.org_id = 0
+                fest.org_id = 1
 
         user.role_active = False
         db.session.commit()
@@ -750,6 +749,9 @@ class RootAdmin(Admin):
     root_admin_id = Column(
         "root_admin_id", Integer, ForeignKey("Admin.admin_id"), primary_key=True
     )
+    def __init__(self, **kwargs):
+        super(Admin, self).__init__(**kwargs)
+        self.root_admin_id = self.get_id()
 
     def __init__(self, **kwargs):
         super(Admin, self).__init__(**kwargs)

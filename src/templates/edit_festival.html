@@ -62,7 +62,9 @@
                 
 
                 {% if fest.status == 0 %}
-                <button type="submit" name="status" value="1">Publish</button>
+                {% if fest.max_capacity != 0%}
+                    <button type="submit" name="status" value="1">Publish</button>
+                {% endif %}
                 <button type="submit" name="status" value="{{ fest.status }}">Update info</button>
                 {% elif fest.status == 1 %}
                 <button type="submit" name="status" value="2" >Cancel</button>
