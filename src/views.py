@@ -487,9 +487,9 @@ def add_band():
             "Key": request.form["band-logo"].split(".com/")[-1],
         }
         bucket = s3.Bucket(S3_BUCKET)
-        bucket.copy(copy_source, f"band/{band.band_id}/{form.band_name.data}.png")
+        bucket.copy(copy_source, f"band/{band.band_id}/{band.name}.png")
 
-        band.logo = f'{request.form["band-logo"].split(".com/")[0]}.com/band/{band.band_id}/{form.band_name.data}.png'
+        band.logo = f'{request.form["band-logo"].split(".com/")[0]}.com/band/{band.band_id}/{band.name}.png'
     db.session.commit()
 
     return redirect("/manage_bands")
