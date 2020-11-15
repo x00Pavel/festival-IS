@@ -525,7 +525,7 @@ class Organizer(Seller):
         )
         db.session.add(fest)
         db.session.commit()
-        return fest
+        return f"Festvial {fest.fest_name} is created", "success", fest
 
     def cancel_fest(self, fest_id):
         fest = Festival.query.filter_by(fest_id=fest_id).first()

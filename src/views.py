@@ -287,8 +287,8 @@ def add_festival():
     seller_form = RoleForm()
     if request.method == "POST":
         form = request.form
-        fest = current_user.add_fest(form)
-        
+        msg, status, fest = current_user.add_fest(form)
+        flush(msg, status)
         if request.form["fest_logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png":
             pass
         else:
@@ -481,7 +481,7 @@ def add_band():
         pass
     else:
         S3_BUCKET = os.environ.get("S3_BUCKET")
-
+        print(request.form["tags_bands"])
         s3 = boto3.resource("s3")
         copy_source = {
             "Bucket": S3_BUCKET,
