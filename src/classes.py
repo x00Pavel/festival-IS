@@ -156,7 +156,7 @@ class BaseUser:
             surname=form.user_surname.data,
             fest_id=fest_id,
             price=price,
-        )
+        )      
         db.session.add(ticket)
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         if fest.current_ticket_count != fest.max_capacity:
@@ -464,7 +464,7 @@ class Organizer(Seller):
         name = form.get("name")
         surname = form.get("surname")
         address = form.get("address")
-        result = validate(email=email, name=name, surname=surname, address=address)
+        result = validate(email=email, name=name, surname=surname)
         if result is not None:
             return result
         seller = Seller(
