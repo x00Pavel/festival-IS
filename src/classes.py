@@ -668,7 +668,18 @@ class Organizer(Seller):
         db.session.add(stage)
         db.session.commit()
         return f"Stage {stage.stage_id} added", "success"
+        
+    def update_fest(self, form, fest_id):
+        fest = Festival.query.filter_by(fest_id=fest_id).first()
 
+        fest.fest_tags = form.get("fest_tags")
+        fest.description = form.get("description")
+        fest.sale = form.get("sale")
+        fest.status = form.get("status")
+
+        db.session.commit()
+
+        return f"Festival {fest.fest_name} successfully updated", "success"
 
 class Admin(Organizer):
     __tablename__ = "Admin"
@@ -729,17 +740,6 @@ class Admin(Organizer):
                 outdated_fests.append(fest)
         return (actual_fests, outdated_fests)
 
-    def update_fest(self, form, fest_id):
-        fest = Festival.query.filter_by(fest_id=fest_id).first()
-
-        fest.fest_tags = form.get("fest_tags")
-        fest.description = form.get("description")
-        fest.sale = form.get("sale")
-        fest.status = form.get("status")
-
-        db.session.commit()
-
-        return f"Festival {fest.fest_name} successfully updated", "success"
 
 
 class RootAdmin(Admin):
