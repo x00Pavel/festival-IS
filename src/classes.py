@@ -342,11 +342,11 @@ class User(UserMixin, db.Model):
         )
         if result is not None:
             return result
-
+        
         new_psswd1 = form.get("new_psswd1")
         new_psswd2 = form.get("new_psswd2")
 
-        if new_psswd1 is not None and new_psswd2 is not None:
+        if new_psswd1 != '':
             if new_psswd1 == new_psswd2:
                 self.set_password(new_psswd1)
             else:
