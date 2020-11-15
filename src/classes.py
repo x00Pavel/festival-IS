@@ -193,6 +193,7 @@ class BaseUser:
             passwd=passwd_hash,
             address=address,
             avatar=None,
+            phone=phone
         )
         db.session.add(new_user)
         db.session.commit()
