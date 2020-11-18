@@ -5,7 +5,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 
-<body>
+<body class="bg_css">
     {% if fest != None %}
         {% if fest.status == 2 %}
         {% set disabled = "disabled" %}
@@ -75,8 +75,9 @@
                 
             </form>
         </div>
+        
     {% else %}
-
+        
         <div class="content-section_for_reg">
             <form action="/my_festivals/add" method="POST">
                 <input type="file" style="margin-top: -10px; font-size: 24px; text-align: center;" id=file-input>
@@ -298,4 +299,5 @@
         </div>
     </div>
     </div>
-</body> {% endblock content %}
+</body> 
+{% endblock content %}
