@@ -42,11 +42,10 @@ def user_loader(user_id):
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    data = Festival.query.all()
-    list_of_dicts = [row for row in data]
-    value_for_style_counting = 2
+
     recommendations = None
-    styles_set = Festival.get_festivals_styles()
+    styles_set, data = Festival.get_festivals_styles()
+    list_of_dicts = [row for row in data]
     if current_user.is_authenticated:
         recommendations = list(current_user.get_recomendations())
         recommendations_count = len(recommendations)
@@ -189,7 +188,7 @@ def logout():
 def festival_page(fest_id):
     fest = Festival.get_festival(fest_id)
     anonim = current_user.is_anonymous
-    perfs = Performance.query.filter_by(fest_id=fest_id).all()
+    perfs = Performance.query.filter( and_( Performance.fest_id == fest_id, Performance.canceled == False )).all() 
     tags = ""
     for perf in perfs[0:5:]:
         tags += " ".join(perf.band.tags.split(";"))

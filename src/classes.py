@@ -63,7 +63,7 @@ class Festival(db.Model):
     organizer = relationship("Organizer", foreign_keys=org_id)
 
     def __repr__(self):
-        return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}, {self.sale}"
+        return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}, {self.sale}, {self.status}"
 
     @classmethod
     def get_festivals_styles(self):
@@ -73,7 +73,9 @@ class Festival(db.Model):
                 status=1
             )
         ]
-        return set(fests_styles)
+        fests = Festival.query.filter_by(status=1).all()
+        return set(fests_styles), fests
+
 
     @classmethod
     def get_festival(self, fest_id):
@@ -587,13 +589,13 @@ class Organizer(Seller):
         band = Band.query.filter_by(name=form["band_name"]).first()
         if band is None:
             print(f"No band with this name: {form['band_name']}")
-            return (f"No band with this name: {form['band_name']}", "waring")
+            return (f"No band with this name: {form['band_name']}", "warning")
         try:
             stage_id = int(form["stage_id"])
         except ValueError:
             print(f"Please, provide ID for stage ID")
 
-            return (f"Please, provide ID for stage ID", "waring")
+            return (f"Please, provide ID for stage ID", "warning")
 
         stage = Stage.query.filter_by(stage_id=stage_id).first()
         if stage is None:

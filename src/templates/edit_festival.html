@@ -5,7 +5,9 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 
-<body class="bg_css">
+<body>
+    <div class="bg_css">
+        <div class="content-section_for_reg_edited">
     {% if fest != None %}
         {% if fest.status == 2 %}
         {% set disabled = "disabled" %}
@@ -13,7 +15,7 @@
         {% set disabled = "" %}
         {% endif %}
         <div class="image_in_my_account">
-            <img style="margin-top:150px;" src="{{fest.fest_logo}}" id="preview" width="600" height="600">
+            <img style="margin-top:50px;" src="{{fest.fest_logo}}" id="preview" width="400" height="400">
         </div>
         <br>
         <div class="mar_left">
@@ -75,15 +77,14 @@
                 
             </form>
         </div>
-        
+
     {% else %}
-        
-        <div class="content-section_for_reg">
-            <form action="/my_festivals/add" method="POST">
+   
+     
+            <form class="mar_left" action="/my_festivals/add" method="POST">
                 <input type="file" style="margin-top: -10px; font-size: 24px; text-align: center;" id=file-input>
                 <br><br><br><br>
-                <input style="margin-bottom: 10px; font-size: 24px; text-align: center;" type="hidden" name="fest_logo" id="fest_logo"
-                    value="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png">
+                <input style="margin-bottom: 10px; font-size: 24px; text-align: center; max-width: 300px; max-height: 300px;" type="hidden" name="fest_logo" id="fest_logo" value="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png">
 
                 <img style="font-size: 24px; text-align: center;" class="image_in_my_account" style="margin-top:150px;"
                     src="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png" id="preview2" width="300"
@@ -202,7 +203,7 @@
 
                 <input style="width: 100%; height: 45px" type="submit" value="Create festival">
             </form>
-        </div>
+       
         {% endif %}
     <br>
     <br>
@@ -263,14 +264,14 @@
                 </button>
                 <hr>
                 <hr>
-                <hr>
+
             </form>
             <form action="/my_festivals/{{ fest.fest_id }}/create_seller" method="POST">
                 {% for field in seller_form if field.name != 'csrf_token'  %}
                 {% if field.name != 'submit' %}
                 <legend class="border-bottom mb-4">{{ field.label() }}</legend>
                 {% endif %}
-                <br><br>
+    
                 {% if fest.status == 2 %}
                 {{ field(disabled=True) }}
                 {% else %}
@@ -284,8 +285,7 @@
             {% for seller in sellers %}
             <div>
 
-                <h4>Seller ID</h4>
-                {{ seller.seller_id }}
+                <h4>Seller ID {{ seller.seller_id }}</h4>
                 <a href="/my_festivals/{{ fest.fest_id }}/del_seller/{{ seller.seller_id }}">
                     <button {{ disabled }}>Remove seller</button>
                 </a>
@@ -299,5 +299,6 @@
         </div>
     </div>
     </div>
+</div>
 </body> 
 {% endblock content %}

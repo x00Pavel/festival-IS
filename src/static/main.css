@@ -69,6 +69,19 @@ display: inline-block;
 
   
 }
+.content-section_for_reg_edited {
+  background: #ffffff;
+  padding: 10px 20px;
+  width: 600px;
+  margin: auto;
+  border: 10px solid #dddddd;
+  border-radius: 1px;
+  margin-top: 100px;
+
+
+  
+}
+
 .defoffests {
   font-size: 40px;
   -webkit-text-stroke: 1px black; 
@@ -786,7 +799,7 @@ label {
 .mar_left
 {
   width: 100%;
-     display: table;
+    display: table;
    text-align: center;
   /* margin-left: 40%; */
 }
