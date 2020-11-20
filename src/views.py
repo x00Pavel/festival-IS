@@ -296,6 +296,9 @@ def add_festival():
         form = request.form
         msg, status, fest = current_user.add_fest(form)
         flash(msg, status)
+        if fest is None:
+            return redirect("/my_festivals/add")
+        
         if request.form["fest_logo"] == "https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png":
             pass
         else:
@@ -323,8 +326,6 @@ def add_festival():
         sellers=None,
         user_columns=current_user,
     )
-
-    return redirect("/manage_bands")
 
 
 @login_required

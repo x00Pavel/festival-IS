@@ -22,7 +22,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy(app)
 
 
-def validate(email=None, name=None, surname=None, address=None, phone=None):
+def validate(email=None, name=None, surname=None, address=None, phone=None, time=None):
     if email and (not match(r"^[a-zA-Z]+[\w.]*@[a-z]{2,}\.[a-z]{2,}$", email)):
         return f"Email {email} is incorrect", "warning"
     if name and (not match(r"^[a-zA-Z]{2,}[a-zA-Z-]*$", name)):
@@ -35,6 +35,9 @@ def validate(email=None, name=None, surname=None, address=None, phone=None):
         return f"Address {address} is incorrect", "warning"
     if phone and (not match(r"^\+?\d{6,}$", phone)):
         return f"Phone number {phone} is incorrect", "warning"
+
+    if time and not (not match(r'^[012]\d?[:][012345]\d[ ]*$', time)):
+        return "Bad time format, need to be like 23:06", "warning"
 
     return None
 
@@ -520,14 +523,26 @@ class Organizer(Seller):
         return [row for row in Festival.query.all()]
 
     def add_fest(self, form):
+        dt_from = f"{form['date_from']} {form['time_from']}"
+        dt_to = f"{form['date_to']} {form['time_to']}"
+        res = validate(time=dt_from)
+        if res:
+            return res[0], res[1], None
+        res = validate(time=dt_to)
+        if res:
+            return res[0], res[1], None
+
+        if datetime.strptime(dt_from, "%Y-%m-%d %H:%M") >=  datetime.strptime(dt_to, "%Y-%m-%d %H:%M"):
+            return f"You are reversing time :)", "warning", None
+
         fest = Festival(
             fest_name=form["fest_name"],
             fest_logo="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png",
             description=form["description"],
             style=form["style"],
             cost=form["cost"],
-            time_from=f"{form['date_from']} {form['time_from']}",
-            time_to=f"{form['date_to']} {form['time_to']}",
+            time_from=dt_from,
+            time_to=dt_to,
             address=form["address"],
             max_capacity=0,
             age_restriction=form["age_restriction"],
@@ -605,14 +620,16 @@ class Organizer(Seller):
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         fest.max_capacity += stage.size
 
-        if (not match(r'^[012]\d?[:][012345]\d[ ]*$', form['time_from'])) or (not match(r'^[012]\d?[:][012345]\d[ ]*$', form['time_to'])):
-            return f"Format of the rime is not valid, exmaple 22:05", "warning"
+        res = validate(time=form['time_from'])
+        if res:
+            return res[0], res[1]
+        res = validate(time=form['time_to'])
+        if res:
+            return res[0], res[1]
 
         datetime_from = f"{form['date_from']} {form['time_from']}"
         datetime_to = f"{form['date_to']} {form['time_to']}"
         # Time for performance is not between festival start and end
-        print(datetime_from,flush=True)
-        print(datetime_to, flush=True)
         if not (
             fest.time_from < datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
             and fest.time_to > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
