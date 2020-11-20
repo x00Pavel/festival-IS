@@ -26,7 +26,7 @@
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			{% for fest in fests %}
-			{% if fest.description != None and fest.style == 1%}
+			{% if fest.description != None and fest.status == 1%}
 			{% if fest.style in recommendations %}
 
 			<a href="festival\/{{ fest.fest_id }}">
@@ -42,7 +42,7 @@
 			</div>
 		</div>
 
-		{%else%}
+			{%else%}
 		<a href="festival\/{{ fest.fest_id }}">
 			<div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
 				<img class="d-block" src="{{fest.fest_logo}}">
@@ -55,7 +55,7 @@
 		</div>
 	</div>
 
-	{% endif %}
+		{% endif %}
 	{%endif%}
 	{% endfor %}
 	</div>
