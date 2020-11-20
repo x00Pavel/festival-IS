@@ -59,7 +59,6 @@ class Festival(db.Model):
     sale = db.Column("sale", db.Integer, nullable=False, default=0)
     org_id = Column("org_id", Integer, ForeignKey("Organizer.org_id"), nullable=False)
     status = Column("status", Integer, default=0)
-    fest_tags = Column("fest_tags", String, default="No tags")
 
     organizer = relationship("Organizer", foreign_keys=org_id)
 
@@ -681,8 +680,6 @@ class Organizer(Seller):
         
     def update_fest(self, form, fest_id):
         fest = Festival.query.filter_by(fest_id=fest_id).first()
-
-        fest.fest_tags = form.get("fest_tags")
         fest.description = form.get("description")
         fest.sale = form.get("sale")
         fest.status = form.get("status")
