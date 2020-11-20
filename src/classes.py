@@ -36,7 +36,7 @@ def validate(email=None, name=None, surname=None, address=None, phone=None, time
     if phone and (not match(r"^\+?\d{6,}$", phone)):
         return f"Phone number {phone} is incorrect", "warning"
 
-    if time and not (not match(r'^[012]\d?[:][012345]\d[ ]*$', time)):
+    if time and (not match(r'^[012]\d[:][012345]\d$', time)):
         return "Bad time format, need to be like 23:06", "warning"
 
     return None
@@ -523,14 +523,14 @@ class Organizer(Seller):
         return [row for row in Festival.query.all()]
 
     def add_fest(self, form):
+        res = validate(time=form['time_from'])
+        if res:
+            return res[0], res[1], None
+        res = validate(time=form['time_to'])
+        if res:
+            return res[0], res[1], None
         dt_from = f"{form['date_from']} {form['time_from']}"
         dt_to = f"{form['date_to']} {form['time_to']}"
-        res = validate(time=dt_from)
-        if res:
-            return res[0], res[1], None
-        res = validate(time=dt_to)
-        if res:
-            return res[0], res[1], None
 
         if datetime.strptime(dt_from, "%Y-%m-%d %H:%M") >=  datetime.strptime(dt_to, "%Y-%m-%d %H:%M"):
             return f"You are reversing time :)", "warning", None
