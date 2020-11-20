@@ -45,12 +45,8 @@ def home():
     data = Festival.query.all()
     list_of_dicts = [row for row in data]
     value_for_style_counting = 2
-    list_to_set = []
     recommendations = None
-    for i in list_of_dicts:
-        list_to_set.append(list(str(list_of_dicts).split(","))[value_for_style_counting])
-        value_for_style_counting += 10
-    set_from_list_to_set =list(set(list_to_set))
+    styles_set = Festival.get_festivals_styles()
     if current_user.is_authenticated:
         recommendations = list(current_user.get_recomendations())
         recommendations_count = len(recommendations)
@@ -59,10 +55,10 @@ def home():
             user_columns=current_user,
             fests=list_of_dicts,
             recommendations=recommendations,
-            styles=set_from_list_to_set,
+            styles=styles_set,
             recommendations_count=recommendations_count,
         )
-    return render_template("festivals.html", fests=list_of_dicts,styles=set_from_list_to_set)
+    return render_template("festivals.html", fests=list_of_dicts,styles=styles_set)
 
 
 @app.route("/about")

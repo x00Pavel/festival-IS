@@ -67,6 +67,16 @@ class Festival(db.Model):
         return f"{self.fest_id}, {self.description}, {self.style}, {self.address}, {self.cost}, {self.time_from}, {self.time_to}, {self.max_capacity}, {self.age_restriction}, {self.sale}"
 
     @classmethod
+    def get_festivals_styles(self):
+        fests_styles = [
+            f[0]
+            for f in Festival.query.with_entities(Festival.style).filter_by(
+                status=1
+            )
+        ]
+        return set(fests_styles)
+
+    @classmethod
     def get_festival(self, fest_id):
         return Festival.query.filter_by(fest_id=fest_id).first()
 
