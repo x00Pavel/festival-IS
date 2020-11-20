@@ -213,22 +213,22 @@
         <div class="mar_left">
             <h2>PERFORMANCE</h2>
             <form action=" /my_festivals/{{ fest.fest_id }}/add_perf" , method="POST">
-                <legend s>Band name</legend>
-                <input s type="text" name="band_name" {{ disabled }}>
+                <legend>Band name</legend>
+                <input type="text" name="band_name" {{ disabled }}>
                 <hr>
-                <legend s>Stage ID:</legend>
-                <input s type="text" name="stage_id" {{ disabled }}>
+                <legend>Stage ID:</legend>
+                <input type="text" name="stage_id" {{ disabled }}>
                 <hr>
-                <legend s>From:</legend>
-                <input s type="date" name="date_from" {{ disabled }}>
+                <legend>From:</legend>
+                <input type="date" name="date_from" {{ disabled }}>
 
-                <input style="margin-left: 0.1%;" type="time" name="time_from" {{ disabled }}>
+                <input style="margin-left: 0.1%; width: 80px;" type="string" name="time_from" {{ disabled }} value="12:30">
                 <hr>
                 <legend>To:</legend>
                 <input type="date" name="date_to" {{ disabled }}>
-                <input style="margin-left: 0.1%;" type="time" name="time_to" {{ disabled }}>
+                <input style="margin-left: 0.1%;  width: 80px;" type="string" value="22:30" name="time_to" {{ disabled }} >
                 <hr>
-                <input s type="submit" value="Add performance" {{ disabled }}>
+                <input type="submit" value="Add performance" {{ disabled }}>
 
                 <hr>
             </form>

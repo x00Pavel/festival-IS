@@ -605,9 +605,14 @@ class Organizer(Seller):
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         fest.max_capacity += stage.size
 
+        if (not match(r'^[012]\d?[:][012345]\d[ ]*$', form['time_from'])) or (not match(r'^[012]\d?[:][012345]\d[ ]*$', form['time_to'])):
+            return f"Format of the rime is not valid, exmaple 22:05", "warning"
+
         datetime_from = f"{form['date_from']} {form['time_from']}"
         datetime_to = f"{form['date_to']} {form['time_to']}"
         # Time for performance is not between festival start and end
+        print(datetime_from,flush=True)
+        print(datetime_to, flush=True)
         if not (
             fest.time_from < datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
             and fest.time_to > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
