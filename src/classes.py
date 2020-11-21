@@ -124,7 +124,7 @@ class Performance(db.Model):
     canceled = Column("canceled", Boolean, default=False)
     time_from = Column(
         "time_from", DateTime, nullable=False
-    )  # TODO also edit CSV for performances
+    )
     time_to = Column("time_to", DateTime, nullable=False)
 
     fest = db.relationship(
@@ -449,7 +449,6 @@ class Seller(User):
                 ticket.reason = reason
         db.session.commit()
 
-
 class Organizer(Seller):
     __tablename__ = "Organizer"
     __mapper_args__ = {
@@ -567,20 +566,6 @@ class Organizer(Seller):
             return [row for row in Performance.query.filter_by(fest_id=fest_id).all()]
         return [row for row in Performance.query.all()]
 
-    def fest_del_perf(self, perf_id):
-        perf = Performance.query.filter_by(perf_id=perf_id).first()
-        perf.canceled = True
-        perf.fest.max_capacity -= perf.stage.size
-        # Cancel tickets until current_ticket_count is not equal to max_capacity
-        if perf.fest.current_ticket_count > perf.fest.max_capacity:
-            tickets = Ticket.query.filter_by(fest_id=perf.fest.fest_id)
-            while perf.fest.current_ticket_count > perf.fest.max_capacity:
-                ticket = tickets[-1]
-                ticket.reason = "Due to capacity reason"
-                ticket.approved = 2
-
-        db.session.commit()
-
     def get_bands(self, fest_id=None, stage_id=None, perf_id=None):
         if fest_id is not None:
             perfs = Performance.query.filter_by(fest_id=fest_id).all()
@@ -600,6 +585,29 @@ class Organizer(Seller):
         db.session.commit()
         return f"Band {band.name} is created", "success", band
 
+    def fest_del_perf(self, perf_id=None, perf=None):
+        if perf is None and perf_id is not None:
+            perf = Performance.query.filter_by(perf_id=perf_id).first()
+        else:
+            return
+        perf.canceled = True
+        
+        # Cancel tickets until current_ticket_count is not equal to max_capacity
+        if perf.fest.current_ticket_count > perf.fest.max_capacity:
+            tickets = Ticket.query.filter_by(fest_id=perf.fest.fest_id)
+            while perf.fest.current_ticket_count > perf.fest.max_capacity:
+                ticket = tickets[-1]
+                ticket.reason = "Due to capacity reason"
+                ticket.approved = 2
+
+        db.session.commit()
+
+        how_many_perfs = Performance.query.filter(Performance.fest_id==perf.fest.fest_id, Performance.canceled==False).all()
+        if how_many_perfs == []:
+            perf.fest.max_capacity -= perf.stage.size
+        db.session.commit()
+
+
     def fest_add_perf(self, form, fest_id):
         band = Band.query.filter_by(name=form["band_name"]).first()
         if band is None:
@@ -614,11 +622,12 @@ class Organizer(Seller):
 
         stage = Stage.query.filter_by(stage_id=stage_id).first()
         if stage is None:
-            print(f"Now stage with this ID: {form['stage_id']}")
             return (f"Now stage with this ID: {form['stage_id']}", "warning")
 
         fest = Festival.query.filter_by(fest_id=fest_id).first()
-        fest.max_capacity += stage.size
+        perfs = Performance.query.filter(Performance.fest_id==fest_id, Performance.canceled == False).all()
+        if perfs == []:
+            fest.max_capacity += stage.size
 
         res = validate(time=form['time_from'])
         if res:
@@ -701,7 +710,7 @@ class Organizer(Seller):
         db.session.add(stage)
         db.session.commit()
         return f"Stage {stage.stage_id} added", "success"
-        
+
     def update_fest(self, form, fest_id):
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         fest.description = form.get("description")
