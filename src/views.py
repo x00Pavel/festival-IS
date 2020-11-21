@@ -523,3 +523,11 @@ def add_stage():
     form = request.form
     msg, status = current_user.add_stage(form)
     return redirect("/manage_stages")
+
+
+@login_required
+@app.route("/manage_stages/<stage_id>/delete", methods=["POST"])
+def delete_stage(stage_id):
+    msg, status = current_user.remove_stage(stage_id)
+    flash(msg, status)
+    return redirect("/manage_stages")

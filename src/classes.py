@@ -87,8 +87,9 @@ class Festival(db.Model):
 
 class Stage(db.Model):
     __tablename__ = "Stage"
-    stage_id = db.Column("stage_id", db.Integer, primary_key=True)
-    size = db.Column("size", db.Integer)
+    stage_id = db.Column("stage_id", Integer, primary_key=True)
+    size = db.Column("size", Integer)
+    removed = db.Column("removed", Boolean, default=False)
 
     def __repr__(self):
         return f"Stage {self.stage_id}: size: {self.size}"
@@ -586,12 +587,14 @@ class Organizer(Seller):
         return f"Band {band.name} is created", "success", band
 
     def fest_del_perf(self, perf_id=None, perf=None):
-        if perf is None and perf_id is not None:
+        if perf is None:
+            if perf_id is None:
+                print("No perf ID")
+                return 
+
             perf = Performance.query.filter_by(perf_id=perf_id).first()
-        else:
-            return
         perf.canceled = True
-        
+        print(perf)        
         # Cancel tickets until current_ticket_count is not equal to max_capacity
         if perf.fest.current_ticket_count > perf.fest.max_capacity:
             tickets = Ticket.query.filter_by(fest_id=perf.fest.fest_id)
@@ -623,6 +626,8 @@ class Organizer(Seller):
         stage = Stage.query.filter_by(stage_id=stage_id).first()
         if stage is None:
             return (f"Now stage with this ID: {form['stage_id']}", "warning")
+        elif stage.removed == True:
+            return (f"Stage {form['stage_id']} is already deleted", "warning")
 
         fest = Festival.query.filter_by(fest_id=fest_id).first()
         perfs = Performance.query.filter(Performance.fest_id==fest_id, Performance.canceled == False).all()
@@ -710,6 +715,16 @@ class Organizer(Seller):
         db.session.add(stage)
         db.session.commit()
         return f"Stage {stage.stage_id} added", "success"
+
+    def remove_stage(self, stage_id):
+        perfs = Performance.query.filter_by(stage_id=stage_id).all()
+        print(perfs)
+        for perf in perfs:
+            self.fest_del_perf(perf=perf)
+        stage = Stage.query.filter_by(stage_id=stage_id).first()
+        stage.removed = True
+        db.session.commit()
+        return f"Stage {stage_id} is removed from all performances", "success"
 
     def update_fest(self, form, fest_id):
         fest = Festival.query.filter_by(fest_id=fest_id).first()

@@ -12,6 +12,14 @@
     <br>
     <label class="center_user_html"><b>STAGE SIZE:</b>{{ stage.size }}</label>
     <br>
+    <label class="center_user_html"><b>REMOVED:</b>{{ stage.removed }}</label>
+    {% if stage.removed != True %}
+    <form action="/manage_stages/{{ stage.stage_id }}/delete" method="POST">
+        <button type="submit">Delete stage</button>
+    </form>
+    {% else %}
+        <button type="submit" disabled>Delete stage</button>
+    {% endif %}
     {% endfor %}
     <hr>
 </div>
