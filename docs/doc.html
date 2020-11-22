@@ -337,11 +337,31 @@
 		
 	</p>
 
-	<h3>Additional functionality</h3>
-	<h2>Extensions</h2>
-	<h1 style="color: red;">RAUL ДОПИШИ ВОТ ЭТУ СЕКЦИЮ</h1>
-	<h3>Recommendation</h3>
-	<h3>Filters</h3>
+    <h3>Additional functionality</h3>
+    <h2>Extensions</h2>
+    <p> "Recommendations" and "sale" extension were implemented:<br><br>
+        "Recommendations" - festivals that are recommended to a user,  the user will be informed in main page's festival grid<br>
+        "Sales" - in case if some festival has sale, the user will be informed in main page's festival grid<br>
+        <br>
+        The recommendations were implemented using "if" statement, in case if customer have ever visited the festival of exact style,
+        other festivals with the same style will be counted as recommended, in addition the "RECOMMENDED" line will be appended on a festival picture.
+        <br>
+        In case of sale, if the festival organizator stated some discount on a festival, the same algorithm will be used, the "SALE" line will be added on 
+        picture, additionally the festival's cost will be crossed, and the cost with discount will be showed.</p>
+    <h3>Filters</h3>
+        <p> The filters were implemented in the way of adding invisible characters to the bottom of each card that were created on the main page.<br>
+			The filters are:<br>
+				<ul>
+                Festivals with recommendations<br>	
+                Festival with sales<br>
+                Festival's style<br>
+                Festival's cost<br>
+				Festival's date<br>
+				</ul>
+            All of the invisible text are contacting the information about the festivals, whether it is festival's style or festival with recommendation. When filter is added
+            the JavaScript function is called and exact function filter the card(by finding the invisible text of the card) according ti filters.<br>
+
+		</p>
 
 	<h2>Installation</h2>
 	For hosting we choose Heroku.
