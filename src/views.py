@@ -311,9 +311,9 @@ def add_festival():
                 "Key": form["fest_logo"].split(".com/")[-1],
             }
             bucket = s3.Bucket(S3_BUCKET)
-            bucket.copy(copy_source, f"fest/{fest.fest_id}/{form['fest_name']}.png")
+            bucket.copy(copy_source, f"fest/{fest.fest_id}/{fest.fest_id}.png")
         
-            fest.fest_logo = f'{form["fest_logo"].split(".com/")[0]}.com/fest/{fest.fest_id}/{form["fest_name"]}.png'
+            fest.fest_logo = f'{form["fest_logo"].split(".com/")[0]}.com/fest/{fest.fest_id}/{fest.fest_id}.png'
             
         db.session.commit()
         return redirect(f"/my_festivals/{fest.fest_id}/edit")

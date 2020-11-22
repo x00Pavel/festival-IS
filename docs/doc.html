@@ -389,68 +389,74 @@
 					</ul>
 				</li>
 
-			</ul>
-		</li>
-		<li>We prepared PostgreSQL database instance on Heroku. To operate with it we prepared manage.py script with
-			commands to setup, drop, fill, backup DB.</li>
-		<li>To use that script it is important to prepare .env file with nedded variables:
-			<ul>
-				<li>DATABASE_URL=postgres://mgkpybkcyoyavc:e568852d3bacd55fc5a5c7cd54f8181519c9d6f2b11a5a9f63538cc2d776abae@ec2-34-251-118-151.eu-west-1.compute.amazonaws.com:5432/d441hcgnc74nq2</li>
-				<li>ROOT_EMAIL=MainAdmin@fests.com</li>
-				<li>ROOT_PSSWD=!RootAdminSuperSecretKey_qwerty_12345?</li>
-			</ul>
-		</li>
-		<li>Create DB with command `python src/manage.py init_db` </li>
-		<li>To import data from prepared csv files use command `python src/manage.py import_db` </li>
-		<li>Deploy code with configuration files to Heroku (via heroku CLI or from GitHub). Build of project would
-			run automatically. Code include:
-			<ul>
-				<li>python source code</li>
-				<li>HTML templates</li>
-				<li>static applets for HTML code</li>
-			</ul>
-		</li>
-		<li>After successful build view build.</li>
-	</ul>
-	For local tests we used flask framework abilities and local PostgreSQL in Docker.
-	Installation goes through following steps:
-	<ul>
-		<li>Prepare python environment with requirements file:
-			<ul>
-				<li>requirements.txt - file with required python modules. This file would be used automatically by
-					Heroku to install all dependence</li>
-			</ul>
-		</li>
-		<li>To start PostgreSQL DB in Docker run command `docker-compose up -d` (you need to have started docker
-			instance) </li>
-		<li>After successful deployment of db create .env file needed elements:
-			<ul>
-				<li>DATABASE_URL=postgres://admin:admin@localhost:5432/festival</li>
-				<li>S3_BUCKET=festival-dynamic</li>
-				<li>AWS_ACCESS_KEY_ID=AKIAYRZEH7OC6PPXEDHQ</li>
-				<li>AWS_SECRET_ACCESS_KEY=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</li>
-				<li>ROOT_EMAIL=MainAdmin@fests.com</li>
-				<li>ROOT_PSSWD=!RootAdminSuperSecretKey_qwerty_12345?</li>
-			</ul>
-		</li>
-		<li>Create DB with command `python src/manage.py init_db` </li>
-		<li>To import data from prepared csv files use command `python src/manage.py import_db` </li>
-		<li>Start flask with command `python src/festival_is.py`, and open browser on `http://127.0.0.1:5000/` </li>
-	</ul>
+				</ul>
+			</li>
+			<li>We prepared PostgreSQL database instance on Heroku. To operate with it we prepared manage.py script with
+				commands to setup, drop, fill, backup DB.</li>
+			<li>To use that script it is important to prepare .env file with nedded variables:
+				<ul>
+					<li>DATABASE_URL=postgres://mgkpybkcyoyavc:e568852d3bacd55fc5a5c7cd54f8181519c9d6f2b11a5a9f63538cc2d776abae@ec2-34-251-118-151.eu-west-1.compute.amazonaws.com:5432/d441hcgnc74nq2</li>
+					<li>ROOT_EMAIL=MainAdmin@fests.com</li>
+					<li>ROOT_PSSWD=!RootAdminSuperSecretKey_qwerty_12345?</li>
+				</ul>
+			</li>
+			<li>Create DB with command `python src/manage.py init_db` </li>
+			<li>To import data from prepared csv files use command `python src/manage.py import_db` </li>
+			<li>Deploy code with configuration files to Heroku (via heroku CLI or from GitHub). Build of project would
+				run automatically. Code include:
+				<ul>
+					<li>python source code</li>
+					<li>HTML templates</li>
+					<li>static applets for HTML code</li>
+				</ul>
+			</li>
+			<li>After successful build view build.</li>
+		</ul>
+		For local tests we used flask framework abilities and local PostgreSQL in Docker.
+		Installation goes through following steps:
+		<ul>
+			<li>Prepare python environment with requirements file:
+				<ul>
+					<li>requirements.txt - file with required python modules. This file would be used automatically by
+						Heroku to install all dependence</li>
+				</ul>
+			</li>
+			<li>To start PostgreSQL DB in Docker run command `docker-compose up -d` (you need to have started docker
+				instance) </li>
+			<li>After successful deployment of db create .env file needed elements:
+				<ul>
+					<li>DATABASE_URL=postgres://admin:admin@localhost:5432/festival</li>
+					<li>S3_BUCKET=festival-dynamic</li>
+					<li>AWS_ACCESS_KEY_ID=AKIAYRZEH7OC6PPXEDHQ</li>
+					<li>AWS_SECRET_ACCESS_KEY=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</li>
+					<li>ROOT_EMAIL=MainAdmin@fests.com</li>
+					<li>ROOT_PSSWD=!RootAdminSuperSecretKey_qwerty_12345?</li>
+				</ul>
+			</li>
+			<li>Create DB with command `python src/manage.py init_db` </li>
+			<li>To import data from prepared csv files use command `python src/manage.py import_db` </li>
+			<li>Start flask with command `python src/festival_is.py`, and open browser on `http://127.0.0.1:5000/` </li>
+		</ul>
 
 
-	<h2>Limitations and bugs</h2>
-	<p>Zde popi�te, kter� body zad�n� nejsou implementov�ny a z jak�ho d�vodu. Nap�. &#8222;Z �asov�ch d�vod� nebyla
-		implementov�na spr�va u�ivatel�.&#8221; Pom��ete t�m zrychlit hodnocen�, kdy� neimplementovan� funkce
-		nebudeme
-		muset dlouze hledat.
-	</p>
-	<p>In additional were implemented extension:
-		* recommendation of festivals based on previous spectator visits
-		* customer and sellers discounts
-	</p>
+		<h2>Limitations and bugs</h2>
+		<p>Zde popi�te, kter� body zad�n� nejsou implementov�ny a z jak�ho d�vodu. Nap�. &#8222;Z �asov�ch d�vod� nebyla
+			implementov�na spr�va u�ivatel�.&#8221; Pom��ete t�m zrychlit hodnocen�, kdy� neimplementovan� funkce
+			nebudeme
+			muset dlouze hledat.
+		</p>
+		<p>In additional recommendations and sale extension were implemented:<br><br>
+			"Recommendations" - festivals that are reccomended to a user,  the user will be informed in main page's festival grid<br>
+			"Sales" - in case if some festival has sale, the user will be informed in main page's festival grid<br>
+			<br>
+			The recommendations were implemented using "if" statement, in case if customer have ever visited the festival of eaxct style,
+			other festivals with the same style will be counted as recommended, in addition the "RECOMMENDED" line will be appened on a festival picture.
+			<br>
+			In case of sale, if the festival organizator stated some discount on a festival, the same algorhytm will be used, the "SALE" line will be added on 
+			picture, additionally the festival's cost will be crossed, and the cost with discount will be showed.
+		</p>
 
 
-</body>
+	</body>
 
 </html>
