@@ -336,7 +336,55 @@
 		Also, on festival edit page seller can be created and added to current festival.
 		
 	</p>
+	
+	<h3>Account manipulations</h3>
+	<p>
+		All users are able to manage their accounts through the page `My account`.
+		They are able to change name, address, email, password, and avatar image.
+	</p>
 
+	<h3>Reservations manipulations</h3>
+	<h4>Users</h4>
+	<p>
+		The main opportunity for non-registered and registered users is to create registrations.
+	</p>	
+	<p>
+		Non-registered user can register for any of the available festivals, 
+		but cannot has more than three reservations per one uniq email address.
+		The email address is required to make a reservation.
+		Then the user has the opportunity to sign-in to increase the registration limit
+		or confirm the reservation with the seller.
+	</p>	
+	<p>
+		Registered user has limitation of six actual reservations for any uniq festival.
+		For example to make the seventh reservation for festival N, user has to cancel
+		one of previous reservations or pay to seller to approve it.
+	</p>
+	<p>
+		Registered user has ability to observe his or her reservations through the page `My tickets`
+		Here user can control the state of reservation, dates, prices for reservations. 
+		An unregistered user who made reservations will have the history of user`s purchases made before registration
+	</p>
+	<p>
+		All upper-level users have these capabilities.
+	</p>
+	<h4>Sellers</h4>
+	<p>
+		Sellers are able to manage reservations of the festivals to which they are admitted through the `My festivals` page.
+		All upper-level users have these capabilities.
+	</p>
+	<h4>Organizers</h4>
+	<p>
+		Organizers are able to manage reservations of their festivals or
+		festivals to which they are admitted as sellers through the `My festivals` page.
+		All upper-level users have these capabilities.
+	</p>
+	<h4>Administrators</h4>
+	<p>
+		Administrators are able to manage tickets through the `My festivals` page as Organizers or Sellers.
+		Otherwise Administrator has additional page `Manage festivals` where
+		he/she is allowed to manage the whole festivals and tickets.
+	</p>
     <h3>Additional functionality</h3>
     <h2>Extensions</h2>
     <p> "Recommendations" and "sale" extension were implemented:<br><br>
@@ -465,18 +513,6 @@
 			nebudeme
 			muset dlouze hledat.
 		</p>
-		<p>In additional recommendations and sale extension were implemented:<br><br>
-			"Recommendations" - festivals that are reccomended to a user,  the user will be informed in main page's festival grid<br>
-			"Sales" - in case if some festival has sale, the user will be informed in main page's festival grid<br>
-			<br>
-			The recommendations were implemented using "if" statement, in case if customer have ever visited the festival of eaxct style,
-			other festivals with the same style will be counted as recommended, in addition the "RECOMMENDED" line will be appened on a festival picture.
-			<br>
-			In case of sale, if the festival organizator stated some discount on a festival, the same algorhytm will be used, the "SALE" line will be added on 
-			picture, additionally the festival's cost will be crossed, and the cost with discount will be showed.
-		</p>
-
-
 	</body>
 
 </html>
