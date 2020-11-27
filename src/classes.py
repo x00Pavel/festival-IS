@@ -620,7 +620,6 @@ class Organizer(Seller):
             stage_id = int(form["stage_id"])
         except ValueError:
             print(f"Please, provide ID for stage ID")
-
             return (f"Please, provide ID for stage ID", "warning")
 
         stage = Stage.query.filter_by(stage_id=stage_id).first()
@@ -644,6 +643,8 @@ class Organizer(Seller):
         datetime_from = f"{form['date_from']} {form['time_from']}"
         datetime_to = f"{form['date_to']} {form['time_to']}"
         # Time for performance is not between festival start and end
+        print(datetime_from, fest.time_from)
+        print(datetime_to, fest.time_to)
         if not (
             fest.time_from < datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
             and fest.time_to > datetime.strptime(datetime_from, "%Y-%m-%d %H:%M")
