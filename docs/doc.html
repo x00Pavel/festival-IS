@@ -339,8 +339,9 @@
 	
 	<h3>Account manipulations</h3>
 	<p>
-		All users are able to manage their accounts through the page `My account`.
+		All users are able to manage their accounts through the page <i>My account</i>.
 		They are able to change name, address, email, password, and avatar image.
+		Images are stored on AWS S3 bucket.
 	</p>
 
 	<h3>Reservations manipulations</h3>
@@ -353,7 +354,7 @@
 		but cannot has more than three reservations per one uniq email address.
 		The email address is required to make a reservation.
 		Then the user has the opportunity to sign-in to increase the registration limit
-		or confirm the reservation with the seller.
+		<mark>or confirm the reservation with the seller.</mark>
 	</p>	
 	<p>
 		Registered user has limitation of six actual reservations for any uniq festival.
@@ -361,7 +362,7 @@
 		one of previous reservations or pay to seller to approve it.
 	</p>
 	<p>
-		Registered user has ability to observe his or her reservations through the page `My tickets`
+		Registered user has ability to observe his or her reservations through the page <i>My tickets</i>
 		Here user can control the state of reservation, dates, prices for reservations. 
 		An unregistered user who made reservations will have the history of user`s purchases made before registration
 	</p>
@@ -370,41 +371,44 @@
 	</p>
 	<h4>Sellers</h4>
 	<p>
-		Sellers are able to manage reservations of the festivals to which they are admitted through the `My festivals` page.
+		Sellers are able to manage reservations of the festivals to which they are admitted through the <i>My festivals</i> page.
+		Seller is admitted to the festival by owner (organizer) of this festival.
 		All upper-level users have these capabilities.
 	</p>
 	<h4>Organizers</h4>
 	<p>
-		Organizers are able to manage reservations of their festivals or
-		festivals to which they are admitted as sellers through the `My festivals` page.
+		Organizers are able to manage reservations of their festivals (where they are as owners) or
+		festivals to which they are admitted as sellers through the <i>My festivals</i> page.
 		All upper-level users have these capabilities.
 	</p>
 	<h4>Administrators</h4>
 	<p>
-		Administrators are able to manage tickets through the `My festivals` page as Organizers or Sellers.
-		Otherwise Administrator has additional page `Manage festivals` where
+		Administrators are able to manage tickets through the <i>My festivals</i> page as Organizers or Sellers.
+		Otherwise Administrator has additional page <i>Manage festivals</i> where
 		he/she is allowed to manage the whole festivals and tickets.
 	</p>
-    <h3>Additional functionality</h3>
-    <h2>Extensions</h2>
-    <p> "Recommendations" and "sale" extension were implemented:<br><br>
-        "Recommendations" - festivals that are recommended to a user,  the user will be informed in main page's festival grid<br>
-        "Sales" - in case if some festival has sale, the user will be informed in main page's festival grid<br>
-        <br>
-        The recommendations were implemented using "if" statement, in case if customer have ever visited the festival of exact style,
+
+	<h2>Extensions</h2>
+    <p> 
+		<ul>
+			<li>Recommendations - festivals that are recommended to a user,  the user will be informed in main page's festival grid</li>
+			<li>Sales - in case if some festival has sale, the user will be informed in main page's festival grid</li>
+		</ul>
+
+		The recommendations were implemented using "if" statement, in case if customer have ever visited the festival of exact style,
         other festivals with the same style will be counted as recommended, in addition the "RECOMMENDED" line will be appended on a festival picture.
         <br>
-        In case of sale, if the festival organizator stated some discount on a festival, the same algorithm will be used, the "SALE" line will be added on 
+        In case of sale, if the festival organizer stated some discount on a festival, the same algorithm will be used, the "SALE" line will be added on 
         picture, additionally the festival's cost will be crossed, and the cost with discount will be showed.</p>
     <h3>Filters</h3>
         <p> The filters were implemented in the way of adding invisible characters to the bottom of each card that were created on the main page.<br>
 			The filters are:<br>
 				<ul>
-                Festivals with recommendations<br>	
-                Festival with sales<br>
-                Festival's style<br>
-                Festival's cost<br>
-				Festival's date<br>
+                	<li>Festivals with recommendations</li>	
+                	<li>Festival with sales</li>
+                	<li>Festival's style</li>
+                	<li>Festival's cost</li>
+					<li>Festival's date</li>
 				</ul>
             All of the invisible text are contacting the information about the festivals, whether it is festival's style or festival with recommendation. When filter is added
             the JavaScript function is called and exact function filter the card(by finding the invisible text of the card) according ti filters.<br>
@@ -505,14 +509,6 @@
 			<li>To import data from prepared csv files use command `python src/manage.py import_db` </li>
 			<li>Start flask with command `python src/festival_is.py`, and open browser on `http://127.0.0.1:5000/` </li>
 		</ul>
-
-
-		<h2>Limitations and bugs</h2>
-		<p>Zde popi�te, kter� body zad�n� nejsou implementov�ny a z jak�ho d�vodu. Nap�. &#8222;Z �asov�ch d�vod� nebyla
-			implementov�na spr�va u�ivatel�.&#8221; Pom��ete t�m zrychlit hodnocen�, kdy� neimplementovan� funkce
-			nebudeme
-			muset dlouze hledat.
-		</p>
 	</body>
 
 </html>
