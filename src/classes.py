@@ -630,8 +630,8 @@ class Organizer(Seller):
             return (f"Stage {form['stage_id']} is already deleted", "warning")
 
         fest = Festival.query.filter_by(fest_id=fest_id).first()
-        perfs = Performance.query.filter(Performance.fest_id==fest_id, Performance.canceled == False).all()
-        if perfs == []:
+        perfs = Performance.query.filter(Performance.fest_id==fest_id, Performance.stage_id==stage.stage_id, Performance.canceled == False).all()
+        if perfs == [] or perfs is None:
             fest.max_capacity += stage.size
 
         res = validate(time=form['time_from'])
