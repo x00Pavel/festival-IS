@@ -796,7 +796,6 @@ class Admin(Organizer):
         return (actual_fests, outdated_fests)
 
 
-
 class RootAdmin(Admin):
     """Reperesentation of root admin. Only this role can add new admins"""
 
