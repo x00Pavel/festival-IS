@@ -824,18 +824,20 @@ class RootAdmin(Admin):
     def add_admin(self, form):
         admin = Admin.query.filter_by(user_email=form.get("email")).first()
         if admin is None:
-            admin = Admin(
-                name=form.get("name"),
-                surname=form.get("surname"),
-                user_email=form.get("email"),
-                passwd=generate_password_hash(form.get("password")),
-                perms=1,
-                address=form.get("address"),
-            )
-            db.session.add(admin)
-            db.session.commit()
-            return (f"Admin {admin.admin_id} added to system", "success")
-        return (f"Admin with email {form.get('email')} is already exists", "success")
+            if validate(email=form.get("email")) is None:
+                admin = Admin(
+                    name=form.get("name"),
+                    surname=form.get("surname"),
+                    user_email=form.get("email"),
+                    passwd=generate_password_hash(form.get("password")),
+                    perms=1,
+                    address=form.get("address"),
+                )
+                db.session.add(admin)
+                db.session.commit()
+                return (f"Admin {admin.admin_id} added to system", "success")
+            return (f"Email {form.get('email')} is incorrect", "warning")
+        return (f"Admin with email {form.get('email')} is already exists", "warning")
 
 
 class Ticket(db.Model):

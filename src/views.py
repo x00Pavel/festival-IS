@@ -1,14 +1,19 @@
-from flask import render_template, request, redirect, flash, url_for
+from flask import render_template, request, redirect, flash, url_for, session
 from classes import *
 from festival_is import app, login_manager
 from forms import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, logout_user, current_user, login_user
+from datetime import timedelta
+from werkzeug.datastructures import MultiDict
 import json, boto3
 import os
-import urllib.parse
-import itertools
-from werkzeug.datastructures import MultiDict
+
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=15)
 
 
 @app.errorhandler(500)
@@ -180,6 +185,7 @@ def protected():
 @login_required
 @app.route("/logout")
 def logout():
+    flash(f"User {current_user.user_id} is logged out", "success")
     logout_user()
     return redirect("/")
 
@@ -437,7 +443,7 @@ def manage_festivals():
 @app.route("/manage_users")
 def manage_users():
     users = current_user.get_all_users()
-    admin_form = RoleForm()
+    admin_form = RoleForm()       
     return render_template(
         "users_page.html", users=users, admin_form=admin_form, user_columns=current_user
     )
@@ -449,6 +455,7 @@ def add_admin():
     response, status = current_user.add_admin(request.form)
     flash(response, status)
     return redirect("/manage_users")
+
 
 
 @login_required

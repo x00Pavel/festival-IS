@@ -15,9 +15,7 @@ from flask import request
 
 class RegistrationForm(FlaskForm):
     email = StringField("Email *", validators=[DataRequired(), Email()])
-    password = PasswordField(
-        "Password *", validators=[DataRequired(), Length(min=6)]
-    )
+    password = PasswordField("Password *", validators=[DataRequired(), Length(min=6)])
     passwordC = PasswordField(
         "Password Confirmation *",
         validators=[DataRequired(), Length(min=6), EqualTo("password")],
@@ -51,12 +49,9 @@ class RegistrationForm(FlaskForm):
     )
 
 
-
 class LoginForm(FlaskForm):
     email = StringField("Email *", validators=[DataRequired(), Email()])
-    password = PasswordField(
-        "Password *", validators=[DataRequired(), Length(min=2)]
-    )
+    password = PasswordField("Password *", validators=[DataRequired(), Length(min=2)])
     remember = BooleanField("Remember me")
     submit = SubmitField("Log in up")
 
@@ -76,7 +71,9 @@ class BandForm(FlaskForm):
     band_name = StringField(
         "Name *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$")]
     )
-    band_scores = IntegerField("Scores", validators=[DataRequired(), Regexp(r"^\d+"), Length(max=2)])
+    band_scores = IntegerField(
+        "Scores", validators=[DataRequired(), Regexp(r"^\d+"), Length(max=2)]
+    )
     band_genre = StringField(
         "Genre *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z-]*$")]
     )
@@ -86,12 +83,8 @@ class BandForm(FlaskForm):
 
 class RoleForm(FlaskForm):
     email = StringField("Email *", validators=[DataRequired(), Email()])
-    name = StringField(
-        "Name *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
-    )
-    surname = StringField(
-        "Surname *", validators=[DataRequired(), Regexp(r"^[a-zA-Z]{2,}[a-zA-Z\- ]*$")]
-    )
+    name = StringField("Name *", validators=[DataRequired()])
+    surname = StringField("Surname *", validators=[DataRequired()])
     address = StringField("Address *", validators=[DataRequired()])
     password = PasswordField("Password *", validators=[DataRequired()])
     submit = SubmitField("Add role")
