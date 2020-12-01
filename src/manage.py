@@ -1,11 +1,11 @@
 from flask_script import Manager, commands
 from datetime import datetime
 from festival_is import app
-from create_db import db
+from classes import db, RootAdmin
+from werkzeug.security import generate_password_hash
 import psycopg2
 import os
 import sys
-
 
 manager = Manager(app)
 
@@ -17,13 +17,23 @@ def init_db():
         db.engine.echo = True
         db.metadata.bind = db.engine
         db.metadata.create_all(checkfirst=True)
+        root = RootAdmin(
+            user_email=app.config["SECRET_USER"],
+            name="Main",
+            surname="Admin",
+            avatar=None,
+            passwd=generate_password_hash(app.config["SECRET_KEY"], method="sha256"),
+            perms=0,
+            address="Fests HQ",
+        )
+        db.session.add(root)
+        db.session.commit()
         # load_test_data()
 
 
 @manager.command
 def drop_db():
     with app.test_request_context():
-
         db.engine.echo = True
         db.metadata.bind = db.engine
         db.metadata.drop_all(checkfirst=True)
@@ -52,14 +62,25 @@ def export_db():
 def import_db():
     conn = psycopg2.connect(os.getenv("DATABASE_URL"))
     cur = conn.cursor()
-    for i in os.listdir("src/data"):
+    for i in sorted(os.listdir("src/data")):
         if i.endswith(".csv"):
-            print("From src/data/" + i + " - To table " + i[2:-4])
-            f = open("src/data/" + i, "r")
-            cur.copy_expert('COPY "' + i[2:-4] + '" FROM STDIN WITH CSV HEADER', f)
-            f.close()
+            table = i.split("-")[1].split(".")[0]
+            print(f"From src/data/{i} - To table {table}")
+            with open(f"src/data/{i}", "r") as f:
+                header = f.readline()
+                cur.copy_expert(
+                    f'COPY "{table}" ({header}) FROM STDIN CSV', f,
+                )
             conn.commit()
     cur.close()
+
+
+@manager.command
+def full_reset():
+    drop_db()
+    init_db()
+    import_db()
+
 
 if __name__ == "__main__":
     manager.run()

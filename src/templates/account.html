@@ -1,0 +1,125 @@
+{% extends "ralaot.html" %}
+{% block content %}
+
+
+
+<body class="bg_css">
+
+  <div class="content-section_for_reg">
+    <div class="image_in_my_account">
+      <hr><input type="file" style="margin-bottom: 10px; font-size: 24px; text-align: center;" id=file-input></br>
+      <img
+        style="border:1px solid gray;width:300px; height: 300px; margin-top: 20px; border-radius: 70%; text-align: left;"
+        id="preview" style="text-align: left; " src="{{ user_columns.avatar }}">
+
+      <!-- <h4 id=" status">Please
+      select a file</h4> -->
+      <hr>
+    </div>
+    <div>
+      <h2>ID: {{ user_columns.user_id }}</h2>
+      <form method="POST" action="/submit-form/">
+        <input type="hidden" id="user-id" name="user-id" value="{{ user_columns.user_id }}">
+        <input type="hidden" id="avatar_url" name="avatar_url" value="{{ user_columns.avatar }}">
+        <h2>Your e-mail:</h2>
+        <input style="width: 100%; height: 45px" type="text" name="user_email" value="{{ user_columns.user_email }}">
+        <br><br>
+        <h2>Your Name:</h2>
+        <input style="width: 100%; height: 45px" type="text" name="name" value="{{ user_columns.name }}">
+        <br><br>
+        <h2>Your Surname:</h2>
+        <input style="width: 100%; height: 45px" type="text" name="surname" value="{{ user_columns.surname }}">
+        <br><br>
+        <h2>Your address:</h2>
+        <input style="width: 100%; height: 45px" type="text" name="address" value="{{ user_columns.address }}">
+        <hr>
+
+        <h2>New Password</h2>
+        <input style="width: 100%; height: 45px" type="password" name="new_psswd1" placeholder="Enter new password">
+        <br><br>
+
+        <input style="width: 100%; height: 45px" type="password" name="new_psswd2" placeholder="Repeat new password">
+        <br><br>
+        <br><br>
+        <input style="width: 100%; height: 45px" type="submit" value="Update profile">
+      </form>
+    </div>
+  </div>
+  <script type="text/javascript">
+
+    /*
+      Function to carry out the actual POST request to S3 using the signed request from the Python app.
+    */
+    function uploadFile(file, s3Data, url) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', s3Data.url);
+      xhr.setRequestHeader('x-amz-acl', 'public-read');
+
+      const postData = new FormData();
+      for (key in s3Data.fields) {
+        postData.append(key, s3Data.fields[key]);
+      }
+      postData.append('file', file);
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200 || xhr.status === 204) {
+            document.getElementById('preview').src = url;
+            document.getElementById('avatar_url').value = url;
+          }
+          else {
+            alert('Could not upload file.');
+          }
+        }
+      };
+      xhr.send(postData);
+    }
+
+
+    /*
+      Function to get the temporary signed request from the Python app.
+      If request successful, continue to upload the file using this signed
+      request.
+    */
+    function getSignedRequest(file, user_id) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', `/sign-s3/user/${user_id}?file-name=${file.name}&file-type=${file.type}`);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            uploadFile(file, response.data, response.url);
+          }
+          else {
+            alert('Could not get signed URL.');
+          }
+        }
+      };
+      xhr.send();
+    }
+
+    /*
+       Function called when file input updated. If there is a file selected, then
+       start upload procedure by asking for a signed request from the app.
+    */
+    function initUpload() {
+      const user_id = document.getElementById('user-id').value;
+      const files = document.getElementById('file-input').files;
+      const file = files[0];
+      if (!file) {
+        return alert('No file selected.');
+      }
+      getSignedRequest(file, user_id);
+    }
+
+    /*
+       Bind listeners when the page loads.
+    */
+    (() => {
+      document.getElementById('file-input').onchange = initUpload;
+    })();
+
+  </script>
+</body>
+
+{% endblock content %}

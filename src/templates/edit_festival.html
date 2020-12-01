@@ -1,0 +1,301 @@
+{% extends "ralaot.html" %}
+{% block content %}
+<head>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="bg_css">
+        <div class="content-section_for_reg_edited">
+    {% if fest != None %}
+        {% if fest.status == 2 %}
+        {% set disabled = "disabled" %}
+        {% else %}
+        {% set disabled = "" %}
+        {% endif %}
+        <div class="image_in_my_account">
+            <img style="margin-top:50px;" src="{{fest.fest_logo}}" id="preview" width="400" height="400">
+        </div>
+        <br>
+        <div class="mar_left">
+            <legend s>Fest name</legend>
+            {{ fest.fest_name }}
+            <hr>
+            <legend>Status</legend>
+            {% if fest.status == 0 %}
+            <p style="background-color: grey; color: whitesmoke;">Not published</p>
+            {% elif fest.status == 1 %}
+            <p style="background-color: green; color: whitesmoke;">Published</p>
+            {% else %}
+            <p style="background-color:crimson; color: whitesmoke;">Canceled</p>
+            {% endif %}
+            <hr>
+            <legend s>Date from</legend>
+            {{ fest.time_from }}
+            <hr>
+            <legend s>Date to</legend>
+            {{ fest.time_to }}
+            <hr>
+            <legend>Festival capacity</legend>   
+            {% if fest.max_capacity == 0%}
+            You need to add performances
+            {% else %}
+            {{ fest.max_capacity }}
+            {% endif %}
+            <hr>
+            <legend>Tickets soled</legend>   
+            {{ fest.current_ticket_count }}
+            <hr>
+            <legend>Cost</legend>   
+            {{ fest.cost }}
+            <hr>
+            <legend>Age restriction</legend>   
+            {{ fest.age_restriction }}
+            <hr>
+            
+            <form action="/my_festivals/{{ fest.fest_id }}/update_fest" method="POST">
+                <legend>Description</legend>
+                <input type="text" name="description" value="{{ fest.description }}" {{ disabled }}>
+                <hr>
+                <legend>Sale</legend>
+                <input type="text" name="sale" value="{{ fest.sale }}" {{ disabled }}>
+                <hr>
+                
+
+                {% if fest.status == 0 %}
+                {% if fest.max_capacity != 0%}
+                    <button type="submit" name="status" value="1">Publish</button>
+                {% endif %}
+                <button type="submit" name="status" value="{{ fest.status }}">Update info</button>
+                {% elif fest.status == 1 %}
+                <button type="submit" name="status" value="2" >Cancel</button>
+                <button type="submit" name="status" value="{{ fest.status }}">Update info</button>
+                {% else %}
+                <button type="submit" name="status" value="{{ fest.status }}" {{ disabled }}>Update info</button>
+                {% endif %}
+                
+            </form>
+        </div>
+
+    {% else %}
+   
+     
+            <form class="mar_left" action="/my_festivals/add" method="POST">
+                <input type="file" style="margin-top: -10px; font-size: 24px; text-align: center;" id=file-input>
+                <br><br><br><br>
+                <input style="margin-bottom: 10px; font-size: 24px; text-align: center; max-width: 300px; max-height: 300px;" type="hidden" name="fest_logo" id="fest_logo" value="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png">
+
+                <img style="font-size: 24px; text-align: center;" class="image_in_my_account" style="margin-top:150px;"
+                    src="https://festival-static.s3-eu-west-1.amazonaws.com/def_fest_logo.png" id="preview2" width="300"
+                    height="300">
+            
+                <br><br><br><br><br>
+                <legend>Name</legend>
+                <input type="text" name="fest_name">
+                <br><br>
+                <legend>Description</legend>
+                <input type="text" name="description">
+                <br><br>
+                <legend>Style</legend>
+                <input type="text" name="style">
+                <br><br>
+                <legend>Cost</legend>
+                <input type="text" name="cost" value="0">
+                <br><br>
+                <legend>Address</legend>
+                <input type="text" name="address">
+                <br><br>
+                <legend>Age restriction</legend>
+                <input type="text" name="age_restriction" value="16">
+                <br><br>
+                <legend>Sale</legend>    
+                <input type="text" name="sale" value="0">
+                <br><br>     
+                <hr>
+                <legend>Date from</legend>
+                Date: <input type="date" value="2020-10-01" min="2020-10-01" name="date_from"/>
+                Time: <input type="string" name="time_from" value="08:01"/>
+                <hr>
+                <legend>Date to</legend>
+                Date: <input type="date" value="2020-11-01" min="2020-11-01" name="date_to" />
+                Time: <input type="string" name="time_to" value="10:10"/>
+                <br><br>
+                <script type="text/javascript">
+
+                    /*
+                      Function to carry out the actual POST request to S3 using the signed request from the Python app.
+                    */
+                    function uploadFile(file, s3Data, url) {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', s3Data.url);
+                        xhr.setRequestHeader('x-amz-acl', 'public-read');
+
+                        const postData = new FormData();
+                        for (key in s3Data.fields) {
+                            postData.append(key, s3Data.fields[key]);
+                        }
+                        postData.append('file', file);
+
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === 4) {
+                                if (xhr.status === 200 || xhr.status === 204) {
+                                    document.getElementById('preview2').src = url;
+                                    document.getElementById('fest_logo').value = url;
+                                }
+                                else {
+                                    alert('Could not upload file.');
+                                }
+                            }
+                        };
+                        xhr.send(postData);
+                    }
+
+
+                    /*
+                      Function to get the temporary signed request from the Python app.
+                      If request successful, continue to upload the file using this signed
+                      request.
+                    */
+                    function getSignedRequest(file, fest_logo) {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', `/sign-s3/tmp/tmpfest?file-name=${file.name}&file-type=${file.type}`);
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === 4) {
+                                if (xhr.status === 200) {
+                                    const response = JSON.parse(xhr.responseText);
+                                    uploadFile(file, response.data, response.url);
+                                }
+                                else {
+                                    alert('Could not get signed URL.');
+                                }
+                            }
+                        };
+                        xhr.send();
+                    }
+
+                    /*
+                       Function called when file input updated. If there is a file selected, then
+                       start upload procedure by asking for a signed request from the app.
+                    */
+                    function initUpload() {
+                        const fest_logo = document.getElementById('fest_logo').value;
+                        const files = document.getElementById('file-input').files;
+                        const file = files[0];
+                        if (!file) {
+                            return alert('No file selected.');
+                        }
+                        getSignedRequest(file, fest_logo);
+                    }
+
+                    /*
+                       Bind listeners when the page loads.
+                    */
+                    (() => {
+                        document.getElementById('file-input').onchange = initUpload;
+                    })();
+
+                </script>
+
+
+                <input style="width: 100%; height: 45px" type="submit" value="Create festival">
+            </form>
+       
+        {% endif %}
+    <br>
+    <br>
+    <br>
+    <div>
+        {% if fest != None %}
+        <div class="mar_left">
+            <h2>PERFORMANCE</h2>
+            <form action=" /my_festivals/{{ fest.fest_id }}/add_perf" , method="POST">
+                <legend>Band name</legend>
+                <input type="text" name="band_name" {{ disabled }}>
+                <hr>
+                <legend>Stage ID:</legend>
+                <input type="text" name="stage_id" {{ disabled }}>
+                <hr>
+                <legend>From:</legend>
+                <input type="date" name="date_from" {{ disabled }}>
+
+                <input style="margin-left: 0.1%; width: 80px;" type="string" name="time_from" {{ disabled }} value="12:30">
+                <hr>
+                <legend>To:</legend>
+                <input type="date" name="date_to" {{ disabled }}>
+                <input style="margin-left: 0.1%;  width: 80px;" type="string" value="22:30" name="time_to" {{ disabled }} >
+                <hr>
+                <input type="submit" value="Add performance" {{ disabled }}>
+
+                <hr>
+            </form>
+        </div>
+        {% for perf in perfs %}
+        <div class="mar_left">
+            <h4>ID: {{ perf.perf_id }}</h4>
+            Stage ID: {{ perf.stage.stage_id }}
+            <br>
+            Band name: {{ perf.band.name }}
+            <br>
+            From: <b>{{ perf.time_from }}</b>
+            <br>
+            To: <b>{{ perf.time_to }}</b>
+            <br>
+            Canceled: <b>{{ perf.canceled }}</b>
+            <br>
+            {% if not perf.canceled %}
+            <a href="/my_festivals/{{ fest.fest_id }}/del_perf/{{ perf.perf_id }}"><button>Cancel</button></a>
+            {% endif %}
+            <hr>
+        </div>
+        {% endfor %}
+        <div class="mar_left">
+            <h2>SELLERS</h2>
+            <form action="/my_festivals/{{ fest.fest_id }}/add_seller" method="POST">
+                <legend class="border-bottom mb-4">Seller ID</legend>
+                <input name="seller_id" type="text" {{ disabled }}/>
+                <br>
+                <br>
+                <button style=" border-radius: 12px;min-width:7.5%;" type="submit" {{ disabled }} >
+                    Add existing seller to festival
+                </button>
+                <hr>
+                <hr>
+
+            </form>
+            <form action="/my_festivals/{{ fest.fest_id }}/create_seller" method="POST">
+                {% for field in seller_form if field.name != 'csrf_token'  %}
+                {% if field.name != 'submit' %}
+                <legend class="border-bottom mb-4">{{ field.label() }}</legend>
+                {% endif %}
+    
+                {% if fest.status == 2 %}
+                {{ field(disabled=True) }}
+                {% else %}
+                {{ field() }}
+                {% endif %}
+
+                {% endfor %}
+
+
+            </form>
+            {% for seller in sellers %}
+            <div>
+
+                <h4>Seller ID {{ seller.seller_id }}</h4>
+                <a href="/my_festivals/{{ fest.fest_id }}/del_seller/{{ seller.seller_id }}">
+                    <button {{ disabled }}>Remove seller</button>
+                </a>
+
+                </div>
+            {% endfor %}
+            {% endif %}
+
+
+
+        </div>
+    </div>
+    </div>
+</div>
+</body> 
+{% endblock content %}

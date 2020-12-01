@@ -1,0 +1,232 @@
+{% extends "ralaot.html" %}
+{% block content %}
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div>
+    <!-- TODO: replace with one for loop -->
+    <h2>Users</h2>
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <br>
+    <table id="customers" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>SURNAME</th>
+                <th>ACTIVE</th>
+                <th>EDIT</th>
+            </tr>
+        </thead>
+        {% for user in users[0] %}
+        <tbody id="myTable">
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.surname }}</td>
+                <td>{{ user.active }}</td>
+                <td>
+                    {% if user.active %}
+                    <a href="/manage_users/{{ user.user_id }}/remove_user"><button>Remove user</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ user.user_id }}/remove_user"><button disabled>Remove user</button></a>
+                    {% endif %}
+                </td>
+            </tr>
+
+        </tbody>
+        {% endfor %}
+    </table>
+
+
+
+
+    <h2>Sellers</h2>
+    <input class="form-control" id="myInput1" type="text" placeholder="Search..">
+    <br>
+    <table id="customers" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>SELLER ID</th>
+                <th>NAME</th>
+                <th>SURNAME</th>
+                <th>ACTIVE</th>
+                <th>ROLE ACTIVE</th>
+                <th>EDIT</th>
+            </tr>
+        </thead>
+        {% for seller in users[1] %}
+        <tbody id="myTable1">
+            <tr>
+                <td>{{ seller.seller_id }}</td>
+                <td>{{ seller.name }}</td>
+                <td>{{ seller.surname }}</td>
+                <td>{{ seller.active }}</td>
+                <td>{{ seller.role_active }}</td>
+                <td>
+                    {% if seller.role_active %}
+                    <a href="/manage_users/{{ seller.seller_id }}/remove_role"><button>Remove from sellers</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ seller.seller_id }}/remove_role"><button disabled>Remove from sellers</button></a>
+                    {% endif %}
+                    {% if seller.active %}
+                    <a href="/manage_users/{{ seller.seller_id }}/remove_user"><button>Remove user</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ seller.seller_id }}/remove_user"><button disabled>Remove user</button></a>
+                    {% endif %}
+                </td>
+            </tr>
+
+        </tbody>
+        {% endfor %}
+    </table>
+
+
+    <h2>Organizers</h2>
+
+
+
+    <input class="form-control" id="myInput2" type="text" placeholder="Search..">
+    <br>
+    <table id="customers" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ORGANIZER ID</th>
+                <th>NAME</th>
+                <th>SURNAME</th>
+                <th>ACTIVE</th>
+                <th>ROLE ACTIVE</th>
+                <th>EDIT</th>
+            </tr>
+        </thead>
+        {% for org in users[2] %}
+        <tbody id="myTable2">
+            <tr>
+                <td>{{ org.seller_id }}</td>
+                <td>{{ org.name }}</td>
+                <td>{{ org.surname }}</td>
+                <td>{{ org.active }}</td>
+                <td>{{ org.role_active }}</td>
+                <td>
+                    {% if org.role_active %}
+                    <a href="/manage_users/{{ org.org_id }}/remove_role"><button>Remove from organizers</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ org.org_id }}/remove_role"><button disabled>Remove from organizers</button></a>
+                    {% endif %}
+                    {% if org.active %}
+                    <a href="/manage_users/{{ org.org_id }}/remove_user"><button>Remove user</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ org.org_id }}/remove_user"><button disabled>Remove user</button></a>
+                    {% endif %}
+                </td>
+            </tr>
+
+        </tbody>
+        {% endfor %}
+    </table>
+
+
+
+
+
+    {% if user_columns.perms == 0 %}
+    <h2>Admins</h2>
+    <input class="form-control" id="myInput3" type="text" placeholder="Search..">
+    <br>
+    <table id="customers" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ADMIN ID</th>
+                <th>NAME</th>
+                <th>SURNAME</th>
+                <th>ACTIVE</th>
+                <th>ROLE ACTIVE</th>
+                <th>EDIT</th>
+            </tr>
+        </thead>
+        {% for admin in users[3] %}
+        <tbody id="myTable3">
+            <tr>
+                <td>{{ admin.seller_id }}</td>
+                <td>{{ admin.name }}</td>
+                <td>{{ admin.surname }}</td>
+                <td> {{ admin.active }}</td>
+                <td> {{ admin.role_active }}</td>
+                <td>
+                    {% if admin.role_active %}
+                    <a href="/manage_users/{{ admin.admin_id }}/remove_role"><button>Remove from
+                            admins</button></a>                    
+                    {% else %}
+                    <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button disabled="true">Remove from
+                            admins</button></a>                    
+                    {% endif %}
+                    {% if admin.active %}
+                    <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button>Remove user</button></a>
+                    {% else %}
+                    <a href="/manage_users/{{ admin.admin_id }}/remove_user"><button disabled>Remove user</button></a>
+                    {% endif %}
+                </td>
+            </tr>
+
+        </tbody>
+        {% endfor %}
+    </table>
+
+
+    <form class="center_user_html" action=" /manage_users/add_admin" method="POST">
+        {% for field in admin_form if field.name != 'csrf_token'  %}
+        {% if field.name != 'submit' %}
+        <legend>{{ field.label() }}</legend>
+        {% endif %}
+        {{ field() }}
+        <hr>
+        {% endfor %}
+
+    </form>
+    {% endif %}
+
+</div>
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#myInput1").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable1 tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#myInput2").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable2 tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#myInput3").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable3 tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+{% endblock content %}

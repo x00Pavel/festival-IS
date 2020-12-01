@@ -1,0 +1,513 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0070)https://www.fit.vutbr.cz/study/courses/IIS/private/projekt/doc.html.cs -->
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>Projekt IIS</title>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;
+		}
+
+		td,
+		th {
+			border: 1px solid black;
+			padding: 0.3em 0.5em;
+			text-align: left;
+		}
+
+		dt {
+			font-weight: bold;
+			margin-top: 0.5em;
+		}
+	</style>
+	<style>
+		._3emE9--dark-theme .-S-tR--ff-downloader {
+			background: rgba(30, 30, 30, .93);
+			border: 1px solid rgba(82, 82, 82, .54);
+			box-shadow: 0 4px 7px rgba(30, 30, 30, .55);
+			color: #fff
+		}
+
+		._3emE9--dark-theme .-S-tR--ff-downloader ._6_Mtt--header ._2VdJW--minimize-btn {
+			background: #3d4b52
+		}
+
+		._3emE9--dark-theme .-S-tR--ff-downloader ._6_Mtt--header ._2VdJW--minimize-btn:hover {
+			background: #131415
+		}
+
+		._3emE9--dark-theme .-S-tR--ff-downloader ._10vpG--footer {
+			background: rgba(30, 30, 30, .93)
+		}
+
+		._2mDEx--white-theme .-S-tR--ff-downloader {
+			background: #fff;
+			border: 1px solid rgba(82, 82, 82, .54);
+			box-shadow: 0 4px 7px rgba(30, 30, 30, .55);
+			color: #314c75
+		}
+
+		._2mDEx--white-theme .-S-tR--ff-downloader ._6_Mtt--header {
+			font-weight: 700
+		}
+
+		._2mDEx--white-theme .-S-tR--ff-downloader ._2dFLA--container ._2bWNS--notice {
+			border: 0;
+			color: rgba(0, 0, 0, .88)
+		}
+
+		._2mDEx--white-theme .-S-tR--ff-downloader ._10vpG--footer {
+			background: #fff
+		}
+
+		.-S-tR--ff-downloader {
+			display: block;
+			overflow: hidden;
+			position: fixed;
+			bottom: 20px;
+			right: 7.1%;
+			width: 330px;
+			height: 180px;
+			background: rgba(30, 30, 30, .93);
+			border-radius: 2px;
+			color: #fff;
+			z-index: 99999999;
+			border: 1px solid rgba(82, 82, 82, .54);
+			box-shadow: 0 4px 7px rgba(30, 30, 30, .55);
+			transition: .5s
+		}
+
+		.-S-tR--ff-downloader._3M7UQ--minimize {
+			height: 62px
+		}
+
+		.-S-tR--ff-downloader._3M7UQ--minimize .nxuu4--file-info,
+		.-S-tR--ff-downloader._3M7UQ--minimize ._6_Mtt--header {
+			display: none
+		}
+
+		.-S-tR--ff-downloader ._6_Mtt--header {
+			padding: 10px;
+			font-size: 17px;
+			font-family: sans-serif
+		}
+
+		.-S-tR--ff-downloader ._6_Mtt--header ._2VdJW--minimize-btn {
+			float: right;
+			background: #f1ecec;
+			height: 20px;
+			width: 20px;
+			text-align: center;
+			padding: 2px;
+			margin-top: -10px;
+			cursor: pointer
+		}
+
+		.-S-tR--ff-downloader ._6_Mtt--header ._2VdJW--minimize-btn:hover {
+			background: #e2dede
+		}
+
+		.-S-tR--ff-downloader ._13XQ2--error {
+			color: red;
+			padding: 10px;
+			font-size: 12px;
+			line-height: 19px
+		}
+
+		.-S-tR--ff-downloader ._2dFLA--container {
+			position: relative;
+			height: 100%
+		}
+
+		.-S-tR--ff-downloader ._2dFLA--container .nxuu4--file-info {
+			padding: 6px 15px 0;
+			font-family: sans-serif
+		}
+
+		.-S-tR--ff-downloader ._2dFLA--container .nxuu4--file-info div {
+			margin-bottom: 5px;
+			width: 100%;
+			overflow: hidden
+		}
+
+		.-S-tR--ff-downloader ._2dFLA--container ._2bWNS--notice {
+			margin-top: 21px;
+			font-size: 11px
+		}
+
+		.-S-tR--ff-downloader ._10vpG--footer {
+			width: 100%;
+			bottom: 0;
+			position: absolute;
+			font-weight: 700
+		}
+
+		.-S-tR--ff-downloader ._10vpG--footer ._2V73d--loader {
+			animation: n0BD1--rotation 3.5s linear forwards;
+			position: absolute;
+			top: -120px;
+			left: calc(50% - 35px);
+			border-radius: 50%;
+			border: 5px solid #fff;
+			border-top-color: #a29bfe;
+			height: 70px;
+			width: 70px;
+			display: flex;
+			justify-content: center;
+			align-items: center
+		}
+
+		.-S-tR--ff-downloader ._10vpG--footer ._24wjw--loading-bar {
+			width: 100%;
+			height: 18px;
+			background: #dfe6e9;
+			border-radius: 5px
+		}
+
+		.-S-tR--ff-downloader ._10vpG--footer ._24wjw--loading-bar ._1FVu9--progress-bar {
+			height: 100%;
+			background: #8bc34a;
+			border-radius: 5px
+		}
+
+		.-S-tR--ff-downloader ._10vpG--footer ._2KztS--status {
+			margin-top: 10px
+		}
+
+		.-S-tR--ff-downloader ._10vpG--footer ._2KztS--status ._1XilH--state {
+			float: left;
+			font-size: .9em;
+			letter-spacing: 1pt;
+			text-transform: uppercase;
+			width: 100px;
+			height: 20px;
+			position: relative
+		}
+
+		.-S-tR--ff-downloader ._10vpG--footer ._2KztS--status ._1jiaj--percentage {
+			float: right
+		}
+	</style>
+</head>
+
+<body>
+
+	<h1>Festival: rezervace vstupenek na hudební festivaly</h1>
+
+	<dl>
+		<dt>Authors</dt>
+		<dd>Pavel Yadlouski
+			<a href="mailto:xyadlo00@stud.fit.vutbr.cz">xyadlo00@stud.fit.vutbr.cz</a> -
+			Backend, database
+		</dd>
+		<dd>Abramov Mikhail
+			<a href="mailto:xabram00@stud.fit.vutbr.cz">xabram00@stud.fit.vutbr.cz</a> -
+			Backend, infrastructure
+		</dd>
+		<dd>Aghayev Raul
+			<a href="mailto:xaghay00@stud.fit.vutbr.cz">xaghay00@stud.fit.vutbr.cz</a> -
+			Backend, frontend
+		</dd>
+		<dt>URL aplikace</dt>
+		<dd><a href="https://festival-is.herokuapp.com/">https://festival-is.herokuapp.com/</a></dd>
+	</dl>
+
+	<h2>System users for testing</h2>
+	<p>Enter user for <strong>all existing roles</strong>.</p>
+	<table>
+		<tbody>
+			<tr>
+				<th>Login</th>
+				<th>Password</th>
+				<th>Role</th>
+			</tr>
+			<tr>
+				<td>MainAdmin@ok.com</td>
+				<td>!RootAdminSuperSecretKey_qwerty_12345?</td>
+				<td>Root administrator</td>
+			</tr>
+			<tr>
+				<td>admin@ok.com</td>
+				<td>admin1</td>
+				<td>Administrator</td>
+			</tr>
+			<tr>
+				<td>newAdmin@ok.com</td>
+				<td>qwert1234</td>
+				<td>Administrator</td>
+			</tr>
+			<tr>
+				<td>sem@ok.com</td>
+				<td>12341234</td>
+				<td>Organizer</td>
+			</tr>
+			<tr>
+				<td>sg@sales.com</td>
+				<td>sgsgsg</td>
+				<td>Organizer</td>
+			</tr>
+			<tr>
+				<td>seller@ok.com</td>
+				<td>seller1</td>
+				<td>Seller</td>
+			</tr>
+			<tr>
+				<td>mw@mw.com</td>
+				<td>fbm1234</td>
+				<td>Basic user</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h2>Implementation</h2>
+	For this project following technologies are used:
+	<ul>
+		<li><a href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a> framework for backend
+			<ul>
+				<li>Flask Forms - creating web forms</li>
+				<li>Flask SQLAlchemy - initialization and manipulations with database (ORM)</li>
+				<li>Flask Login - handling user session</li>
+			</ul>
+		</li>
+		<li>HTML + CSS + JS + Bootstrap for frontend</li>
+		<li><a href="https://heroku.com">Heroku</a> as hosting platform</li>
+		<li>PostgreSQL database extension on Heroku platform</li>
+		<li>Docker for PostgreSQL database deployment during local testing</li>
+	</ul>
+
+	
+	<h3>Database</h3>
+	<b style="color: red;">In case if diagram is not shown, please check <a href="https://festival-is.herokuapp.com/about">this</a> link to the same documentation on web page</b>
+	<div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2020-11-27T13:28:35.815Z\&quot; agent=\&quot;5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36\&quot; etag=\&quot;2XUqL3wB8ctve_Amo8D3\&quot; version=\&quot;13.10.4\&quot; type=\&quot;device\&quot;&gt;&lt;diagram id=\&quot;F9ccAHXRlg6QYEhfXNht\&quot; name=\&quot;Page-2\&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
+	<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+
+
+	<h3>Role system</h3>
+	<p>
+		Roles in information system are implemented as inherited classes. 
+		Base class is <strong>User</strong>.
+		This class inherits from <strong>UserMixin</strong> class 
+		(from <a href="https://flask-login.readthedocs.io/en/latest/">flask-login</a> module) and implements basic functionality that is required for handling user session. 
+		Also for creating table in database, this class has second inheritance from <strong>SQLAlchemy.Model</strong> class.
+	</p>
+	<p>
+		Class <strong>User</strong> represents normal authorized user.
+		For unauthorized users there is class <strong>BaseUser</strong>. 
+		This class do not have table in the database. 
+		<strong>BaseUser</strong> is needed in order to be able to register ticket for unauthorized user.
+	</p>
+	<p>
+		For <strong>Seller</strong>, <strong>Organizer</strong> and <strong>Admin</strong> roles there are corresponding classes. 
+		Inheritance of this classes is represented on database diagram. 
+		Each class implements its own functionality and use other methods from the parent class. 
+		There is one more role in our information system. 
+		Role <strong>RootAdmin</strong> is used as entry point into the system.
+		<strong>RootAdmin</strong> is automatically created on initialization of the database. 
+		This role has the highest permissions. 
+	</p>
+	<p>
+		This way of role management provides a way to users with higher permissions to have same functionality as lower one. 
+		That means that for example <strong>Organizer</strong> role has both organizer (creating festivals, editing festivals owned by him, etc.) and seller functionality (managing ticket for corresponding festival). 
+		Similar <strong>Admin</strong> role has as <strong>Organizer</strong>, as <strong>Seller</strong> permissions with additional functionality that corresponds only to administrator role. 
+		<strong>RootAdmin</strong> role has all above rights with ability to manage administrators (creating and delete them).
+		Also, in case if any organizer or admin with festivals is removed, then	the ownership is transferred to <b>RootAdmin</b>
+	</p>
+
+	<h3>Festival manipulations</h3>
+	<p>
+		From the festival perspective there is width range of functionality.
+		As it mas mentioned above, festival can be created by <b>Organizer</b> or other role with higher permissions. 
+		When festival is created, ownership is set to current user.
+		After creation, festival get status <i>not published</i>.
+		This status means, that this festival is still need to be edited and is not present on the main page for all users. 
+	</p>
+	<p>
+		Festival can be published only after adding at list one <b>Performance</b>.
+		For creating a performance organizer need to enter music <b>band name</b>, <b>stage ID</b> and <b>time interval</b> for performance.
+		Each stage has capacity.
+		Maximum capacity of the festival is counted as a sum of stages capacity. 
+		So, when stage is deleted, then its capacity is reduces from every festival, that has performance on this stage (and this performance are canceled).
+		Same thing happens when for particular festival all performance on given stage are canceled.
+	</p>
+	<p>
+		Obviously, published festival has status <i>published</i> and it is shown on the main page, where every user can reserver ticket on it.
+		After publishing, festival can be edited or canceled. 
+		Editing of festival include changing festival description, adding sale. 
+		Also, on festival edit page seller can be created and added to current festival.
+		
+	</p>
+	
+	<h3>Account manipulations</h3>
+	<p>
+		All users are able to manage their accounts through the page <i>My account</i>.
+		They are able to change name, address, email, password, and avatar image.
+		Images are stored on AWS S3 bucket.
+	</p>
+
+	<h3>Reservations manipulations</h3>
+	<h4>Users</h4>
+	<p>
+		The main opportunity for non-registered and registered users is to create registrations.
+	</p>	
+	<p>
+		Non-registered user can register for any of the available festivals, 
+		but cannot has more than three reservations per one uniq email address.
+		The email address is required to make a reservation.
+		Then the user has the opportunity to sign-in to increase the registration limit
+		<mark>or confirm the reservation with the seller.</mark>
+	</p>	
+	<p>
+		Registered user has limitation of six actual reservations for any uniq festival.
+		For example to make the seventh reservation for festival N, user has to cancel
+		one of previous reservations or pay to seller to approve it.
+	</p>
+	<p>
+		Registered user has ability to observe his or her reservations through the page <i>My tickets</i>
+		Here user can control the state of reservation, dates, prices for reservations. 
+		An unregistered user who made reservations will have the history of user`s purchases made before registration
+	</p>
+	<p>
+		All upper-level users have these capabilities.
+	</p>
+	<h4>Sellers</h4>
+	<p>
+		Sellers are able to manage reservations of the festivals to which they are admitted through the <i>My festivals</i> page.
+		Seller is admitted to the festival by owner (organizer) of this festival.
+		All upper-level users have these capabilities.
+	</p>
+	<h4>Organizers</h4>
+	<p>
+		Organizers are able to manage reservations of their festivals (where they are as owners) or
+		festivals to which they are admitted as sellers through the <i>My festivals</i> page.
+		All upper-level users have these capabilities.
+	</p>
+	<h4>Administrators</h4>
+	<p>
+		Administrators are able to manage tickets through the <i>My festivals</i> page as Organizers or Sellers.
+		Otherwise Administrator has additional page <i>Manage festivals</i> where
+		he/she is allowed to manage the whole festivals and tickets.
+	</p>
+
+	<h2>Extensions</h2>
+    <p> 
+		<ul>
+			<li>Recommendations - festivals that are recommended to a user,  the user will be informed in main page's festival grid</li>
+			<li>Sales - in case if some festival has sale, the user will be informed in main page's festival grid</li>
+		</ul>
+
+		The recommendations were implemented using "if" statement, in case if customer have ever visited the festival of exact style,
+        other festivals with the same style will be counted as recommended, in addition the "RECOMMENDED" line will be appended on a festival picture.
+        <br>
+        In case of sale, if the festival organizer stated some discount on a festival, the same algorithm will be used, the "SALE" line will be added on 
+        picture, additionally the festival's cost will be crossed, and the cost with discount will be showed.</p>
+    <h3>Filters</h3>
+        <p> The filters were implemented in the way of adding invisible characters to the bottom of each card that were created on the main page.<br>
+			The filters are:<br>
+				<ul>
+                	<li>Festivals with recommendations</li>	
+                	<li>Festival with sales</li>
+                	<li>Festival's style</li>
+                	<li>Festival's cost</li>
+					<li>Festival's date</li>
+				</ul>
+            All of the invisible text are contacting the information about the festivals, whether it is festival's style or festival with recommendation. When filter is added
+            the JavaScript function is called and exact function filter the card(by finding the invisible text of the card) according ti filters.<br>
+
+		</p>
+
+	<h2>Installation</h2>
+	For hosting we choose Heroku.
+	Installation on server goes through following steps:
+	<ul>
+		<li>Prepare configurations files
+			<ul>
+				<li>Procfile - specifies how program should be run on Heroku</li>
+				<li>requirements.txt - file with required python modules. This file would be used automatically by
+					Heroku to install all dependence</li>
+				<ul>
+					<li>boto3==1.16.25</li>
+					<li>botocore==1.19.25</li>
+					<li>click==7.1.2</li>
+					<li>dnspython==2.0.0</li>
+					<li>email-validator==1.1.2</li>
+					<li>Flask==1.1.2</li>
+					<li>Flask-Login==0.5.0</li>
+					<li>Flask-Script==2.0.6</li>
+					<li>Flask-SQLAlchemy==2.4.4</li>
+					<li>Flask-WTF==0.14.3</li>
+					<li>idna==2.10</li>
+					<li>itsdangerous==1.1.0</li>
+					<li>Jinja2==2.11.2</li>
+					<li>jmespath==0.10.0</li>
+					<li>MarkupSafe==1.1.1</li>
+					<li>psycopg2==2.8.6</li>
+					<li>python-dateutil==2.8.1</li>
+					<li>python-dotenv==0.15.0</li>
+					<li>s3transfer==0.3.3</li>
+					<li>six==1.15.0</li>
+					<li>SQLAlchemy==1.3.20</li>
+					<li>urllib3==1.26.2</li>
+					<li>Werkzeug==1.0.1</li>
+					<li>WTForms==2.3.3</li>
+					<li>gunicorn==19.7.1</li>
+				</ul>
+				<li>runtime.txt - specifies python version for runtime environment
+					<ul>
+						<li>python-3.8.5</li>
+					</ul>
+				</li>
+
+				</ul>
+			</li>
+			<li>We prepared PostgreSQL database instance on Heroku. To operate with it we prepared manage.py script with
+				commands to setup, drop, fill, backup DB.</li>
+			<li>To use that script it is important to prepare .env file with nedded variables:
+				<ul>
+					<li>DATABASE_URL= ***provided in offline documentation*** </li>
+					<li>ROOT_EMAIL=MainAdmin@fests.com</li>
+					<li>ROOT_PSSWD=!RootAdminSuperSecretKey_qwerty_12345?</li>
+				</ul>
+			</li>
+			<li>Create DB with command `python src/manage.py init_db` </li>
+			<li>To import data from prepared csv files use command `python src/manage.py import_db` </li>
+			<li>Deploy code with configuration files to Heroku (via heroku CLI or from GitHub). Build of project would
+				run automatically. Code include:
+				<ul>
+					<li>python source code</li>
+					<li>HTML templates</li>
+					<li>static applets for HTML code</li>
+				</ul>
+			</li>
+			<li>After successful build view build.</li>
+		</ul>
+		For local tests we used flask framework abilities and local PostgreSQL in Docker.
+		Installation goes through following steps:
+		<ul>
+			<li>Prepare python environment with requirements file:
+				<ul>
+					<li>requirements.txt - file with required python modules. This file would be used automatically by
+						Heroku to install all dependence</li>
+				</ul>
+			</li>
+			<li>To start PostgreSQL DB in Docker run command `docker-compose up -d` (you need to have started docker
+				instance) </li>
+			<li>After successful deployment of db create .env file needed elements:
+				<ul>
+					<li>DATABASE_URL=postgres://admin:admin@localhost:5432/festival</li>
+					<li>S3_BUCKET=festival-dynamic</li>
+					<li>AWS_ACCESS_KEY_ID= ***provided in offline documentation*** </li>
+					<li>AWS_SECRET_ACCESS_KEY= ***provided in offline documentation*** </li>
+					<li>ROOT_EMAIL=MainAdmin@fests.com</li>
+					<li>ROOT_PSSWD=!RootAdminSuperSecretKey_qwerty_12345?</li>
+				</ul>
+			</li>
+			<li>Create DB with command `python src/manage.py init_db` </li>
+			<li>To import data from prepared csv files use command `python src/manage.py import_db` </li>
+			<li>Start flask with command `python src/festival_is.py`, and open browser on `http://127.0.0.1:5000/` </li>
+		</ul>
+	</body>
+
+</html>

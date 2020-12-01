@@ -1,0 +1,26 @@
+{% extends "ralaot.html" %}
+{% block content %}
+<div class="center_user_html" style="margin-top: 110px;">
+    <form action="/manage_stages/add_stage" method="POST">
+        Stage size:
+        <input type="text" name="size" value="100">
+        <button type="submit">Add stage</button>
+    </form>
+    {% for stage in stages %}
+    <hr >
+    <label class="center_user_html"><b>STAGE ID:</b> {{ stage.stage_id }}  </label> 
+    <br>
+    <label class="center_user_html"><b>STAGE SIZE:</b>{{ stage.size }}</label>
+    <br>
+    <label class="center_user_html"><b>REMOVED:</b>{{ stage.removed }}</label>
+    {% if stage.removed != True %}
+    <form action="/manage_stages/{{ stage.stage_id }}/delete" method="POST">
+        <button type="submit">Delete stage</button>
+    </form>
+    {% else %}
+        <button type="submit" disabled>Delete stage</button>
+    {% endif %}
+    {% endfor %}
+    <hr>
+</div>
+{% endblock content %}
